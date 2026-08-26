@@ -87,7 +87,7 @@ jobs:
 
   upload:
     needs: [build, sign]
-    if: github.repository == 'teidesu/inugram'
+    if: github.repository == 'lurepheonix/inugram_b'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
