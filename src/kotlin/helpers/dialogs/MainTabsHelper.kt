@@ -38,6 +38,10 @@ object MainTabsHelper {
         get() = InuConfig.BOTTOM_TABS_COMPACT_MODE.value
 
     @JvmStatic
+    val isDocked: Boolean
+        get() = InuConfig.BOTTOM_TABS_DOCKED.value
+
+    @JvmStatic
     val isHidden: Boolean
         get() = InuConfig.BOTTOM_TABS_HIDE.value || InuConfig.NAVIGATION_DRAWER.value
 
@@ -51,11 +55,11 @@ object MainTabsHelper {
 
     @JvmStatic
     val mainTabsMargin: Int
-        get() = if (isCompact) MAIN_TABS_MARGIN_COMPACT else DialogsActivity.MAIN_TABS_MARGIN
+        get() = if (isDocked) 0 else if (isCompact) MAIN_TABS_MARGIN_COMPACT else DialogsActivity.MAIN_TABS_MARGIN
 
     @JvmStatic
     val mainTabsHeightWithMargins: Int
-        get() = mainTabsHeight + mainTabsMargin * 2
+        get() = if (isDocked) mainTabsHeight else mainTabsHeight + mainTabsMargin * 2
 
     @JvmStatic
     val fragmentsCount: Int

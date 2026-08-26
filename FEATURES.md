@@ -52,7 +52,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 
 ## dialogs list / main page
 
-- bottom tabs: 🐶 compact mode, hide contacts tab, hide bar entirely
+- bottom tabs: 🐶 compact mode, hide contacts tab, hide bar entirely, 🐶 dock to edges (overlay, no rounded corners)
 - double-tap account tab to switch to next account
 - long-tap "chats" tab to pick folder from menu
 - folder display modes: titles / titles+icons / icons-only
