@@ -136,14 +136,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
                         InuConfig.BOTTOM_TABS_COMPACT_MODE.value
                     )
                 )
-                items.add(
-                    mkTwoLineCheckItem(
-                        TOGGLE_BOTTOM_TABS_DOCKED,
-                        R.string.InuBottomTabsDocked,
-                        R.string.InuBottomTabsDockedInfo,
-                        InuConfig.BOTTOM_TABS_DOCKED.value
-                    )
-                )
             }
             items.add(UItem.asShadow(null))
         }
@@ -280,12 +272,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
                 softRebuild()
             }
 
-            TOGGLE_BOTTOM_TABS_DOCKED -> {
-                val new = InuConfig.BOTTOM_TABS_DOCKED.toggle()
-                (view as? NotificationsCheckCell)?.isChecked = new
-                showRestartBulletin()
-            }
-
             BUTTON_TITLE_TEXT -> RadioItemOptions.show(
                 this, view,
                 listOf(
@@ -411,7 +397,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_BOTTOM_TABS_HIDE = InuUtils.generateId()
         private val TOGGLE_HIDE_CONTACTS_TAB = InuUtils.generateId()
         private val TOGGLE_COMPACT_MODE = InuUtils.generateId()
-        private val TOGGLE_BOTTOM_TABS_DOCKED = InuUtils.generateId()
         private val BUTTON_FAB_MAIN_ACTION = InuUtils.generateId()
         private val BUTTON_FAB_SECONDARY_ACTION = InuUtils.generateId()
         private val TOGGLE_FAB_HIDE_ON_SCROLL = InuUtils.generateId()
@@ -464,7 +449,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("bottom-tabs-hide", R.string.InuBottomTabsHide, TOGGLE_BOTTOM_TABS_HIDE),
                 SearchRegistry.Entry("hide-contacts-tab", R.string.InuHideContactsTab, TOGGLE_HIDE_CONTACTS_TAB),
                 SearchRegistry.Entry("compact-mode", R.string.InuCompactMode, TOGGLE_COMPACT_MODE),
-                SearchRegistry.Entry("bottom-tabs-docked", R.string.InuBottomTabsDocked, TOGGLE_BOTTOM_TABS_DOCKED),
                 SearchRegistry.Entry("dialogs-fab-main-action", R.string.InuDialogsFabMainAction, BUTTON_FAB_MAIN_ACTION),
                 SearchRegistry.Entry("dialogs-fab-secondary-action", R.string.InuDialogsFabSecondaryAction, BUTTON_FAB_SECONDARY_ACTION),
                 SearchRegistry.Entry("dialogs-fab-hide-on-scroll", R.string.InuDialogsFabHideOnScroll, TOGGLE_FAB_HIDE_ON_SCROLL),

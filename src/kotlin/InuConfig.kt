@@ -230,9 +230,6 @@ object InuConfig {
     val BOTTOM_TABS_COMPACT_MODE = BoolItem("bottom_tabs_hide_compact_mode", false)
 
     @JvmField
-    val BOTTOM_TABS_DOCKED = BoolItem("bottom_tabs_docked", false)
-
-    @JvmField
     val DIALOGS_FAB_MAIN_ACTION = IntItem("dialogs_fab_main_action", 1)
 
     @JvmField
