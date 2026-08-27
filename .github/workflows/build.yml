@@ -135,6 +135,8 @@ jobs:
           COMMIT_ID: ${{ github.sha }}
           INU_BUILD: ${{ steps.info.outputs.build-num }}
           INU_BUILD_TYPE: release
+          UPDATE_CHANNEL_USERNAME: ${{ vars.UPDATE_CHANNEL_USERNAME }}
+          UPDATE_CHANNEL_ID: ${{ vars.UPDATE_CHANNEL_ID }}
           CCACHE_COMPILERCHECK: content
           CCACHE_SLOPPINESS: time_macros,file_macro,include_file_mtime,include_file_ctime,locale,system_headers
           CCACHE_BASEDIR: ${{ github.workspace }}/worktree

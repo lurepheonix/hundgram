@@ -23,8 +23,8 @@ import kotlin.math.min
 import desu.inugram.helpers.security.ParanoiaHelper
 
 object UpdateHelper {
-    const val USERNAME = "InugramCI"
-    private const val CHANNEL_ID = 3968318575L
+    val USERNAME: String get() = BuildConfig.UPDATE_CHANNEL_USERNAME
+    private val CHANNEL_ID: Long get() = BuildConfig.UPDATE_CHANNEL_ID
     private const val CHECK_INTERVAL_MS = 4L * 60 * 60 * 1000
     private const val INFLIGHT_TIMEOUT_MS = 60L * 1000
 
