@@ -78,6 +78,10 @@ class DrawerLayoutAdapter(
 
     fun isAccountsShown(): Boolean = accountsShown
 
+    fun toggleAccountsShown() {
+        setAccountsShown(!accountsShown, true)
+    }
+
     override fun notifyDataSetChanged() {
         resetItems()
         super.notifyDataSetChanged()
@@ -90,7 +94,7 @@ class DrawerLayoutAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View = when (viewType) {
-            0 -> DrawerProfileCell(mContext, mDrawerLayoutContainer).also { profileCell = it }
+            0 -> DrawerProfileCell(mContext, mDrawerLayoutContainer, ::toggleAccountsShown).also { profileCell = it }
             2 -> DividerCell(mContext)
             3 -> DrawerActionCell(mContext)
             4 -> DrawerUserCell(mContext)

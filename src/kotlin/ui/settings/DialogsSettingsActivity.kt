@@ -111,34 +111,32 @@ class DialogsSettingsActivity : SettingsPageActivity() {
         // end chat list section
 
         // bottom tabs section
-        if (!InuConfig.NAVIGATION_DRAWER.value) {
-            items.add(UItem.asHeader(LocaleController.getString(R.string.InuBottomTabs)))
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuBottomTabs)))
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_BOTTOM_TABS_HIDE,
+                R.string.InuBottomTabsHide,
+                R.string.InuBottomTabsHideInfo,
+                InuConfig.BOTTOM_TABS_HIDE.value
+            )
+        )
+        if (!InuConfig.BOTTOM_TABS_HIDE.value) {
+            items.add(
+                UItem.asCheck(
+                    TOGGLE_HIDE_CONTACTS_TAB,
+                    LocaleController.getString(R.string.InuHideContactsTab),
+                ).setChecked(InuConfig.BOTTOM_TABS_HIDE_CONTACTS.value)
+            )
             items.add(
                 mkTwoLineCheckItem(
-                    TOGGLE_BOTTOM_TABS_HIDE,
-                    R.string.InuBottomTabsHide,
-                    R.string.InuBottomTabsHideInfo,
-                    InuConfig.BOTTOM_TABS_HIDE.value
+                    TOGGLE_COMPACT_MODE,
+                    R.string.InuCompactMode,
+                    R.string.InuCompactModeInfo,
+                    InuConfig.BOTTOM_TABS_COMPACT_MODE.value
                 )
             )
-            if (!InuConfig.BOTTOM_TABS_HIDE.value) {
-                items.add(
-                    UItem.asCheck(
-                        TOGGLE_HIDE_CONTACTS_TAB,
-                        LocaleController.getString(R.string.InuHideContactsTab),
-                    ).setChecked(InuConfig.BOTTOM_TABS_HIDE_CONTACTS.value)
-                )
-                items.add(
-                    mkTwoLineCheckItem(
-                        TOGGLE_COMPACT_MODE,
-                        R.string.InuCompactMode,
-                        R.string.InuCompactModeInfo,
-                        InuConfig.BOTTOM_TABS_COMPACT_MODE.value
-                    )
-                )
-            }
-            items.add(UItem.asShadow(null))
         }
+        items.add(UItem.asShadow(null))
         // end bottom tabs section
 
         // fab section

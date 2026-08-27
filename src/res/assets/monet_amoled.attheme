@@ -497,7 +497,7 @@ dialogTextGray3=a1_100
 dialogTextGray4=a1_100
 dialogTextHint=n1_300
 dialogTextLink=n1_50
-dialogTopBackground=n1_1000
+dialogTopBackground=n1_900
 dialog_inlineProgress=a1_100
 dialog_inlineProgressBackground=n1_1000
 dialog_liveLocationProgress=a1_100
@@ -769,4 +769,4 @@ windowBackgroundWhiteLinkText=a3_100
 windowBackgroundWhiteValueText=a1_100
 code_comment=n1_400
 chat_inCodeBackground=a1_300
-chat_outCodeBackground=a1_900(a=85)
+chat_outCodeBackground=a1_500(a=20)

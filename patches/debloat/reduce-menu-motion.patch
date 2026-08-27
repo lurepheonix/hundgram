@@ -68,7 +68,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -32266,7 +32266,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -32450,7 +32450,7 @@ public class ChatActivity extends BaseFragment implements
              scrimPopupWindow.setDismissAnimationDuration(220);
              scrimPopupWindow.setOutsideTouchable(true);
              scrimPopupWindow.setClippingEnabled(true);
@@ -81,7 +81,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ReactionsCon
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/ReactionsContainerLayout.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/ReactionsContainerLayout.java
-@@ -770,7 +770,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
+@@ -813,7 +813,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                  } else {
                      if (child == premiumLockContainer) {
                          if (child.getX() + child.getMeasuredWidth() / 2f > 0 && child.getX() + child.getMeasuredWidth() / 2f < recyclerListView.getWidth()) {
@@ -90,7 +90,7 @@ index 0000000..0000000 100644
                                  if (transitionProgress != 1f) {
                                      premiumLockIconView.resetAnimation();
                                  }
-@@ -784,7 +784,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
+@@ -827,7 +827,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                      }
                      if (child == customReactionsContainer) {
                          if (child.getX() + child.getMeasuredWidth() / 2f > 0 && child.getX() + child.getMeasuredWidth() / 2f < recyclerListView.getWidth()) {
@@ -99,7 +99,7 @@ index 0000000..0000000 100644
                                  if (transitionProgress != 1f) {
                                      customEmojiReactionsIconView.resetAnimation();
                                  }
-@@ -1443,6 +1443,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
+@@ -1506,6 +1506,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
  
      public void startEnterAnimation(boolean animatePopup) {
          this.animatePopup = animatePopup;

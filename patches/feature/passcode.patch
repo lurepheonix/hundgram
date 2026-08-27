@@ -20,7 +20,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesControll
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java
-@@ -16096,11 +16096,14 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -16155,11 +16155,14 @@ public class MessagesController extends BaseController implements NotificationCe
              if (UserConfig.selectedAccount == currentAccount) {
                  int account = -1;
                  for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -40,9 +40,9 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/AlertsCreato
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/AlertsCreator.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/AlertsCreator.java
-@@ -7722,7 +7722,7 @@ public class AlertsCreator {
-         linearLayout.setOrientation(LinearLayout.VERTICAL);
-         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+@@ -7725,7 +7725,7 @@ public class AlertsCreator {
+         desu.inugram.helpers.dialogs.AccountOrderHelper.sort(inu_accountNumbers);
+         for (int a : inu_accountNumbers) {
              TLRPC.User u = UserConfig.getInstance(a).getCurrentUser();
 -            if (u != null) {
 +            if (u != null && !desu.inugram.helpers.security.PasscodeHelper.isAccountHidden(a)) {

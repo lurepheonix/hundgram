@@ -1,8 +1,11 @@
 package desu.inugram.helpers.media
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ColorSpace
+import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
@@ -17,6 +20,7 @@ import org.telegram.messenger.MediaController
 import org.telegram.messenger.MessageObject
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.R
+import org.telegram.messenger.SharedConfig
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.ActionBar.ActionBarMenuItem
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem
@@ -28,28 +32,103 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.concurrent.ConcurrentHashMap
 
-@SuppressLint("StaticFieldLeak")
 object PhotoViewerHelper {
     private const val MENU_COPY_PHOTO = 100
     private const val MENU_COPY_FRAME = 101
     private const val MENU_FOOTER = 102
+    private const val MENU_FOOTER_GAP = 103
 
-    private var footerGap: View? = null
-    private var footerItem: ActionBarMenuSubItem? = null
+    @JvmStatic
+    fun ensureEditSourceSnapshot(entry: MediaController.MediaEditState) {
+        if (entry.isVideo || entry.inu_editSourcePath?.let { File(it).isFile } == true) return
+        val source = entry.path?.let(::File)?.takeIf { it.isFile } ?: return
+        val snapshot = File(
+            FileLoader.getDirectory(FileLoader.MEDIA_DIR_CACHE),
+            "${SharedConfig.getLastLocalId()}_inu_edit_source.${source.extension.ifEmpty { "jpg" }}",
+        )
+        try {
+            if (AndroidUtilities.copyFile(source, snapshot)) {
+                entry.inu_editSourcePath = snapshot.absolutePath
+            } else {
+                snapshot.delete()
+            }
+        } catch (e: Exception) {
+            snapshot.delete()
+            FileLog.e(e)
+        }
+    }
+
+    @JvmStatic
+    fun getEditSourcePath(entry: MediaController.MediaEditState): String =
+        entry.filterPath?.takeIf { it.isNotEmpty() }
+            ?: entry.inu_editSourcePath?.takeIf { File(it).isFile }
+            ?: entry.path
+
+    @JvmStatic
+    fun clearHdrMode(viewer: PhotoViewer) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return
+        setHdrMode(viewer, false)
+    }
+
+    @JvmStatic
+    fun updateHdrMode(viewer: PhotoViewer) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return
+        if (
+            !InuConfig.HDR_IMAGES.value ||
+            viewer.centerImageIsVideo ||
+            viewer.centerImageIsLivePhoto ||
+            viewer.parentActivity?.display?.isHdr != true
+        ) {
+            clearHdrMode(viewer)
+            return
+        }
+
+        val bitmap = viewer.centerImage.bitmap
+        val colorSpace = bitmap?.colorSpace
+        val enabled = bitmap != null && !bitmap.isRecycled && (
+            bitmap.hasGainmap() ||
+                colorSpace == ColorSpace.get(ColorSpace.Named.BT2020_PQ) ||
+                colorSpace == ColorSpace.get(ColorSpace.Named.BT2020_HLG) ||
+                colorSpace?.name?.contains("PQ", ignoreCase = true) == true ||
+                colorSpace?.name?.contains("2084", ignoreCase = true) == true ||
+                colorSpace?.name?.contains("HLG", ignoreCase = true) == true
+        )
+        setHdrMode(viewer, enabled)
+    }
+
+    private fun setHdrMode(viewer: PhotoViewer, enabled: Boolean) {
+        val params = viewer.windowLayoutParams ?: return
+        if (enabled) {
+            if (params.colorMode == ActivityInfo.COLOR_MODE_HDR) return
+            params.setColorMode(ActivityInfo.COLOR_MODE_HDR)
+        } else {
+            if (params.colorMode != ActivityInfo.COLOR_MODE_HDR) return
+            params.setColorMode(ActivityInfo.COLOR_MODE_DEFAULT)
+        }
+
+        val window = viewer.windowView ?: return
+        if (window.parent == null) return
+        val windowManager = viewer.parentActivity?.windowManager ?: return
+        try {
+            windowManager.updateViewLayout(window, params)
+        } catch (e: Exception) {
+            FileLog.e(e)
+        }
+    }
 
     @JvmStatic
     fun gifAsVideo(msg: MessageObject?): Boolean = msg != null && msg.isNewGif && InuConfig.GIF_SEEKBAR.value
 
     @JvmStatic
-    fun setFooter(msg: MessageObject?) {
-        if (msg == null) return applyFooter(null)
+    fun setFooter(menuItem: ActionBarMenuItem, msg: MessageObject?) {
+        if (msg == null) return applyFooter(menuItem, null)
         val dc = msg.document?.dc_id?.takeIf { it != 0 }
             ?: (MessageObject.getMedia(msg) as? TLRPC.TL_messageMediaPhoto)?.photo?.dc_id?.takeIf { it != 0 }
-            ?: return applyFooter(null)
+            ?: return applyFooter(menuItem, null)
         val file = runCatching {
             FileLoader.getInstance(msg.currentAccount).getPathToMessage(msg.messageOwner)
         }.getOrNull()
-        applyFooter(dc, detectPlatform(file, isPfp = false))
+        applyFooter(menuItem, dc, detectPlatform(file, isPfp = false))
     }
 
     @JvmStatic
@@ -73,8 +152,8 @@ object PhotoViewerHelper {
     }
 
     @JvmStatic
-    fun setFooter(location: ImageLocation?, account: Int) {
-        val dc = location?.dc_id?.takeIf { it != 0 } ?: return applyFooter(null)
+    fun setFooter(menuItem: ActionBarMenuItem, location: ImageLocation?, account: Int) {
+        val dc = location?.dc_id?.takeIf { it != 0 } ?: return applyFooter(menuItem, null)
         val hasVideo = location.photo?.video_sizes?.isEmpty() == false
         val platform = if (hasVideo) null else {
             val file = runCatching {
@@ -84,15 +163,15 @@ object PhotoViewerHelper {
             }.getOrNull()
             detectPlatform(file, isPfp = true)
         }
-        applyFooter(dc, platform)
+        applyFooter(menuItem, dc, platform)
     }
 
-    private fun applyFooter(dc: Int, platform: String?) =
-        applyFooter(if (platform != null) "DC $dc • $platform" else "DC $dc")
+    private fun applyFooter(menuItem: ActionBarMenuItem, dc: Int, platform: String?) =
+        applyFooter(menuItem, if (platform != null) "DC $dc • $platform" else "DC $dc")
 
-    private fun applyFooter(text: String?) {
-        val gap = footerGap ?: return
-        val item = footerItem ?: return
+    private fun applyFooter(menuItem: ActionBarMenuItem, text: String?) {
+        val gap = menuItem.getSubItem(MENU_FOOTER_GAP) ?: return
+        val item = menuItem.getSubItem(MENU_FOOTER) as? ActionBarMenuSubItem ?: return
         val visible = text != null
         gap.visibility = if (visible) View.VISIBLE else View.GONE
         item.visibility = if (visible) View.VISIBLE else View.GONE
@@ -157,8 +236,8 @@ object PhotoViewerHelper {
 
     @JvmStatic
     fun addFooter(menuItem: ActionBarMenuItem) {
-        footerGap = menuItem.addColoredGap().also { it.setColor(0xff181818.toInt()) }
-        footerItem = menuItem.addSubItem(MENU_FOOTER, 0, "").also {
+        menuItem.addColoredGap(MENU_FOOTER_GAP).setColor(0xff181818.toInt())
+        menuItem.addSubItem(MENU_FOOTER, 0, "").also {
             it.setColors(0xfffafafa.toInt(), 0xfffafafa.toInt())
             it.textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
             it.textView.includeFontPadding = false
@@ -167,14 +246,14 @@ object PhotoViewerHelper {
             it.isClickable = false
             it.isFocusable = false
         }
-        applyFooter(null)
+        applyFooter(menuItem, null)
     }
 
     @JvmStatic
     fun resetMenuItems(menuItem: ActionBarMenuItem) {
         menuItem.hideSubItem(MENU_COPY_PHOTO)
         menuItem.hideSubItem(MENU_COPY_FRAME)
-        applyFooter(null)
+        applyFooter(menuItem, null)
     }
 
     @JvmStatic
@@ -238,7 +317,7 @@ object PhotoViewerHelper {
     // (part of bugfix__photo-crop-not-applied-on-send)
     @JvmStatic
     fun loadEditSourceBitmap(entry: MediaController.MediaEditState, orientation: IntArray): Bitmap? {
-        val path = entry.filterPath?.takeIf { it.isNotEmpty() } ?: entry.path
+        val path = getEditSourcePath(entry)
         if (path.isNullOrEmpty() || !File(path).exists()) return null
         val exif = AndroidUtilities.getImageOrientation(path)
         orientation[0] = exif.first
@@ -263,7 +342,7 @@ object PhotoViewerHelper {
     fun renderHighQualityCrop(entry: MediaController.MediaEditState): Bitmap? {
         val cropState = entry.cropState ?: return null
         if (entry.paintPath != null) return null
-        val path = entry.filterPath?.takeIf { it.isNotEmpty() } ?: entry.path
+        val path = getEditSourcePath(entry)
         if (path.isNullOrEmpty() || !File(path).exists()) return null
 
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
