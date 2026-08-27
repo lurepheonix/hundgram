@@ -77,6 +77,8 @@
     <string name="InuHideSendAsPicker">隐藏「以…身份发送」选择器</string>
     <string name="InuHideSendAsPickerInfo">长按表情按钮可临时显示</string>
     <string name="InuHideRepostToStory">隐藏「转发到快拍」</string>
+    <string name="InuDisableOverscrollStory">禁用下拉打开快拍</string>
+    <string name="InuDisableOverscrollStoryInfo">下拉对话列表时不再打开快拍</string>
     <string name="InuHideTrendingStickers">隐藏热门贴纸</string>
     <string name="InuBottomTabs">底部标签</string>
     <string name="InuBottomTabsHide">隐藏底部标签</string>

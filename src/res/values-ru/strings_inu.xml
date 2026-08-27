@@ -77,6 +77,8 @@
     <string name="InuHideSendAsPicker">Скрыть выбор отправителя</string>
     <string name="InuHideSendAsPickerInfo">Долгое нажатие на кнопку эмодзи временно показывает его</string>
     <string name="InuHideRepostToStory">Скрыть «Опубликовать в истории»</string>
+    <string name="InuDisableOverscrollStory">Отключить открытие историй свайпом</string>
+    <string name="InuDisableOverscrollStoryInfo">Истории не будут открываться при прокрутке списка диалогов вниз</string>
     <string name="InuHideTrendingStickers">Скрыть популярные стикеры</string>
     <string name="InuBottomTabs">Нижние вкладки</string>
     <string name="InuBottomTabsHide">Скрыть нижние вкладки</string>

@@ -77,6 +77,8 @@
     <string name="InuHideSendAsPicker">「送信者」選択を非表示</string>
     <string name="InuHideSendAsPickerInfo">絵文字ボタンを長押しで一時的に表示</string>
     <string name="InuHideRepostToStory">「ストーリーに転送」を非表示</string>
+    <string name="InuDisableOverscrollStory">プルでストーリーを開く機能を無効化</string>
+    <string name="InuDisableOverscrollStoryInfo">ダイアログリストを下にスワイプしてもストーリーが開かなくなります</string>
     <string name="InuHideTrendingStickers">人気のスタンプを非表示</string>
     <string name="InuBottomTabs">下部タブ</string>
     <string name="InuBottomTabsHide">下部タブを非表示</string>

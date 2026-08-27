@@ -109,7 +109,9 @@
     <string name="InuHideBotWebView">Hide bot Web App</string>
     <string name="InuHideSendAsPicker">Hide \"Send as\" picker</string>
     <string name="InuHideSendAsPickerInfo">Long-press the emoji button to temporarily reveal it</string>
-    <string name="InuHideRepostToStory">Hide \"Repost to Story\"</string>
+    <string name="InuHideRepostToStory">Hide "Repost to Story"</string>
+    <string name="InuDisableOverscrollStory">Disable pull-to-open stories</string>
+    <string name="InuDisableOverscrollStoryInfo">Stories will not open when pulling down on the dialogs list</string>
     <string name="InuHideTrendingStickers">Hide trending stickers</string>
     <string name="InuBottomTabs">Bottom tabs</string>
     <string name="InuBottomTabsHide">Hide bottom tabs</string>

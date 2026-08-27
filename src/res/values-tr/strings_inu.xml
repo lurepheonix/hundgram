@@ -110,6 +110,8 @@
     <string name="InuHideSendAsPicker">\"Farklı gönder\" seçicisini gizle</string>
     <string name="InuHideSendAsPickerInfo">Geçici olarak göstermek için emoji düğmesine uzun basın</string>
     <string name="InuHideRepostToStory">\"Hikayede Yeniden Paylaş\"ı gizle</string>
+    <string name="InuDisableOverscrollStory">Çekmeyle hikaye açmayı devre dışı bırak</string>
+    <string name="InuDisableOverscrollStoryInfo">Sohbet listesi aşağı çekildiğinde hikayeler açılmaz</string>
     <string name="InuHideTrendingStickers">Trend çıkartmaları gizle</string>
     <string name="InuBottomTabs">Alt sekmeler</string>
     <string name="InuBottomTabsHide">Alt sekmeleri gizle</string>

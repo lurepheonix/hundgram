@@ -65,6 +65,14 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 LocaleController.getString(R.string.InuHideRepostToStory),
             ).setChecked(InuConfig.HIDE_REPOST_TO_STORY.value)
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_DISABLE_OVERSCROLL_STORY,
+                R.string.InuDisableOverscrollStory,
+                R.string.InuDisableOverscrollStoryInfo,
+                InuConfig.DISABLE_OVERSCROLL_STORY.value
+            )
+        )
         aiFeaturesGroup.addTo(items) { listView.adapter.update(true) }
         hideSuggestionsGroup.addTo(items) { listView.adapter.update(true) }
         items.add(
@@ -183,6 +191,11 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
             TOGGLE_HIDE_REPOST_TO_STORY -> {
                 val new = InuConfig.HIDE_REPOST_TO_STORY.toggle()
                 (view as? TextCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_DISABLE_OVERSCROLL_STORY -> {
+                val new = InuConfig.DISABLE_OVERSCROLL_STORY.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
             }
 
             TOGGLE_DISABLE_SENSITIVE -> {
@@ -324,6 +337,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_HIDE_STORIES = InuUtils.generateId()
         private val TOGGLE_HIDE_TRENDING_STICKERS = InuUtils.generateId()
         private val TOGGLE_HIDE_REPOST_TO_STORY = InuUtils.generateId()
+        private val TOGGLE_DISABLE_OVERSCROLL_STORY = InuUtils.generateId()
         private val TOGGLE_DISABLE_SENSITIVE = InuUtils.generateId()
         private val TOGGLE_DISABLE_CHAT_BACKGROUNDS = InuUtils.generateId()
         private val TOGGLE_DISABLE_CHAT_THEMES = InuUtils.generateId()
@@ -349,6 +363,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
             entries = listOf(
                 SearchRegistry.Entry("hide-stories", R.string.InuHideStories, TOGGLE_HIDE_STORIES),
                 SearchRegistry.Entry("hide-repost-to-story", R.string.InuHideRepostToStory, TOGGLE_HIDE_REPOST_TO_STORY),
+                SearchRegistry.Entry("disable-overscroll-story", R.string.InuDisableOverscrollStory, TOGGLE_DISABLE_OVERSCROLL_STORY),
                 SearchRegistry.Entry("hide-trending-stickers", R.string.InuHideTrendingStickers, TOGGLE_HIDE_TRENDING_STICKERS),
                 SearchRegistry.Entry("disable-sensitive", R.string.InuDisableSensitive, TOGGLE_DISABLE_SENSITIVE),
                 SearchRegistry.Entry("disable-chat-backgrounds", R.string.InuDisableChatBackgrounds, TOGGLE_DISABLE_CHAT_BACKGROUNDS),
