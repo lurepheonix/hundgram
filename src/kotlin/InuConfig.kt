@@ -127,6 +127,9 @@ object InuConfig {
     @JvmField
     val M3_NAVIGATION_ANIMATION = BoolItem("m3_navigation_animation", false)
 
+    @JvmField
+    val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", false)
+
     // snapshot of theme state before Monet was enabled, "day|night|autoNightType"; empty = none
     @JvmField
     val MONET_PREV = StringItem("monet_prev", "", exportable = false)
@@ -141,6 +144,9 @@ object InuConfig {
 
     @JvmField
     val PREDICTIVE_BACK_MODE = PredictiveBackModeItem()
+
+    @JvmField
+    val HDR_IMAGES = BoolItem("hdr_images", true, exportable = false)
 
     class TextSpoilerModeItem : IntItem("text_spoiler_mode", SIMPLE) {
         companion object {
@@ -228,9 +234,6 @@ object InuConfig {
 
     @JvmField
     val BOTTOM_TABS_COMPACT_MODE = BoolItem("bottom_tabs_hide_compact_mode", false)
-
-    @JvmField
-    val BOTTOM_TABS_DOCKED = BoolItem("bottom_tabs_docked", false)
 
     @JvmField
     val DIALOGS_FAB_MAIN_ACTION = IntItem("dialogs_fab_main_action", 1)
@@ -343,6 +346,9 @@ object InuConfig {
 
     @JvmField
     val HIDE_AI_EDITOR = BoolItem("hide_ai_editor", false)
+
+    @JvmField
+    val HIDE_RICH_EDITOR_BUTTON = BoolItem("hide_rich_editor_button", false)
 
     @JvmField
     val HIDE_MESSAGE_SUMMARY = BoolItem("hide_message_summary", false)
@@ -838,6 +844,9 @@ object InuConfig {
 
     @JvmField
     val ACCOUNT_ORDER = StringItem("account_order", "", exportable = false)
+
+    @JvmField
+    val ACCOUNT_SWITCH_SHORTCUT = BoolItem("account_switch_shortcut", false)
 
     @JvmField
     val FASTER_DOWNLOADS = BoolItem("faster_downloads", true)

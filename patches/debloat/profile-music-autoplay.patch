@@ -20,7 +20,7 @@ index 0000000..0000000 100644
      private boolean playMusicAgain;
      private PlaylistGlobalSearchParams playlistGlobalSearchParams;
      private AudioInfo audioInfo;
-@@ -4188,6 +4189,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+@@ -4157,6 +4158,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
              FileLog.e(e);
          }
  
@@ -39,7 +39,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
-@@ -3883,6 +3883,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -3898,6 +3898,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                      MediaController.getInstance().currentSavedMusicList = savedMusicList;
                      MediaController.getInstance().getPlaylist().clear();
                      MediaController.getInstance().getPlaylist().addAll(savedMusicList.list);

@@ -5,8 +5,12 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Shader
+import android.content.DialogInterface
+import android.os.Bundle
 import android.graphics.drawable.Drawable
+import android.view.HapticFeedbackConstants
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.collection.LongSparseArray
 import androidx.core.graphics.ColorUtils
@@ -27,16 +31,20 @@ import org.telegram.messenger.MessagesController
 import org.telegram.messenger.MessagesStorage
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
+import org.telegram.messenger.UserObject
 import org.telegram.messenger.support.LongSparseLongArray
 import org.telegram.tgnet.TLObject
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.ActionBar.ActionBarMenuItem
+import org.telegram.ui.ActionBar.AlertDialog
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.ActionBar.Theme
+import org.telegram.ui.ChatActivity
 import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.ProfileGalleryBlurView
 import org.telegram.ui.Components.ProfileGalleryView
+import org.telegram.ui.ProfileActivity
 import org.telegram.ui.Stars.StarsController
 import org.telegram.ui.Stories.StoriesController
 import java.util.Date
@@ -401,6 +409,31 @@ object ProfileHelper {
             }.show()
     }
 
+    @JvmStatic
+    fun showStopBotAlert(fragment: BaseFragment, user: TLRPC.User) {
+        val activity = fragment.parentActivity ?: return
+        val dialog = AlertDialog.Builder(activity, fragment.resourceProvider)
+            .setTitle(LocaleController.getString(R.string.InuStopBot))
+            .setMessage(
+                AndroidUtilities.replaceTags(
+                    LocaleController.formatString(R.string.InuStopBotAlert, UserObject.getUserName(user))
+                )
+            )
+            .setPositiveButton(LocaleController.getString(R.string.InuStopBotAction)) { _, _ ->
+                MessagesController.getInstance(fragment.currentAccount).blockPeer(user.id)
+                if (BulletinFactory.canShowBulletin(fragment)) {
+                    BulletinFactory.of(fragment)
+                        .createSimpleBulletin(R.raw.ic_ban, LocaleController.getString(R.string.InuStopBotDone))
+                        .show()
+                }
+            }
+            .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
+            .create()
+        fragment.showDialog(dialog)
+        (dialog.getButton(DialogInterface.BUTTON_POSITIVE) as? TextView)
+            ?.setTextColor(fragment.getThemedColor(Theme.key_text_RedBold))
+    }
+
     private data class RegDateEntry(val id: Long, val date: Long)
 
     private val regDateEntries: List<RegDateEntry> by lazy { loadRegDateData() }
@@ -442,5 +475,22 @@ object ProfileHelper {
         }
         if (userId <= list.first().id) return formatShortDate(list.first().date * 1000L)
         return ">" + formatShortDate(list.last().date * 1000L)
+    }
+
+    @JvmStatic
+    fun openProfileOrChat(fragment: BaseFragment, view: View, dialogId: Long): Boolean {
+        val args = Bundle()
+        val openAsChat: Boolean
+        if (dialogId > 0) {
+            if (fragment.messagesController.getUser(dialogId) == null) return false
+            args.putLong("user_id", dialogId)
+            openAsChat = false
+        } else {
+            val chat = fragment.messagesController.getChat(-dialogId) ?: return false
+            args.putLong("chat_id", -dialogId)
+            openAsChat = ChatObject.isChannelAndNotMegaGroup(chat)
+        }
+        fragment.presentFragment(if (openAsChat) ChatActivity(args) else ProfileActivity(args))
+        return true
     }
 }

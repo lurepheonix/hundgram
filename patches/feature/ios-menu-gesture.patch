@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ItemOptions.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/ItemOptions.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/ItemOptions.java
-@@ -1811,7 +1811,6 @@ public class ItemOptions {
+@@ -1826,7 +1826,6 @@ public class ItemOptions {
  
      private View.OnTouchListener hoverReleaseListener;
      private View hoveredItem;
@@ -20,7 +20,7 @@ index 0000000..0000000 100644
  
      private void installHoverReleaseListener() {
          if (scrimView == null) return;
-@@ -1856,17 +1855,13 @@ public class ItemOptions {
+@@ -1871,17 +1870,13 @@ public class ItemOptions {
          View hit = findItemAt(layout, rawX, rawY);
          if (hit != hoveredItem) {
              if (hoveredItem != null) {
@@ -40,7 +40,7 @@ index 0000000..0000000 100644
      }
  
      private void releaseHover(int rawX, int rawY) {
-@@ -1874,14 +1869,14 @@ public class ItemOptions {
+@@ -1889,14 +1884,14 @@ public class ItemOptions {
          if (hoveredItem != null) {
              View target = hoveredItem;
              hoveredItem = null;

@@ -186,7 +186,7 @@ class InuSettingsActivity : SettingsPageActivity() {
                         account, file.absolutePath, file.absolutePath, null, null,
                         "application/json", did,
                         null, null, null, null, null,
-                        true, 0, null, null, 0, false,
+                        true, 0, null, null, false,
                     )
                 }
                 if (dids.size() == 1) openChat(dids.keyAt(0))
