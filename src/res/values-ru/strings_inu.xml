@@ -84,6 +84,9 @@
     <string name="InuHideContactsTab">Скрыть вкладку «Контакты»</string>
     <string name="InuCompactMode">Компактный режим</string>
     <string name="InuCompactModeInfo">Скрывает названия и уменьшает вкладки</string>
+    <string name="InuMaterial3BottomTabs">Нижние вкладки</string>
+    <string name="InuMaterial3BottomTabsNoIndicator">Стильные нижние вкладки</string>
+    <string name="InuMaterial3BottomTabsNoIndicatorInfo">Придаёт нижним вкладкам стильный вид, как на iPhone до Liquid Glass</string>
     <string name="InuDialogsFab">Кнопка действия</string>
     <string name="InuDialogsFabMainAction">Основное действие</string>
     <string name="InuDialogsFabSecondaryAction">Дополнительное действие</string>

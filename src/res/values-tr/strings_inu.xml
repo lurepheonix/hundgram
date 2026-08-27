@@ -117,6 +117,9 @@
     <string name="InuHideContactsTab">Kişiler sekmesini gizle</string>
     <string name="InuCompactMode">Kompakt mod</string>
     <string name="InuCompactModeInfo">Başlıkları gizler ve sekmeleri küçültür</string>
+    <string name="InuMaterial3BottomTabs">Alt sekmeler</string>
+    <string name="InuMaterial3BottomTabsNoIndicator">Şık alt sekmeler</string>
+    <string name="InuMaterial3BottomTabsNoIndicatorInfo">Alt sekmelere Liquid Glass öncesi iPhone\'daki gibi şık bir görünüm kazandırır</string>
     <string name="InuDialogsFab">Yüzen Eylem Düğmesi (FAB)</string>
     <string name="InuDialogsFabMainAction">Birincil eylem</string>
     <string name="InuDialogsFabSecondaryAction">İkincil eylem</string>

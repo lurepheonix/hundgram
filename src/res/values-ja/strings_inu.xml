@@ -84,6 +84,9 @@
     <string name="InuHideContactsTab">連絡先タブを非表示</string>
     <string name="InuCompactMode">コンパクトモード</string>
     <string name="InuCompactModeInfo">タイトルを非表示にし、タブを小さくします</string>
+    <string name="InuMaterial3BottomTabs">下部タブ</string>
+    <string name="InuMaterial3BottomTabsNoIndicator">洗練された下部タブ</string>
+    <string name="InuMaterial3BottomTabsNoIndicatorInfo">Liquid Glass 以前の iPhone のような、洗練された外観を下部タブに与えます</string>
     <string name="InuDialogsFab">FAB</string>
     <string name="InuDialogsFabMainAction">メイン動作</string>
     <string name="InuDialogsFabSecondaryAction">サブ動作</string>

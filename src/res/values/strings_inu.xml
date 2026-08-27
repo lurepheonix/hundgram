@@ -118,6 +118,8 @@
     <string name="InuCompactMode">Compact mode</string>
     <string name="InuCompactModeInfo">Hides titles and make the tabs smaller</string>
     <string name="InuMaterial3BottomTabs">Bottom tabs</string>
+    <string name="InuMaterial3BottomTabsNoIndicator">Sleek bottom tabs</string>
+    <string name="InuMaterial3BottomTabsNoIndicatorInfo">Gives bottom tabs a sleek look like on a pre Liquid Glass iPhone</string>
     <string name="InuDialogsFab">FAB</string>
     <string name="InuDialogsFabMainAction">Primary action</string>
     <string name="InuDialogsFabSecondaryAction">Secondary action</string>

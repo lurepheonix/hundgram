@@ -11,6 +11,7 @@ import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.view.View
 import android.widget.FrameLayout
+import desu.inugram.InuConfig
 import desu.inugram.helpers.dialogs.MainTabsHelper
 import me.vkryl.android.AnimatorUtils
 import org.telegram.messenger.AndroidUtilities.dp
@@ -23,13 +24,18 @@ import org.telegram.ui.MainTabsLayout
 object M3MainTabsHelper {
     const val BAR_HEIGHT: Int = 64
     const val COMPACT_BAR_HEIGHT: Int = 48
+    const val NO_INDICATOR_BAR_HEIGHT: Int = 52
     const val VERTICAL_PADDING = 6f
     const val INDICATOR_WIDTH = 56f
     const val INDICATOR_HEIGHT = 32f
     const val ICON_SIZE = 24f
     const val ICON_LABEL_SPACE = 4f
     const val LABEL_HEIGHT = 16f
-    const val LABEL_TOP_MARGIN = VERTICAL_PADDING + INDICATOR_HEIGHT + ICON_LABEL_SPACE
+
+    @JvmStatic
+    val labelTopMargin: Float
+        get() = if (isNoIndicator) NO_INDICATOR_TOP_PADDING + ICON_SIZE + NO_INDICATOR_ICON_LABEL_SPACE
+        else VERTICAL_PADDING + INDICATOR_HEIGHT + ICON_LABEL_SPACE
     const val BADGE_SIZE = 16f
     const val BADGE_HORIZONTAL_OFFSET = 12f
     const val BADGE_VERTICAL_OFFSET = 14f
@@ -41,17 +47,31 @@ object M3MainTabsHelper {
     private const val INDICATOR_APPEAR_SCALE_X = 0.92f
     private const val SCRIM_INSET = 4f
     private const val RIPPLE_ALPHA = 0.1f
+    const val NO_INDICATOR_TOP_PADDING = 4f
+    const val NO_INDICATOR_ICON_LABEL_SPACE = 2f
 
     @JvmStatic
     val isEnabled: Boolean
         get() = MainTabsHelper.isMaterial
 
     @JvmStatic
+    val isNoIndicator: Boolean
+        get() = isEnabled && InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value
+
+    @JvmStatic
     val barHeight: Int
-        get() = if (MainTabsHelper.isCompact) COMPACT_BAR_HEIGHT else BAR_HEIGHT
+        get() = when {
+            isNoIndicator -> NO_INDICATOR_BAR_HEIGHT
+            MainTabsHelper.isCompact -> COMPACT_BAR_HEIGHT
+            else -> BAR_HEIGHT
+        }
 
     private val indicatorCenterY: Float
-        get() = if (MainTabsHelper.isCompact) barHeight / 2f else VERTICAL_PADDING + INDICATOR_HEIGHT / 2f
+        get() = when {
+            isNoIndicator -> NO_INDICATOR_TOP_PADDING + ICON_SIZE / 2f
+            MainTabsHelper.isCompact -> barHeight / 2f
+            else -> VERTICAL_PADDING + INDICATOR_HEIGHT / 2f
+        }
 
     @JvmStatic
     val iconTopMargin: Float
@@ -65,6 +85,7 @@ object M3MainTabsHelper {
 
     @JvmStatic
     fun drawIndicator(canvas: Canvas, paint: Paint, viewWidth: Float, color: Int, selectedFactor: Float) {
+        if (isNoIndicator) return
         val alpha = AnimatorUtils.DECELERATE_INTERPOLATOR.getInterpolation(selectedFactor)
         val width = dpf2(INDICATOR_WIDTH)
         val height = dpf2(INDICATOR_HEIGHT)
@@ -83,7 +104,8 @@ object M3MainTabsHelper {
         if (!isEnabled) return
         tabsView.inu_materialTabs = true
         tabsView.setMaxWidth(0)
-        tabsView.setPadding(0, 0, 0, 0)
+        val topPadding = if (isNoIndicator) dp(NO_INDICATOR_TOP_PADDING) else 0
+        tabsView.setPadding(0, topPadding, 0, 0)
     }
 
     private class IndicatorMaskDrawable : Drawable() {
@@ -112,7 +134,7 @@ object M3MainTabsHelper {
 
     @JvmStatic
     fun applyTabRipple(tab: View, color: Int) {
-        if (!isEnabled) return
+        if (!isEnabled || isNoIndicator) return
         tab.foreground = RippleDrawable(rippleColor(color), null, IndicatorMaskDrawable())
     }
 
@@ -153,10 +175,11 @@ object M3MainTabsHelper {
     @JvmStatic
     fun applyTabsInsets(wrapper: FrameLayout, tabsView: MainTabsLayout, left: Int, right: Int, bottom: Int): Boolean {
         if (!isEnabled) return false
+        val topPadding = if (isNoIndicator) dp(NO_INDICATOR_TOP_PADDING) else 0
         wrapper.setPadding(left, DIVIDER_HEIGHT_PX, right, 0)
-        tabsView.setPadding(0, 0, 0, bottom)
+        tabsView.setPadding(0, topPadding, 0, bottom)
         val lp = tabsView.layoutParams
-        val height = dp(barHeight.toFloat()) + bottom
+        val height = dp(barHeight.toFloat()) + topPadding + bottom
         if (lp.height != height) {
             lp.height = height
             tabsView.layoutParams = lp

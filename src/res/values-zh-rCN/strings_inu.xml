@@ -84,6 +84,9 @@
     <string name="InuHideContactsTab">隐藏联系人标签</string>
     <string name="InuCompactMode">紧凑模式</string>
     <string name="InuCompactModeInfo">隐藏标题并缩小标签</string>
+    <string name="InuMaterial3BottomTabs">底部标签</string>
+    <string name="InuMaterial3BottomTabsNoIndicator">精美底部标签</string>
+    <string name="InuMaterial3BottomTabsNoIndicatorInfo">为底部标签提供类似 Liquid Glass 之前 iPhone 的精致外观</string>
     <string name="InuDialogsFab">悬浮按钮</string>
     <string name="InuDialogsFabMainAction">主要操作</string>
     <string name="InuDialogsFabSecondaryAction">次要操作</string>

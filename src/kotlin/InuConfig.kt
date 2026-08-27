@@ -130,6 +130,9 @@ object InuConfig {
     @JvmField
     val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", false)
 
+    @JvmField
+    val M3_BOTTOM_TABS_NO_INDICATOR = BoolItem("m3_bottom_tabs_no_indicator", false)
+
     // snapshot of theme state before Monet was enabled, "day|night|autoNightType"; empty = none
     @JvmField
     val MONET_PREV = StringItem("monet_prev", "", exportable = false)

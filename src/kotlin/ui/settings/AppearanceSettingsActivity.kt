@@ -80,6 +80,16 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 LocaleController.getString(R.string.InuMaterial3BottomTabs)
             ).setChecked(InuConfig.M3_BOTTOM_TABS.value)
         )
+        if (InuConfig.M3_BOTTOM_TABS.value) {
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR,
+                    R.string.InuMaterial3BottomTabsNoIndicator,
+                    R.string.InuMaterial3BottomTabsNoIndicatorInfo,
+                    InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value,
+                )
+            )
+        }
         items.add(
             UItem.asCheck(
                 TOGGLE_MATERIAL_PROFILE_ACTIONS,
@@ -285,6 +295,13 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             TOGGLE_M3_BOTTOM_TABS -> {
                 val new = InuConfig.M3_BOTTOM_TABS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
+                if (!new) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
+                listView.adapter.update(true)
+            }
+
+            TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR -> {
+                val new = InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
                 softRebuild()
             }
 
@@ -382,6 +399,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_M3_SECTIONS_STYLE = InuUtils.generateId()
         private val TOGGLE_MATERIAL3_AVATARS = InuUtils.generateId()
         private val TOGGLE_M3_BOTTOM_TABS = InuUtils.generateId()
+        private val TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR = InuUtils.generateId()
         private val TOGGLE_MATERIAL_PROFILE_ACTIONS = InuUtils.generateId()
         private val TOGGLE_M3_NAVIGATION_ANIMATION = InuUtils.generateId()
         private val BUTTON_ICON_REPLACEMENT = InuUtils.generateId()
@@ -420,6 +438,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("material3-sections", R.string.InuMaterial3Sections, TOGGLE_M3_SECTIONS_STYLE),
                 SearchRegistry.Entry("material3-avatars", R.string.InuMaterial3Avatars, TOGGLE_MATERIAL3_AVATARS),
                 SearchRegistry.Entry("m3-bottom-tabs", R.string.InuMaterial3BottomTabs, TOGGLE_M3_BOTTOM_TABS),
+                SearchRegistry.Entry("m3-bottom-tabs-no-indicator", R.string.InuMaterial3BottomTabsNoIndicator, TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR),
                 SearchRegistry.Entry("material-profile-actions", R.string.InuMaterialProfileActions, TOGGLE_MATERIAL_PROFILE_ACTIONS),
                 SearchRegistry.Entry("material3-navigation-animation", R.string.InuMaterial3NavigationAnimation, TOGGLE_M3_NAVIGATION_ANIMATION),
                 SearchRegistry.Entry("monet-theme", R.string.InuMonetTheme, BUTTON_MONET_THEME),
