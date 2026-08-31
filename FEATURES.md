@@ -163,6 +163,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - "copy photo" / "copy frame" menu actions
 - show dc + platform of the photo in menu
 - seek bar for mp4 gifs
+- optional alternative GIF behavior: open non-autoplaying GIFs directly in the viewer, with playback controls initially visible and inline playback stopped on close
 - always use the modern speed-control rewind on long-press
 - mark public (fallback) / personal profile photos next to the date
 

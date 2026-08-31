@@ -674,6 +674,8 @@
     <string name="InuLogsHeapDumpWarning">**切勿**与任何人分享生成的 .hprof 文件 —— 它是应用内存的快照，**包含敏感信息**（消息、令牌等）。\n\n**仅**自行查看。\n\n应用将会冻结一段时间。</string>
 
     <string name="InuLookAndFeel">外观与样式</string>
+    <string name="InuAlternativeGifBehavior">备用 GIF 行为</string>
+    <string name="InuAlternativeGifBehaviorInfo">关闭 GIF 自动播放时，首次点按以全屏打开 GIF，关闭全屏后停止播放。</string>
     <string name="InuMaterial3Fabs">悬浮按钮</string>
     <string name="InuMaterial3Sections">列表项</string>
     <string name="InuMaterial3Avatars">头像</string>

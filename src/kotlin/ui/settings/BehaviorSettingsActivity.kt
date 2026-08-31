@@ -87,6 +87,14 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         )
         items.add(
             mkTwoLineCheckItem(
+                TOGGLE_ALTERNATIVE_GIF_BEHAVIOR,
+                R.string.InuAlternativeGifBehavior,
+                R.string.InuAlternativeGifBehaviorInfo,
+                InuConfig.ALTERNATIVE_GIF_BEHAVIOR.value,
+            )
+        )
+        items.add(
+            mkTwoLineCheckItem(
                 TOGGLE_SEND_MP4_DOCUMENT_AS_VIDEO,
                 R.string.InuSendMp4DocumentAsVideo,
                 R.string.InuSendMp4DocumentAsVideoInfo,
@@ -238,6 +246,11 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_ALTERNATIVE_GIF_BEHAVIOR -> {
+                val new = InuConfig.ALTERNATIVE_GIF_BEHAVIOR.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             TOGGLE_SEND_MP4_DOCUMENT_AS_VIDEO -> {
                 val new = InuConfig.SEND_MP4_DOCUMENT_AS_VIDEO.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
@@ -373,6 +386,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_CONFIRM_INTERNAL_LINKS = InuUtils.generateId()
         private val TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE = InuUtils.generateId()
         private val TOGGLE_GIF_SEEKBAR = InuUtils.generateId()
+        private val TOGGLE_ALTERNATIVE_GIF_BEHAVIOR = InuUtils.generateId()
         private val TOGGLE_SEND_MP4_DOCUMENT_AS_VIDEO = InuUtils.generateId()
         private val BUTTON_WEB_PREVIEW_REPLACEMENTS = InuUtils.generateId()
         private val TOGGLE_AUTO_DISABLE_PROXY_ON_VPN = InuUtils.generateId()
@@ -411,6 +425,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("confirm-internal-links", R.string.InuConfirmInternalLinks, TOGGLE_CONFIRM_INTERNAL_LINKS),
                 SearchRegistry.Entry("disable-browser-swipe-collapse", R.string.InuDisableBrowserSwipeCollapse, TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE),
                 SearchRegistry.Entry("gif-seekbar", R.string.InuGifSeekbar, TOGGLE_GIF_SEEKBAR),
+                SearchRegistry.Entry("alternative-gif-behavior", R.string.InuAlternativeGifBehavior, TOGGLE_ALTERNATIVE_GIF_BEHAVIOR),
                 SearchRegistry.Entry("send-mp4-document-as-video", R.string.InuSendMp4DocumentAsVideo, TOGGLE_SEND_MP4_DOCUMENT_AS_VIDEO),
                 SearchRegistry.Entry("web-preview-replacements", R.string.InuWebPreviewReplacements, BUTTON_WEB_PREVIEW_REPLACEMENTS),
                 SearchRegistry.Entry("auto-disable-proxy-on-vpn", R.string.InuAutoDisableProxyOnVpn, TOGGLE_AUTO_DISABLE_PROXY_ON_VPN),

@@ -606,6 +606,9 @@ object InuConfig {
     val REDUCE_MENU_MOTION = BoolItem("reduce_menu_motion", true)
 
     @JvmField
+    val ALTERNATIVE_GIF_BEHAVIOR = BoolItem("alternative_gif_behavior", false)
+
+    @JvmField
     val PROFILE_PHOTO_GRADIENT_FADE = BoolItem("profile_photo_gradient_fade", false)
 
     @JvmField

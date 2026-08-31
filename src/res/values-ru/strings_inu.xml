@@ -684,6 +684,8 @@
     <string name="InuLogsHeapDumpWarning">**НИКОГДА** не делись полученным файлом .hprof ни с кем — это снимок памяти приложения, и он **содержит чувствительную информацию** (сообщения, токены и т. д.).\n\nИзучай его **ТОЛЬКО** сам.\n\nПриложение ненадолго зависнет.</string>
 
     <string name="InuLookAndFeel">Внешний вид и стиль</string>
+    <string name="InuAlternativeGifBehavior">Альтернативное поведение GIF</string>
+    <string name="InuAlternativeGifBehaviorInfo">Когда автоплей GIF выключен, первый тап открывает GIF на весь экран и останавливает воспроизведение после закрытия.</string>
     <string name="InuMaterial3Fabs">Плавающие кнопки</string>
     <string name="InuMaterial3Sections">Элементы списка</string>
     <string name="InuTypographyAndIcons">Шрифты и иконки</string>

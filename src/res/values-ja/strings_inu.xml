@@ -675,6 +675,8 @@
     <string name="InuLogsHeapDumpWarning">.hprof ファイルは**絶対に**誰とも共有しないでください — アプリのメモリのスナップショットであり、**メッセージやトークンなどの機密情報を含みます**。\n\n**自分だけで**確認してください。\n\nアプリはしばらくフリーズします。</string>
 
     <string name="InuLookAndFeel">外観とスタイル</string>
+    <string name="InuAlternativeGifBehavior">代替の GIF 動作</string>
+    <string name="InuAlternativeGifBehaviorInfo">GIF の自動再生がオフのとき、最初のタップで GIF を全画面で開き、全画面を閉じた後に再生を停止します。</string>
     <string name="InuMaterial3Fabs">フローティングボタン</string>
     <string name="InuMaterial3Sections">リスト項目</string>
     <string name="InuMaterial3Avatars">アバター</string>
