@@ -396,6 +396,9 @@ object InuConfig {
     val HIDE_REACTIONS_ENTRY = BoolItem("hide_reactions_entry", false)
 
     @JvmField
+    val DISABLE_NEXT_AUDIO_AUTOPLAY = BoolItem("disable_next_audio_autoplay", false)
+
+    @JvmField
     val HIDE_SUGGESTION_BIRTHDAY_SETUP = BoolItem("hide_suggestion_birthday_setup", false)
 
     @JvmField

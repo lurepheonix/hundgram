@@ -47,6 +47,9 @@
     <string name="InuShowSeconds">显示秒数</string>
     <string name="InuDisableRounding">禁用数字取整</string>
     <string name="InuDisableRoundingInfo">1.2K → 1,234</string>
+    <string name="InuPlayback">播放</string>
+    <string name="InuDisableNextAudioAutoplay">禁用下一首音频自动播放</string>
+    <string name="InuDisableNextAudioAutoplayInfo">音频曲目结束时停止播放，而不是自动播放下一首。</string>
     <string name="InuDisableInstantCamera">禁用即时相机</string>
     <string name="InuDisableInstantCameraInfo">打开附件面板时不启动相机</string>
     <string name="InuShowAllRecentStickers">显示全部最近贴纸</string>

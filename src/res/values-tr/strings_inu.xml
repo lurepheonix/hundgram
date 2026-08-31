@@ -56,6 +56,9 @@
     <string name="InuShowSeconds">Saniyeleri göster</string>
     <string name="InuDisableRounding">Sayı yuvarlamayı devre dışı bırak</string>
     <string name="InuDisableRoundingInfo">1.2K -> 1.234</string>
+    <string name="InuPlayback">Oynatma</string>
+    <string name="InuDisableNextAudioAutoplay">Sonraki ses parçası için otomatik oynatmayı kapat</string>
+    <string name="InuDisableNextAudioAutoplayInfo">Bir ses parçası bittiğinde otomatik olarak sonrakine geçmek yerine oynatmayı durdurur.</string>
     <string name="InuMaterial3">Material Design 3</string>
     <string name="InuMaterial3Switches">Anahtarlar</string>
     <string name="InuMaterial3Fabs">Yüzen düğmeler</string>

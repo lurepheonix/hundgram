@@ -56,6 +56,9 @@
     <string name="InuShowSeconds">Show seconds</string>
     <string name="InuDisableRounding">Disable number rounding</string>
     <string name="InuDisableRoundingInfo">1.2K -> 1,234</string>
+    <string name="InuPlayback">Playback</string>
+    <string name="InuDisableNextAudioAutoplay">Disable autoplay for the next audio track</string>
+    <string name="InuDisableNextAudioAutoplayInfo">Stop playback when an audio track ends instead of automatically playing the next track.</string>
     <string name="InuMaterial3">Material Design 3</string>
     <string name="InuMaterial3Switches">Switches</string>
     <string name="InuMaterial3Fabs">Floating buttons</string>

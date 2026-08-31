@@ -47,6 +47,9 @@
     <string name="InuShowSeconds">秒を表示</string>
     <string name="InuDisableRounding">数値の丸めを無効化</string>
     <string name="InuDisableRoundingInfo">1.2K → 1,234</string>
+    <string name="InuPlayback">再生</string>
+    <string name="InuDisableNextAudioAutoplay">次の音声トラックの自動再生を無効化</string>
+    <string name="InuDisableNextAudioAutoplayInfo">音声トラックの再生が終わっても次のトラックを自動再生せず、再生を停止します。</string>
     <string name="InuDisableInstantCamera">インスタントカメラを無効化</string>
     <string name="InuDisableInstantCameraInfo">添付パネルを開いたときにカメラを起動しない</string>
     <string name="InuShowAllRecentStickers">最近のスタンプをすべて表示</string>

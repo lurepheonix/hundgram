@@ -47,6 +47,9 @@
     <string name="InuShowSeconds">Показывать секунды</string>
     <string name="InuDisableRounding">Отключить округление чисел</string>
     <string name="InuDisableRoundingInfo">1,2K → 1 234</string>
+    <string name="InuPlayback">Воспроизведение</string>
+    <string name="InuDisableNextAudioAutoplay">Отключить автопереход к следующему треку</string>
+    <string name="InuDisableNextAudioAutoplayInfo">Останавливать воспроизведение в конце аудиодорожки вместо автоматического перехода к следующей.</string>
     <string name="InuDisableInstantCamera">Отключить мгновенную камеру</string>
     <string name="InuDisableInstantCameraInfo">Не запускать камеру при открытии панели вложений</string>
     <string name="InuShowAllRecentStickers">Показывать все недавние стикеры</string>

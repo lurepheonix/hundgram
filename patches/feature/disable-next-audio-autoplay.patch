@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: gwindlord <gwindlord@gmail.com>
+Date: Thu, 27 Aug 2026 15:48:04 -0700
+Subject: Add next audio autoplay setting
+
+---
+ .../src/main/java/org/telegram/messenger/MediaController.java | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
+@@ -3922,7 +3922,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+                             NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingProgressDidChanged, messageObject.getId(), 0);
+                             final boolean restored = restoreMusicPlaylistState();
+                             if (!restored) {
+-                                if (!playlist.isEmpty() && (playlist.size() > 1 || !messageObject.isVoice())) {
++                                if (messageObject.isMusic() && desu.inugram.InuConfig.DISABLE_NEXT_AUDIO_AUTOPLAY.getValue() && SharedConfig.repeatMode != 2) {
++                                    cleanupPlayer(true, hasNoNextVoiceOrRoundVideoMessage(), messageObject.isVoice(), false);
++                                } else if (!playlist.isEmpty() && (playlist.size() > 1 || !messageObject.isVoice())) {
+                                     playNextMessageWithoutOrder(true);
+                                 } else {
+                                     cleanupPlayer(true, hasNoNextVoiceOrRoundVideoMessage(), messageObject.isVoice(), false);

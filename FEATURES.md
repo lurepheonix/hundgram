@@ -196,6 +196,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 ## behavior
 
 - call confirmation
+- disable autoplay for the next audio track
 - HD call audio on Bluetooth
 - 🐶 reaction confirmation in non-joined chats
 - 🐶 internal link confirmation (tg://, t.me/…)

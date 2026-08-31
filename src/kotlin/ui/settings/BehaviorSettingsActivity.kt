@@ -55,6 +55,17 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         )
         items.add(UItem.asShadow(null))
 
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuPlayback)))
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY,
+                R.string.InuDisableNextAudioAutoplay,
+                R.string.InuDisableNextAudioAutoplayInfo,
+                InuConfig.DISABLE_NEXT_AUDIO_AUTOPLAY.value,
+            )
+        )
+        items.add(UItem.asShadow(null))
+
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuChatActions)))
         items.add(
             UItem.asCheck(
@@ -288,6 +299,11 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY -> {
+                val new = InuConfig.DISABLE_NEXT_AUDIO_AUTOPLAY.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             BUTTON_MAP_PROVIDER -> RadioItemOptions.show(
                 this, view,
                 listOf(
@@ -397,6 +413,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val BUTTON_MAP_PREVIEW_PROVIDER = InuUtils.generateId()
         private val TOGGLE_SHOW_SECONDS = InuUtils.generateId()
         private val TOGGLE_DISABLE_ROUNDING = InuUtils.generateId()
+        private val TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY = InuUtils.generateId()
         private val TOGGLE_ACCOUNT_SWITCH_SHORTCUT = InuUtils.generateId()
 
         private fun performanceClassLabel(value: Int): String = when (value) {
@@ -436,6 +453,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("map-preview-provider", R.string.InuMapPreviewProvider, BUTTON_MAP_PREVIEW_PROVIDER),
                 SearchRegistry.Entry("show-seconds", R.string.InuShowSeconds, TOGGLE_SHOW_SECONDS),
                 SearchRegistry.Entry("disable-rounding", R.string.InuDisableRounding, TOGGLE_DISABLE_ROUNDING),
+                SearchRegistry.Entry("disable-next-audio-autoplay", R.string.InuDisableNextAudioAutoplay, TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY),
                 SearchRegistry.Entry("account-switch-shortcut", R.string.InuAccountSwitchShortcut, TOGGLE_ACCOUNT_SWITCH_SHORTCUT),
             ),
         )
