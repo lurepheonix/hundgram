@@ -744,4 +744,5 @@
     <string name="InuStopBotAlert">Are you sure you want to stop **%1$s**? It won\'t be able to send you messages anymore.</string>
     <string name="InuStopBotAction">Stop</string>
     <string name="InuStopBotDone">Bot stopped</string>
+    <string name="InuAutoplayVideoMessages">Autoplay Video Messages</string>
 </resources>

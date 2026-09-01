@@ -737,4 +737,5 @@
     <string name="InuRefreshStickerSet">更新</string>
     <string name="InuStickerSetRefreshed">パックを更新しました</string>
     <string name="InuStickerSetRefreshFailed">パックを更新できませんでした</string>
+    <string name="InuAutoplayVideoMessages">ビデオメッセージの自動再生</string>
 </resources>

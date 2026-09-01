@@ -1,0 +1,187 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: The Ghost <lurepheonix@gmail.com>
+Date: Tue, 1 Sep 2026 13:05:41 +0400
+Subject: Add video message autoplay setting
+
+---
+ .../telegram/messenger/MediaController.java   |  4 +++
+ .../telegram/ui/Cells/ChatMessageCell.java    | 15 +++++++----
+ .../telegram/ui/LiteModeSettingsActivity.java | 26 ++++++++++++++++---
+ .../java/org/telegram/ui/ProfileActivity.java |  5 ++++
+ 4 files changed, 41 insertions(+), 9 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
+@@ -2606,6 +2606,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+                         voiceMessagesPlaylistMap = null;
+                     }
+                 }
++                if (voiceMessagesPlaylist != null && index < voiceMessagesPlaylist.size() && voiceMessagesPlaylist.get(index).isRoundVideo() && desu.inugram.InuConfig.DISABLE_VIDEO_MESSAGE_AUTOPLAY.getValue()) {
++                    voiceMessagesPlaylist = null;
++                    voiceMessagesPlaylistMap = null;
++                }
+                 if (voiceMessagesPlaylist != null && index < voiceMessagesPlaylist.size()) {
+                     MessageObject nextVoiceMessage = voiceMessagesPlaylist.get(index);
+                     playMessage(nextVoiceMessage);
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
+@@ -9345,7 +9345,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+                     photoImage.setAllowStartAnimation(true);
+                 } else if (messageObject.isRoundVideo()) {
+                     MessageObject playingMessage = MediaController.getInstance().getPlayingMessageObject();
+-                    photoImage.setAllowStartAnimation(playingMessage == null || !playingMessage.isRoundVideo());
++                    photoImage.setAllowStartAnimation(desu.inugram.helpers.chat.VideoMessageHelper.shouldAutoplayRoundVideo(playingMessage));
+                 } else {
+                     photoImage.setAllowStartAnimation(messageObject.gifState == 0);
+                 }
+@@ -12116,7 +12116,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+         } else {
+             if (allowStart) {
+                 MessageObject playingMessage = MediaController.getInstance().getPlayingMessageObject();
+-                allowStart = playingMessage == null || !playingMessage.isRoundVideo();
++                allowStart = desu.inugram.helpers.chat.VideoMessageHelper.shouldAutoplayRoundVideo(playingMessage);
+             }
+             photoImage.setAllowStartAnimation(allowStart);
+             if (thumb != null) {
+@@ -18151,9 +18151,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+             if (!currentMessageObject.needDrawBluredPreview() && !autoPlayingMedia && documentAttach != null && !desu.inugram.helpers.chat.LinkPreviewSpoilerHelper.isMediaCovered(currentMessageObject)) {
+                 if (documentAttachType == DOCUMENT_ATTACH_TYPE_ROUND) {
+                     photoImage.setImage(ImageLocation.getForDocument(documentAttach), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(currentPhotoObject, photoParentObject), currentPhotoObject instanceof TLRPC.TL_photoStrippedSize || currentPhotoObject != null && "s".equals(currentPhotoObject.type) ? currentPhotoFilterThumb : currentPhotoFilter, ImageLocation.getForObject(currentPhotoObjectThumb, photoParentObject), currentPhotoFilterThumb, currentPhotoObjectThumbStripped, documentAttach.size, null, currentMessageObject, 0);
+-                    photoImage.setAllowStartAnimation(true);
+-                    photoImage.startAnimation();
+-                    autoPlayingMedia = true;
++                    boolean inu_allowRoundAutoplay = desu.inugram.helpers.chat.VideoMessageHelper.shouldAutoplayRoundPreview();
++                    photoImage.setAllowStartAnimation(inu_allowRoundAutoplay);
++                    if (inu_allowRoundAutoplay) {
++                        photoImage.startAnimation();
++                        autoPlayingMedia = true;
++                    } else {
++                        photoImage.stopAnimation();
++                    }
+                 } else if (!isSmallImage && !currentMessageObject.isHiddenSensitive() && (!currentMessageObject.hasVideoCover() || currentMessageObject.isLivePhoto()) && SharedConfig.isAutoplayVideo() && !currentMessageObject.isRepostPreview && documentAttachType == DOCUMENT_ATTACH_TYPE_VIDEO && (currentPosition == null || (currentPosition.flags & MessageObject.POSITION_FLAG_LEFT) != 0 && (currentPosition.flags & MessageObject.POSITION_FLAG_RIGHT) != 0)) {
+                     animatingNoSound = 2;
+                     if (currentMessageObject.cachedQuality != null) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
+@@ -38,6 +38,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import desu.inugram.InuConfig;
++
+ import org.telegram.messenger.AndroidUtilities;
+ import org.telegram.messenger.BuildVars;
+ import org.telegram.messenger.LiteMode;
+@@ -122,6 +124,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
+             final Item item = items.get(position);
+ 
+             if (item.viewType == VIEW_TYPE_SWITCH || item.viewType == VIEW_TYPE_CHECKBOX) {
++                if (item.inu_autoplayVideoMessages) {
++                    InuConfig.DISABLE_VIDEO_MESSAGE_AUTOPLAY.toggle();
++                    updateValues();
++                    return;
++                }
+                 if (LiteMode.isPowerSaverApplied()) {
+                     restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(.1f, Color.WHITE, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString(R.string.LiteBatteryRestricted)).show();
+                     return;
+@@ -275,6 +282,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+         items.add(Item.asSwitch(R.drawable.msg2_call_earpiece, LocaleController.getString(R.string.LiteOptionsCalls), LiteMode.FLAG_CALLS_ANIMATIONS));
+         items.add(Item.asSwitch(R.drawable.msg2_videocall, LocaleController.getString(R.string.LiteOptionsAutoplayVideo), LiteMode.FLAG_AUTOPLAY_VIDEOS));
+         items.add(Item.asSwitch(R.drawable.msg2_gif, LocaleController.getString(R.string.LiteOptionsAutoplayGifs), LiteMode.FLAG_AUTOPLAY_GIFS));
++        items.add(Item.inu_asAutoplayVideoMessagesSwitch(R.drawable.msg2_videocall, LocaleController.getString(R.string.InuAutoplayVideoMessages)));
+         items.add(Item.asSwitch(R.drawable.photo_star, LocaleController.getString(R.string.LiteOptionsParticles), LiteMode.FLAG_PARTICLES));
+         items.add(Item.asInfo(""));
+ 
+@@ -338,6 +346,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+     private static final int VIEW_TYPE_SWITCH2 = 5;
+ 
+     public static final int SWITCH_TYPE_SMOOTH_TRANSITIONS = 1;
++    public static final int SWITCH_TYPE_VIDEO_MESSAGE_AUTOPLAY = 2;
+ 
+     private class Adapter extends AdapterWithDiffUtils {
+ 
+@@ -567,7 +576,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+                 }
+                 textView.setTranslationX(0);
+                 switchView.setVisibility(VISIBLE);
+-                switchView.setChecked(LiteMode.isEnabled(item.flags), false);
++                switchView.setChecked(item.inu_autoplayVideoMessages ? !InuConfig.DISABLE_VIDEO_MESSAGE_AUTOPLAY.getValue() : LiteMode.isEnabled(item.flags), false);
+                 needLine = item.getFlagsCount() > 1;
+             } else {
+                 checkBoxView.setVisibility(VISIBLE);
+@@ -585,7 +594,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+             ((MarginLayoutParams) textViewLayout.getLayoutParams()).rightMargin = AndroidUtilities.dp(item.viewType == VIEW_TYPE_SWITCH ? (LocaleController.isRTL ? 64 : 75) + 4 : 8);
+ 
+             setWillNotDraw(!((needDivider = divider) || needLine));
+-            setDisabled(LiteMode.isPowerSaverApplied(), false);
++            setDisabled(!item.inu_autoplayVideoMessages && LiteMode.isPowerSaverApplied(), false);
+         }
+ 
+         public void update(Item item) {
+@@ -596,12 +605,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
+                     arrowView.clearAnimation();
+                     arrowView.animate().rotation(index >= 0 && expanded[index] ? 180 : 0).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(240).start();
+                 }
+-                switchView.setChecked(LiteMode.isEnabled(item.flags), true);
++                switchView.setChecked(item.inu_autoplayVideoMessages ? !InuConfig.DISABLE_VIDEO_MESSAGE_AUTOPLAY.getValue() : LiteMode.isEnabled(item.flags), true);
+             } else {
+                 checkBoxView.setChecked(LiteMode.isEnabled(item.flags), true);
+             }
+ 
+-            setDisabled(LiteMode.isPowerSaverApplied(), true);
++            setDisabled(!item.inu_autoplayVideoMessages && LiteMode.isPowerSaverApplied(), true);
+         }
+ 
+         private boolean containing;
+@@ -994,6 +1003,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+         public int iconResId;
+         public int flags;
+         public int type;
++        public boolean inu_autoplayVideoMessages;
+ 
+         private Item(int viewType, CharSequence text, int iconResId, int flags, int type) {
+             super(viewType, false);
+@@ -1015,6 +1025,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
+         public static Item asSwitch(int iconResId, CharSequence text, int flags) {
+             return new Item(VIEW_TYPE_SWITCH, text, iconResId, flags, 0);
+         }
++        public static Item inu_asAutoplayVideoMessagesSwitch(int iconResId, CharSequence text) {
++            Item item = new Item(VIEW_TYPE_SWITCH, text, iconResId, 0, SWITCH_TYPE_VIDEO_MESSAGE_AUTOPLAY);
++            item.inu_autoplayVideoMessages = true;
++            return item;
++        }
+         public static Item asCheckbox(CharSequence text, int flags) {
+             return new Item(VIEW_TYPE_CHECKBOX, text, 0, flags, 0);
+         }
+@@ -1042,6 +1057,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
+                 if (item.iconResId != iconResId) {
+                     return false;
+                 }
++                if (item.inu_autoplayVideoMessages != inu_autoplayVideoMessages) {
++                    return false;
++                }
+             }
+             if (viewType == VIEW_TYPE_SWITCH2) {
+                 if (item.type != type) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
+@@ -14920,6 +14920,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+                         f.presentFragment(set);
+                         set.scrollToFlags(LiteMode.FLAG_AUTOPLAY_GIFS);
+                     }).withLink("tg://settings/power-saving/gifs"),
++                    new SearchResult(915, getString(R.string.InuAutoplayVideoMessages), getString(R.string.PowerUsage), R.drawable.msg2_battery, () -> {
++                        LiteModeSettingsActivity set = new LiteModeSettingsActivity();
++                        f.presentFragment(set);
++                        set.scrollToType(LiteModeSettingsActivity.SWITCH_TYPE_VIDEO_MESSAGE_AUTOPLAY);
++                    }).withLink("tg://settings/power-saving/video-messages"),
+                     new SearchResult(914, getString(R.string.LiteSmoothTransitions), getString(R.string.PowerUsage), R.drawable.msg2_battery, () -> {
+                         LiteModeSettingsActivity set = new LiteModeSettingsActivity();
+                         f.presentFragment(set);

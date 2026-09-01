@@ -304,3 +304,4 @@ feature/sleek-bottom-tabs.patch
 feature/disable-overscroll-story.patch
 feature/alternative-gif-behavior.patch
 feature/disable-next-audio-autoplay.patch
+feature/video-message-autoplay.patch

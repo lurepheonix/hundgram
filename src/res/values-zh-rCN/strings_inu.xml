@@ -737,4 +737,5 @@
     <string name="InuRefreshStickerSet">刷新</string>
     <string name="InuStickerSetRefreshed">贴纸包已更新</string>
     <string name="InuStickerSetRefreshFailed">无法刷新贴纸包</string>
+    <string name="InuAutoplayVideoMessages">自动播放视频消息</string>
 </resources>

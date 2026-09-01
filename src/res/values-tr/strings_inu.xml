@@ -736,4 +736,5 @@
     <string name="InuRefreshStickerSet">Yenile</string>
     <string name="InuStickerSetRefreshed">Paket güncellendi</string>
     <string name="InuStickerSetRefreshFailed">Paket yenilenemedi</string>
+    <string name="InuAutoplayVideoMessages">Video mesajlarını otomatik oynat</string>
 </resources>

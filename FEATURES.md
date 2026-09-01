@@ -73,6 +73,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 
 - customizable sticker size - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
 - 🐶 remove extra bottom padding under stickers
+- independent “Autoplay Video Messages” control in Power Usage
 - 🐶 full-quality sticker previews in sticker sheets & emoji panel (instead of blurry 90px thumbs; only on unmetered network or when already downloaded)
 - show all recent stickers
 - minimize sticker creator button in recent stickers
