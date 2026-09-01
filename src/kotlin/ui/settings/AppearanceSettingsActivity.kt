@@ -214,6 +214,14 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 InuConfig.REDUCE_MENU_MOTION.value
             )
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_SHORTER_SWIPE_GESTURES,
+                R.string.InuShorterSwipeGestures,
+                R.string.InuShorterSwipeGesturesInfo,
+                InuConfig.SHORTER_SWIPE_GESTURES.value,
+            )
+        )
         items.add(UItem.asCustom(animationSpeedSlider))
         items.add(UItem.asShadow(LocaleController.getString(R.string.InuAnimationSpeedInfo)))
     }
@@ -264,6 +272,11 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
             TOGGLE_REDUCE_MENU_MOTION -> {
                 val new = InuConfig.REDUCE_MENU_MOTION.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_SHORTER_SWIPE_GESTURES -> {
+                val new = InuConfig.SHORTER_SWIPE_GESTURES.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
@@ -394,6 +407,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_DISABLE_SCRIM_BLUR = InuUtils.generateId()
         private val TOGGLE_DISABLE_GLASS_GLARE = InuUtils.generateId()
         private val TOGGLE_REDUCE_MENU_MOTION = InuUtils.generateId()
+        private val TOGGLE_SHORTER_SWIPE_GESTURES = InuUtils.generateId()
         private val TOGGLE_MATERIAL3_SWITCHES = InuUtils.generateId()
         private val TOGGLE_MATERIAL3_FABS = InuUtils.generateId()
         private val TOGGLE_M3_SECTIONS_STYLE = InuUtils.generateId()
@@ -433,6 +447,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("disable-scrim-blur", R.string.InuDisableScrimBlur, TOGGLE_DISABLE_SCRIM_BLUR),
                 SearchRegistry.Entry("disable-glass-glare", R.string.InuDisableGlassGlare, TOGGLE_DISABLE_GLASS_GLARE),
                 SearchRegistry.Entry("reduce-menu-motion", R.string.InuReduceMenuMotion, TOGGLE_REDUCE_MENU_MOTION),
+                SearchRegistry.Entry("shorter-swipe-gestures", R.string.InuShorterSwipeGestures, TOGGLE_SHORTER_SWIPE_GESTURES),
                 SearchRegistry.Entry("material3-switches", R.string.InuMaterial3Switches, TOGGLE_MATERIAL3_SWITCHES),
                 SearchRegistry.Entry("material3-fabs", R.string.InuMaterial3Fabs, TOGGLE_MATERIAL3_FABS),
                 SearchRegistry.Entry("material3-sections", R.string.InuMaterial3Sections, TOGGLE_M3_SECTIONS_STYLE),

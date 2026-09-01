@@ -18,6 +18,8 @@
     <string name="InuAlternativeGifBehavior">Alternative GIF behavior</string>
     <string name="InuAlternativeGifBehaviorInfo">When GIF autoplay is off, open GIFs fullscreen on first tap and stop them after closing fullscreen.</string>
     <string name="InuBehavior">Behavior</string>
+    <string name="InuShorterSwipeGestures">Shorter swipe gestures</string>
+    <string name="InuShorterSwipeGesturesInfo">Reduce the distance required to complete common swipe actions.</string>
     <string name="InuPerformanceClass">Performance class</string>
     <string name="InuPerformanceClassInfo">It is not recommended to change this settings, as this might tank performance on low-performance budget devices</string>
     <string name="InuPerformanceClassMeasured">Measured</string>

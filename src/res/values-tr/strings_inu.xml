@@ -18,6 +18,8 @@
     <string name="InuAlternativeGifBehavior">Alternatif GIF davranışı</string>
     <string name="InuAlternativeGifBehaviorInfo">GIF otomatik oynatma kapalıyken, ilk dokunuşta GIF\'leri tam ekranda açar ve tam ekran kapatıldıktan sonra oynatmayı durdurur.</string>
     <string name="InuBehavior">Davranış</string>
+    <string name="InuShorterSwipeGestures">Daha kısa kaydırma hareketleri</string>
+    <string name="InuShorterSwipeGesturesInfo">Yaygın kaydırma işlemlerini tamamlamak için gereken mesafeyi kısaltır.</string>
     <string name="InuPerformanceClass">Performans sınıfı</string>
     <string name="InuPerformanceClassInfo">Bu ayarı değiştirmeniz önerilmez, düşük performanslı bütçe dostu cihazlarda performansı ciddi ölçüde düşürebilir</string>
     <string name="InuPerformanceClassMeasured">Ölçülen</string>

@@ -524,6 +524,9 @@ object InuConfig {
     val DISABLE_BROWSER_SWIPE_COLLAPSE = BoolItem("disable_browser_swipe_collapse", true)
 
     @JvmField
+    val SHORTER_SWIPE_GESTURES = BoolItem("shorter_swipe_gestures", false)
+
+    @JvmField
     val CONFIRM_REACTION_NON_MEMBER = BoolItem("confirm_reaction_non_member", false)
 
     @JvmField

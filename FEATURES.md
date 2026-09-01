@@ -18,6 +18,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - show seconds in timestamps
 - override Telegram's detected device performance class
 - 🐶 customizable animation speed multiplier (incl. instant)
+- 🐶 optional shorter swipe gestures for message replies, chat-list actions, navigation, folder tabs and shared-media tabs; does not change scrolling, touch sensitivity or animation speed
 - estimated registration date in profile - *ported & datapoints from [NagramX](https://github.com/risin42/NagramX)*
 - join/creation date in group & channel profiles
 - show linked channel in discussion group profile similar to personal channel

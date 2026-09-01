@@ -9,6 +9,8 @@
     <string name="InuMiscellaneous">Прочее</string>
     <string name="InuAppearance">Внешний вид</string>
     <string name="InuBehavior">Поведение</string>
+    <string name="InuShorterSwipeGestures">Короткие жесты свайпа</string>
+    <string name="InuShorterSwipeGesturesInfo">Уменьшает дистанцию, необходимую для выполнения обычных действий свайпом.</string>
     <string name="InuPerformanceClass">Класс производительности</string>
     <string name="InuPerformanceClassInfo">Не рекомендуется менять эту настройку: на слабых бюджетных устройствах это может сильно снизить производительность</string>
     <string name="InuPerformanceClassMeasured">Измеренный</string>

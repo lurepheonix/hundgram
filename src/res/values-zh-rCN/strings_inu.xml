@@ -9,6 +9,8 @@
     <string name="InuMiscellaneous">杂项</string>
     <string name="InuAppearance">外观</string>
     <string name="InuBehavior">行为</string>
+    <string name="InuShorterSwipeGestures">更短的滑动手势</string>
+    <string name="InuShorterSwipeGesturesInfo">缩短完成常用滑动操作所需的距离。</string>
     <string name="InuPerformanceClass">性能等级</string>
     <string name="InuPerformanceClassInfo">不建议更改此设置，在低性能的入门设备上可能会严重影响性能</string>
     <string name="InuPerformanceClassMeasured">实测</string>

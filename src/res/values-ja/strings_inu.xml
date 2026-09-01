@@ -9,6 +9,8 @@
     <string name="InuMiscellaneous">その他</string>
     <string name="InuAppearance">外観</string>
     <string name="InuBehavior">動作</string>
+    <string name="InuShorterSwipeGestures">短めのスワイプ操作</string>
+    <string name="InuShorterSwipeGesturesInfo">一般的なスワイプ操作を完了するのに必要な距離を短くします。</string>
     <string name="InuPerformanceClass">パフォーマンスクラス</string>
     <string name="InuPerformanceClassInfo">この設定の変更はおすすめしません。低性能な端末ではパフォーマンスが大きく低下する可能性があります</string>
     <string name="InuPerformanceClassMeasured">実測値</string>
