@@ -4,6 +4,7 @@ import android.content.Intent
 import desu.inugram.helpers.security.ParanoiaHelper
 import desu.inugram.ui.settings.AnnoyancesSettingsActivity
 import desu.inugram.ui.settings.AppearanceSettingsActivity
+import desu.inugram.ui.settings.BackupSettingsActivity
 import desu.inugram.ui.settings.BehaviorSettingsActivity
 import desu.inugram.ui.settings.ChatsSettingsActivity
 import desu.inugram.ui.settings.DialogsSettingsActivity
@@ -49,6 +50,7 @@ object SearchRegistry {
             BehaviorSettingsActivity.PAGE,
             TranslatorSettingsActivity.PAGE,
             PrivacySecurityActivity.PAGE,
+            BackupSettingsActivity.PAGE,
         )
     }
 

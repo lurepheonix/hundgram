@@ -93,6 +93,12 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
             ).setChecked(LogsHelper.isEnabled())
         )
         if (LogsHelper.isEnabled()) {
+            items.add(
+                UItem.asCheck(
+                    TOGGLE_EXTRA_DEBUG_LOGS,
+                    LocaleController.getString(R.string.InuExtraDebugLogs),
+                ).setChecked(InuConfig.EXTRA_DEBUG_LOGS.value)
+            )
             items.add(UItem.asCustom(getOrCreateLogsRow()))
             items.add(UItem.asCustom(getOrCreateHeapRow()))
         }
@@ -162,6 +168,10 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
                 (view as? TextCheckCell)?.isChecked = new
                 if (new) refreshLogsSize()
                 listView?.adapter?.update(true)
+            }
+
+            TOGGLE_EXTRA_DEBUG_LOGS -> {
+                (view as? TextCheckCell)?.isChecked = InuConfig.EXTRA_DEBUG_LOGS.toggle()
             }
 
             BUTTON_COPY_SYSINFO -> {
@@ -524,6 +534,7 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
         private val TOGGLE_UPDATES_ENABLED = InuUtils.generateId()
         private val BUTTON_CHECK_NOW = InuUtils.generateId()
         private val TOGGLE_LOGS_ENABLED = InuUtils.generateId()
+        private val TOGGLE_EXTRA_DEBUG_LOGS = InuUtils.generateId()
         private val BUTTON_COPY_SYSINFO = InuUtils.generateId()
     }
 }

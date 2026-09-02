@@ -15,6 +15,7 @@ import org.telegram.messenger.SharedConfig
 import org.telegram.messenger.UserConfig
 import org.telegram.ui.Cells.NotificationsCheckCell
 import org.telegram.ui.Cells.TextCheckCell
+import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
 
@@ -110,6 +111,13 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 R.string.InuSendMp4DocumentAsVideo,
                 R.string.InuSendMp4DocumentAsVideoInfo,
                 InuConfig.SEND_MP4_DOCUMENT_AS_VIDEO.value,
+            )
+        )
+        items.add(
+            UItem.asButton(
+                BUTTON_DOWNLOAD_DIRECTORY,
+                LocaleController.getString(R.string.InuDownloadDirectory),
+                InuConfig.DOWNLOAD_DIRECTORY.value,
             )
         )
         items.add(UItem.asShadow(null))
@@ -226,6 +234,20 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
             TOGGLE_DISABLE_CHAT_BUBBLES -> {
                 val new = InuConfig.DISABLE_CHAT_BUBBLES.toggle()
                 (view as? TextCheckCell)?.isChecked = new
+            }
+
+            BUTTON_DOWNLOAD_DIRECTORY -> RadioItemOptions.show(
+                this, view,
+                DOWNLOAD_DIRECTORIES,
+                DOWNLOAD_DIRECTORIES.indexOf(InuConfig.DOWNLOAD_DIRECTORY.value),
+            ) { which ->
+                InuConfig.DOWNLOAD_DIRECTORY.value = DOWNLOAD_DIRECTORIES[which]
+                BulletinFactory.of(this)
+                    .createSimpleBulletin(
+                        R.raw.chats_infotip,
+                        LocaleController.getString(R.string.InuDownloadDirectoryApplied),
+                    )
+                    .show()
             }
 
             BUTTON_PERFORMANCE_CLASS -> showPerformanceClassSelector()
@@ -396,6 +418,9 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
     companion object {
         private val TOGGLE_DISABLE_CHAT_BUBBLES = InuUtils.generateId()
         private val BUTTON_PERFORMANCE_CLASS = InuUtils.generateId()
+        private val BUTTON_DOWNLOAD_DIRECTORY = InuUtils.generateId()
+
+        private val DOWNLOAD_DIRECTORIES = listOf("Inugram", "Telegram")
         private val BUTTON_TEXT_CLASSIFIER_MODE = InuUtils.generateId()
         private val TOGGLE_CALL_CONFIRMATION = InuUtils.generateId()
         private val TOGGLE_HD_BLUETOOTH_CALL_AUDIO = InuUtils.generateId()
@@ -444,6 +469,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("gif-seekbar", R.string.InuGifSeekbar, TOGGLE_GIF_SEEKBAR),
                 SearchRegistry.Entry("alternative-gif-behavior", R.string.InuAlternativeGifBehavior, TOGGLE_ALTERNATIVE_GIF_BEHAVIOR),
                 SearchRegistry.Entry("send-mp4-document-as-video", R.string.InuSendMp4DocumentAsVideo, TOGGLE_SEND_MP4_DOCUMENT_AS_VIDEO),
+                SearchRegistry.Entry("download-directory", R.string.InuDownloadDirectory, BUTTON_DOWNLOAD_DIRECTORY),
                 SearchRegistry.Entry("web-preview-replacements", R.string.InuWebPreviewReplacements, BUTTON_WEB_PREVIEW_REPLACEMENTS),
                 SearchRegistry.Entry("auto-disable-proxy-on-vpn", R.string.InuAutoDisableProxyOnVpn, TOGGLE_AUTO_DISABLE_PROXY_ON_VPN),
                 SearchRegistry.Entry("faster-downloads", R.string.InuFasterDownloads, TOGGLE_FASTER_DOWNLOADS),

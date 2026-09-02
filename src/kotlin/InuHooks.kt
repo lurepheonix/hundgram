@@ -12,6 +12,7 @@ import desu.inugram.helpers.cloud.CloudSettingsHelper
 import desu.inugram.helpers.dialogs.DrawerHelper
 import desu.inugram.helpers.font.FontHelper
 import desu.inugram.helpers.maps.MapsHelper
+import desu.inugram.helpers.media.MediaSendDebugHelper
 import desu.inugram.helpers.security.PasscodeHelper
 import desu.inugram.helpers.theme.MonetHelper
 import desu.inugram.helpers.theme.NonIslandHelper
@@ -128,6 +129,7 @@ object InuHooks {
         CrashReporter.maybeShowReportSheet(launchActivity)
         ProxyVpnHelper.reconcile()
         DrawerHelper.refreshUpdateState()
+        MediaSendDebugHelper.startWatchingCache()
     }
 
     @JvmStatic

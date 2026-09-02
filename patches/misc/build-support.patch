@@ -15,10 +15,10 @@ Subject: build support stuff for fork-specific code: - added kotlin - bumped min
  TMessagesProj_App/build.gradle                | 121 ++++--------------
  TMessagesProj_App/google-services.json        |  76 ++---------
  TMessagesProj_AppTests/build.gradle           |   5 +-
- build.gradle                                  |  12 +-
+ build.gradle                                  |  14 +-
  gradle.properties                             |   2 +-
- settings.gradle                               |  42 +++++-
- 14 files changed, 173 insertions(+), 355 deletions(-)
+ settings.gradle                               |  40 +++++-
+ 14 files changed, 172 insertions(+), 356 deletions(-)
 
 diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle
 index 0000000..0000000 100644
@@ -47,7 +47,7 @@ index 0000000..0000000 100644
 -    implementation 'com.stripe:stripe-android:2.0.2'
 +    implementation 'com.stripe:stripe-android:11.3.0'
      implementation 'com.google.mlkit:language-id:17.0.6'
-     implementation 'com.android.billingclient:billing:7.1.1'
+     implementation 'com.android.billingclient:billing:8.0.0'
      implementation 'com.google.code.gson:gson:2.11.0'
 @@ -83,6 +85,10 @@ dependencies {
      }
@@ -69,7 +69,7 @@ index 0000000..0000000 100644
  }
  
  android {
-@@ -120,23 +124,28 @@ android {
+@@ -120,24 +124,29 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -84,7 +84,7 @@ index 0000000..0000000 100644
      defaultConfig {
 -        minSdkVersion 21
 +        minSdkVersion 26
-         targetSdkVersion 35
+         targetSdkVersion 36
  
 -        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 -
@@ -95,16 +95,17 @@ index 0000000..0000000 100644
  
          externalNativeBuild {
              cmake {
-                 version '3.10.2'
+                 version '3.22.1'
 -                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' //, '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
 +                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-26' //, '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+                 targets 'tmessages.49'
 +                if (rootProject.ext.ccachePath) {
 +                    arguments += ["-DCMAKE_C_COMPILER_LAUNCHER=${rootProject.ext.ccachePath}", "-DCMAKE_CXX_COMPILER_LAUNCHER=${rootProject.ext.ccachePath}"]
 +                }
              }
          }
      }
-@@ -149,77 +158,13 @@ android {
+@@ -150,77 +159,13 @@ android {
              multiDexEnabled true
              proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
              ndk.debugSymbolLevel = 'FULL'
@@ -186,7 +187,7 @@ index 0000000..0000000 100644
          }
  
          release {
-@@ -229,13 +174,13 @@ android {
+@@ -230,13 +175,13 @@ android {
              multiDexEnabled true
              proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
              ndk.debugSymbolLevel = 'FULL'
@@ -204,7 +205,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -253,7 +198,6 @@ def getProps(String propName) {
+@@ -254,7 +199,6 @@ def getProps(String propName) {
          return "";
      }
  }
@@ -557,8 +558,8 @@ index 0000000..0000000 100644
  }
  
  android {
-     compileSdkVersion 35
-     buildToolsVersion '35.0.0'
+     compileSdkVersion 36
+     buildToolsVersion '36.0.0'
  
 -    defaultConfig.applicationId = APP_PACKAGE
 +    defaultConfig.applicationId = "desu.inugram"
@@ -624,7 +625,7 @@ index 0000000..0000000 100644
          release {
              debuggable false
              jniDebuggable false
-@@ -95,95 +81,38 @@ android {
+@@ -95,96 +81,39 @@ android {
      }
  
      sourceSets.debug {
@@ -709,7 +710,7 @@ index 0000000..0000000 100644
      defaultConfig {
 -        minSdkVersion 21
 +        minSdkVersion 26
-         targetSdkVersion 35
+         targetSdkVersion 36
 -        versionName APP_VERSION_NAME
 +        versionName rootProject.ext.verName
          ndkVersion "27.2.12479018"
@@ -723,16 +724,17 @@ index 0000000..0000000 100644
  
          externalNativeBuild {
              cmake {
-                 version '3.10.2'
+                 version '3.22.1'
 -                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' // , '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
 +                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-26' // , '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+                 targets 'tmessages.49'
 +                if (rootProject.ext.ccachePath) {
 +                    arguments += ["-DCMAKE_C_COMPILER_LAUNCHER=${rootProject.ext.ccachePath}", "-DCMAKE_CXX_COMPILER_LAUNCHER=${rootProject.ext.ccachePath}"]
 +                }
              }
          }
      }
-@@ -196,6 +125,10 @@ android {
+@@ -197,6 +126,10 @@ android {
      lintOptions {
          checkReleaseBuilds false
      }
@@ -871,7 +873,7 @@ index 0000000..0000000 100644
      androidTestImplementation "com.appmattus.fixture:fixture:1.2.0"
  }
  
-@@ -166,4 +166,3 @@ android {
+@@ -167,4 +167,3 @@ android {
          checkReleaseBuilds false
      }
  }
@@ -880,16 +882,21 @@ diff --git a/build.gradle b/build.gradle
 index 0000000..0000000 100644
 --- a/build.gradle
 +++ b/build.gradle
-@@ -10,9 +10,19 @@ buildscript {
+@@ -10,7 +10,7 @@ buildscript {
          classpath 'com.google.gms:google-services:4.3.15'
          classpath 'com.huawei.agconnect:agcp:1.9.1.301'
          classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.0'
--        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20"
+-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
 +        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20"
      }
  }
  repositories {
-     google()
+@@ -33,4 +33,14 @@ subprojects {
+             }
+         }
+     }
+-}
+\ No newline at end of file
 +}
 +
 +def commitId = System.getenv('COMMIT_ID')
@@ -900,8 +907,7 @@ index 0000000..0000000 100644
 +  stockVerCode = Integer.parseInt(APP_VERSION_CODE)
 +  buildDate = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ISO_DATE)
 +  ccachePath = ['sh', '-c', 'command -v ccache'].execute().text.trim() ?: null
- }
-\ No newline at end of file
++}
 diff --git a/gradle.properties b/gradle.properties
 index 0000000..0000000 100644
 --- a/gradle.properties
@@ -919,7 +925,7 @@ diff --git a/settings.gradle b/settings.gradle
 index 0000000..0000000 100644
 --- a/settings.gradle
 +++ b/settings.gradle
-@@ -1,6 +1,40 @@
+@@ -1,8 +1,40 @@
 +import java.nio.channels.FileChannel
 +import java.nio.channels.FileLock
 +import java.nio.file.StandardOpenOption
@@ -962,5 +968,5 @@ index 0000000..0000000 100644
 -include ':TMessagesProj_AppStandalone'
 -include ':TMessagesProj_AppTests'
 +include ':InuCore'
-+include ':jlatexmath'
-+project(':jlatexmath').projectDir = file('TMessagesProj/lib/jlatexmath/jlatexmath')
+ include ':jlatexmath'
+ project(':jlatexmath').projectDir = file('TMessagesProj/lib/jlatexmath/jlatexmath')

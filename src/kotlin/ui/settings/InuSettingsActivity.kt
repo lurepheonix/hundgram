@@ -1,29 +1,12 @@
 package desu.inugram.ui.settings
 
-import android.app.Activity
-import android.content.Intent
-import android.os.Bundle
 import android.view.View
-import androidx.collection.LongSparseArray
 import desu.inugram.SearchRegistry
 import desu.inugram.helpers.InuUtils
-import desu.inugram.helpers.cloud.SettingsBackupHelper
-import org.telegram.messenger.AndroidUtilities
-import org.telegram.messenger.DialogObject
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
-import org.telegram.messenger.SendMessagesHelper
-import org.telegram.messenger.Utilities
-import org.telegram.tgnet.TLRPC
-import org.telegram.ui.ChatActivity
-import org.telegram.ui.Components.BulletinFactory
-import org.telegram.ui.Components.ShareAlert
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class InuSettingsActivity : SettingsPageActivity() {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuSettings)
@@ -100,23 +83,9 @@ class InuSettingsActivity : SettingsPageActivity() {
 
         items.add(
             UItem.asButton(
-                BUTTON_EXPORT,
-                R.drawable.msg_shareout,
-                LocaleController.getString(R.string.InuBackupExport)
-            )
-        )
-        items.add(
-            UItem.asButton(
-                BUTTON_IMPORT,
-                R.drawable.msg_download,
-                LocaleController.getString(R.string.InuBackupImport)
-            )
-        )
-        items.add(
-            UItem.asButton(
-                BUTTON_CLOUD_SYNC,
+                BUTTON_BACKUP,
                 R.drawable.inu_tabler_cloud,
-                LocaleController.getString(R.string.InuCloudSync)
+                LocaleController.getString(R.string.InuBackupSettings)
             )
         )
         items.add(
@@ -141,108 +110,7 @@ class InuSettingsActivity : SettingsPageActivity() {
             BUTTON_TRANSLATOR -> presentFragment(TranslatorSettingsActivity())
             BUTTON_PRIVACY -> presentFragment(PrivacySecurityActivity())
             BUTTON_ABOUT -> presentFragment(AboutActivity())
-            BUTTON_EXPORT -> launchExport()
-            BUTTON_IMPORT -> launchImport()
-            BUTTON_CLOUD_SYNC -> presentFragment(CloudSyncActivity())
-        }
-    }
-
-    private fun launchExport() {
-        Utilities.globalQueue.postRunnable {
-            val date = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
-            val file = File(AndroidUtilities.getCacheDir(), "$date.inu-settings.json")
-            val err: String? = try {
-                file.parentFile?.mkdirs()
-                file.writeText(SettingsBackupHelper.export(), Charsets.UTF_8)
-                null
-            } catch (e: Exception) {
-                e.message ?: e.javaClass.simpleName
-            }
-            AndroidUtilities.runOnUIThread {
-                if (err != null) {
-                    BulletinFactory.of(this).createErrorBulletin(
-                        LocaleController.formatString(R.string.InuBackupExportError, err)
-                    ).show()
-                    return@runOnUIThread
-                }
-                openSharePicker(file)
-            }
-        }
-    }
-
-    private fun openSharePicker(file: File) {
-        val ctx = parentActivity ?: return
-        val account = accountInstance
-        val sheet = object : ShareAlert(ctx, null, null, false, null, false) {
-            override fun onSend(
-                dids: LongSparseArray<TLRPC.Dialog>,
-                count: Int,
-                topic: TLRPC.TL_forumTopic?,
-                showToast: Boolean
-            ) {
-                for (i in 0 until dids.size()) {
-                    val did = dids.keyAt(i)
-                    SendMessagesHelper.prepareSendingDocument(
-                        account, file.absolutePath, file.absolutePath, null, null,
-                        "application/json", did,
-                        null, null, null, null, null,
-                        true, 0, null, null, false,
-                    )
-                }
-                if (dids.size() == 1) openChat(dids.keyAt(0))
-            }
-        }
-        showDialog(sheet)
-    }
-
-    private fun openChat(did: Long) {
-        val args = Bundle().apply {
-            putBoolean("scrollToTopOnResume", true)
-            when {
-                DialogObject.isEncryptedDialog(did) -> putInt("enc_id", DialogObject.getEncryptedChatId(did))
-                DialogObject.isUserDialog(did) -> putLong("user_id", did)
-                else -> putLong("chat_id", -did)
-            }
-        }
-        if (messagesController.checkCanOpenChat(args, this)) {
-            presentFragment(ChatActivity(args))
-        }
-    }
-
-    private fun launchImport() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/json", "text/plain", "*/*"))
-        }
-        try {
-            startActivityForResult(intent, REQ_IMPORT)
-        } catch (e: Exception) {
-            BulletinFactory.of(this).createErrorBulletin(e.message ?: "").show()
-        }
-    }
-
-    override fun onActivityResultFragment(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode != Activity.RESULT_OK) return
-        val uri = data?.data ?: return
-        val ctx = context ?: parentActivity ?: return
-        if (requestCode == REQ_IMPORT) {
-            Utilities.globalQueue.postRunnable {
-                val text = try {
-                    ctx.contentResolver.openInputStream(uri)?.use { it.readBytes().toString(Charsets.UTF_8) }
-                } catch (_: Exception) {
-                    null
-                }
-                AndroidUtilities.runOnUIThread {
-                    if (text == null) {
-                        BulletinFactory.of(this).createErrorBulletin(
-                            LocaleController.getString(R.string.InuBackupImportBadFormat)
-                        ).show()
-                        return@runOnUIThread
-                    }
-                    SettingsBackupHelper.showImportConfirm(this, text)
-                }
-            }
+            BUTTON_BACKUP -> presentFragment(BackupSettingsActivity())
         }
     }
 
@@ -257,11 +125,7 @@ class InuSettingsActivity : SettingsPageActivity() {
         private val BUTTON_TRANSLATOR = InuUtils.generateId()
         private val BUTTON_PRIVACY = InuUtils.generateId()
         private val BUTTON_ABOUT = InuUtils.generateId()
-        private val BUTTON_EXPORT = InuUtils.generateId()
-        private val BUTTON_IMPORT = InuUtils.generateId()
-        private val BUTTON_CLOUD_SYNC = InuUtils.generateId()
-
-        private const val REQ_IMPORT = 31002
+        private val BUTTON_BACKUP = InuUtils.generateId()
 
         @JvmField
         val PAGE = SearchRegistry.Page(
@@ -271,9 +135,6 @@ class InuSettingsActivity : SettingsPageActivity() {
             factory = ::InuSettingsActivity,
             entries = listOf(
                 SearchRegistry.Entry("about", R.string.InuAbout, BUTTON_ABOUT),
-                SearchRegistry.Entry("backup-export", R.string.InuBackupExport, BUTTON_EXPORT),
-                SearchRegistry.Entry("backup-import", R.string.InuBackupImport, BUTTON_IMPORT),
-                SearchRegistry.Entry("cloud-sync", R.string.InuCloudSync, BUTTON_CLOUD_SYNC),
             ),
         )
     }

@@ -6,6 +6,7 @@ Subject: change app name to Inugram
 ---
  TMessagesProj/src/main/AndroidManifest.xml    | 33 +++++++++++++++++++
  .../telegram/messenger/AndroidUtilities.java  |  2 +-
+ .../messenger/ContactsController.java         | 10 +++---
  .../telegram/messenger/LocaleController.java  | 10 +++---
  .../telegram/messenger/MediaController.java   | 22 ++++++-------
  .../java/org/telegram/ui/DialogsActivity.java |  6 +++-
@@ -27,7 +28,9 @@ Subject: change app name to Inugram
  .../src/main/res/values-uk/strings.xml        |  6 ++--
  .../src/main/res/values-v31/styles.xml        |  2 +-
  TMessagesProj/src/main/res/values/strings.xml | 10 +++---
- 23 files changed, 129 insertions(+), 71 deletions(-)
+ TMessagesProj/src/main/res/xml/auth.xml       |  2 +-
+ .../src/main/res/xml/sync_contacts.xml        |  2 +-
+ 26 files changed, 136 insertions(+), 78 deletions(-)
  create mode 100644 TMessagesProj/src/main/res/mipmap-anydpi-v26/ic_launcher_stock.xml
  create mode 100644 TMessagesProj/src/main/res/mipmap-anydpi-v26/ic_launcher_stock_round.xml
 
@@ -84,10 +87,59 @@ index 0000000..0000000 100644
          File storageDir = null;
          if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
 -            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Telegram");
-+            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Inugram");
++            storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
              if (!storageDir.mkdirs()) {
                  if (!storageDir.exists()) {
                      if (BuildVars.LOGS_ENABLED) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/ContactsController.java b/TMessagesProj/src/main/java/org/telegram/messenger/ContactsController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/ContactsController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/ContactsController.java
+@@ -391,7 +391,7 @@ public class ContactsController extends BaseController {
+         Utilities.globalQueue.postRunnable(() -> {
+             AccountManager am = AccountManager.get(ApplicationLoader.applicationContext);
+             try {
+-                Account[] accounts = am.getAccountsByType("org.telegram.messenger");
++                Account[] accounts = am.getAccountsByType("desu.inugram");
+                 for (int a = 0; a < accounts.length; a++) {
+                     Account acc = accounts[a];
+                     boolean found = false;
+@@ -423,7 +423,7 @@ public class ContactsController extends BaseController {
+                 readContacts();
+                 if (systemAccount == null) {
+                     try {
+-                        systemAccount = new Account("" + getUserConfig().getClientUserId(), "org.telegram.messenger");
++                        systemAccount = new Account("" + getUserConfig().getClientUserId(), "desu.inugram");
+                         am.addAccountExplicitly(systemAccount, "", null);
+                     } catch (Exception ignore) {
+ 
+@@ -437,7 +437,7 @@ public class ContactsController extends BaseController {
+         try {
+             systemAccount = null;
+             AccountManager am = AccountManager.get(ApplicationLoader.applicationContext);
+-            Account[] accounts = am.getAccountsByType("org.telegram.messenger");
++            Account[] accounts = am.getAccountsByType("desu.inugram");
+             for (int a = 0; a < accounts.length; a++) {
+                 Account acc = accounts[a];
+                 boolean found = false;
+@@ -513,7 +513,7 @@ public class ContactsController extends BaseController {
+                 AndroidUtilities.runOnUIThread(() -> {
+                     AccountManager am = AccountManager.get(ApplicationLoader.applicationContext);
+                     try {
+-                        Account[] accounts = am.getAccountsByType("org.telegram.messenger");
++                        Account[] accounts = am.getAccountsByType("desu.inugram");
+                         systemAccount = null;
+                         for (int a = 0; a < accounts.length; a++) {
+                             Account acc = accounts[a];
+@@ -531,7 +531,7 @@ public class ContactsController extends BaseController {
+ 
+                     }
+                     try {
+-                        systemAccount = new Account("" + getUserConfig().getClientUserId(), "org.telegram.messenger");
++                        systemAccount = new Account("" + getUserConfig().getClientUserId(), "desu.inugram");
+                         am.addAccountExplicitly(systemAccount, "", null);
+                     } catch (Exception ignore) {
+ 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java b/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/LocaleController.java
@@ -130,7 +182,7 @@ index 0000000..0000000 100644
                  final ContentValues cv = new ContentValues();
                  final Uri uriToInsert = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
 -                final File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, "Telegram");
-+                final File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, "Inugram");
++                final File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                  cv.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                  cv.put(MediaStore.Downloads.DISPLAY_NAME, filename);
                  cv.put(MediaStore.MediaColumns.MIME_TYPE, outputMime);
@@ -139,7 +191,7 @@ index 0000000..0000000 100644
                  }
              } else {
 -                final File destDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Telegram");
-+                final File destDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Inugram");
++                final File destDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                  destDir.mkdirs();
                  File destFile = new File(destDir, filename);
                  if (!destFile.exists()) {
@@ -148,12 +200,12 @@ index 0000000..0000000 100644
                          File destFile;
                          if (type == 0) {
 -                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Telegram");
-+                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Inugram");
++                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                              destFile.mkdirs();
                              destFile = new File(destFile, AndroidUtilities.generateFileName(0, FileLoader.getFileExtension(sourceFile)));
                          } else if (type == 1) {
 -                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "Telegram");
-+                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "Inugram");
++                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                              destFile.mkdirs();
                              destFile = new File(destFile, AndroidUtilities.generateFileName(1, FileLoader.getFileExtension(sourceFile)));
                          } else {
@@ -162,7 +214,7 @@ index 0000000..0000000 100644
                                  dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
                              }
 -                            dir = new File(dir, "Telegram");
-+                            dir = new File(dir, "Inugram");
++                            dir = new File(dir, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                              dir.mkdirs();
                              destFile = new File(dir, name);
                              if (destFile.exists()) {
@@ -171,7 +223,7 @@ index 0000000..0000000 100644
                      final ContentValues cv = new ContentValues();
                      final Uri uriToInsert = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
 -                    final File dirDest = new File(Environment.DIRECTORY_PICTURES, "Telegram");
-+                    final File dirDest = new File(Environment.DIRECTORY_PICTURES, "Inugram");
++                    final File dirDest = new File(Environment.DIRECTORY_PICTURES, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                      cv.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                      cv.put(MediaStore.Images.Media.DISPLAY_NAME, filename);
                      cv.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
@@ -180,7 +232,7 @@ index 0000000..0000000 100644
                      }
                  } else {
 -                    final File destDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Telegram");
-+                    final File destDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Inugram");
++                    final File destDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                      destDir.mkdirs();
                      File destFile = new File(destDir, AndroidUtilities.generateFileName(0, "jpg"));
                      if (!destFile.exists()) {
@@ -189,7 +241,7 @@ index 0000000..0000000 100644
                  }
                  uriToInsert = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
 -                File dirDest = new File(Environment.DIRECTORY_PICTURES, "Telegram");
-+                File dirDest = new File(Environment.DIRECTORY_PICTURES, "Inugram");
++                File dirDest = new File(Environment.DIRECTORY_PICTURES, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                  contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                  contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, filename);
                  contentValues.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
@@ -198,7 +250,7 @@ index 0000000..0000000 100644
                      filename = AndroidUtilities.generateFileName(1, extension);
                  }
 -                File dirDest = new File(Environment.DIRECTORY_MOVIES, "Telegram");
-+                File dirDest = new File(Environment.DIRECTORY_MOVIES, "Inugram");
++                File dirDest = new File(Environment.DIRECTORY_MOVIES, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                  contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                  uriToInsert = MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                  contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filename);
@@ -207,7 +259,7 @@ index 0000000..0000000 100644
                      filename = sourceFile.getName();
                  }
 -                File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, "Telegram");
-+                File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, "Inugram");
++                File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                  contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                  uriToInsert = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                  contentValues.put(MediaStore.Downloads.DISPLAY_NAME, filename);
@@ -216,7 +268,7 @@ index 0000000..0000000 100644
                      filename = sourceFile.getName();
                  }
 -                File dirDest = new File(Environment.DIRECTORY_MUSIC, "Telegram");
-+                File dirDest = new File(Environment.DIRECTORY_MUSIC, "Inugram");
++                File dirDest = new File(Environment.DIRECTORY_MUSIC, desu.inugram.InuConfig.DOWNLOAD_DIRECTORY.getValue());
                  contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                  uriToInsert = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                  contentValues.put(MediaStore.Audio.Media.DISPLAY_NAME, filename);
@@ -666,3 +718,27 @@ index 0000000..0000000 100644
      <string name="Page2Title">Fast</string>
      <string name="Page3Title">Free</string>
      <string name="Page4Title">Secure</string>
+diff --git a/TMessagesProj/src/main/res/xml/auth.xml b/TMessagesProj/src/main/res/xml/auth.xml
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/res/xml/auth.xml
++++ b/TMessagesProj/src/main/res/xml/auth.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ 
+ <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:accountType="org.telegram.messenger"
++    android:accountType="desu.inugram"
+     android:icon="@drawable/ic_launcher_dr"
+     android:smallIcon="@drawable/ic_launcher_dr"
+     android:label="@string/AppName"
+diff --git a/TMessagesProj/src/main/res/xml/sync_contacts.xml b/TMessagesProj/src/main/res/xml/sync_contacts.xml
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/res/xml/sync_contacts.xml
++++ b/TMessagesProj/src/main/res/xml/sync_contacts.xml
+@@ -1,3 +1,3 @@
+ <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+     android:contentAuthority="com.android.contacts"
+-    android:accountType="org.telegram.messenger"/>
+\ No newline at end of file
++    android:accountType="desu.inugram"/>
+\ No newline at end of file

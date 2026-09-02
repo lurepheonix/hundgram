@@ -84,7 +84,7 @@ index 0000000..0000000 100644
                  replyStartY = dp(12) + (int) (drawNameLayout && nameLayout != null ? getNameHeightAnimated() + dp(1) : 0) + (drawForwardedName && forwardedNameLayout[0] != null ? dp(4) + forwardHeight : 0);
              }
              replyStartY += dp(.66f);
-@@ -22471,7 +22473,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -22475,7 +22477,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                      forwardNameXLocal -= dp(78) * (isPlayingRound ? transitionParams.animateChangeProgress : (1f - transitionParams.animateChangeProgress));
                  }
                  forwardNameY = dp(12);
@@ -93,7 +93,7 @@ index 0000000..0000000 100644
  
                  int backWidth = forwardedNameWidthLocal + dp(14);
                  if (hasReply) {
-@@ -22530,7 +22532,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -22534,7 +22536,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                  if (!drawNameLayout && currentMessageObject.type == MessageObject.TYPE_TEXT && !drawPinnedTop) {
                      forwardNameY += dp(2);
                  }
@@ -102,7 +102,7 @@ index 0000000..0000000 100644
                  Theme.chat_forwardNamePaint.setColor(getThemedColor(hasPsaHint ? Theme.key_chat_inPsaNameText : Theme.key_chat_inForwardedNameText));
                  if (currentMessageObject.isOutOwner()) {
                      Theme.chat_forwardNamePaint.setColor(getThemedColor(hasPsaHint ? Theme.key_chat_outPsaNameText : Theme.key_chat_outForwardedNameText));
-@@ -27836,6 +27838,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -27840,6 +27842,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                  } else if (virtualViewId == FORWARD) {
                      info.setEnabled(true);
                      StringBuilder sb = new StringBuilder();

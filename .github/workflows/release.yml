@@ -34,7 +34,7 @@ jobs:
 
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
         with:
-          packages: build-tools;35.0.0
+          packages: build-tools;36.0.0
 
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
@@ -58,7 +58,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           apk='${{ needs.build.outputs.apk-name }}'
-          apksigner=$ANDROID_HOME/build-tools/35.0.0/apksigner
+          apksigner=$ANDROID_HOME/build-tools/36.0.0/apksigner
           "$apksigner" sign \
             --ks "$RUNNER_TEMP/release.keystore" \
             --ks-key-alias inugram \

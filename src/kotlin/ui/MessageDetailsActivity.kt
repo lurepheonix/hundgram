@@ -10,6 +10,9 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.FileProvider
+import desu.inugram.core.fileid.FileType
+import desu.inugram.helpers.FileIdUtils
+import desu.inugram.helpers.FileIds
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.WebAppHelper
 import org.telegram.messenger.AndroidUtilities
@@ -65,6 +68,7 @@ class MessageDetailsActivity(
     private var sampleRate = 0
     private var dc = 0
     private var stickerSetOwnerId = 0L
+    private var fileIds: FileIds? = null
     private val emojiSetOwnerIds = linkedSetOf<Long>()
 
     init {
@@ -79,6 +83,8 @@ class MessageDetailsActivity(
 
         val media = MessageObject.getMedia(messageObject.messageOwner)
         if (media != null) {
+            fileIds = FileIdUtils.getFileIdsForMessage(messageObject)
+
             val file = FileLoader.getInstance(currentAccount).getPathToMessage(messageObject.messageOwner)
             if (file != null && file.exists()) {
                 filePath = file.absolutePath
@@ -297,7 +303,14 @@ class MessageDetailsActivity(
                 )
             )
         }
-        items.add(UItem.asShadow(null))
+        val fileIds = this.fileIds
+        if (fileIds != null) {
+            items.add(detailItem(ROW_FILE_UNIQUE_ID, R.string.InuMsgDetailFileUniqueId, fileIds.uniqueFileId))
+            items.add(detailItem(ROW_FILE_ID, R.string.InuMsgDetailFileId, fileIds.fileId))
+        }
+        val fileIdNote = fileIds?.takeIf { it.type != FileType.STICKER }
+            ?.let { LocaleController.getString(R.string.InuMsgDetailFileIdInfo) }
+        items.add(UItem.asShadow(fileIdNote))
         items.add(
             UItem.asButton(
                 ROW_SHOW_JSON,
@@ -764,6 +777,8 @@ class MessageDetailsActivity(
         private val ROW_MIME_TYPE = InuUtils.generateId()
         private val ROW_MEDIA = InuUtils.generateId()
         private val ROW_DC = InuUtils.generateId()
+        private val ROW_FILE_ID = InuUtils.generateId()
+        private val ROW_FILE_UNIQUE_ID = InuUtils.generateId()
         private val ROW_STICKER_SET_CREATOR = InuUtils.generateId()
         private val ROW_EMOJI_SET_CREATORS = InuUtils.generateId()
         private val ROW_SHOW_JSON = InuUtils.generateId()

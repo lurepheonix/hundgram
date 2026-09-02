@@ -13,7 +13,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.ja
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java
-@@ -3827,6 +3827,16 @@ public class MessageObject {
+@@ -3845,6 +3845,16 @@ public class MessageObject {
          return !(replyMessageObject == null || replyMessageObject.messageOwner instanceof TLRPC.TL_messageEmpty || replyMessageObject.messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear || replyMessageObject.messageOwner.action instanceof TLRPC.TL_messageActionTopicCreate);
      }
  
@@ -106,7 +106,7 @@ index 0000000..0000000 100644
                      }
                  } else {
                      replyImageReceiver.setImageBitmap((Drawable) null);
-@@ -27997,7 +28008,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -28001,7 +28012,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                              delegate.didPressSideButton(ChatMessageCell.this);
                          }
                      } else if (virtualViewId == REPLY) {
@@ -119,7 +119,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -41137,6 +41137,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -41165,6 +41165,7 @@ public class ChatActivity extends BaseFragment implements
                      }
                      final Integer finalTaskId = task_id;
                      final byte[] finalPollOptionId = option_id;
@@ -127,7 +127,7 @@ index 0000000..0000000 100644
                      Runnable scroll = () -> {
                          scrollToMessageId(id, messageObject.getId(), true, messageObject.getDialogId() == mergeDialogId ? 1 : 0, true, 0, finalTaskId, finalPollOptionId, () -> {
                              progressDialogAtMessageId = messageObject.getId();
-@@ -41150,6 +41151,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -41178,6 +41179,9 @@ public class ChatActivity extends BaseFragment implements
                      } else {
                          scroll.run();
                      }

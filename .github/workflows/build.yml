@@ -114,9 +114,9 @@ jobs:
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
         with:
           packages: >-
-            platforms;android-35
-            build-tools;35.0.0
-            cmake;3.10.2.4988404
+            platforms;android-36
+            build-tools;36.0.0
+            cmake;3.22.1
             ndk;27.2.12479018
 
       - name: tune gradle
