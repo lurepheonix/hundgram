@@ -6,11 +6,11 @@ Subject: Add shorter swipe gestures setting
 ---
  .../org/telegram/ui/ActionBar/ActionBarLayout.java  |  4 ++--
  .../main/java/org/telegram/ui/Cells/DialogCell.java |  2 +-
- .../src/main/java/org/telegram/ui/ChatActivity.java |  4 ++--
+ .../src/main/java/org/telegram/ui/ChatActivity.java |  8 ++++++--
  .../telegram/ui/Components/SharedMediaLayout.java   |  9 ++++++++-
  .../main/java/org/telegram/ui/DialogsActivity.java  | 13 ++++++++++---
  .../src/main/java/org/telegram/ui/PhotoViewer.java  |  2 +-
- 6 files changed, 24 insertions(+), 10 deletions(-)
+ 6 files changed, 28 insertions(+), 10 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBarLayout.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBarLayout.java
 index 0000000..0000000 100644
@@ -49,7 +49,31 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -5069,7 +5069,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -4680,6 +4680,7 @@ public class ChatActivity extends BaseFragment implements
+             private float trackAnimationProgress;
+             private float endTrackingX;
+             private boolean wasTrackingVibrate;
++            private boolean inu_swipeDisabledForCurrentTouch;
+ 
+             private float springMultiplier = 2000f;
+ 
+@@ -4824,6 +4825,7 @@ public class ChatActivity extends BaseFragment implements
+                 }
+                 boolean result = super.onInterceptTouchEvent(e);
+                 if (actionBar.isActionModeShowed() || isReport()) {
++                    inu_swipeDisabledForCurrentTouch = true;
+                     return result;
+                 }
+                 processTouchEvent(e);
+@@ -5050,6 +5052,7 @@ public class ChatActivity extends BaseFragment implements
+                         }
+                         startedTrackingPointerId = e.getPointerId(0);
+                         maybeStartTrackingSlidingView = true;
++                        inu_swipeDisabledForCurrentTouch = false;
+                         startedTrackingX = (int) e.getX();
+                         startedTrackingY = (int) e.getY();
+                     }
+@@ -5069,7 +5072,7 @@ public class ChatActivity extends BaseFragment implements
                              getParent().requestDisallowInterceptTouchEvent(true);
                          }
                      } else if (startedTrackingSlidingView) {
@@ -58,15 +82,23 @@ index 0000000..0000000 100644
                              if (!wasTrackingVibrate) {
                                  try {
                                      performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-@@ -5090,7 +5090,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -5090,7 +5093,7 @@ public class ChatActivity extends BaseFragment implements
                          invalidate();
                      }
                  } else if (slidingView != null && (e == null || e.getPointerId(0) == startedTrackingPointerId && (e.getAction() == MotionEvent.ACTION_CANCEL || e.getAction() == MotionEvent.ACTION_UP || e.getAction() == MotionEvent.ACTION_POINTER_UP))) {
 -                    if (e != null && e.getAction() != MotionEvent.ACTION_CANCEL && Math.abs(getSlidingNonAnimationTranslationX(false)) >= AndroidUtilities.dp(50)) {
-+                    if (e != null && e.getAction() != MotionEvent.ACTION_CANCEL && Math.abs(getSlidingNonAnimationTranslationX(false)) >= desu.inugram.helpers.SwipeSensitivity.adjustDpCompletion(AndroidUtilities.dp(50))) {
++                    if (e != null && e.getAction() != MotionEvent.ACTION_CANCEL && !inu_swipeDisabledForCurrentTouch && Math.abs(getSlidingNonAnimationTranslationX(false)) >= desu.inugram.helpers.SwipeSensitivity.adjustDpCompletion(AndroidUtilities.dp(50))) {
                          MessageObject message = getSlidingMessageObject();
                          final boolean allowReplyOnOpenTopic = canSendMessageToTopic(message);
                          if (
+@@ -5219,6 +5222,7 @@ public class ChatActivity extends BaseFragment implements
+                 }
+                 boolean result = super.onTouchEvent(e);
+                 if (actionBar.isActionModeShowed() || isReport()) {
++                    inu_swipeDisabledForCurrentTouch = true;
+                     return result;
+                 }
+                 processTouchEvent(e);
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java
