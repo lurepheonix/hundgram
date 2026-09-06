@@ -137,6 +137,8 @@ jobs:
           INU_BUILD_TYPE: release
           UPDATE_CHANNEL_USERNAME: ${{ vars.UPDATE_CHANNEL_USERNAME }}
           UPDATE_CHANNEL_ID: ${{ vars.UPDATE_CHANNEL_ID }}
+          TG_APP_ID: ${{ secrets.TG_APP_ID }}
+          TG_APP_HASH: ${{ secrets.TG_APP_HASH }}
           CCACHE_COMPILERCHECK: content
           CCACHE_SLOPPINESS: time_macros,file_macro,include_file_mtime,include_file_ctime,locale,system_headers
           CCACHE_BASEDIR: ${{ github.workspace }}/worktree

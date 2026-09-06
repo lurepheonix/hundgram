@@ -23,7 +23,7 @@ import org.telegram.ui.LaunchActivity
 // wipes all dynamic shortcuts. Add an Entry here to expose a new one.
 // Stock ranks its own: 0 = compose, 1+ = top chats. Launchers only render the first few by rank.
 object ShortcutHelper {
-    const val SWITCH_ACCOUNT_ACTION = "desu.inugram.action.SWITCH_ACCOUNT"
+    const val SWITCH_ACCOUNT_ACTION = "inu.hundgram.action.SWITCH_ACCOUNT"
 
     private class Entry(
         val id: String,
@@ -40,7 +40,7 @@ object ShortcutHelper {
     private val entries = listOf(
         Entry(
             id = "inu_enter_paranoia",
-            action = "desu.inugram.action.ENTER_PARANOIA",
+            action = "inu.hundgram.action.ENTER_PARANOIA",
             labelRes = R.string.InuParanoiaMode,
             iconRes = R.drawable.inu_shortcut_paranoia,
             rank = 0,

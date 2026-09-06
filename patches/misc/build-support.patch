@@ -4,7 +4,7 @@ Date: Tue, 21 Apr 2026 07:47:50 +0300
 Subject: build support stuff for fork-specific code: - added kotlin - bumped min sdk to 26, removed desugaring - versioning
 
 ---
- TMessagesProj/build.gradle                    | 108 ++++------------
+ TMessagesProj/build.gradle                    | 120 ++++++-----------
  TMessagesProj/google-services.json            |  76 ++---------
  TMessagesProj/proguard-rules.pro              |  13 ++
  TMessagesProj/src/main/AndroidManifest.xml    |   7 +
@@ -18,7 +18,7 @@ Subject: build support stuff for fork-specific code: - added kotlin - bumped min
  build.gradle                                  |  14 +-
  gradle.properties                             |   2 +-
  settings.gradle                               |  40 +++++-
- 14 files changed, 172 insertions(+), 356 deletions(-)
+ 14 files changed, 185 insertions(+), 355 deletions(-)
 
 diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle
 index 0000000..0000000 100644
@@ -60,16 +60,21 @@ index 0000000..0000000 100644
  //    implementation 'com.google.mlkit:translate:17.0.3'
  
      constraints {
-@@ -94,8 +100,6 @@ dependencies {
+@@ -94,8 +100,12 @@ dependencies {
          }
      }
      implementation 'com.google.android.recaptcha:recaptcha:18.7.1'
--
++}
+ 
 -    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
++def tgAppId = System.getenv('TG_APP_ID')
++def tgAppHash = System.getenv('TG_APP_HASH')
++if (!tgAppId?.trim() || !tgAppHash?.trim()) {
++    throw new GradleException("TG_APP_ID and TG_APP_HASH env vars are required (no defaults). Export them locally or set CI secrets.")
  }
  
  android {
-@@ -120,24 +124,29 @@ android {
+@@ -120,24 +130,29 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -105,7 +110,7 @@ index 0000000..0000000 100644
              }
          }
      }
-@@ -150,77 +159,13 @@ android {
+@@ -150,77 +165,17 @@ android {
              multiDexEnabled true
              proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
              ndk.debugSymbolLevel = 'FULL'
@@ -184,10 +189,14 @@ index 0000000..0000000 100644
 -            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
 -            buildConfigField "boolean", "BUNDLE", "false"
 -            buildConfigField "int", "VERSION_NUM", "6"
++            buildConfigField "String", "UPDATE_CHANNEL_USERNAME", "\"" + (System.getenv('UPDATE_CHANNEL_USERNAME') ?: 'HundgramCI') + "\""
++            buildConfigField "long", "UPDATE_CHANNEL_ID", (System.getenv('UPDATE_CHANNEL_ID') ?: '4437164616L')
++            buildConfigField "int", "TG_APP_ID", String.valueOf(Integer.parseInt(tgAppId))
++            buildConfigField "String", "TG_APP_HASH", "\"" + tgAppHash + "\""
          }
  
          release {
-@@ -230,13 +175,13 @@ android {
+@@ -230,13 +185,17 @@ android {
              multiDexEnabled true
              proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
              ndk.debugSymbolLevel = 'FULL'
@@ -202,10 +211,14 @@ index 0000000..0000000 100644
              buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
              buildConfigField "boolean", "BUNDLE", "false"
 -            buildConfigField "int", "VERSION_NUM", "7"
++            buildConfigField "String", "UPDATE_CHANNEL_USERNAME", "\"" + (System.getenv('UPDATE_CHANNEL_USERNAME') ?: 'HundgramCI') + "\""
++            buildConfigField "long", "UPDATE_CHANNEL_ID", (System.getenv('UPDATE_CHANNEL_ID') ?: '4437164616L')
++            buildConfigField "int", "TG_APP_ID", String.valueOf(Integer.parseInt(tgAppId))
++            buildConfigField "String", "TG_APP_HASH", "\"" + tgAppHash + "\""
          }
      }
  
-@@ -254,7 +199,6 @@ def getProps(String propName) {
+@@ -254,7 +213,6 @@ def getProps(String propName) {
          return "";
      }
  }
@@ -224,18 +237,18 @@ index 0000000..0000000 100644
 -    "firebase_url": "https://tmessages2.firebaseio.com",
 -    "project_id": "tmessages2",
 -    "storage_bucket": "tmessages2.appspot.com"
-+    "project_number": "1058545853294",
-+    "project_id": "inugram-5dcad",
-+    "storage_bucket": "inugram-5dcad.firebasestorage.app"
++    "project_number": "226468002157",
++    "project_id": "hundgram",
++    "storage_bucket": "hundgram.firebasestorage.app"
    },
    "client": [
      {
        "client_info": {
 -        "mobilesdk_app_id": "1:760348033671:android:f6afd7b67eae3860",
-+        "mobilesdk_app_id": "1:1058545853294:android:fd3a66d8c6bde26b45177f",
++        "mobilesdk_app_id": "1:226468002157:android:84663ce782b209e33b4264",
          "android_client_info": {
 -          "package_name": "org.telegram.messenger"
-+          "package_name": "desu.inugram"
++          "package_name": "inu.hundgram"
          }
        },
 -      "oauth_client": [
@@ -248,7 +261,7 @@ index 0000000..0000000 100644
        "api_key": [
          {
 -          "current_key": "AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k"
-+          "current_key": "AIzaSyBUTDbLj-lMgQkor-hY57AIpB2s033xaB0"
++          "current_key": "AIzaSyBv5mTovMdzITpXuIskV50SOdBukyISegg"
          }
        ],
        "services": {
@@ -266,10 +279,10 @@ index 0000000..0000000 100644
      {
        "client_info": {
 -        "mobilesdk_app_id": "1:760348033671:android:dc022572c167a16c",
-+        "mobilesdk_app_id": "1:1058545853294:android:d6b70c9beedf100745177f",
++        "mobilesdk_app_id": "1:226468002157:android:90dadf39c304758f3b4264",
          "android_client_info": {
 -          "package_name": "org.telegram.messenger.beta"
-+          "package_name": "desu.inugram.beta"
++          "package_name": "inu.hundgram.beta"
          }
        },
 -      "oauth_client": [
@@ -311,7 +324,7 @@ index 0000000..0000000 100644
        "api_key": [
          {
 -          "current_key": "AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k"
-+          "current_key": "AIzaSyBUTDbLj-lMgQkor-hY57AIpB2s033xaB0"
++          "current_key": "AIzaSyBv5mTovMdzITpXuIskV50SOdBukyISegg"
          }
        ],
        "services": {
@@ -389,8 +402,8 @@ index 0000000..0000000 100644
  
 -    public static int APP_ID = 4;
 -    public static String APP_HASH = "014b35b6184100b085b0d0572f9b5103";
-+    public static int APP_ID = 24432768;
-+    public static String APP_HASH = "081555aafce571f3e4c4b3f9fe653dc1";
++    public static int APP_ID = BuildConfig.TG_APP_ID;
++    public static String APP_HASH = BuildConfig.TG_APP_HASH;
  
      // SafetyNet key for Google Identity SDK, set it to empty to disable
 -    public static String SAFETYNET_KEY = "AIzaSyDqt8P-7F7CPCseMkOiVRgb1LY8RN1bvH8";
@@ -562,7 +575,7 @@ index 0000000..0000000 100644
      buildToolsVersion '36.0.0'
  
 -    defaultConfig.applicationId = APP_PACKAGE
-+    defaultConfig.applicationId = "desu.inugram"
++    defaultConfig.applicationId = "inu.hundgram"
  
      sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
  
@@ -756,18 +769,18 @@ index 0000000..0000000 100644
 -    "firebase_url": "https://tmessages2.firebaseio.com",
 -    "project_id": "tmessages2",
 -    "storage_bucket": "tmessages2.appspot.com"
-+    "project_number": "1058545853294",
-+    "project_id": "inugram-5dcad",
-+    "storage_bucket": "inugram-5dcad.firebasestorage.app"
++    "project_number": "226468002157",
++    "project_id": "hundgram",
++    "storage_bucket": "hundgram.firebasestorage.app"
    },
    "client": [
      {
        "client_info": {
 -        "mobilesdk_app_id": "1:760348033671:android:f6afd7b67eae3860",
-+        "mobilesdk_app_id": "1:1058545853294:android:fd3a66d8c6bde26b45177f",
++        "mobilesdk_app_id": "1:226468002157:android:84663ce782b209e33b4264",
          "android_client_info": {
 -          "package_name": "org.telegram.messenger"
-+          "package_name": "desu.inugram"
++          "package_name": "inu.hundgram"
          }
        },
 -      "oauth_client": [
@@ -780,7 +793,7 @@ index 0000000..0000000 100644
        "api_key": [
          {
 -          "current_key": "AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k"
-+          "current_key": "AIzaSyBUTDbLj-lMgQkor-hY57AIpB2s033xaB0"
++          "current_key": "AIzaSyBv5mTovMdzITpXuIskV50SOdBukyISegg"
          }
        ],
        "services": {
@@ -798,10 +811,10 @@ index 0000000..0000000 100644
      {
        "client_info": {
 -        "mobilesdk_app_id": "1:760348033671:android:dc022572c167a16c",
-+        "mobilesdk_app_id": "1:1058545853294:android:d6b70c9beedf100745177f",
++        "mobilesdk_app_id": "1:226468002157:android:90dadf39c304758f3b4264",
          "android_client_info": {
 -          "package_name": "org.telegram.messenger.beta"
-+          "package_name": "desu.inugram.beta"
++          "package_name": "inu.hundgram.beta"
          }
        },
 -      "oauth_client": [
@@ -843,7 +856,7 @@ index 0000000..0000000 100644
        "api_key": [
          {
 -          "current_key": "AIzaSyA-t0jLPjUt2FxrA8VPK2EiYHcYcboIR6k"
-+          "current_key": "AIzaSyBUTDbLj-lMgQkor-hY57AIpB2s033xaB0"
++          "current_key": "AIzaSyBv5mTovMdzITpXuIskV50SOdBukyISegg"
          }
        ],
        "services": {

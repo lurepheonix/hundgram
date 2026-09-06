@@ -125,7 +125,7 @@ jobs:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHANNEL: ${{ vars.TELEGRAM_CHANNEL || 'InugramCI' }}
+          TELEGRAM_CHANNEL: ${{ vars.TELEGRAM_CHANNEL || 'HundgramCI' }}
           MTPROTO_SESSION: ${{ secrets.MTPROTO_SESSION }}
           GH_VARS_TOKEN: ${{ secrets.INU_VARS_TOKEN }}
         run: pnpm tsx scripts/ci/upload.ts out

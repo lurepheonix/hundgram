@@ -47,7 +47,7 @@ import java.io.File
 import java.io.IOException
 
 object ApkInstaller {
-    private const val ACTION = "desu.inugram.helpers.update.ApkInstaller.STATUS"
+    private const val ACTION = "inu.hundgram.helpers.update.ApkInstaller.STATUS"
 
     fun dismissInstalledNotification() {
         NotificationManagerCompat.from(ApplicationLoader.applicationContext)

@@ -12,7 +12,7 @@ export const seriesFile = join(rootDir, 'series')
 export const upstreamCommitFile = join(rootDir, 'upstream-commit')
 export const assetsDir = join(rootDir, 'src/res/assets')
 
-export const debugAppId = 'desu.inugram.beta'
+export const debugAppId = 'inu.hundgram.beta'
 
 export interface ForkSyncFile {
   source: string

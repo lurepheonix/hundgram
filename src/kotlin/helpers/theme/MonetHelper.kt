@@ -241,7 +241,7 @@ object MonetHelper {
     private var themeReloadReceiverRegistered = false
 
     private const val THEME_OVERRIDE_DIR = "theme-override"
-    private const val ACTION_RELOAD_THEME = "desu.inugram.RELOAD_THEME"
+    private const val ACTION_RELOAD_THEME = "inu.hundgram.RELOAD_THEME"
 
     private val overlayChangeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {

@@ -68,7 +68,7 @@ index 0000000..0000000 100644
                          playSoundEffect(SoundEffectConstants.CLICK);
                          didClickedImage();
                      } else if (buttonState == 0) {
-@@ -29679,4 +29682,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -29683,4 +29686,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
          }
          return text;
      }
@@ -95,7 +95,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -10827,7 +10827,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -10828,7 +10828,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
              setVideoPlayerControlVisible(!isCurrentVideo && !livePhoto, true);
          }
          if (!isCurrentVideo) {
@@ -104,7 +104,7 @@ index 0000000..0000000 100644
          }
          if (currentMessageObject != null) {
              videoPlayer.setPlaybackSpeed(currentVideoSpeed);
-@@ -14550,7 +14550,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -14551,7 +14551,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
              }
          }
          if (currentMessageObject != null && currentMessageObject.isVideo() || desu.inugram.helpers.media.PhotoViewerHelper.gifAsVideo(currentMessageObject) || currentBotInlineResult != null && (currentBotInlineResult.type.equals("video") || MessageObject.isVideoDocument(currentBotInlineResult.document)) || (pageBlocksAdapter != null && (pageBlocksAdapter.isVideo(index) || pageBlocksAdapter.isHardwarePlayer(index))) || (sendPhotoType == SELECT_TYPE_NO_SELECT && ((MediaController.PhotoEntry)imagesArrLocals.get(index)).isVideo)) {
@@ -113,7 +113,7 @@ index 0000000..0000000 100644
              onActionClick(false);
          } else if (!imagesArrLocals.isEmpty()) {
              final Object entry = imagesArrLocals.get(index);
-@@ -18347,8 +18347,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -18348,8 +18348,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                          animation.seekTo(seekTo, !FileLoader.getInstance(currentAccount).isLoadingVideo(document, true), true);
                      }
                      if (object != null && object.imageReceiver != null) {

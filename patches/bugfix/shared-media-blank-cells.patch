@@ -84,7 +84,7 @@ index 0000000..0000000 100644
                              object.imageReceiver.setVisible(false, true);
                          }
                      };
-@@ -18739,6 +18744,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -18745,6 +18750,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          }
      }
  
@@ -106,7 +106,7 @@ index 0000000..0000000 100644
      private ClippingImageView[] getAnimatingImageViews(PlaceProviderObject object) {
          final boolean hasSecondAnimatingImageView = !AndroidUtilities.isTablet() && object != null && object.animatingImageView != null;
          final ClippingImageView[] animatingImageViews = new ClippingImageView[1 + (hasSecondAnimatingImageView ? 1 : 0)];
-@@ -18900,6 +18920,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -18906,6 +18926,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          shownControlsByEnd = false;
          videoCutStart = 0;
          videoCutEnd = 1f;
