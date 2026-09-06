@@ -340,6 +340,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - emoji suggestion panel popping up after sending a message (late `:keyword` lookup callback ignored the input having been cleared)
 - phantom empty dialog rows after peeking a non-joined channel / discuss group
 - expand emoji tabs when there's enough space to fit without scrolling
+- chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it
 - "pause music on media" now lets external players auto-resume (transient focus instead of indefinite)
 - "pause music on media" now also applies to videos in the photo viewer, with transient focus so external players auto-resume (stock never requests audio focus for them)
 - reply box right padding when the sender-name line is wider than the message text line
