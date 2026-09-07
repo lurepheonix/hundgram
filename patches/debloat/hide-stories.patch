@@ -4,16 +4,35 @@ Date: Thu, 9 Apr 2026 04:03:43 +0300
 Subject: hide stories
 
 ---
- TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java   | 2 +-
- TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java | 2 +-
- .../main/java/org/telegram/ui/Stories/StoriesController.java    | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ .../org/telegram/ui/Adapters/DialogsAdapter.java   |  3 +++
+ .../main/java/org/telegram/ui/ChatActivity.java    |  2 +-
+ .../main/java/org/telegram/ui/DialogsActivity.java |  6 +++---
+ .../main/java/org/telegram/ui/LaunchActivity.java  |  4 ++--
+ .../main/java/org/telegram/ui/ProfileActivity.java |  4 ++++
+ .../telegram/ui/Stories/ProfileStoriesView.java    |  2 +-
+ .../org/telegram/ui/Stories/StoriesController.java |  4 ++++
+ .../org/telegram/ui/Stories/StoriesUtilities.java  | 14 ++++++++++----
+ 8 files changed, 28 insertions(+), 11 deletions(-)
 
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java b/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
+@@ -1291,6 +1291,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
+ 
+     @Override
+     public void openHiddenStories() {
++        if (!desu.inugram.helpers.StoriesHelper.showArchivedStories()) {
++            return;
++        }
+         StoriesController storiesController = MessagesController.getInstance(currentAccount).getStoriesController();
+         if (storiesController.getHiddenList().isEmpty()) {
+             return;
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -39469,7 +39469,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -39532,7 +39532,7 @@ public class ChatActivity extends BaseFragment implements
                      arrayList = new ArrayList<>();
                      arrayList.add(messageObject);
                  }
@@ -22,11 +41,34 @@ index 0000000..0000000 100644
                  showDialog(new ShareAlert(getContext(), ChatActivity.this, arrayList, null, null, ChatObject.isChannel(currentChat), null, null, false, false, includeStory, null, themeDelegate) {
                      { includeStoryFromMessage = includeStory; }
                      @Override
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+@@ -12966,15 +12966,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+         if (StoryRecorder.isVisible() || (getLastStoryViewer() != null && getLastStoryViewer().isFullyVisible())) {
+             animated = false;
+         }
+-        boolean onlySelfStories = !isArchive() && getStoriesController().hasOnlySelfStories();
++        boolean onlySelfStories = !isArchive() && (!desu.inugram.InuConfig.HIDE_STORIES.getValue() || desu.inugram.InuConfig.SHOW_OWN_STORIES.getValue()) && getStoriesController().hasOnlySelfStories();
+         boolean newVisibility;
+         if (communityId != 0) {
+             newVisibility = false;
+         } else if (isArchive()) {
+-            newVisibility = !getStoriesController().getHiddenList().isEmpty();
++            newVisibility = (!desu.inugram.InuConfig.HIDE_STORIES.getValue() || desu.inugram.InuConfig.SHOW_STORIES_IN_ARCHIVE.getValue()) && !getStoriesController().getHiddenList().isEmpty();
+         } else {
+             newVisibility = !onlySelfStories && getStoriesController().hasStories();
+-            onlySelfStories = getStoriesController().hasOnlySelfStories();
++            onlySelfStories = (!desu.inugram.InuConfig.HIDE_STORIES.getValue() || desu.inugram.InuConfig.SHOW_OWN_STORIES.getValue()) && getStoriesController().hasOnlySelfStories();
+         }
+ 
+         hasOnlySlefStories = onlySelfStories;
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
-@@ -6130,7 +6130,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -6192,7 +6192,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
  
      @Override
      public boolean canSelectStories() {
@@ -35,11 +77,58 @@ index 0000000..0000000 100644
      }
  
      @Override
+@@ -9138,7 +9138,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+             for (int i = 0; i < stories.size(); ++i) {
+                 TL_stories.PeerStories userStories = stories.get(i);
+                 long dialogId = DialogObject.getPeerDialogId(userStories.peer);
+-                if (dialogId != me && !peerIds.contains(dialogId) && storiesController.hasUnreadStories(dialogId)) {
++                if (dialogId != me && !peerIds.contains(dialogId) && (!desu.inugram.InuConfig.HIDE_STORIES.getValue() || desu.inugram.InuConfig.SHOW_AVATAR_RINGS.getValue()) && storiesController.hasUnreadStories(dialogId)) {
+                     peerIds.add(dialogId);
+                 }
+             }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
+@@ -5735,6 +5735,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+             protected void onTap(StoryViewer.PlaceProvider provider) {
+                 long did = getDialogId();
+                 StoriesController storiesController = getMessagesController().getStoriesController();
++                if (desu.inugram.helpers.StoriesHelper.hidePeerStories(did, currentAccount) && !storiesController.hasUploadingStories(did) && !storiesController.isLastUploadingFailed(did)) {
++                    expandAvatar();
++                    return;
++                }
+                 if (storiesController.hasStories(did) || storiesController.hasUploadingStories(did) || storiesController.isLastUploadingFailed(did)) {
+                     getOrCreateStoryViewer().open(context, did, provider);
+                 } else if (userInfo != null && userInfo.stories != null && !userInfo.stories.stories.isEmpty() && userId != getUserConfig().clientUserId) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesView.java b/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesView.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesView.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesView.java
+@@ -1181,7 +1181,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
+             return true;
+         } else if (event.getAction() == MotionEvent.ACTION_UP) {
+             AndroidUtilities.cancelRunOnUIThread(onLongPressRunnable);
+-            if (hit && System.currentTimeMillis() - tapTime <= ViewConfiguration.getTapTimeout() && MathUtils.distance(tapX, tapY, event.getX(), event.getY()) <= AndroidUtilities.dp(12) && (storiesController.hasUploadingStories(dialogId) || storiesController.hasStories(dialogId) || !circles.isEmpty())) {
++            if (hit && System.currentTimeMillis() - tapTime <= ViewConfiguration.getTapTimeout() && MathUtils.distance(tapX, tapY, event.getX(), event.getY()) <= AndroidUtilities.dp(12) && (storiesController.hasUploadingStories(dialogId) || !desu.inugram.helpers.StoriesHelper.hidePeerStories(dialogId, currentAccount) && (storiesController.hasStories(dialogId) || !circles.isEmpty()))) {
+                 onTap(provider);
+                 return true;
+             }
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
-@@ -282,6 +282,7 @@ public class StoriesController {
+@@ -261,6 +261,9 @@ public class StoriesController {
+         if (isLastUploadingFailed(dialogId)) {
+             return true;
+         }
++        if (desu.inugram.helpers.StoriesHelper.hidePeerStories(dialogId, currentAccount)) {
++            return false;
++        }
+         TL_stories.PeerStories stories = allStoriesMap.get(dialogId);
+         if (stories == null) {
+             stories = getStoriesFromFullPeer(dialogId);
+@@ -288,6 +291,7 @@ public class StoriesController {
      }
  
      public boolean hasStories() {
@@ -47,3 +136,52 @@ index 0000000..0000000 100644
          return (dialogListStories != null && dialogListStories.size() > 0) || hasSelfStories();
      }
  
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesUtilities.java b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesUtilities.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesUtilities.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesUtilities.java
+@@ -131,7 +131,7 @@ public class StoriesUtilities {
+         boolean showProgress = storiesController.isLoading(dialogId);
+         boolean isForum = ChatObject.isForum(UserConfig.selectedAccount, dialogId) && !params.isDialogStoriesCell;
+         if (params.drawHiddenStoriesAsSegments) {
+-            hasStories = storiesController.hasHiddenStories();
++            hasStories = storiesController.hasHiddenStories() && desu.inugram.helpers.StoriesHelper.showArchivedStories();
+         }
+ 
+         if (params.storyItem != null) {
+@@ -555,6 +555,9 @@ public class StoriesUtilities {
+     }
+ 
+     public static int getPredictiveUnreadState(StoriesController storiesController, long dialogId) {
++        if (desu.inugram.InuConfig.HIDE_STORIES.getValue() && !desu.inugram.InuConfig.SHOW_AVATAR_RINGS.getValue()) {
++            return STATE_EMPTY;
++        }
+         if (dialogId == 0) {
+             return STATE_EMPTY;
+         }
+@@ -1305,12 +1308,12 @@ public class StoriesUtilities {
+                 if (isAvatarClickable(dialogId, chat, user)) {
+                     hasStories = true;
+                 } else if (drawHiddenStoriesAsSegments) {
+-                    hasStories = storiesController.hasHiddenStories();
++                    hasStories = storiesController.hasHiddenStories() && desu.inugram.helpers.StoriesHelper.showArchivedStories();
+                 } else {
+                     if (dialogId > 0) {
+-                        hasStories = (MessagesController.getInstance(UserConfig.selectedAccount).getStoriesController().hasStories(dialogId) || user != null && !user.stories_unavailable && user.stories_max_id != null && user.stories_max_id.max_id > 0);
++                        hasStories = (MessagesController.getInstance(UserConfig.selectedAccount).getStoriesController().hasStories(dialogId) || user != null && !user.stories_unavailable && user.stories_max_id != null && user.stories_max_id.max_id > 0) && !desu.inugram.helpers.StoriesHelper.hidePeerStories(dialogId, UserConfig.selectedAccount);
+                     } else {
+-                        hasStories = (MessagesController.getInstance(UserConfig.selectedAccount).getStoriesController().hasStories(dialogId) || chat != null && !chat.stories_unavailable && chat.stories_max_id != null && chat.stories_max_id.max_id > 0);
++                        hasStories = (MessagesController.getInstance(UserConfig.selectedAccount).getStoriesController().hasStories(dialogId) || chat != null && !chat.stories_unavailable && chat.stories_max_id != null && chat.stories_max_id.max_id > 0) && !desu.inugram.helpers.StoriesHelper.hidePeerStories(dialogId, UserConfig.selectedAccount);
+                     }
+                 }
+                 if (dialogId != UserConfig.getInstance(UserConfig.selectedAccount).clientUserId && hasStories) {
+@@ -1393,6 +1396,9 @@ public class StoriesUtilities {
+                 return;
+             }
+             if (dialogId != UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId()) {
++                if (desu.inugram.helpers.StoriesHelper.hidePeerStories(dialogId, UserConfig.selectedAccount)) {
++                    return;
++                }
+                 if (storiesController.hasStories(dialogId)) {
+                     openStory(dialogId, null);
+                     return;

@@ -114,7 +114,16 @@ object InuConfig {
     val HIDE_STORIES = BoolItem("hide_stories", false)
 
     @JvmField
-    val DISABLE_OVERSCROLL_STORY = BoolItem("disable_overscroll_story", false)
+    val SHOW_STORIES_IN_ARCHIVE = BoolItem("show_stories_in_archive", false)
+
+    @JvmField
+    val SHOW_OWN_STORIES = BoolItem("show_own_stories", false)
+
+    @JvmField
+    val SHOW_AVATAR_RINGS = BoolItem("show_avatar_rings", false)
+
+    @JvmField
+    val DISABLE_OVERSCROLL_STORY = BoolItem("disable_overscroll_story", true)
 
     @JvmField
     val SHOW_SECONDS = BoolItem("show_seconds", false)

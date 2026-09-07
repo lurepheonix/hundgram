@@ -46,6 +46,12 @@
     <string name="InuShowReactions">显示回应</string>
     <string name="InuHideStories">隐藏快拍</string>
     <string name="InuHideStoriesInfo">隐藏主聊天列表顶部的快拍栏</string>
+    <string name="InuShowStoriesInArchive">在存档中显示快拍</string>
+    <string name="InuShowStoriesInArchiveInfo">即使隐藏快拍，也显示存档文件夹中的隐藏快拍</string>
+    <string name="InuShowOwnStories">显示自己的快拍</string>
+    <string name="InuShowOwnStoriesInfo">在隐藏其他快拍时，保留自己的快拍圆环和“我的快拍”入口</string>
+    <string name="InuShowAvatarRings">显示头像圆环</string>
+    <string name="InuShowAvatarRingsInfo">即使隐藏快拍，也显示头像上的快拍圆环</string>
     <string name="InuShowSeconds">显示秒数</string>
     <string name="InuDisableRounding">禁用数字取整</string>
     <string name="InuDisableRoundingInfo">1.2K → 1,234</string>

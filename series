@@ -37,7 +37,6 @@ feature/web-preview.patch
 feature/jump-to-discussion.patch
 debloat/intro-sticker.patch
 debloat/hide-fade-views.patch
-debloat/hide-stories.patch
 bugfix/dialogs-list-scrolling.patch
 bugfix/shared-media-player.patch
 debloat/hide-reactions-entry.patch
@@ -326,3 +325,4 @@ feature/minimize-attach-panel.patch
 bugfix/link-scrim-offset.patch
 bugfix/scrim-touch-lock.patch
 bugfix/forbidden-record-button-mode.patch
+debloat/hide-stories.patch

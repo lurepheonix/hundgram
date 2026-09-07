@@ -55,6 +55,12 @@
     <string name="InuShowReactions">Show Reactions</string>
     <string name="InuHideStories">Hide stories</string>
     <string name="InuHideStoriesInfo">Hides stories bar from the main chat list</string>
+    <string name="InuShowStoriesInArchive">Show stories in archive</string>
+    <string name="InuShowStoriesInArchiveInfo">Show hidden stories inside the Archive folder even when stories are hidden</string>
+    <string name="InuShowOwnStories">Show own stories</string>
+    <string name="InuShowOwnStoriesInfo">Keep your own story ring and My Story entry while other stories are hidden</string>
+    <string name="InuShowAvatarRings">Show avatar rings</string>
+    <string name="InuShowAvatarRingsInfo">Show story rings on avatars even when stories are hidden</string>
     <string name="InuShowSeconds">Show seconds</string>
     <string name="InuDisableRounding">Disable number rounding</string>
     <string name="InuDisableRoundingInfo">1.2K -> 1,234</string>

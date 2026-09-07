@@ -46,6 +46,12 @@
     <string name="InuShowReactions">Показать реакции</string>
     <string name="InuHideStories">Скрыть истории</string>
     <string name="InuHideStoriesInfo">Скрывает панель историй на главном экране чатов</string>
+    <string name="InuShowStoriesInArchive">Показывать истории в архиве</string>
+    <string name="InuShowStoriesInArchiveInfo">Показывать скрытые истории в папке «Архив», даже когда истории скрыты</string>
+    <string name="InuShowOwnStories">Показывать свои истории</string>
+    <string name="InuShowOwnStoriesInfo">Сохранить кольцо своей истории и пункт «Моя история», пока остальные истории скрыты</string>
+    <string name="InuShowAvatarRings">Показывать кольца историй</string>
+    <string name="InuShowAvatarRingsInfo">Показывать кольца историй на аватарах, даже когда истории скрыты</string>
     <string name="InuShowSeconds">Показывать секунды</string>
     <string name="InuDisableRounding">Отключить округление чисел</string>
     <string name="InuDisableRoundingInfo">1,2K → 1 234</string>

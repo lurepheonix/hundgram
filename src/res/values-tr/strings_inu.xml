@@ -55,6 +55,12 @@
     <string name="InuShowReactions">Tepkileri Göster</string>
     <string name="InuHideStories">Hikayeleri gizle</string>
     <string name="InuHideStoriesInfo">Ana sohbet listesindeki hikayeler çubuğunu gizler</string>
+    <string name="InuShowStoriesInArchive">Hikayeleri arşivde göster</string>
+    <string name="InuShowStoriesInArchiveInfo">Hikayeler gizliyken bile Arşiv klasöründeki gizli hikayeleri gösterir</string>
+    <string name="InuShowOwnStories">Kendi hikayelerimi göster</string>
+    <string name="InuShowOwnStoriesInfo">Diğer hikayeler gizliyken kendi hikaye halkanı ve Hikayem girişini gösterir</string>
+    <string name="InuShowAvatarRings">Avatar halkalarını göster</string>
+    <string name="InuShowAvatarRingsInfo">Hikayeler gizliyken bile avatarlardaki hikaye halkalarını gösterir</string>
     <string name="InuShowSeconds">Saniyeleri göster</string>
     <string name="InuDisableRounding">Sayı yuvarlamayı devre dışı bırak</string>
     <string name="InuDisableRoundingInfo">1.2K -> 1.234</string>

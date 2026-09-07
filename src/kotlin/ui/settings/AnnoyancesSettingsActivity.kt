@@ -59,6 +59,32 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 InuConfig.HIDE_STORIES.value
             )
         )
+        if (InuConfig.HIDE_STORIES.value) {
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_SHOW_STORIES_IN_ARCHIVE,
+                    R.string.InuShowStoriesInArchive,
+                    R.string.InuShowStoriesInArchiveInfo,
+                    InuConfig.SHOW_STORIES_IN_ARCHIVE.value
+                )
+            )
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_SHOW_OWN_STORIES,
+                    R.string.InuShowOwnStories,
+                    R.string.InuShowOwnStoriesInfo,
+                    InuConfig.SHOW_OWN_STORIES.value
+                )
+            )
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_SHOW_AVATAR_RINGS,
+                    R.string.InuShowAvatarRings,
+                    R.string.InuShowAvatarRingsInfo,
+                    InuConfig.SHOW_AVATAR_RINGS.value
+                )
+            )
+        }
         items.add(
             UItem.asCheck(
                 TOGGLE_HIDE_REPOST_TO_STORY,
@@ -179,6 +205,25 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
         when (item.id) {
             TOGGLE_HIDE_STORIES -> {
                 val new = InuConfig.HIDE_STORIES.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                postNotificationForAllAccounts(NotificationCenter.storiesUpdated)
+                listView.adapter.update(true)
+            }
+
+            TOGGLE_SHOW_STORIES_IN_ARCHIVE -> {
+                val new = InuConfig.SHOW_STORIES_IN_ARCHIVE.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                postNotificationForAllAccounts(NotificationCenter.storiesUpdated)
+            }
+
+            TOGGLE_SHOW_OWN_STORIES -> {
+                val new = InuConfig.SHOW_OWN_STORIES.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                postNotificationForAllAccounts(NotificationCenter.storiesUpdated)
+            }
+
+            TOGGLE_SHOW_AVATAR_RINGS -> {
+                val new = InuConfig.SHOW_AVATAR_RINGS.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
                 postNotificationForAllAccounts(NotificationCenter.storiesUpdated)
             }
@@ -335,6 +380,9 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
 
     companion object {
         private val TOGGLE_HIDE_STORIES = InuUtils.generateId()
+        private val TOGGLE_SHOW_STORIES_IN_ARCHIVE = InuUtils.generateId()
+        private val TOGGLE_SHOW_OWN_STORIES = InuUtils.generateId()
+        private val TOGGLE_SHOW_AVATAR_RINGS = InuUtils.generateId()
         private val TOGGLE_HIDE_TRENDING_STICKERS = InuUtils.generateId()
         private val TOGGLE_HIDE_REPOST_TO_STORY = InuUtils.generateId()
         private val TOGGLE_DISABLE_OVERSCROLL_STORY = InuUtils.generateId()
@@ -362,6 +410,9 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
             factory = ::AnnoyancesSettingsActivity,
             entries = listOf(
                 SearchRegistry.Entry("hide-stories", R.string.InuHideStories, TOGGLE_HIDE_STORIES),
+                SearchRegistry.Entry("show-stories-in-archive", R.string.InuShowStoriesInArchive, TOGGLE_SHOW_STORIES_IN_ARCHIVE),
+                SearchRegistry.Entry("show-own-stories", R.string.InuShowOwnStories, TOGGLE_SHOW_OWN_STORIES),
+                SearchRegistry.Entry("show-avatar-rings", R.string.InuShowAvatarRings, TOGGLE_SHOW_AVATAR_RINGS),
                 SearchRegistry.Entry("hide-repost-to-story", R.string.InuHideRepostToStory, TOGGLE_HIDE_REPOST_TO_STORY),
                 SearchRegistry.Entry("disable-overscroll-story", R.string.InuDisableOverscrollStory, TOGGLE_DISABLE_OVERSCROLL_STORY),
                 SearchRegistry.Entry("hide-trending-stickers", R.string.InuHideTrendingStickers, TOGGLE_HIDE_TRENDING_STICKERS),

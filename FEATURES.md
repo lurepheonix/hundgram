@@ -232,7 +232,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 
 - hide trending stickers/emoji in egs
 - 🐶 hide ai features
-- hide stories
+- hide stories (main list, archive and avatar rings; optional show-in-archive, show-own and show-rings sub-toggles)
 - hide voice hint
 - hide paid reaction upsell
 - hide hashtag suggestions in chat input

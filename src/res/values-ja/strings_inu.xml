@@ -46,6 +46,12 @@
     <string name="InuShowReactions">リアクションを表示</string>
     <string name="InuHideStories">ストーリーを非表示</string>
     <string name="InuHideStoriesInfo">チャット一覧の上部からストーリーバーを非表示にします</string>
+    <string name="InuShowStoriesInArchive">アーカイブでストーリーを表示</string>
+    <string name="InuShowStoriesInArchiveInfo">ストーリーを非表示にしている場合でも、アーカイブフォルダ内の非表示ストーリーを表示します</string>
+    <string name="InuShowOwnStories">自分のストーリーを表示</string>
+    <string name="InuShowOwnStoriesInfo">他のストーリーを非表示にしている間、自分のストーリーリングとマイストーリーを表示したままにします</string>
+    <string name="InuShowAvatarRings">アバターリングを表示</string>
+    <string name="InuShowAvatarRingsInfo">ストーリーを非表示にしている場合でも、アバターのストーリーリングを表示します</string>
     <string name="InuShowSeconds">秒を表示</string>
     <string name="InuDisableRounding">数値の丸めを無効化</string>
     <string name="InuDisableRoundingInfo">1.2K → 1,234</string>
