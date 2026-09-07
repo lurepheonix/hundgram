@@ -2,9 +2,13 @@ package desu.inugram.ui.settings
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Outline
 import android.graphics.PorterDuff
 import android.graphics.drawable.LayerDrawable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
@@ -35,11 +39,13 @@ import org.telegram.messenger.Utilities
 import org.telegram.messenger.browser.Browser
 import org.telegram.ui.ActionBar.AlertDialog
 import org.telegram.ui.ActionBar.Theme
+import org.telegram.ui.Cells.TextCell
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.LayoutHelper
 import org.telegram.ui.Components.UItem
+import org.telegram.ui.Components.URLSpanNoUnderline
 import org.telegram.ui.Components.UniversalAdapter
 import org.telegram.ui.IUpdateLayout
 import org.telegram.ui.LaunchActivity
@@ -47,6 +53,14 @@ import org.telegram.ui.UpdateLayoutWrapper
 
 class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCenterDelegate {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuAbout)
+
+    // Stock TextCell pre-truncates row values to 40% of screen width
+    // (TextCell.setTextAndValue), so repo-length values get "..." despite free
+    // space. Re-set the full text after stock bind; the cell measures the title
+    // from the real value width, so the row lays out correctly.
+    private fun fullValueBind(value: String) = Utilities.Callback<View> { view ->
+        (view as? TextCell)?.getValueTextView()?.setText(value, false)
+    }
 
     private var updateLayout: IUpdateLayout? = null
     private var updateWrapper: UpdateLayoutWrapper? = null
@@ -58,15 +72,15 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
             UItem.asButton(
                 BUTTON_GITHUB,
                 LocaleController.getString(R.string.InuAboutGitHub),
-                "lurepheonix/hundgram",
-            )
+                GITHUB_REPO,
+            ).also { it.bind = fullValueBind(GITHUB_REPO) }
         )
         items.add(
             UItem.asButton(
                 BUTTON_CHANNEL_LINK,
                 LocaleController.getString(R.string.InuAboutChannel),
                 "@" + UpdateHelper.USERNAME,
-            )
+            ).also { it.bind = fullValueBind("@" + UpdateHelper.USERNAME) }
         )
         items.add(UItem.asShadow(null))
 
@@ -153,7 +167,7 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
         val ctx = context ?: return
         when (item.id) {
-            BUTTON_GITHUB -> Browser.openUrl(ctx, "https://github.com/lurepheonix/hundgram")
+            BUTTON_GITHUB -> Browser.openUrl(ctx, "https://github.com/$GITHUB_REPO")
             BUTTON_CHANNEL_LINK -> Browser.openUrl(ctx, "https://t.me/" + UpdateHelper.USERNAME)
             TOGGLE_UPDATES_ENABLED -> {
                 val new = InuConfig.UPDATES_ENABLED.toggle()
@@ -524,11 +538,41 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
                 leftMargin = dp(48f)
                 rightMargin = dp(48f)
             })
+        val inugramCredit = TextView(ctx).apply {
+            val spannable = SpannableStringBuilder(
+                AndroidUtilities.replaceTags(LocaleController.getString(R.string.InuAboutInugramInfo))
+            )
+            val linkText = "Inugram"
+            val start = spannable.toString().indexOf(linkText)
+            if (start >= 0) {
+                spannable.setSpan(object : URLSpanNoUnderline(null) {
+                    override fun onClick(view: View) {
+                        Browser.openUrl(view.context, "https://github.com/teidesu/inugram")
+                    }
+                }, start, start + linkText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            text = spannable
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
+            gravity = Gravity.CENTER
+            setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4))
+            setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText))
+            movementMethod = LinkMovementMethod.getInstance()
+            highlightColor = Color.TRANSPARENT
+        }
+        container.addView(
+            inugramCredit, LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                leftMargin = dp(48f)
+                rightMargin = dp(48f)
+                topMargin = dp(6f)
+            })
         logoHeader = container
         return container
     }
 
     companion object {
+        private const val GITHUB_REPO = "lurepheonix/hundgram"
         private val BUTTON_GITHUB = InuUtils.generateId()
         private val BUTTON_CHANNEL_LINK = InuUtils.generateId()
         private val TOGGLE_UPDATES_ENABLED = InuUtils.generateId()

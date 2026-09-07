@@ -426,7 +426,7 @@
     <string name="InuFormattingPopupDivider">——————</string>
     <string name="InuCut">切り取り</string>
     <string name="InuCodeLanguage">コードの言語</string>
-    <string name="InuVersion">Hundgram v%1$s (%2$s ベース, ビルド %3$s)</string>
+    <string name="InuVersion">Hundgram v%1$s (%2$s ベース, ビルド %3$s, Inugram v%4$s)</string>
 
     <string name="InuSearchFilter">メディアで絞り込み</string>
     <string name="InuSearchFilterPhotos">写真</string>
@@ -453,6 +453,7 @@
     <string name="InuAbout">アプリについて</string>
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">更新チャンネル</string>
+    <string name="InuAboutInugramInfo">Hundgram は teidesu による &lt;b&gt;Inugram&lt;/b&gt; のフォークです。このクライアントの基盤を築いてくれた彼らとすべてのコントリビューターに感謝します。</string>
     <string name="InuUpdates">アップデート</string>
     <string name="InuUpdatesEnabled">アップデートを自動確認</string>
     <string name="InuUpdateCheckNow">今すぐ確認</string>

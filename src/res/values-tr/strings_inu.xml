@@ -519,7 +519,7 @@
     <string name="InuFormattingPopupDivider">——————</string>
     <string name="InuCut">Kes</string>
     <string name="InuCodeLanguage">Kod dili</string>
-    <string name="InuVersion">Hundgram v%1$s (%2$s tabanlı, derleme %3$s)</string>
+    <string name="InuVersion">Hundgram v%1$s (%2$s tabanlı, derleme %3$s, Inugram v%4$s)</string>
 
     <string name="InuSearchFilter">Medyaya göre filtrele</string>
     <string name="InuSearchFilterPhotos">Fotoğraflar</string>
@@ -548,6 +548,7 @@
     <string name="InuAbout">Hakkında</string>
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">Güncelleme kanalı</string>
+    <string name="InuAboutInugramInfo">Hundgram, teidesu\'nun &lt;b&gt;Inugram&lt;/b&gt; projesinin bir fork\'udur. Bu istemcinin üzerine kurulduğu temel için onlara ve tüm katkıda bulunanlara teşekkürler.</string>
     <string name="InuUpdates">Güncellemeler</string>
     <string name="InuUpdatesEnabled">Güncellemeleri otomatik denetle</string>
     <string name="InuUpdateCheckNow">Şimdi denetle</string>

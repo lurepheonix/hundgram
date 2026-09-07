@@ -425,7 +425,7 @@
     <string name="InuFormattingPopupDivider">——————</string>
     <string name="InuCut">剪切</string>
     <string name="InuCodeLanguage">代码语言</string>
-    <string name="InuVersion">Hundgram v%1$s (基于 %2$s, 构建 %3$s)</string>
+    <string name="InuVersion">Hundgram v%1$s (基于 %2$s, 构建 %3$s, Inugram v%4$s)</string>
 
     <string name="InuSearchFilter">按媒体过滤</string>
     <string name="InuSearchFilterPhotos">照片</string>
@@ -452,6 +452,7 @@
     <string name="InuAbout">关于</string>
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">更新频道</string>
+    <string name="InuAboutInugramInfo">Hundgram 是 teidesu 的 &lt;b&gt;Inugram&lt;/b&gt; 的一个分支。感谢他们和所有贡献者为本客户端打下的基础。</string>
     <string name="InuUpdates">更新</string>
     <string name="InuUpdatesEnabled">自动检查更新</string>
     <string name="InuUpdateCheckNow">立即检查</string>

@@ -425,7 +425,7 @@
     <string name="InuFormattingPopupDivider">——————</string>
     <string name="InuCut">Вырезать</string>
     <string name="InuCodeLanguage">Язык кода</string>
-    <string name="InuVersion">Hundgram v%1$s (на основе %2$s, сборка %3$s)</string>
+    <string name="InuVersion">Hundgram v%1$s (на основе %2$s, сборка %3$s, Inugram v%4$s)</string>
 
     <string name="InuSearchFilter">Фильтр по медиа</string>
     <string name="InuSearchFilterPhotos">Фото</string>
@@ -452,6 +452,7 @@
     <string name="InuAbout">О приложении</string>
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">Канал обновлений</string>
+    <string name="InuAboutInugramInfo">Hundgram — это форк &lt;b&gt;Inugram&lt;/b&gt; от teidesu. Спасибо им и всем участникам за основу, на которой построен этот клиент.</string>
     <string name="InuUpdates">Обновления</string>
     <string name="InuUpdatesEnabled">Автоматически проверять обновления</string>
     <string name="InuUpdateCheckNow">Проверить сейчас</string>

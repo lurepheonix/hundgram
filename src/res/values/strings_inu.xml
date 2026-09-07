@@ -529,7 +529,7 @@
     <string name="InuFormattingPopupDivider">——————</string>
     <string name="InuCut">Cut</string>
     <string name="InuCodeLanguage">Code language</string>
-    <string name="InuVersion">Hundgram v%1$s (based on %2$s, build %3$s)</string>
+    <string name="InuVersion">Hundgram v%1$s (based on %2$s, build %3$s, Inugram v%4$s)</string>
 
     <string name="InuSearchFilter">Filter by media</string>
     <string name="InuSearchFilterPhotos">Photos</string>
@@ -558,6 +558,7 @@
     <string name="InuAbout">About</string>
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">Updates channel</string>
+    <string name="InuAboutInugramInfo">Hundgram is a fork of &lt;b&gt;Inugram&lt;/b&gt; by teidesu. Thanks to them and all contributors for the foundation this client is built on.</string>
     <string name="InuUpdates">Updates</string>
     <string name="InuUpdatesEnabled">Check for updates automatically</string>
     <string name="InuUpdateCheckNow">Check now</string>
