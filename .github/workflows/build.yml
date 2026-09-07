@@ -39,7 +39,7 @@ concurrency:
 permissions: {}
 
 env:
-  ARTIFACT_NAME: ${{ inputs.artifact-name || format('inugram-build-{0}', github.run_id) }}
+  ARTIFACT_NAME: ${{ inputs.artifact-name || format('hundgram-build-{0}', github.run_id) }}
 
 jobs:
   build:
@@ -69,8 +69,8 @@ jobs:
 
       - name: configure git identity
         run: |
-          git config --global user.email ci@inugram
-          git config --global user.name 'inugram ci'
+          git config --global user.email ci@hundgram
+          git config --global user.name 'hundgram ci'
 
       - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
