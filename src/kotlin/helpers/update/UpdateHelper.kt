@@ -60,7 +60,7 @@ object UpdateHelper {
     // upstream Inugram version this fork is based on (one-time value, bump manually)
     private const val INUGRAM_VERSION = "43"
 
-    private val APK_RE = Regex("^inugram-(.+)-(\\d+)\\.apk$")
+    private val APK_RE = Regex("^hundgram-(.+)-(\\d+)\\.apk$")
     private val SHORT_SHA_RE = Regex("-([0-9a-f]{7,40})$")
 
     @Volatile
