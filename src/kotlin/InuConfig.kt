@@ -135,7 +135,7 @@ object InuConfig {
     val MATERIAL3_SWITCHES = BoolItem("material3_switches", false)
 
     @JvmField
-    val MATERIAL3_FABS = BoolItem("material3_fabs", true)
+    val MATERIAL3_FABS = BoolItem("material3_fabs", false)
 
     @JvmField
     val M3_SECTIONS_STYLE = BoolItem("m3_sections_style", false)
@@ -150,10 +150,10 @@ object InuConfig {
     val M3_NAVIGATION_ANIMATION = BoolItem("m3_navigation_animation", false)
 
     @JvmField
-    val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", false)
+    val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", true)
 
     @JvmField
-    val M3_BOTTOM_TABS_NO_INDICATOR = BoolItem("m3_bottom_tabs_no_indicator", false)
+    val M3_BOTTOM_TABS_NO_INDICATOR = BoolItem("m3_bottom_tabs_no_indicator", true)
 
     // snapshot of theme state before Monet was enabled, "day|night|autoNightType"; empty = none
     @JvmField
@@ -309,7 +309,7 @@ object InuConfig {
     val DISABLE_PULL_TO_NEXT = BoolItem("disable_pull_to_next", true)
 
     @JvmField
-    val DISABLE_SENSITIVE = BoolItem("disable_sensitive", false)
+    val DISABLE_SENSITIVE = BoolItem("disable_sensitive", true)
 
     @JvmField
     val DISABLE_CHAT_BACKGROUNDS = BoolItem("disable_chat_backgrounds", false)
@@ -364,19 +364,19 @@ object InuConfig {
     val DISABLE_BOT_DRAFT_TOP = BoolItem("disable_bot_draft_top", true)
 
     @JvmField
-    val HIDE_BOTTOM_BAR_JOINED = BoolItem("hide_bottom_bar_joined", false)
+    val HIDE_BOTTOM_BAR_JOINED = BoolItem("hide_bottom_bar_joined", true)
 
     @JvmField
-    val HIDE_BOTTOM_BAR_NON_JOINED = BoolItem("hide_bottom_bar_non_joined", false)
+    val HIDE_BOTTOM_BAR_NON_JOINED = BoolItem("hide_bottom_bar_non_joined", true)
 
     @JvmField
     val HIDE_BOTTOM_BAR_NON_JOINED_GROUPS = BoolItem("hide_bottom_bar_non_joined_groups", false)
 
     @JvmField
-    val HIDE_BOTTOM_BAR_REPLIES = BoolItem("hide_bottom_bar_replies", false)
+    val HIDE_BOTTOM_BAR_REPLIES = BoolItem("hide_bottom_bar_replies", true)
 
     @JvmField
-    val HIDE_BOTTOM_BAR_PINNED = BoolItem("hide_bottom_bar_pinned", false)
+    val HIDE_BOTTOM_BAR_PINNED = BoolItem("hide_bottom_bar_pinned", true)
 
     @JvmField
     val HIDE_BOT_SLASH_GROUPS = BoolItem("hide_bot_slash_groups", true)
@@ -448,7 +448,7 @@ object InuConfig {
     val DISABLE_NEXT_AUDIO_AUTOPLAY = BoolItem("disable_next_audio_autoplay", false)
 
     @JvmField
-    val HIDE_SUGGESTION_BIRTHDAY_SETUP = BoolItem("hide_suggestion_birthday_setup", false)
+    val HIDE_SUGGESTION_BIRTHDAY_SETUP = BoolItem("hide_suggestion_birthday_setup", true)
 
     @JvmField
     val HIDE_SUGGESTION_BIRTHDAY_CONTACTS = BoolItem("hide_suggestion_birthday_contacts", false)
@@ -469,16 +469,16 @@ object InuConfig {
     val DELETE_FOR_BOTH_MESSAGES = BoolItem("delete_for_both_messages", true)
 
     @JvmField
-    val DELETE_FOR_BOTH_DMS = BoolItem("delete_for_both_dms", false)
+    val DELETE_FOR_BOTH_DMS = BoolItem("delete_for_both_dms", true)
 
     @JvmField
-    val DELETE_FOR_BOTH_GROUPS = BoolItem("delete_for_both_groups", false)
+    val DELETE_FOR_BOTH_GROUPS = BoolItem("delete_for_both_groups", true)
 
     @JvmField
-    val DOUBLE_TAP_ACTION_INCOMING = IntItem("double_tap_action_incoming", 1)
+    val DOUBLE_TAP_ACTION_INCOMING = IntItem("double_tap_action_incoming", 0)
 
     @JvmField
-    val DOUBLE_TAP_ACTION_OUTGOING = IntItem("double_tap_action_outgoing", 1)
+    val DOUBLE_TAP_ACTION_OUTGOING = IntItem("double_tap_action_outgoing", 0)
 
     @JvmField
     val DOUBLE_TAP_ACTION_CHANNEL = IntItem("double_tap_action_channel", DoubleTapActionHelper.INHERIT_INCOMING)
@@ -570,7 +570,7 @@ object InuConfig {
     val DISABLE_BROWSER_SWIPE_COLLAPSE = BoolItem("disable_browser_swipe_collapse", true)
 
     @JvmField
-    val SHORTER_SWIPE_GESTURES = BoolItem("shorter_swipe_gestures", false)
+    val SHORTER_SWIPE_GESTURES = BoolItem("shorter_swipe_gestures", true)
 
     @JvmField
     val CONFIRM_REACTION_NON_MEMBER = BoolItem("confirm_reaction_non_member", false)
@@ -626,7 +626,7 @@ object InuConfig {
     val ROUND_RECORDER_DUAL_CAMERA = BoolItem("round_recorder_dual_camera", true)
 
     // todo: remove in 40
-    class NonIslandSplitFromTabBarsItem(key: String) : BoolItem(key, false) {
+    class NonIslandSplitFromTabBarsItem(key: String) : BoolItem(key, true) {
         override fun read(prefs: SharedPreferences): Boolean {
             if (prefs.contains(key)) return prefs.getBoolean(key, default)
             if (!prefs.contains("non_island_tab_bars")) return default
@@ -643,22 +643,22 @@ object InuConfig {
     val NON_ISLAND_SHARED_MEDIA_TABS = NonIslandSplitFromTabBarsItem("non_island_shared_media_tabs")
 
     @JvmField
-    val NON_ISLAND_GLOBAL_SEARCH = BoolItem("non_island_global_search", false)
+    val NON_ISLAND_GLOBAL_SEARCH = BoolItem("non_island_global_search", true)
 
     @JvmField
-    val NON_ISLAND_CHAT_ELEMENTS = BoolItem("non_island_chat_elements", false)
+    val NON_ISLAND_CHAT_ELEMENTS = BoolItem("non_island_chat_elements", true)
 
     @JvmField
-    val HIDE_FADE_VIEW = BoolItem("hide_fade_view", false)
+    val HIDE_FADE_VIEW = BoolItem("hide_fade_view", true)
 
     @JvmField
-    val DISABLE_SCRIM_BLUR = BoolItem("disable_scrim_blur", false)
+    val DISABLE_SCRIM_BLUR = BoolItem("disable_scrim_blur", true)
 
     @JvmField
     val DISABLE_GLASS_GLARE = BoolItem("disable_glass_glare", true)
 
     @JvmField
-    val REDUCE_MENU_MOTION = BoolItem("reduce_menu_motion", true)
+    val REDUCE_MENU_MOTION = BoolItem("reduce_menu_motion", false)
 
     @JvmField
     val ALTERNATIVE_GIF_BEHAVIOR = BoolItem("alternative_gif_behavior", false)
