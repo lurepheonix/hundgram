@@ -49,7 +49,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -4680,6 +4680,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -4679,6 +4679,7 @@ public class ChatActivity extends BaseFragment implements
              private float trackAnimationProgress;
              private float endTrackingX;
              private boolean wasTrackingVibrate;
@@ -57,7 +57,7 @@ index 0000000..0000000 100644
  
              private float springMultiplier = 2000f;
  
-@@ -4824,6 +4825,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -4823,6 +4824,7 @@ public class ChatActivity extends BaseFragment implements
                  }
                  boolean result = super.onInterceptTouchEvent(e);
                  if (actionBar.isActionModeShowed() || isReport()) {
@@ -65,7 +65,7 @@ index 0000000..0000000 100644
                      return result;
                  }
                  processTouchEvent(e);
-@@ -5050,6 +5052,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -5049,6 +5051,7 @@ public class ChatActivity extends BaseFragment implements
                          }
                          startedTrackingPointerId = e.getPointerId(0);
                          maybeStartTrackingSlidingView = true;
@@ -73,7 +73,7 @@ index 0000000..0000000 100644
                          startedTrackingX = (int) e.getX();
                          startedTrackingY = (int) e.getY();
                      }
-@@ -5069,7 +5072,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -5068,7 +5071,7 @@ public class ChatActivity extends BaseFragment implements
                              getParent().requestDisallowInterceptTouchEvent(true);
                          }
                      } else if (startedTrackingSlidingView) {
@@ -82,7 +82,7 @@ index 0000000..0000000 100644
                              if (!wasTrackingVibrate) {
                                  try {
                                      performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-@@ -5090,7 +5093,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -5089,7 +5092,7 @@ public class ChatActivity extends BaseFragment implements
                          invalidate();
                      }
                  } else if (slidingView != null && (e == null || e.getPointerId(0) == startedTrackingPointerId && (e.getAction() == MotionEvent.ACTION_CANCEL || e.getAction() == MotionEvent.ACTION_UP || e.getAction() == MotionEvent.ACTION_POINTER_UP))) {
@@ -91,7 +91,7 @@ index 0000000..0000000 100644
                          MessageObject message = getSlidingMessageObject();
                          final boolean allowReplyOnOpenTopic = canSendMessageToTopic(message);
                          if (
-@@ -5219,6 +5222,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -5218,6 +5221,7 @@ public class ChatActivity extends BaseFragment implements
                  }
                  boolean result = super.onTouchEvent(e);
                  if (actionBar.isActionModeShowed() || isReport()) {
@@ -166,7 +166,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -19409,7 +19409,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -19411,7 +19411,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  zooming = false;
                  moving = false;
              } else if (draggingDown) {

@@ -7,6 +7,7 @@ import {
   forkSyncFiles,
   rootDir,
   seriesFile,
+  submoduleOverlaysDir,
   upstreamCommitFile,
   upstreamUrl,
 } from './config.js'
@@ -120,6 +121,58 @@ export async function syncSubmodules(repoDir: string) {
   step(`Syncing ${stale.length} submodule(s), this will take a while`)
   await git`git submodule update --init --recursive --filter=blob:none`
   return true
+}
+
+interface SubmoduleOverlay {
+  /** worktree-relative submodule path */
+  sub: string
+  /** patch file inside submoduleOverlaysDir, applied with cwd = submodule */
+  patch: string
+  /** pinned submodule SHA the patch applies to */
+  baseSha: string
+  /** content probe: overlay counts as applied when present in tracked files */
+  marker: string
+}
+
+// stg patches can't version submodule content (only the SHA gitlink), so
+// fork edits inside submodules ship as overlay files, applied by setup after
+// the submodule sync. To regenerate: edit inside the submodule, then
+// `git -C <sub> diff` over submoduleOverlaysDir/<patch>.
+const SUBMODULE_OVERLAYS: SubmoduleOverlay[] = [
+  {
+    sub: 'TMessagesProj_Modules/media',
+    patch: 'media-audio-focus.patch',
+    baseSha: 'c822f1f33d30591fdbbf3919662be258f7cfbfc6',
+    marker: 'inu_transientFocus',
+  },
+]
+
+export async function applySubmoduleOverlays(repoDir: string) {
+  let appliedAny = false
+  for (const overlay of SUBMODULE_OVERLAYS) {
+    const subDir = join(repoDir, overlay.sub)
+    if (!existsSync(subDir)) {
+      warn(`Skipping overlay ${overlay.patch}: ${overlay.sub} is not checked out`)
+      continue
+    }
+    const probe = await $({ cwd: subDir, nothrow: true })`git grep -q -- ${overlay.marker}`
+    if (probe.exitCode === 0) {
+      continue
+    }
+    const head = (await $({ cwd: subDir })`git rev-parse HEAD`).stdout.trim()
+    if (head !== overlay.baseSha) {
+      throw new Error(
+        `Refusing to apply overlay ${overlay.patch}: ${overlay.sub} is at ${head}, expected ${overlay.baseSha}. `
+        + 'Upstream bumped the submodule — re-apply the inu_* changes manually and regenerate the overlay.',
+      )
+    }
+    const patchFile = join(submoduleOverlaysDir, overlay.patch)
+    step(`Applying submodule overlay ${overlay.patch}`)
+    await $({ cwd: subDir })`git apply --check ${patchFile}`
+    await $({ cwd: subDir })`git apply ${patchFile}`
+    appliedAny = true
+  }
+  return appliedAny
 }
 
 export function hasGitRepo(repoDir: string) {

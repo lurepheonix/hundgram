@@ -36,6 +36,7 @@ import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
 import org.telegram.messenger.SharedConfig
 import org.telegram.messenger.UserConfig
+import org.telegram.proxy.ProxySettings
 import org.telegram.ui.AccountFrozenAlert
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.ActionBar.DrawerLayoutContainer
@@ -397,12 +398,9 @@ object DrawerHelper {
             .putBoolean("proxy_enabled", enabled && proxy != null)
             .apply()
         if (proxy != null) {
-            ConnectionsManager.setProxySettings(
-                true, proxy.address, proxy.port,
-                proxy.username, proxy.password, proxy.secret
-            )
+            ConnectionsManager.setProxySettings(true, proxy.settings)
         } else {
-            ConnectionsManager.setProxySettings(false, "", 0, "", "", "")
+            ConnectionsManager.setProxySettings(false, ProxySettings.EMPTY)
         }
         NotificationCenter.getGlobalInstance()
             .postNotificationName(NotificationCenter.proxySettingsChanged)

@@ -594,7 +594,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesControll
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
-@@ -252,6 +252,9 @@ public class StoriesController {
+@@ -255,6 +255,9 @@ public class StoriesController {
          if (dialogId == 0) {
              return false;
          }
@@ -604,7 +604,7 @@ index 0000000..0000000 100644
          if (hasUploadingStories(dialogId)) {
              return true;
          }
-@@ -266,6 +269,9 @@ public class StoriesController {
+@@ -269,6 +272,9 @@ public class StoriesController {
      }
  
      public TL_stories.PeerStories getStoriesFromFullPeer(long dialogId) {
@@ -614,7 +614,7 @@ index 0000000..0000000 100644
          if (dialogId > 0) {
              TLRPC.UserFull userFull = MessagesController.getInstance(currentAccount).getUserFull(dialogId);
              if (userFull != null && userFull.stories != null && !userFull.stories.checkedExpired) {
-@@ -469,6 +475,7 @@ public class StoriesController {
+@@ -472,6 +478,7 @@ public class StoriesController {
          for (int i = 0; i < storiesResponse.peer_stories.size(); i++) {
              TL_stories.PeerStories userStories = storiesResponse.peer_stories.get(i);
              final long dialogId = DialogObject.getPeerDialogId(userStories.peer);
@@ -622,7 +622,7 @@ index 0000000..0000000 100644
              for (int j = 0; j < userStories.stories.size(); j++) {
                  TL_stories.StoryItem story = userStories.stories.get(j);
                  if (story instanceof TL_stories.TL_storyItemDeleted ||
-@@ -680,6 +687,9 @@ public class StoriesController {
+@@ -683,6 +690,9 @@ public class StoriesController {
      }
  
      public TL_stories.PeerStories getStories(long peerId) {
@@ -632,7 +632,7 @@ index 0000000..0000000 100644
          return allStoriesMap.get(peerId);
      }
  
-@@ -1071,6 +1081,9 @@ public class StoriesController {
+@@ -1074,6 +1084,9 @@ public class StoriesController {
      }
  
      public boolean hasSelfStories() {
@@ -642,7 +642,7 @@ index 0000000..0000000 100644
          long clientUserId = UserConfig.getInstance(currentAccount).clientUserId;
          TL_stories.PeerStories storyItem = allStoriesMap.get(clientUserId);
          if (storyItem != null && !storyItem.stories.isEmpty()) {
-@@ -1083,6 +1096,9 @@ public class StoriesController {
+@@ -1086,6 +1099,9 @@ public class StoriesController {
      }
  
      public int getSelfStoriesCount() {
@@ -652,7 +652,7 @@ index 0000000..0000000 100644
          int count = 0;
          TL_stories.PeerStories storyItem = allStoriesMap.get(UserConfig.getInstance(currentAccount).clientUserId);
          if (storyItem != null) {
-@@ -1337,6 +1353,9 @@ public class StoriesController {
+@@ -1340,6 +1356,9 @@ public class StoriesController {
      }
  
      public boolean hasUnreadStories(long dialogId) {
@@ -662,7 +662,7 @@ index 0000000..0000000 100644
          TL_stories.PeerStories userStories = allStoriesMap.get(dialogId);
          if (userStories == null) {
              userStories = getStoriesFromFullPeer(dialogId);
-@@ -3347,6 +3366,10 @@ public class StoriesController {
+@@ -3350,6 +3369,10 @@ public class StoriesController {
          }
  
          public void fill(ArrayList<MessageObject> arrayList, boolean showPhotos, boolean showVideos) {
@@ -673,7 +673,7 @@ index 0000000..0000000 100644
              tempArr.clear();
              if (type == TYPE_PINNED && albumId <= 0) {
                  for (int id : pinnedIds) {
-@@ -3734,6 +3757,9 @@ public class StoriesController {
+@@ -3737,6 +3760,9 @@ public class StoriesController {
          }
  
          protected boolean canLoad() {
@@ -683,7 +683,7 @@ index 0000000..0000000 100644
              if (lastLoadTime == null) {
                  return true;
              }
-@@ -3795,6 +3821,9 @@ public class StoriesController {
+@@ -3798,6 +3824,9 @@ public class StoriesController {
              if (loading || (done || error || !canLoad()) && !force) {
                  return false;
              }
@@ -693,7 +693,7 @@ index 0000000..0000000 100644
              if (preloading) {
                  toLoad = i -> load(force, count, ids);
                  return false;
-@@ -4934,6 +4963,10 @@ public class StoriesController {
+@@ -4937,6 +4966,10 @@ public class StoriesController {
  
          public void load() {
              if (loading || loaded) return;

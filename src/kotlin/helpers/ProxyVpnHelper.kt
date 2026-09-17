@@ -10,6 +10,7 @@ import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.SharedConfig
+import org.telegram.proxy.ProxySettings
 import org.telegram.tgnet.ConnectionsManager
 
 object ProxyVpnHelper {
@@ -64,7 +65,7 @@ object ProxyVpnHelper {
                 putBoolean("proxy_enabled", false)
                 putBoolean("proxy_enabled_calls", false)
             }
-            ConnectionsManager.setProxySettings(false, "", 1080, "", "", "")
+            ConnectionsManager.setProxySettings(false, ProxySettings.EMPTY)
             InuConfig.PROXY_SUPPRESSED_BY_VPN.value = true
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.proxySettingsChanged)
         } finally {
@@ -80,7 +81,7 @@ object ProxyVpnHelper {
             MessagesController.getGlobalMainSettings().edit {
                 putBoolean("proxy_enabled", true)
             }
-            ConnectionsManager.setProxySettings(true, proxy.address, proxy.port, proxy.username, proxy.password, proxy.secret)
+            ConnectionsManager.setProxySettings(true, proxy.settings)
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.proxySettingsChanged)
         } finally {
             applying = false

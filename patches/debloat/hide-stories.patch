@@ -32,7 +32,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -39532,7 +39532,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -39525,7 +39525,7 @@ public class ChatActivity extends BaseFragment implements
                      arrayList = new ArrayList<>();
                      arrayList.add(messageObject);
                  }
@@ -68,7 +68,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java b/T
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
-@@ -6192,7 +6192,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -6194,7 +6194,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
  
      @Override
      public boolean canSelectStories() {
@@ -77,7 +77,7 @@ index 0000000..0000000 100644
      }
  
      @Override
-@@ -9138,7 +9138,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -9140,7 +9140,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
              for (int i = 0; i < stories.size(); ++i) {
                  TL_stories.PeerStories userStories = stories.get(i);
                  long dialogId = DialogObject.getPeerDialogId(userStories.peer);
@@ -118,7 +118,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesControll
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
-@@ -261,6 +261,9 @@ public class StoriesController {
+@@ -264,6 +264,9 @@ public class StoriesController {
          if (isLastUploadingFailed(dialogId)) {
              return true;
          }
@@ -128,7 +128,7 @@ index 0000000..0000000 100644
          TL_stories.PeerStories stories = allStoriesMap.get(dialogId);
          if (stories == null) {
              stories = getStoriesFromFullPeer(dialogId);
-@@ -288,6 +291,7 @@ public class StoriesController {
+@@ -291,6 +294,7 @@ public class StoriesController {
      }
  
      public boolean hasStories() {

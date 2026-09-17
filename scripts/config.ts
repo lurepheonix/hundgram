@@ -8,6 +8,7 @@ export const upstreamUrl = 'https://github.com/DrKLO/Telegram'
 export const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 export const worktreeDir = join(rootDir, 'worktree')
 export const patchesDir = join(rootDir, 'patches')
+export const submoduleOverlaysDir = join(rootDir, 'submodule-overlays')
 export const seriesFile = join(rootDir, 'series')
 export const upstreamCommitFile = join(rootDir, 'upstream-commit')
 export const assetsDir = join(rootDir, 'src/res/assets')

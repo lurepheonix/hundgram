@@ -289,6 +289,22 @@ pnpm run export
 
 If user asks "which patch am I on" → `stg top`.
 
+## Submodule overlays
+
+stg versions submodules as SHA gitlinks only — file edits inside a submodule
+(e.g. `TMessagesProj_Modules/media`) are invisible to `stg`/export and lost on a
+fresh clone. Such edits ship as overlay files in `submodule-overlays/`, applied by
+`pnpm run setup` (both stg and `--no-stgit` flows, CI included) after the submodule
+sync. Registry: `SUBMODULE_OVERLAYS` in `scripts/lib.ts` (submodule path, patch
+file, pinned base SHA, idempotency marker).
+
+- New overlay: edit inside the submodule, then `git -C <sub> diff` >
+  `submodule-overlays/<name>.patch`, register it in `SUBMODULE_OVERLAYS`.
+- Never hand-edit an overlay; regenerate from the submodule diff.
+- Upstream submodule bump → the apply step fails loud (wrong base SHA). Re-apply the
+  `inu_*` changes on the new pin, regenerate the overlay, update `baseSha`.
+
 ## Self-maintenance
 
-When adding a new `InuHooks` method, settings page, or shared `hooks/` patch — update this file. Tribal knowledge rots.
+When adding a new `InuHooks` method, settings page, shared `hooks/` patch, or
+submodule overlay — update this file. Tribal knowledge rots.

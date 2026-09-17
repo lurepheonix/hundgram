@@ -1,6 +1,6 @@
 package desu.inugram.helpers
 
-import com.google.android.exoplayer2.util.Log
+import android.util.Log
 import org.telegram.SQLite.SQLiteDatabase
 import org.telegram.messenger.MessagesStorage
 

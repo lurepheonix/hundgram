@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import { join } from 'node:path'
 import { ICON_SELECTION, patchesDir, rootDir, worktreeDir } from './config.js'
 import {
+  applySubmoduleOverlays,
   cd,
   cloneUpstream,
   ensureDir,
@@ -211,6 +212,7 @@ if (noStgit) {
     await repo`git apply ${join(patchesDir, entry)}`
   }
   if (!noSubmodules) await syncSubmodules(worktreeDir)
+  await applySubmoduleOverlays(worktreeDir)
   await ensureAdGuardFilter()
   await linkForkSource(worktreeDir)
   await generateIconDrawables(worktreeDir)
@@ -226,9 +228,10 @@ if (noStgit) {
     await ensurePatches(expectedPatches, seriesEntries)
   }
   const syncedSubmodules = noSubmodules ? false : await syncSubmodules(worktreeDir)
+  const overlaidAny = await applySubmoduleOverlays(worktreeDir)
   await ensureAdGuardFilter()
   await ensureGitExclude(worktreeDir, '.kotlin')
   const linkedAny = await linkForkSource(worktreeDir)
   const generatedAny = await generateIconDrawables(worktreeDir)
-  success(linkedAny || generatedAny || syncedSubmodules ? 'Setup complete' : 'Up to date')
+  success(linkedAny || generatedAny || syncedSubmodules || overlaidAny ? 'Setup complete' : 'Up to date')
 }
