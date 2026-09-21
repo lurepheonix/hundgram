@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.LocaleController
+import org.telegram.messenger.R
 import java.util.Locale
 import desu.inugram.helpers.security.ParanoiaHelper
 
@@ -24,6 +25,18 @@ object LocaleHelper {
             key == "AppNameBeta" ||
             key == "AppUpdate" ||
             key == "AppUpdateBeta"
+    }
+
+    // res-ID variant: single-arg getString(res) passes key=null, and upstream's
+    // getByResNameOrResId falls back to a res-ID lookup in that case, bypassing
+    // the key-based guard above and returning stock "Telegram" from the external
+    // localization. Covers R.string.AppName/AppNameBeta/AppUpdate/AppUpdateBeta.
+    @JvmStatic
+    fun isLocalOnlyString(resId: Int): Boolean {
+        return resId == R.string.AppName ||
+            resId == R.string.AppNameBeta ||
+            resId == R.string.AppUpdate ||
+            resId == R.string.AppUpdateBeta
     }
 
     @JvmStatic
