@@ -182,7 +182,7 @@ index 0000000..0000000 100644
              }
              if (folderId != 0) {
                  actionBar.setTitle(getString(R.string.ArchivedChats));
-@@ -3922,6 +3927,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -3918,6 +3923,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                      return;
                  }
                  if (id == -1) {
@@ -194,7 +194,7 @@ index 0000000..0000000 100644
                      if (rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment()) {
                          if (actionBar.isActionModeShowed()) {
                              if (searchViewPager != null && searchViewPager.getVisibility() == View.VISIBLE && searchViewPager.actionModeShowing()) {
-@@ -5391,7 +5401,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -5387,7 +5397,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              }
          };
          dialogStoriesCell.setActionBar(actionBar);
@@ -203,7 +203,7 @@ index 0000000..0000000 100644
          dialogStoriesCell.allowGlobalUpdates = false;
          dialogStoriesCell.setVisibility(View.GONE);
          animateToHasStories = false;
-@@ -5421,7 +5431,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -5417,7 +5427,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          undoView[1] = null;
  
          if (hasMainTabs) {
@@ -212,7 +212,7 @@ index 0000000..0000000 100644
              actionBar.setTitleColor(getThemedColor(Theme.key_telegram_color_dialogsLogo));
          }
  
-@@ -5950,6 +5960,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -5946,6 +5956,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              yoff = -(actionBar.getHeight() - AndroidUtilities.rectTmp2.centerY()) - dp(16);
              xoff = AndroidUtilities.rectTmp2.centerX() - dp(16);
              xoff += dp(4);
@@ -222,7 +222,7 @@ index 0000000..0000000 100644
              if (animatedStatusView != null) {
                  animatedStatusView.translate(AndroidUtilities.rectTmp2.centerX(), AndroidUtilities.rectTmp2.centerY());
              }
-@@ -6803,7 +6816,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6799,7 +6812,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          // actionMode.setBackgroundColor(Color.TRANSPARENT);
          // actionMode.drawBlur = false;
  
@@ -232,7 +232,7 @@ index 0000000..0000000 100644
              actionModeCloseView = new ImageView(getContext());
              actionModeCloseView.setScaleType(ImageView.ScaleType.CENTER);
              actionModeCloseView.setImageDrawable(new BackDrawable(true));
-@@ -6818,7 +6832,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6814,7 +6828,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          selectedDialogsCountTextView.setTextSize(18);
          selectedDialogsCountTextView.setTypeface(AndroidUtilities.bold());
          selectedDialogsCountTextView.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
@@ -241,7 +241,7 @@ index 0000000..0000000 100644
          selectedDialogsCountTextView.setOnTouchListener((v, event) -> true);
  
          pinItem = actionMode.addItemWithWidth(pin, R.drawable.msg_pin, dp(48));
-@@ -9160,6 +9174,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -9156,6 +9170,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          selectedDialogs.clear();
          if (backDrawable != null) {
              backDrawable.setRotation(0, true);
@@ -250,7 +250,7 @@ index 0000000..0000000 100644
          }
          if (filterTabsView != null) {
              filterTabsView.animateColorsTo(Theme.key_actionBarTabLine, Theme.key_actionBarTabActiveText, Theme.key_actionBarTabUnactiveText, Theme.key_actionBarTabSelector, Theme.key_windowBackgroundWhite);
-@@ -10247,6 +10263,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -10243,6 +10259,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              }
              if (backDrawable != null) {
                  backDrawable.setRotation(1, true);

@@ -1,6 +1,5 @@
 bugfix/photo-viewer-crop.patch
 misc/build-support.patch
-misc/branding.patch
 misc/remove-play.patch
 misc/settings-ui.patch
 misc/defaults.patch
@@ -326,3 +325,4 @@ bugfix/link-scrim-offset.patch
 bugfix/scrim-touch-lock.patch
 bugfix/forbidden-record-button-mode.patch
 debloat/hide-stories.patch
+misc/branding.patch
