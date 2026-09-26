@@ -51,19 +51,20 @@ index 0000000..0000000 100644
      public VideoPlayer() {
          this(true, false);
      }
-@@ -252,9 +277,10 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -252,10 +277,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
              if (audioVisualizerDelegate != null) {
                  factory = new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext);
              } else {
 -                factory = new DefaultRenderersFactory(ApplicationLoader.applicationContext);
 +                factory = new InuRenderersFactory(ApplicationLoader.applicationContext);
              }
-             factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+             factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON);
+             // factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
 +            factory.setEnableAudioTrackPlaybackParams(true);
              ExoPlayer.Builder builder = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(factory)
                      .setTrackSelector(trackSelector)
                      .setLoadControl(loadControl);
-@@ -1465,7 +1491,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1466,7 +1492,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
      public void setPlaybackSpeed(float speed) {
          try {
              if (player != null) {
@@ -72,7 +73,7 @@ index 0000000..0000000 100644
              }
          } catch (Exception ignore) {}
      }
-@@ -1796,25 +1822,42 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1797,25 +1823,42 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
          return repeatCount;
      }
  
@@ -130,7 +131,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -10755,6 +10755,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -10754,6 +10754,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  }
              }
  

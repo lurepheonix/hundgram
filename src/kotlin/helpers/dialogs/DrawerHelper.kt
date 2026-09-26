@@ -36,7 +36,7 @@ import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.R
 import org.telegram.messenger.SharedConfig
 import org.telegram.messenger.UserConfig
-import org.telegram.proxy.ProxySettings
+import org.telegram.utils.proxy.ProxySettings
 import org.telegram.ui.AccountFrozenAlert
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.ActionBar.DrawerLayoutContainer

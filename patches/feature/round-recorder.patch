@@ -7,7 +7,8 @@ Subject: improvements to the round recorder
  .../messenger/camera/Camera2Session.java      | 18 ++++++++
  .../messenger/camera/CameraSession.java       |  2 +-
  .../ui/Components/InstantCameraView.java      | 41 ++++++++++++++-----
- 3 files changed, 50 insertions(+), 11 deletions(-)
+ .../ui/Components/InstantCameraView2.java     | 35 ++++++++++------
+ 4 files changed, 73 insertions(+), 23 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/camera/Camera2Session.java b/TMessagesProj/src/main/java/org/telegram/messenger/camera/Camera2Session.java
 index 0000000..0000000 100644
@@ -84,7 +85,7 @@ index 0000000..0000000 100644
  import desu.inugram.helpers.chat.VoiceRecorderHelper;
  import org.telegram.messenger.AndroidUtilities;
  import org.telegram.messenger.ApplicationLoader;
-@@ -325,6 +326,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -325,6 +326,8 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
          buttonsLayout.setOrientation(LinearLayout.HORIZONTAL);
          addView(buttonsLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 56, Gravity.LEFT | Gravity.BOTTOM, 1, 0, 0, 0));
  
@@ -93,7 +94,7 @@ index 0000000..0000000 100644
          switchCameraButton = new FlashViews.ImageViewInvertable(context);
          switchCameraButton.setScaleType(ImageView.ScaleType.CENTER);
          switchCameraButton.setContentDescription(LocaleController.getString(R.string.AccDescrSwitchCamera));
-@@ -595,6 +598,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -595,6 +598,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
  
      public void destroy(boolean async) {
          if (useCamera2) {
@@ -101,7 +102,7 @@ index 0000000..0000000 100644
              for (int a = 0; a < camera2Sessions.length; ++a) {
                  if (camera2Sessions[a] != null) {
                      camera2Sessions[a].destroy(async);
-@@ -666,6 +670,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -666,6 +670,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
          if (recording) {
              cancelled = recordedTime < 800;
              recording = false;
@@ -109,7 +110,7 @@ index 0000000..0000000 100644
              updateFlash();
              if (cameraThread != null) {
                  NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.recordStopped, recordingGuid, cancelled ? 4 : 2);
-@@ -774,8 +779,9 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -774,8 +779,9 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
          }
  
          if (useCamera2) {
@@ -120,7 +121,7 @@ index 0000000..0000000 100644
                  for (int a = 0; a < 2; ++a) {
                      if (camera2Sessions[a] == null) {
                          camera2Sessions[a] = Camera2Session.create(a == 0, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize);
-@@ -791,6 +797,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -791,6 +797,8 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                      bothCameras = false;
                  }
                  if (camera2SessionCurrent == null) return;
@@ -129,7 +130,7 @@ index 0000000..0000000 100644
              } else {
                  camera2SessionCurrent = camera2Sessions[isFrontface ? 0 : 1] = Camera2Session.create(isFrontface, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize, MessagesController.getInstance(UserConfig.selectedAccount).roundVideoSize);
                  if (camera2SessionCurrent == null) return;
-@@ -1012,6 +1020,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -1018,6 +1026,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
              cancelled = recordedTime < 800;
              recording = false;
              flashing = false;
@@ -137,7 +138,7 @@ index 0000000..0000000 100644
              updateFlash();
              int reason;
              if (cancelled) {
-@@ -1071,6 +1080,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -1077,6 +1086,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
          cancelled = true;
          recording = false;
          flashing = false;
@@ -145,7 +146,7 @@ index 0000000..0000000 100644
          updateFlash();
          NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.recordStopped, recordingGuid, byGesture ? 0 : 6);
          if (cameraThread != null) {
-@@ -1161,6 +1171,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -1167,6 +1177,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
          initCamera();
          cameraReady = false;
          cameraThread.reinitForNewCamera();
@@ -153,7 +154,7 @@ index 0000000..0000000 100644
      }
  
      // Old Camera1 API
-@@ -1327,9 +1338,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -1333,9 +1344,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
  
              if (useCamera2) {
                  if (bothCameras) {
@@ -164,7 +165,7 @@ index 0000000..0000000 100644
                  } else {
                      if (index == 1) return;
                      cameraThread.setCurrentSession(camera2SessionCurrent);
-@@ -1973,6 +1982,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -1979,6 +1988,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
  
                      textureBuffer = ByteBuffer.allocateDirect(texData.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
                      textureBuffer.put(texData).position(0);
@@ -172,7 +173,7 @@ index 0000000..0000000 100644
                      break;
                  }
              }
-@@ -3248,6 +3258,8 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -3254,6 +3264,8 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                      recordPlusTime = fromPause ? recordedTime : 0;
                      recordStartTime = System.currentTimeMillis();
                      recording = true;
@@ -181,7 +182,7 @@ index 0000000..0000000 100644
                      updateFlash();
                      invalidate();
                      NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.recordStarted, recordingGuid, false);
-@@ -3758,6 +3770,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -3765,6 +3777,7 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                  pinchStartDistance = (float) Math.hypot(ev.getX(1) - ev.getX(0), ev.getY(1) - ev.getY(0));
  
                  pinchScale = 1f;
@@ -189,7 +190,7 @@ index 0000000..0000000 100644
  
                  pointerId1 = ev.getPointerId(0);
                  pointerId2 = ev.getPointerId(1);
-@@ -3786,15 +3799,17 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -3793,15 +3806,17 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
                  return false;
              }
              pinchScale = (float) Math.hypot(ev.getX(index2) - ev.getX(index1), ev.getY(index2) - ev.getY(index1)) / pinchStartDistance;
@@ -209,7 +210,7 @@ index 0000000..0000000 100644
          } else if ((ev.getActionMasked() == MotionEvent.ACTION_UP || (ev.getActionMasked() == MotionEvent.ACTION_POINTER_UP && checkPointerIds(ev)) || ev.getActionMasked() == MotionEvent.ACTION_CANCEL) && isInPinchToZoomTouchMode) {
              isInPinchToZoomTouchMode = false;
              finishZoom();
-@@ -3803,32 +3818,38 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
+@@ -3810,32 +3825,38 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
      }
  
      ValueAnimator finishZoomTransition;
@@ -252,3 +253,127 @@ index 0000000..0000000 100644
              });
              finishZoomTransition.addListener(new AnimatorListenerAdapter() {
                  @Override
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java
+@@ -53,6 +53,8 @@ import org.telegram.ui.Stories.recorder.FlashViews;
+ import desu.inugram.helpers.chat.VoiceRecorderHelper;
+ import org.telegram.utils.camera.roundvideo.RoundVideoSession;
+ 
++import desu.inugram.helpers.chat.RoundRecorderHelper;
++
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.util.ArrayList;
+@@ -116,6 +118,8 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+     private float animationTranslationY;
+     private float pinchStartDistance;
+     private float zoomProgress;
++    private ZoomControlView inu_zoomSlider;
++    private float inu_pinchStartT = 0f;
+     private int zoomPointerId1 = -1;
+     private int zoomPointerId2 = -1;
+     private boolean pinchZoomActive;
+@@ -234,6 +238,10 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+                 0
+         ));
+ 
++        inu_zoomSlider = RoundRecorderHelper.attachZoomSlider(this, t -> {
++            if (session != null) session.setZoom(t);
++        });
++
+         switchCameraButton = new FlashViews.ImageViewInvertable(context);
+         switchCameraButton.setScaleType(ImageView.ScaleType.CENTER);
+         switchCameraButton.setContentDescription(
+@@ -318,6 +326,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+ 
+     @Override
+     public void destroy(boolean async) {
++        RoundRecorderHelper.setSliderVisible(inu_zoomSlider, false);
+         setRecordingUiFrameClockActive(false);
+         if (zoomResetAnimator != null) zoomResetAnimator.cancel();
+         if (session != null) {
+@@ -518,6 +527,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+     @Override
+     public void cancel(boolean byGesture) {
+         if (session == null) return;
++        RoundRecorderHelper.setSliderVisible(inu_zoomSlider, false);
+         postRecordStopped(byGesture ? 0 : 6);
+         session.cancel();
+         if (upload != null) upload.release(true);
+@@ -657,6 +667,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+             if (info.getState() == RoundVideoSession.State.RECORDING) {
+                 stopHeavyOperations();
+                 hideInitialPlaceholder();
++                RoundRecorderHelper.setSliderVisible(inu_zoomSlider, true);
+                 setRecordingUiFrameClockActive(true);
+                 updateRecordingUiFrame();
+                 if (!startedNotificationSent) {
+@@ -673,6 +684,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+                     );
+                 }
+             } else {
++                RoundRecorderHelper.setSliderVisible(inu_zoomSlider, false);
+                 setRecordingUiFrameClockActive(false);
+                 progressView.setProgress(
+                         info.getRecordedDurationMs() / (float) info.getMaximumDurationMs()
+@@ -698,6 +710,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+             if (cameraCapabilities.getActiveFacing() != null) {
+                 SharedSettings.roundVideoLastCamera.set(cameraCapabilities.getActiveFacing());
+             }
++            if (inu_zoomSlider != null && stateInfo != null) {
++                inu_zoomSlider.setZoom(stateInfo.getZoomProgress(), false);
++            }
+             updateButtons();
+         }
+ 
+@@ -714,6 +729,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+             previewContainer.animate().cancel();
+             previewContainer.setRotationY(-90f);
+             previewContainer.animate().rotationY(0f).setDuration(140L).start();
++            if (inu_zoomSlider != null && stateInfo != null) {
++                inu_zoomSlider.setZoom(stateInfo.getZoomProgress(), false);
++            }
+         }
+ 
+         @Override
+@@ -980,6 +998,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+             pinchStartDistance = pointerDistance(event, 0, 1);
+             pinchZoomActive = pinchStartDistance > 0f;
+             zoomProgress = 0f;
++            inu_pinchStartT = stateInfo != null ? stateInfo.getZoomProgress() : 0f;
+             return true;
+         }
+         if (event.getActionMasked() == MotionEvent.ACTION_MOVE && pinchZoomActive) {
+@@ -990,19 +1009,10 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+                 return true;
+             }
+             float scale = pointerDistance(event, index1, index2) / pinchStartDistance;
+-            float maximumZoomRatio = capabilities == null
+-                    ? 1f
+-                    : capabilities.getMaximumZoomRatio();
+-            float requestedZoomRatio = 1f
+-                    + Math.max(0f, scale - 1f) / ZOOM_GESTURE_EFFORT;
+-            zoomProgress = maximumZoomRatio <= 1f
+-                    ? 0f
+-                    : clamp(
+-                            (requestedZoomRatio - 1f) / (maximumZoomRatio - 1f),
+-                            0f,
+-                            1f
+-                    );
++            float t = inu_pinchStartT + RoundRecorderHelper.pinchDeltaT(scale);
++            zoomProgress = Math.max(0f, Math.min(1f, t));
+             session.setZoom(zoomProgress);
++            if (inu_zoomSlider != null) inu_zoomSlider.setZoom(zoomProgress, false);
+             return true;
+         }
+         if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP && pinchZoomActive) {
+@@ -1036,6 +1046,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+     }
+ 
+     private void animateZoomReset() {
++        if (desu.inugram.InuConfig.ROUND_RECORDER_KEEP_ZOOM.getValue()) return;
+         if (session == null) return;
+         if (zoomResetAnimator != null) zoomResetAnimator.cancel();
+         zoomResetAnimator = ValueAnimator.ofFloat(zoomProgress, 0f);

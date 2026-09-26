@@ -10,7 +10,7 @@ import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.NotificationCenter
 import org.telegram.messenger.SharedConfig
-import org.telegram.proxy.ProxySettings
+import org.telegram.utils.proxy.ProxySettings
 import org.telegram.tgnet.ConnectionsManager
 
 object ProxyVpnHelper {

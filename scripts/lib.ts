@@ -142,7 +142,7 @@ const SUBMODULE_OVERLAYS: SubmoduleOverlay[] = [
   {
     sub: 'TMessagesProj_Modules/media',
     patch: 'media-audio-focus.patch',
-    baseSha: 'c822f1f33d30591fdbbf3919662be258f7cfbfc6',
+    baseSha: 'c430d207677071b1873f9f18266d55ec45722180',
     marker: 'inu_transientFocus',
   },
 ]

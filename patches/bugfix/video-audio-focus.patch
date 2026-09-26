@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
-@@ -263,6 +263,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -264,6 +264,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
              }
              player = builder.build();
  
@@ -25,7 +25,7 @@ index 0000000..0000000 100644
              player.addAnalyticsListener(this);
              player.addListener(this);
              player.addVideoListener(this);
-@@ -1615,6 +1621,9 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1616,6 +1622,9 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
      public void handleAudioFocus(boolean handleAudioFocus) {
          this.handleAudioFocus = handleAudioFocus;
          if (player != null) {
@@ -39,7 +39,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -10541,6 +10541,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -10540,6 +10540,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                      }
                  };
                  videoPlayer.setOnQualityChangeListener(this::updateQualityItems);
