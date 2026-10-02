@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Point
 import android.graphics.PointF
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.GradientDrawable
 import android.location.Location
 import android.text.Html
 import android.widget.FrameLayout
@@ -42,6 +43,9 @@ internal class MlIMap(
     private var markerClickListener: IMapsProvider.OnMarkerClickListener? = null
     private var currentStyle: Style? = null
     private var destroyed = false
+    private var darkRequested = false
+    private var vectorDark = false
+    private var satelliteActive = false
 
     private val ctx: Context get() = viewWrapper.mapView.context
 
@@ -110,6 +114,25 @@ internal class MlIMap(
         style.addLayer(markerSymbolLayer(LAYER_MARKERS_FLAT, SRC_MARKERS_FLAT, Property.ICON_ROTATION_ALIGNMENT_MAP))
         style.addLayer(markerSymbolLayer(LAYER_MARKERS, SRC_MARKERS, Property.ICON_ROTATION_ALIGNMENT_VIEWPORT))
 
+        // OpenFreeMap's bright style ships no housenumber layer (upstream OSM Bright has
+        // one at z17+), but the planet tiles do carry the housenumber source-layer — render it.
+        // Satellite style is Esri raster and has no such data, so skip it there.
+        // Paint follows the active vector style instead of hardcoded bright values so the
+        // numbers stay legible on the dark basemap too.
+        if (style.getSource("openmaptiles") != null && style.getLayer(LAYER_HOUSENUMBERS) == null) {
+            val (textColor, haloColor) = if (vectorDark) "#a6a6a6" to "#000000" else "#333333" to "#ffffff"
+            val housenumbers = SymbolLayer(LAYER_HOUSENUMBERS, "openmaptiles").withSourceLayer("housenumber").withProperties(
+                PropertyFactory.textField(Expression.get("housenumber")),
+                PropertyFactory.textFont(arrayOf("Noto Sans Regular")),
+                PropertyFactory.textSize(11f),
+                PropertyFactory.textColor(textColor),
+                PropertyFactory.textHaloColor(haloColor),
+                PropertyFactory.textHaloWidth(1f),
+            )
+            housenumbers.minZoom = 15f
+            style.addLayerBelow(housenumbers, LAYER_MARKERS_FLAT)
+        }
+
         refreshMarkerSources()
         refreshCircleSource()
     }
@@ -147,15 +170,49 @@ internal class MlIMap(
     }
 
     override fun setMapType(mapType: Int) {
-        val (builder, attr) = when (mapType) {
-            IMapsProvider.MAP_TYPE_SATELLITE, IMapsProvider.MAP_TYPE_HYBRID ->
-                Style.Builder().fromJson(SATELLITE_STYLE_JSON) to ATTRIBUTION_SATELLITE
-
-            else -> Style.Builder().fromUri(BRIGHT_STYLE) to ATTRIBUTION_BRIGHT
+        satelliteActive = mapType == IMapsProvider.MAP_TYPE_SATELLITE || mapType == IMapsProvider.MAP_TYPE_HYBRID
+        if (satelliteActive) {
+            loadStyle(Style.Builder().fromJson(SATELLITE_STYLE_JSON), ATTRIBUTION_SATELLITE)
+        } else {
+            loadVectorStyle(darkRequested)
         }
+    }
+
+    override fun setMapStyle(style: IMapsProvider.IMapStyleOptions?) {
+        // stock calls this on init and on every app theme change; null = light, non-null = dark.
+        // Satellite is theme-neutral: remember the request, apply it when back on vector.
+        darkRequested = style != null
+        if (!satelliteActive && darkRequested != vectorDark) {
+            loadVectorStyle(darkRequested)
+        }
+    }
+
+    private fun loadVectorStyle(dark: Boolean) {
+        vectorDark = dark
+        val builder = if (dark) {
+            loadDarkStyleJson(ctx)?.let { Style.Builder().fromJson(it) } ?: Style.Builder().fromUri(DARK_STYLE)
+        } else {
+            Style.Builder().fromUri(BRIGHT_STYLE)
+        }
+        loadStyle(builder, ATTRIBUTION_BRIGHT)
+    }
+
+    private fun loadStyle(builder: Style.Builder, attr: String) {
         viewWrapper.attribution.text = Html.fromHtml(attr)
+        updateAttributionColors()
         currentStyle = null
         mlMap.setStyle(builder) { style -> bindToStyle(style) }
+    }
+
+    private fun updateAttributionColors() {
+        val dark = satelliteActive || vectorDark
+        viewWrapper.attribution.apply {
+            setTextColor(if (dark) 0xFFFFFFFF.toInt() else 0xFF000000.toInt())
+            background = GradientDrawable().apply {
+                setColor(if (dark) 0xCC000000.toInt() else 0xCCFFFFFF.toInt())
+                cornerRadius = AndroidUtilities.dp(100f).toFloat()
+            }
+        }
     }
 
     override fun animateCamera(update: IMapsProvider.ICameraUpdate) {
@@ -223,8 +280,6 @@ internal class MlIMap(
         lp.bottomMargin = bottom + AndroidUtilities.dp(16f)
         attr.layoutParams = lp
     }
-
-    override fun setMapStyle(style: IMapsProvider.IMapStyleOptions?) {} // fixed style
 
     override fun addMarker(markerOptions: IMapsProvider.IMarkerOptions): IMapsProvider.IMarker {
         val o = markerOptions as MlMarkerOptionsImpl

@@ -14,6 +14,26 @@ import org.maplibre.android.geometry.LatLng as MlLatLng
 import org.maplibre.android.geometry.LatLngBounds as MlLatLngBounds
 
 internal const val BRIGHT_STYLE = "https://tiles.openfreemap.org/styles/bright"
+internal const val DARK_STYLE = "https://tiles.openfreemap.org/styles/dark"
+
+// lifted dark-gray rework of the upstream OFM dark style (which is near-black and sparse);
+// remote DARK_STYLE stays as fallback if the asset ever fails to load.
+internal const val DARK_STYLE_ASSET = "ofm_dark.json"
+
+internal fun loadDarkStyleJson(context: Context): String? {
+    val json = try {
+        context.assets.open(DARK_STYLE_ASSET).bufferedReader().use { it.readText() }
+    } catch (e: Exception) {
+        android.util.Log.d("InuMaps", "bundled dark style missing, falling back to remote style", e)
+        return null
+    }
+    // sanity: a hand-edit that breaks the JSON must not silently render the wrong style.
+    if (!json.contains("\"layers\"") || !json.contains("openmaptiles")) {
+        android.util.Log.d("InuMaps", "bundled dark style failed sanity check, falling back to remote style")
+        return null
+    }
+    return json
+}
 internal const val SATELLITE_STYLE_JSON = """{
   "version": 8,
   "sources": {
@@ -35,6 +55,7 @@ internal const val ATTRIBUTION_SATELLITE = """Powered by <a href="https://www.es
 internal const val SRC_MARKERS = "inu_markers"
 internal const val SRC_MARKERS_FLAT = "inu_markers_flat"
 internal const val SRC_CIRCLES = "inu_circles"
+internal const val LAYER_HOUSENUMBERS = "inu_housenumbers"
 internal const val LAYER_MARKERS = "inu_markers_layer"
 internal const val LAYER_MARKERS_FLAT = "inu_markers_flat_layer"
 internal const val LAYER_CIRCLES_FILL = "inu_circles_fill_layer"
