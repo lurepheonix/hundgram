@@ -4,13 +4,22 @@ Date: Tue, 26 May 2026 21:55:28 +0400
 Subject: add seekbar to gifs
 
 ---
- .../main/java/org/telegram/ui/PhotoViewer.java  | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ .../java/org/telegram/ui/PhotoViewer.java     | 27 ++++++++++++++-----
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
+@@ -4171,7 +4171,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+                     boolean animated = a == 0 || a == 1 && sideImage == rightImage || a == 2 && sideImage == leftImage;
+                     photoProgressViews[a].setProgress(1.0f, animated);
+                     checkProgress(a, false, animated);
+-                    if (videoPlayer == null && a == 0 && (currentMessageObject != null && currentMessageObject.isVideo() || currentBotInlineResult != null && (currentBotInlineResult.type.equals("video") || MessageObject.isVideoDocument(currentBotInlineResult.document)) || pageBlocksAdapter != null && (pageBlocksAdapter.isVideo(currentIndex) || pageBlocksAdapter.isHardwarePlayer(currentIndex)))) {
++                    if (videoPlayer == null && a == 0 && (currentMessageObject != null && (currentMessageObject.isVideo() || desu.inugram.helpers.media.PhotoViewerHelper.gifAsVideo(currentMessageObject)) || currentBotInlineResult != null && (currentBotInlineResult.type.equals("video") || MessageObject.isVideoDocument(currentBotInlineResult.document)) || pageBlocksAdapter != null && (pageBlocksAdapter.isVideo(currentIndex) || pageBlocksAdapter.isHardwarePlayer(currentIndex)))) {
+                         onActionClick(false);
+                     }
+                     if (a == 0 && videoPlayer != null) {
 @@ -10473,7 +10473,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  playerInjected = true;
                  updatePlayerState(videoPlayer.getPlayWhenReady(), videoPlayer.getPlaybackState());
@@ -39,6 +48,15 @@ index 0000000..0000000 100644
              playerAutoStarted = true;
              onActionClick(false);
          } else if (!imagesArrLocals.isEmpty()) {
+@@ -16495,7 +16496,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+                     TLRPC.Message finalMessage = messageObject.messageOwner;
+                     f2Resolver = () -> FileLoader.getInstance(currentAccount).getPathToMessage(finalMessage);
+                 }
+-                if (messageObject.isVideo()) {
++                if (messageObject.isVideo() || desu.inugram.helpers.media.PhotoViewerHelper.gifAsVideo(messageObject)) {
+                     canStream = SharedConfig.streamMedia && messageObject.canStreamVideo() && !DialogObject.isEncryptedDialog(messageObject.getDialogId()) || messageObject.hasVideoQualities();
+                     isVideo = true;
+                 }
 @@ -16895,7 +16896,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  if (!TextUtils.isEmpty(restrictionReason)) {
                      imageReceiver.setImageBitmap(parentActivity.getResources().getDrawable(R.drawable.photoview_placeholder));
@@ -63,3 +81,23 @@ index 0000000..0000000 100644
                          object.imageReceiver.setAllowStartAnimation(false);
                          object.imageReceiver.stopAnimation();
                          if (MediaController.getInstance().isPlayingMessage(messageObject)) {
+@@ -19517,6 +19524,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+         }
+         playerAutoStarted = false;
+         setImageIndex(currentIndex + add, init, true);
++        if (desu.inugram.helpers.media.PhotoViewerHelper.gifAsVideo(currentMessageObject)) {
++            seekToProgressPending2 = 0;
++        }
+         if (shouldMessageObjectAutoPlayed(currentMessageObject) || shouldIndexAutoPlayed(currentIndex)) {
+             playerAutoStarted = true;
+             onActionClick(true);
+@@ -19535,6 +19545,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+     }
+ 
+     private boolean shouldMessageObjectAutoPlayed(MessageObject messageObject) {
++        if (desu.inugram.helpers.media.PhotoViewerHelper.gifAsVideo(messageObject)) {
++            return true;
++        }
+         return messageObject != null && messageObject.isVideo() && (messageObject.mediaExists || messageObject.attachPathExists || messageObject.hasVideoQualities() || messageObject.canStreamVideo() && SharedConfig.streamMedia) && SharedConfig.isAutoplayVideo();
+     }
+ 
