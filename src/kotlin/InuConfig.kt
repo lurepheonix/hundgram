@@ -834,7 +834,7 @@ object InuConfig {
     @JvmField
     val NOTIFICATION_ICON = NotificationIconItem()
 
-    class MapProviderItem : IntItem("map_provider", GOOGLE) {
+    class MapProviderItem : IntItem("map_provider", OSM) {
         companion object {
             const val GOOGLE = 0
             const val OSM = 1
