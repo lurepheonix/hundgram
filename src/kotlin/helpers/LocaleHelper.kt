@@ -41,7 +41,7 @@ object LocaleHelper {
 
     @JvmStatic
     fun getLocalString(key: String?, res: Int): String? {
-        if (!isLocalOnlyString(key)) return null
+        if (!isLocalOnlyString(key) && !isLocalOnlyString(res)) return null
         disguiseName(key)?.let { return it }
         return resolve(res)
     }
