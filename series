@@ -326,3 +326,4 @@ bugfix/scrim-touch-lock.patch
 bugfix/forbidden-record-button-mode.patch
 debloat/hide-stories.patch
 misc/branding.patch
+bugfix/gif-scroll-crash.patch

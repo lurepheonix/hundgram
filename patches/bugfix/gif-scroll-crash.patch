@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: The Ghost <lurepheonix@gmail.com>
+Date: Fri, 2 Oct 2026 22:34:14 +0400
+Subject: Fix crash when scrolling GIFs fast
+
+---
+ .../src/main/java/org/telegram/messenger/ImageLoader.java      | 3 +++
+ .../java/org/telegram/ui/Components/AnimatedFileDrawable.java  | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java b/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java
+@@ -1171,6 +1171,7 @@ public class ImageLoader {
+                 if (fistFrame) {
+                     Bitmap bitmap = fileDrawable.getFrameAtTime(0, false);
+ 
++                    Thread.interrupted();
+                     fileDrawable.recycle();
+                     Thread.interrupted();
+                     if (bitmap == null) {
+@@ -1183,6 +1184,7 @@ public class ImageLoader {
+                     Thread.interrupted();
+                     synchronized (sync) {
+                         if (isCancelled) {
++                            Thread.interrupted();
+                             fileDrawable.recycle();
+                             return;
+                         }
+@@ -1677,6 +1679,7 @@ public class ImageLoader {
+             try {
+                 return fileDrawable.getFrameAtTime(0, true);
+             } finally {
++                Thread.interrupted();
+                 fileDrawable.recycle();
+             }
+         }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
+@@ -214,6 +214,9 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
+ 
+     @UiThread
+     public void invalidateInternal() {
++        if (parents.isEmpty()) {
++            return;
++        }
+         for (ImageReceiver imageReceiver : parents) {
+             imageReceiver.invalidate();
+         }
