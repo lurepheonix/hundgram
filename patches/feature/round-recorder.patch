@@ -294,7 +294,7 @@ index 0000000..0000000 100644
          setRecordingUiFrameClockActive(false);
          if (zoomResetAnimator != null) zoomResetAnimator.cancel();
          if (session != null) {
-@@ -518,6 +527,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -519,6 +528,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
      @Override
      public void cancel(boolean byGesture) {
          if (session == null) return;
@@ -302,7 +302,7 @@ index 0000000..0000000 100644
          postRecordStopped(byGesture ? 0 : 6);
          session.cancel();
          if (upload != null) upload.release(true);
-@@ -657,6 +667,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -658,6 +668,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
              if (info.getState() == RoundVideoSession.State.RECORDING) {
                  stopHeavyOperations();
                  hideInitialPlaceholder();
@@ -310,7 +310,7 @@ index 0000000..0000000 100644
                  setRecordingUiFrameClockActive(true);
                  updateRecordingUiFrame();
                  if (!startedNotificationSent) {
-@@ -673,6 +684,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -674,6 +685,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
                      );
                  }
              } else {
@@ -318,7 +318,7 @@ index 0000000..0000000 100644
                  setRecordingUiFrameClockActive(false);
                  progressView.setProgress(
                          info.getRecordedDurationMs() / (float) info.getMaximumDurationMs()
-@@ -698,6 +710,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -699,6 +711,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
              if (cameraCapabilities.getActiveFacing() != null) {
                  SharedSettings.roundVideoLastCamera.set(cameraCapabilities.getActiveFacing());
              }
@@ -328,7 +328,7 @@ index 0000000..0000000 100644
              updateButtons();
          }
  
-@@ -714,6 +729,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -715,6 +730,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
              previewContainer.animate().cancel();
              previewContainer.setRotationY(-90f);
              previewContainer.animate().rotationY(0f).setDuration(140L).start();
@@ -338,7 +338,7 @@ index 0000000..0000000 100644
          }
  
          @Override
-@@ -980,6 +998,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -981,6 +999,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
              pinchStartDistance = pointerDistance(event, 0, 1);
              pinchZoomActive = pinchStartDistance > 0f;
              zoomProgress = 0f;
@@ -346,7 +346,7 @@ index 0000000..0000000 100644
              return true;
          }
          if (event.getActionMasked() == MotionEvent.ACTION_MOVE && pinchZoomActive) {
-@@ -990,19 +1009,10 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -991,19 +1010,10 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
                  return true;
              }
              float scale = pointerDistance(event, index1, index2) / pinchStartDistance;
@@ -369,7 +369,7 @@ index 0000000..0000000 100644
              return true;
          }
          if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP && pinchZoomActive) {
-@@ -1036,6 +1046,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -1037,6 +1047,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
      }
  
      private void animateZoomReset() {

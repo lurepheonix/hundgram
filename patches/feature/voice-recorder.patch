@@ -15,7 +15,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -13252,15 +13252,33 @@ public class ChatActivity extends BaseFragment implements
+@@ -13253,15 +13253,33 @@ public class ChatActivity extends BaseFragment implements
      }
  
      private void showMediaBannedHint() {
@@ -52,7 +52,7 @@ index 0000000..0000000 100644
          try {
              fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
          } catch (Exception e) {
-@@ -13270,16 +13288,16 @@ public class ChatActivity extends BaseFragment implements
+@@ -13271,16 +13289,16 @@ public class ChatActivity extends BaseFragment implements
          if (mediaBanTooltip == null) {
              mediaBanTooltip = new HintView(getParentActivity(), 9, themeDelegate);
              mediaBanTooltip.setVisibility(View.GONE);
@@ -73,7 +73,7 @@ index 0000000..0000000 100644
                  mediaBanTooltip.setText(ChatObject.getRestrictedErrorText(currentChat, ChatObject.ACTION_SEND_ROUND));
              } else {
                  mediaBanTooltip.setText(ChatObject.getRestrictedErrorText(currentChat, ChatObject.ACTION_SEND_VOICE));
-@@ -13292,7 +13310,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -13293,7 +13311,7 @@ public class ChatActivity extends BaseFragment implements
              mediaBanTooltip.setText(LocaleController.getString(R.string.GlobalAttachMediaRestricted));
          } else {
              if (currentChat.banned_rights == null) {
@@ -82,7 +82,7 @@ index 0000000..0000000 100644
              }
              if (AndroidUtilities.isBannedForever(currentChat.banned_rights)) {
                  mediaBanTooltip.setText(LocaleController.getString(R.string.AttachMediaRestrictedForever));
-@@ -13300,14 +13318,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -13301,14 +13319,7 @@ public class ChatActivity extends BaseFragment implements
                  mediaBanTooltip.setText(LocaleController.formatString("AttachMediaRestricted", R.string.AttachMediaRestricted, LocaleController.formatDateForBan(currentChat.banned_rights.until_date)));
              }
          }
@@ -342,10 +342,10 @@ index 0000000..0000000 100644
  import org.telegram.utils.camera.roundvideo.RoundVideoSession;
  
  import java.io.File;
-@@ -370,7 +371,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-         upload = new TelegramRoundVideoUpload(currentAccount, secretChat);
+@@ -371,7 +372,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
          activeOutputResolution = SharedSettings.roundVideoOutputResolution.get();
          session = new RoundVideoSession.Builder(getContext(), textureView)
+                 .setOutputDirectory(new File(ApplicationLoader.getFilesDirFixed(), "cache"))
 -                .setInitialFacing(SharedSettings.roundVideoLastCamera.get())
 +                .setInitialFacing(VoiceRecorderHelper.nextCameraFront ? RoundVideoSession.CameraFacing.FRONT : RoundVideoSession.CameraFacing.BACK)
                  .setOutputResolution(activeOutputResolution)
