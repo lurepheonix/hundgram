@@ -196,7 +196,14 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 }
             )
         )
-        items.add(UItem.asShadow(null))
+        items.add(
+            UItem.asButton(
+                BUTTON_MAP_THEME,
+                LocaleController.getString(R.string.InuMapTheme),
+                mapThemeLabel(InuConfig.MAP_THEME.value),
+            )
+        )
+        items.add(UItem.asShadow(LocaleController.getString(R.string.InuMapThemeInfo)))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuMiscellaneous)))
         items.add(
@@ -352,6 +359,18 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 InuConfig.MAP_PREVIEW_PROVIDER.value = which
                 MapsHelper.syncMapProvider(messagesController)
             }
+
+            BUTTON_MAP_THEME -> RadioItemOptions.show(
+                this, view,
+                listOf(
+                    LocaleController.getString(R.string.InuMapThemeAuto),
+                    LocaleController.getString(R.string.InuMapThemeLight),
+                    LocaleController.getString(R.string.InuMapThemeDark),
+                ),
+                InuConfig.MAP_THEME.value,
+            ) { which ->
+                InuConfig.MAP_THEME.value = which
+            }
         }
     }
 
@@ -436,6 +455,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val SECTION_DELETE_FOR_BOTH = InuUtils.generateId()
         private val BUTTON_MAP_PROVIDER = InuUtils.generateId()
         private val BUTTON_MAP_PREVIEW_PROVIDER = InuUtils.generateId()
+        private val BUTTON_MAP_THEME = InuUtils.generateId()
         private val TOGGLE_SHOW_SECONDS = InuUtils.generateId()
         private val TOGGLE_DISABLE_ROUNDING = InuUtils.generateId()
         private val TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY = InuUtils.generateId()
@@ -447,8 +467,13 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
             else -> LocaleController.getString(R.string.InuPerformanceClassLow)
         }
 
-        private fun textClassifierModeLabel(value: Int): String = when (value) {
-            InuConfig.TextClassifierModeItem.NATIVE -> LocaleController.getString(R.string.InuTextClassifierModeNative)
+        private fun mapThemeLabel(value: Int): String = when (value) {
+            InuConfig.MapThemeItem.LIGHT -> LocaleController.getString(R.string.InuMapThemeLight)
+            InuConfig.MapThemeItem.DARK -> LocaleController.getString(R.string.InuMapThemeDark)
+            else -> LocaleController.getString(R.string.InuMapThemeAuto)
+        }
+
+        private fun textClassifierModeLabel(value: Int): String = when (value) {            InuConfig.TextClassifierModeItem.NATIVE -> LocaleController.getString(R.string.InuTextClassifierModeNative)
             InuConfig.TextClassifierModeItem.OFF -> LocaleController.getString(R.string.InuTextClassifierModeOff)
             else -> LocaleController.getString(R.string.InuTextClassifierModeImproved)
         }
@@ -477,6 +502,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("delete-for-both", R.string.InuDeleteForBoth, SECTION_DELETE_FOR_BOTH),
                 SearchRegistry.Entry("map-provider", R.string.InuMapProvider, BUTTON_MAP_PROVIDER),
                 SearchRegistry.Entry("map-preview-provider", R.string.InuMapPreviewProvider, BUTTON_MAP_PREVIEW_PROVIDER),
+                SearchRegistry.Entry("map-theme", R.string.InuMapTheme, BUTTON_MAP_THEME),
                 SearchRegistry.Entry("show-seconds", R.string.InuShowSeconds, TOGGLE_SHOW_SECONDS),
                 SearchRegistry.Entry("disable-rounding", R.string.InuDisableRounding, TOGGLE_DISABLE_ROUNDING),
                 SearchRegistry.Entry("disable-next-audio-autoplay", R.string.InuDisableNextAudioAutoplay, TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY),

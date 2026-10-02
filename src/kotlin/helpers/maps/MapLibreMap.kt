@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.util.Consumer
+import desu.inugram.InuConfig
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.Style
 import org.maplibre.android.style.expressions.Expression
@@ -180,8 +181,13 @@ internal class MlIMap(
 
     override fun setMapStyle(style: IMapsProvider.IMapStyleOptions?) {
         // stock calls this on init and on every app theme change; null = light, non-null = dark.
+        // A manual MAP_THEME override wins over the stock signal.
         // Satellite is theme-neutral: remember the request, apply it when back on vector.
-        darkRequested = style != null
+        darkRequested = when (InuConfig.MAP_THEME.value) {
+            InuConfig.MapThemeItem.LIGHT -> false
+            InuConfig.MapThemeItem.DARK -> true
+            else -> style != null
+        }
         if (!satelliteActive && darkRequested != vectorDark) {
             loadVectorStyle(darkRequested)
         }

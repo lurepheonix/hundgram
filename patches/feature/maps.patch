@@ -4,13 +4,13 @@ Date: Wed, 6 May 2026 21:48:27 +0200
 Subject: our own google maps token + support for maplibre
 
 ---
- TMessagesProj/config/debug/AndroidManifest.xml                  | 2 +-
- TMessagesProj/config/debug/AndroidManifest_SDK23.xml            | 2 +-
- TMessagesProj/config/release/AndroidManifest.xml                | 2 +-
- TMessagesProj/config/release/AndroidManifest_SDK23.xml          | 2 +-
- TMessagesProj/config/release/AndroidManifest_standalone.xml     | 2 +-
- .../src/main/java/org/telegram/ui/LocationActivity.java         | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ .../config/debug/AndroidManifest.xml          |  2 +-
+ .../config/debug/AndroidManifest_SDK23.xml    |  2 +-
+ .../config/release/AndroidManifest.xml        |  2 +-
+ .../config/release/AndroidManifest_SDK23.xml  |  2 +-
+ .../release/AndroidManifest_standalone.xml    |  2 +-
+ .../org/telegram/ui/LocationActivity.java     | 61 ++++++++++++++++++-
+ 6 files changed, 65 insertions(+), 6 deletions(-)
 
 diff --git a/TMessagesProj/config/debug/AndroidManifest.xml b/TMessagesProj/config/debug/AndroidManifest.xml
 index 0000000..0000000 100644
@@ -81,7 +81,25 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LocationActivity.java b
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LocationActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LocationActivity.java
-@@ -760,7 +760,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+@@ -133,6 +133,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+     private TextView showAllButton;
+     private ImageView proximityButton;
+     private ActionBarMenuItem mapTypeButton;
++    private ActionBarMenuItem inu_mapThemeButton;
+     private SearchButton searchAreaButton;
+     private LinearLayout emptyView;
+     private ImageView emptyImageView;
+@@ -234,6 +235,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+     private final static int map_list_menu_map = 2;
+     private final static int map_list_menu_satellite = 3;
+     private final static int map_list_menu_hybrid = 4;
++    private final static int inu_map_menu_theme_auto = 7;
++    private final static int inu_map_menu_theme_light = 8;
++    private final static int inu_map_menu_theme_dark = 9;
+ 
+     public final static int LOCATION_TYPE_SEND = 0;
+     public final static int LOCATION_TYPE_SEND_WITH_LIVE = 1;
+@@ -760,7 +764,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
          mapTypeButton.setAdditionalYOffset(-dp(10));
          mapTypeButton.addSubItem(map_list_menu_map, R.drawable.msg_map, getString(R.string.Map), getResourceProvider());
          mapTypeButton.addSubItem(map_list_menu_satellite, R.drawable.msg_satellite, getString(R.string.Satellite), getResourceProvider());
@@ -90,3 +108,87 @@ index 0000000..0000000 100644
          mapTypeButton.setContentDescription(getString(R.string.AccDescrMoreOptions));
          Drawable drawable = Theme.createSimpleSelectorCircleDrawable(dp(40), getThemedColor(Theme.key_location_actionBackground), getThemedColor(Theme.key_location_actionPressedBackground));
          ScaleStateListAnimator.apply(mapTypeButton);
+@@ -783,6 +787,36 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+             }
+         });
+ 
++        inu_mapThemeButton = new ActionBarMenuItem(context, null, 0, getThemedColor(Theme.key_location_actionIcon), getResourceProvider());
++        inu_mapThemeButton.setClickable(true);
++        inu_mapThemeButton.setSubMenuOpenSide(2);
++        inu_mapThemeButton.setAdditionalXOffset(dp(10));
++        inu_mapThemeButton.setAdditionalYOffset(-dp(10));
++        inu_mapThemeButton.addSubItem(inu_map_menu_theme_auto, R.drawable.msg_night_auto_solar, getString(R.string.InuMapThemeAuto), getResourceProvider());
++        inu_mapThemeButton.addSubItem(inu_map_menu_theme_light, R.drawable.menu_day_mode_24, getString(R.string.InuMapThemeLight), getResourceProvider());
++        inu_mapThemeButton.addSubItem(inu_map_menu_theme_dark, R.drawable.menu_night_mode_24, getString(R.string.InuMapThemeDark), getResourceProvider());
++        inu_mapThemeButton.setContentDescription(getString(R.string.InuMapTheme));
++        inu_mapThemeButton.setTranslationZ(dp(2));
++        inu_mapThemeButton.setOutlineProvider(ViewOutlineProviderImpl.BOUNDS_OVAL);
++        inu_mapThemeButton.setBackgroundDrawable(drawable);
++        inu_updateMapThemeButtonIcon();
++        mapViewClip.addView(inu_mapThemeButton, LayoutHelper.createFrame(40, 40, Gravity.RIGHT | Gravity.TOP, 0, 12, 12 + 50, 0));
++        inu_mapThemeButton.setOnClickListener(v -> inu_mapThemeButton.toggleSubMenu());
++        inu_mapThemeButton.setDelegate(id -> {
++            if (map == null) {
++                return;
++            }
++            if (id == inu_map_menu_theme_auto) {
++                desu.inugram.InuConfig.MAP_THEME.setValue(desu.inugram.InuConfig.MapThemeItem.AUTO);
++            } else if (id == inu_map_menu_theme_light) {
++                desu.inugram.InuConfig.MAP_THEME.setValue(desu.inugram.InuConfig.MapThemeItem.LIGHT);
++            } else if (id == inu_map_menu_theme_dark) {
++                desu.inugram.InuConfig.MAP_THEME.setValue(desu.inugram.InuConfig.MapThemeItem.DARK);
++            }
++            currentMapStyleDark = desu.inugram.helpers.maps.MapsHelper.refreshMapTheme(map, context, getMapThemeResId() != 0);
++            inu_updateMapThemeButtonIcon();
++        });
++
+         locationButton = new ImageView(context);
+         drawable = Theme.createSimpleSelectorCircleDrawable(dp(40), getThemedColor(Theme.key_location_actionBackground), getThemedColor(Theme.key_location_actionPressedBackground));
+         ScaleStateListAnimator.apply(locationButton);
+@@ -1573,7 +1607,27 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+         return AndroidUtilities.computePerceivedBrightness(color) < 0.721f;
+     }
+ 
++    private void inu_updateMapThemeButtonIcon() {
++        if (inu_mapThemeButton == null) {
++            return;
++        }
++        int theme = desu.inugram.InuConfig.MAP_THEME.getValue();
++        if (theme == desu.inugram.InuConfig.MapThemeItem.LIGHT) {
++            inu_mapThemeButton.setIcon(R.drawable.menu_day_mode_24);
++        } else if (theme == desu.inugram.InuConfig.MapThemeItem.DARK) {
++            inu_mapThemeButton.setIcon(R.drawable.menu_night_mode_24);
++        } else {
++            inu_mapThemeButton.setIcon(R.drawable.msg_night_auto_solar);
++        }
++    }
++
+     private int getMapThemeResId() {
++        int inu_mapTheme = desu.inugram.InuConfig.MAP_THEME.getValue();
++        if (inu_mapTheme == desu.inugram.InuConfig.MapThemeItem.DARK) {
++            return R.raw.mapstyle_night;
++        } else if (inu_mapTheme == desu.inugram.InuConfig.MapThemeItem.LIGHT) {
++            return 0;
++        }
+         int color = getThemedColor(Theme.key_windowBackgroundWhite);
+         if (AndroidUtilities.computePerceivedBrightness(color) < 0.721f) {
+ //            if (Color.blue(color) - 3 > Color.red(color) && Color.blue(color) - 3 > Color.green(color)) {
+@@ -2382,6 +2436,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+             float translationY = Math.min(overScrollHeight - mapTypeButton.getMeasuredHeight() - dp(64 + (locationType == LOCATION_TYPE_SEND || locationType == LOCATION_TYPE_SEND_WITH_LIVE ? 30 : 10)), -top);
+             mapTypeButton.setTranslationY(translationY);
+             proximityButton.setTranslationY(translationY);
++            inu_mapThemeButton.setTranslationY(translationY);
+             if (hintView != null) {
+                 hintView.setTranslationY(translationY);
+             }
+@@ -3051,6 +3106,10 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+             mapTypeButton.redrawPopup(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
+             mapTypeButton.setPopupItemsColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItemIcon), true);
+             mapTypeButton.setPopupItemsColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem), false);
++            inu_mapThemeButton.setIconColor(getThemedColor(Theme.key_location_actionIcon));
++            inu_mapThemeButton.redrawPopup(getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
++            inu_mapThemeButton.setPopupItemsColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItemIcon), true);
++            inu_mapThemeButton.setPopupItemsColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem), false);
+ 
+             shadowDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogBackground), PorterDuff.Mode.MULTIPLY));
+             shadow.invalidate();

@@ -286,6 +286,11 @@
     <string name="InuMapPreviewProviderTelegram">Telegram</string>
     <string name="InuMapPreviewProviderGoogle">Google</string>
     <string name="InuMapPreviewProviderYandex">Яндекс</string>
+    <string name="InuMapTheme">Тема карты</string>
+    <string name="InuMapThemeInfo">Применяется к видам Google и OpenStreetMap</string>
+    <string name="InuMapThemeAuto">Авто (системная)</string>
+    <string name="InuMapThemeLight">Светлая</string>
+    <string name="InuMapThemeDark">Тёмная</string>
 
     <string name="InuReplyIn">Ответить в…</string>
     <string name="InuDeletedMessage">Удалённое сообщение</string>

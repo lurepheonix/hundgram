@@ -857,6 +857,17 @@ object InuConfig {
     @JvmField
     val MAP_PREVIEW_PROVIDER = MapPreviewProviderItem()
 
+    class MapThemeItem : IntItem("map_theme", AUTO) {
+        companion object {
+            const val AUTO = 0
+            const val LIGHT = 1
+            const val DARK = 2
+        }
+    }
+
+    @JvmField
+    val MAP_THEME = MapThemeItem()
+
     class UpdatesEnabledItem : BoolItem("updates_enabled", true, exportable = false) {
         override fun read(prefs: SharedPreferences): Boolean {
             // compat, remove after a few months

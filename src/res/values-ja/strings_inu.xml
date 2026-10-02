@@ -287,6 +287,11 @@
     <string name="InuMapPreviewProviderTelegram">Telegram</string>
     <string name="InuMapPreviewProviderGoogle">Google</string>
     <string name="InuMapPreviewProviderYandex">Yandex</string>
+    <string name="InuMapTheme">地図のテーマ</string>
+    <string name="InuMapThemeInfo">GoogleとOpenStreetMapのビューに適用されます</string>
+    <string name="InuMapThemeAuto">自動（システム）</string>
+    <string name="InuMapThemeLight">ライト</string>
+    <string name="InuMapThemeDark">ダーク</string>
 
     <string name="InuReplyIn">…で返信</string>
     <string name="InuDeletedMessage">削除されたメッセージ</string>

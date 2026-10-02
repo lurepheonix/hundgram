@@ -286,6 +286,11 @@
     <string name="InuMapPreviewProviderTelegram">Telegram</string>
     <string name="InuMapPreviewProviderGoogle">Google</string>
     <string name="InuMapPreviewProviderYandex">Yandex</string>
+    <string name="InuMapTheme">地图主题</string>
+    <string name="InuMapThemeInfo">适用于 Google 和 OpenStreetMap 视图</string>
+    <string name="InuMapThemeAuto">自动（系统）</string>
+    <string name="InuMapThemeLight">浅色</string>
+    <string name="InuMapThemeDark">深色</string>
 
     <string name="InuReplyIn">在…中回复</string>
     <string name="InuDeletedMessage">已删除的消息</string>

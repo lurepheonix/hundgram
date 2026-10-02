@@ -362,6 +362,11 @@
     <string name="InuMapPreviewProviderTelegram">Telegram</string>
     <string name="InuMapPreviewProviderGoogle">Google</string>
     <string name="InuMapPreviewProviderYandex">Yandex</string>
+    <string name="InuMapTheme">Harita teması</string>
+    <string name="InuMapThemeInfo">Google ve OpenStreetMap görünümlerine uygulanır</string>
+    <string name="InuMapThemeAuto">Otomatik (sistem)</string>
+    <string name="InuMapThemeLight">Açık</string>
+    <string name="InuMapThemeDark">Koyu</string>
 
     <string name="InuReplyIn">Şurada yanıtla…</string>
     <string name="InuDeletedMessage">Silinmiş mesaj</string>

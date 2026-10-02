@@ -47,6 +47,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - search and deeplinks for fork settings
 - MapLibre-based map view
 - customizable map preview provider
+- map theme switch (Auto/light/dark) in settings and on the map itself, for Google and OpenStreetMap views
 - in-app updater - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
 - 🐶 crash report sheet: catches uncaught exceptions, offers to share the log on next launch, posts a tap-to-restart notification
 - keep search query after picking a result in peer selection screens

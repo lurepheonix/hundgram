@@ -367,6 +367,11 @@
     <string name="InuMapPreviewProviderTelegram">Telegram</string>
     <string name="InuMapPreviewProviderGoogle">Google</string>
     <string name="InuMapPreviewProviderYandex">Yandex</string>
+    <string name="InuMapTheme">Map theme</string>
+    <string name="InuMapThemeInfo">Applies to Google and OpenStreetMap views</string>
+    <string name="InuMapThemeAuto">Auto (system)</string>
+    <string name="InuMapThemeLight">Light</string>
+    <string name="InuMapThemeDark">Dark</string>
 
     <string name="InuReplyIn">Reply in…</string>
     <string name="InuDeletedMessage">Deleted message</string>
