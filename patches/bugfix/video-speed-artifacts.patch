@@ -4,10 +4,24 @@ Date: Wed, 26 Aug 2026 07:22:06 +0400
 Subject: use low-latency audio stack to avoid crackling artifacts when changing video speed
 
 ---
- .../telegram/ui/Components/VideoPlayer.java   | 69 +++++++++++++++----
+ .../messenger/video/VideoPlayerRewinder.java  |  2 --
+ .../telegram/ui/Components/VideoPlayer.java   | 70 +++++++++++++++++++----
  .../java/org/telegram/ui/PhotoViewer.java     |  1 +
- 2 files changed, 57 insertions(+), 13 deletions(-)
+ 3 files changed, 58 insertions(+), 15 deletions(-)
 
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/video/VideoPlayerRewinder.java b/TMessagesProj/src/main/java/org/telegram/messenger/video/VideoPlayerRewinder.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/video/VideoPlayerRewinder.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/video/VideoPlayerRewinder.java
+@@ -222,8 +222,6 @@ public class VideoPlayerRewinder {
+                 } else {
+                     seekTo(rewindBackSeekPlayerPosition, false);
+                 }
+-            } else {
+-                seekTo(getCurrentPosition(), false);
+             }
+             setPlaybackSpeed(playSpeed);
+         }
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
@@ -51,7 +65,7 @@ index 0000000..0000000 100644
      public VideoPlayer() {
          this(true, false);
      }
-@@ -252,10 +277,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -252,10 +276,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
              if (audioVisualizerDelegate != null) {
                  factory = new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext);
              } else {
@@ -64,7 +78,7 @@ index 0000000..0000000 100644
              ExoPlayer.Builder builder = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(factory)
                      .setTrackSelector(trackSelector)
                      .setLoadControl(loadControl);
-@@ -1466,7 +1492,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1461,7 +1486,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
      public void setPlaybackSpeed(float speed) {
          try {
              if (player != null) {
@@ -73,7 +87,7 @@ index 0000000..0000000 100644
              }
          } catch (Exception ignore) {}
      }
-@@ -1797,25 +1823,42 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1796,25 +1821,43 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
          return repeatCount;
      }
  
@@ -97,7 +111,7 @@ index 0000000..0000000 100644
 -                boolean enableFloatOutput,
 -                boolean enableAudioTrackPlaybackParams) {
 -            return new DefaultAudioSink.Builder(context)
-+        protected AudioSink buildAudioSink(Context context, boolean enableFloatOutput, boolean enableAudioTrackPlaybackParams) {
++        protected AudioSink buildAudioSink(@NonNull Context context, boolean enableFloatOutput, boolean enableAudioTrackPlaybackParams) {
 +            DefaultAudioSink.Builder builder = new DefaultAudioSink.Builder(context)
 +                    .setAudioCapabilities(AudioCapabilities.getCapabilities(context))
                      .setEnableFloatOutput(enableFloatOutput)
@@ -122,6 +136,7 @@ index 0000000..0000000 100644
 +        }
 +
 +        @Nullable
++        @Override
 +        protected AudioProcessor[] getAudioProcessors() {
 +            return new AudioProcessor[] {new TeeAudioProcessor(new VisualizerBufferSink())};
          }

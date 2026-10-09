@@ -4,9 +4,9 @@ Date: Fri, 17 Jul 2026 21:18:03 +0400
 Subject: system-level transient audio focus when playing videos
 
 ---
- .../java/org/telegram/ui/Components/VideoPlayer.java     | 9 +++++++++
- .../src/main/java/org/telegram/ui/PhotoViewer.java       | 1 +
- 2 files changed, 10 insertions(+)
+ .../java/org/telegram/ui/Components/VideoPlayer.java     | 17 +++++++++++++++++
+ .../src/main/java/org/telegram/ui/PhotoViewer.java       |  2 ++
+ 2 files changed, 19 insertions(+)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
 index 0000000..0000000 100644
@@ -25,7 +25,25 @@ index 0000000..0000000 100644
              player.addAnalyticsListener(this);
              player.addListener(this);
              player.addVideoListener(this);
-@@ -1616,6 +1622,9 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1327,6 +1327,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+ 
+     public void releasePlayer(boolean async) {
+         activePlayers.remove(playerId);
++        inu_audioFocus.release();
+         if (player != null) {
+             player.release();
+             player = null;
+@@ -1612,10 +1612,19 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+     }
+ 
+ 
++    private final desu.inugram.helpers.media.TransientAudioFocus inu_audioFocus = new desu.inugram.helpers.media.TransientAudioFocus(this);
++
++    public void inu_setTransientAudioFocus(boolean enabled) {
++        inu_audioFocus.setEnabled(enabled);
++    }
++
+     private boolean handleAudioFocus = false;
      public void handleAudioFocus(boolean handleAudioFocus) {
          this.handleAudioFocus = handleAudioFocus;
          if (player != null) {
@@ -35,15 +53,24 @@ index 0000000..0000000 100644
              player.setAudioAttributes(player.getAudioAttributes(), handleAudioFocus);
          }
      }
+@@ -1655,6 +1664,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+     @Override
+     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+         maybeReportPlayerState();
++        inu_audioFocus.onPlayerStateChanged(playWhenReady, playbackState);
+         if (playWhenReady && playbackState == Player.STATE_READY && !isMuted() && shouldPauseOther) {
+             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.playerDidStartPlaying, this);
+         }
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -10545,6 +10545,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -10545,6 +10545,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                      }
                  };
                  videoPlayer.setOnQualityChangeListener(this::updateQualityItems);
 +                videoPlayer.handleAudioFocus(SharedConfig.pauseMusicOnMedia && currentMessageObject != null && currentMessageObject.isVideo());
++                videoPlayer.inu_setTransientAudioFocus(SharedConfig.pauseMusicOnMedia && currentMessageObject != null && currentMessageObject.isVideo());
                  if (PipUtils.checkPermissions(parentActivity) == PipPermissions.PIP_GRANTED_PIP) {
                      pipSource = new PipSource.Builder(parentActivity, this)
                          .setTagPrefix("photo-viewer-" + videoPlayer.playerId)

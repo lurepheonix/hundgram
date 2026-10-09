@@ -170,7 +170,7 @@ index 0000000..0000000 100644
                          if (index < 0) {
                              blockePeers.put(user.id, 1);
                              getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad);
-@@ -19174,7 +19182,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -19202,7 +19210,7 @@ public class MessagesController extends BaseController implements NotificationCe
                  TL_update.TL_updatePeerBlocked finalUpdate = (TL_update.TL_updatePeerBlocked) baseUpdate;
                  getMessagesStorage().getStorageQueue().postRunnable(() -> AndroidUtilities.runOnUIThread(() -> {
                      long id = MessageObject.getPeerId(finalUpdate.peer_id);
@@ -179,7 +179,7 @@ index 0000000..0000000 100644
                          if (blockePeers.indexOfKey(id) < 0) {
                              blockePeers.put(id, 1);
                          }
-@@ -22127,6 +22135,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22155,6 +22163,7 @@ public class MessagesController extends BaseController implements NotificationCe
          }
          for (int a = 0, N = allDialogs.size(); a < N; a++) {
              TLRPC.Dialog d = allDialogs.get(a);
@@ -187,7 +187,7 @@ index 0000000..0000000 100644
              final boolean isCommunity = d instanceof TLRPC.TL_dialogCommunity;
              if (d instanceof TLRPC.TL_dialog || isCommunity) {
                  long dialogId = d.id;
-@@ -22340,6 +22349,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22368,6 +22377,7 @@ public class MessagesController extends BaseController implements NotificationCe
                  }
                  for (int a = 0, N = allDialogs.size(); a < N; a++) {
                      final TLRPC.Dialog d = allDialogs.get(a);
@@ -195,7 +195,7 @@ index 0000000..0000000 100644
                      final boolean isCommunity = d instanceof TLRPC.TL_dialogCommunity;
                      if (d instanceof TLRPC.TL_dialog || isCommunity) {
                          long dialogId = d.id;
-@@ -22379,6 +22389,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22407,6 +22417,7 @@ public class MessagesController extends BaseController implements NotificationCe
          }
          for (int a = 0, N = allDialogs.size(); a < N; a++) {
              TLRPC.Dialog d = allDialogs.get(a);
@@ -479,7 +479,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -6966,7 +6966,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6970,7 +6970,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              filterOptions = null;
          }
          final ArrayList<MessagesController.DialogFilter> filters = getMessagesController().getDialogFilters();
@@ -488,7 +488,7 @@ index 0000000..0000000 100644
              if (force || filterTabsView.getVisibility() != View.VISIBLE) {
                  boolean animatedUpdateItems = animated;
                  if (filterTabsView.getVisibility() != View.VISIBLE) {
-@@ -8623,7 +8623,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -8627,7 +8627,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              getMessagesController().filtersEnabled &&
              getMessagesController().dialogFiltersLoaded &&
              getMessagesController().dialogFilters != null &&
@@ -614,7 +614,7 @@ index 0000000..0000000 100644
          if (dialogId > 0) {
              TLRPC.UserFull userFull = MessagesController.getInstance(currentAccount).getUserFull(dialogId);
              if (userFull != null && userFull.stories != null && !userFull.stories.checkedExpired) {
-@@ -467,6 +473,7 @@ public class StoriesController {
+@@ -468,6 +474,7 @@ public class StoriesController {
          for (int i = 0; i < storiesResponse.peer_stories.size(); i++) {
              TL_stories.PeerStories userStories = storiesResponse.peer_stories.get(i);
              final long dialogId = DialogObject.getPeerDialogId(userStories.peer);
@@ -622,7 +622,7 @@ index 0000000..0000000 100644
              for (int j = 0; j < userStories.stories.size(); j++) {
                  TL_stories.StoryItem story = userStories.stories.get(j);
                  if (story instanceof TL_stories.TL_storyItemDeleted ||
-@@ -678,6 +685,9 @@ public class StoriesController {
+@@ -679,6 +686,9 @@ public class StoriesController {
      }
  
      public TL_stories.PeerStories getStories(long peerId) {
@@ -632,7 +632,7 @@ index 0000000..0000000 100644
          return allStoriesMap.get(peerId);
      }
  
-@@ -1069,6 +1079,9 @@ public class StoriesController {
+@@ -1070,6 +1080,9 @@ public class StoriesController {
      }
  
      public boolean hasSelfStories() {
@@ -642,7 +642,7 @@ index 0000000..0000000 100644
          long clientUserId = UserConfig.getInstance(currentAccount).clientUserId;
          TL_stories.PeerStories storyItem = allStoriesMap.get(clientUserId);
          if (storyItem != null && !storyItem.stories.isEmpty()) {
-@@ -1081,6 +1094,9 @@ public class StoriesController {
+@@ -1082,6 +1095,9 @@ public class StoriesController {
      }
  
      public int getSelfStoriesCount() {
@@ -652,7 +652,7 @@ index 0000000..0000000 100644
          int count = 0;
          TL_stories.PeerStories storyItem = allStoriesMap.get(UserConfig.getInstance(currentAccount).clientUserId);
          if (storyItem != null) {
-@@ -1335,6 +1351,9 @@ public class StoriesController {
+@@ -1336,6 +1352,9 @@ public class StoriesController {
      }
  
      public boolean hasUnreadStories(long dialogId) {
@@ -662,7 +662,7 @@ index 0000000..0000000 100644
          TL_stories.PeerStories userStories = allStoriesMap.get(dialogId);
          if (userStories == null) {
              userStories = getStoriesFromFullPeer(dialogId);
-@@ -3345,6 +3364,10 @@ public class StoriesController {
+@@ -3346,6 +3365,10 @@ public class StoriesController {
          }
  
          public void fill(ArrayList<MessageObject> arrayList, boolean showPhotos, boolean showVideos) {
@@ -673,7 +673,7 @@ index 0000000..0000000 100644
              tempArr.clear();
              if (type == TYPE_PINNED && albumId <= 0) {
                  for (int id : pinnedIds) {
-@@ -3732,6 +3755,9 @@ public class StoriesController {
+@@ -3733,6 +3756,9 @@ public class StoriesController {
          }
  
          protected boolean canLoad() {
@@ -683,7 +683,7 @@ index 0000000..0000000 100644
              if (lastLoadTime == null) {
                  return true;
              }
-@@ -3793,6 +3819,9 @@ public class StoriesController {
+@@ -3794,6 +3820,9 @@ public class StoriesController {
              if (loading || (done || error || !canLoad()) && !force) {
                  return false;
              }
@@ -693,7 +693,7 @@ index 0000000..0000000 100644
              if (preloading) {
                  toLoad = i -> load(force, count, ids);
                  return false;
-@@ -4932,6 +4961,10 @@ public class StoriesController {
+@@ -4933,6 +4962,10 @@ public class StoriesController {
  
          public void load() {
              if (loading || loaded) return;

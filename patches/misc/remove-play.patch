@@ -25,7 +25,7 @@ index 0000000..0000000 100644
  
      implementation 'com.google.android.gms:play-services-mlkit-subject-segmentation:16.0.0-beta1'
      implementation 'com.google.android.gms:play-services-mlkit-image-labeling:16.0.8'
-@@ -113,7 +111,6 @@ dependencies {
+@@ -117,7 +115,6 @@ dependencies {
              because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
          }
      }
@@ -187,11 +187,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/tgnet/ConnectionsManager.j
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/tgnet/ConnectionsManager.java
 +++ b/TMessagesProj/src/main/java/org/telegram/tgnet/ConnectionsManager.java
-@@ -14,14 +14,10 @@ import android.util.Base64;
- 
- import androidx.annotation.Keep;
- 
-+import androidx.annotation.Keep;
+@@ -17,11 +17,6 @@ import androidx.annotation.Keep;
  import androidx.annotation.OptIn;
  import androidx.media3.common.util.UnstableApi;
  import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
@@ -203,7 +199,7 @@ index 0000000..0000000 100644
  
  import org.json.JSONArray;
  import org.json.JSONObject;
-@@ -30,7 +26,6 @@ import org.telegram.messenger.AndroidUtilities;
+@@ -30,7 +25,6 @@ import org.telegram.messenger.AndroidUtilities;
  import org.telegram.messenger.ApplicationLoader;
  import org.telegram.messenger.BaseController;
  import org.telegram.messenger.BuildVars;
@@ -211,7 +207,7 @@ index 0000000..0000000 100644
  import org.telegram.messenger.EmuDetector;
  import org.telegram.messenger.FileLoadOperation;
  import org.telegram.messenger.FileLoader;
-@@ -1505,45 +1500,14 @@ public class ConnectionsManager extends BaseController {
+@@ -1505,45 +1499,14 @@ public class ConnectionsManager extends BaseController {
      @Keep
      public static void onIntegrityCheckClassic(final int currentAccount, final int requestToken, final String project, final String nonce) {
          AndroidUtilities.runOnUIThread(() -> {

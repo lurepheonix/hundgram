@@ -1,27 +1,43 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: alina sireneva <alina@tei.su>
-Date: Tue, 21 Apr 2026 07:47:50 +0300
+From: alina sireneva <alina@tei.pet>
+Date: Sat, 26 Sep 2026 21:53:56 +0400
 Subject: build support stuff for fork-specific code: - added kotlin - bumped min sdk to 26, removed desugaring - versioning
 
 ---
- TMessagesProj/build.gradle                    |  54 +++++---
- TMessagesProj/google-services.json            |  76 ++---------
- TMessagesProj/proguard-rules.pro              |  13 ++
+ .gitmodules                                   |   3 +
+ TMessagesProj/build.gradle                    | 176 ++++++++-----
+ TMessagesProj/google-services.json            |  76 +-----
+ TMessagesProj/proguard-rules.pro              |  15 ++
  TMessagesProj/src/main/AndroidManifest.xml    |   7 +
  .../org/telegram/messenger/BuildVars.java     |  12 +-
  .../telegram/tgnet/ConnectionsManager.java    |   2 +-
- .../org/telegram/ui/PaymentFormActivity.java  |  28 ++--
- .../org/telegram/ui/SettingsActivity.java     |  24 +---
- TMessagesProj_App/build.gradle                | 121 ++++--------------
- TMessagesProj_App/google-services.json        |  76 ++---------
+ .../org/telegram/ui/PaymentFormActivity.java  |  28 +--
+ .../org/telegram/ui/SettingsActivity.java     |  24 +-
+ TMessagesProj_App/build.gradle                | 236 ++++++++++--------
+ TMessagesProj_App/google-services.json        |  76 +-----
+ TMessagesProj_App/jni/CMakeLists.txt          |  10 +
+ TMessagesProj_App/jni/lsplant                 |   1 +
  TMessagesProj_AppTests/build.gradle           |   5 +-
- build.gradle                                  |  15 ++-
+ build.gradle                                  |  19 +-
  .../telegram/plugin/TelegramBuildAppPlugin.kt |   4 +
  .../org/telegram/tasks/TelegramStringsTask.kt |   2 +-
  gradle.properties                             |   2 +-
- settings.gradle                               |  40 +++++-
- 16 files changed, 190 insertions(+), 291 deletions(-)
+ settings.gradle                               |  40 ++-
+ 17 files changed, 385 insertions(+), 347 deletions(-)
+ create mode 100644 TMessagesProj_App/jni/CMakeLists.txt
+ create mode 160000 TMessagesProj_App/jni/lsplant
 
+diff --git a/.gitmodules b/.gitmodules
+index 0000000..0000000 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -43,3 +43,6 @@
+ [submodule "TMessagesProj/jni/third_party/wamr"]
+ 	path = TMessagesProj/jni/third_party/wamr
+ 	url = https://github.com/wasm-micro-runtime/wasm-micro-runtime.git
++[submodule "TMessagesProj_App/jni/lsplant"]
++	path = TMessagesProj_App/jni/lsplant
++	url = https://github.com/LSPosed/LSPlant.git
 diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle
 index 0000000..0000000 100644
 --- a/TMessagesProj/build.gradle
@@ -51,18 +67,22 @@ index 0000000..0000000 100644
      implementation 'com.google.mlkit:language-id:17.0.6'
      implementation 'com.android.billingclient:billing:8.0.0'
      implementation 'com.google.code.gson:gson:2.11.0'
-@@ -97,6 +99,10 @@ dependencies {
+@@ -97,6 +99,14 @@ dependencies {
      api project(":TMessagesProj_Modules:media3:media-lib-session")
      api project(':jlatexmath')
  
 +    // inu
 +    implementation 'org.maplibre.gl:android-sdk:13.1.0'
++    androidTestImplementation 'androidx.test:runner:1.6.2'
++    androidTestImplementation 'junit:junit:4.13.2'
++    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:2.1.20"
++    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:2.1.20"
 +    // end inu
 +
  //    implementation 'com.google.mlkit:translate:17.0.3'
  
      constraints {
-@@ -108,8 +114,12 @@ dependencies {
+@@ -108,8 +118,72 @@ dependencies {
          }
      }
      implementation 'com.google.android.recaptcha:recaptcha:18.7.1'
@@ -73,10 +93,90 @@ index 0000000..0000000 100644
 +def tgAppHash = System.getenv('TG_APP_HASH')
 +if (!tgAppId?.trim() || !tgAppHash?.trim()) {
 +    throw new GradleException("TG_APP_ID and TG_APP_HASH env vars are required (no defaults). Export them locally or set CI secrets.")
++}
++
++def inuSourceDir = file('src/inu/kotlin')
++def inuGeneratedSources = layout.buildDirectory.dir('generated/inu/kotlin')
++def inuSources = fileTree(inuSourceDir) {
++    include '**/*.kt'
++    if (rootProject.ext.inuPluginless) {
++        exclude '**/helpers/plugins/**', '**/ui/settings/Plugin*.kt',
++            '**/ui/settings/GrantPresentations.kt', '**/ui/settings/ButtonCellFactory.kt',
++            '**/ui/settings/WarningBanner.kt'
++    }
++}
++def preprocessInuSources = tasks.register('preprocessInuSources') {
++    inputs.files(inuSources).withPathSensitivity(PathSensitivity.RELATIVE)
++    inputs.property('plugins', !rootProject.ext.inuPluginless)
++    outputs.dir(inuGeneratedSources)
++    doLast {
++        def processed = inuSources.files.collectEntries { source ->
++            def stack = []
++            def active = true
++            def output = new StringBuilder()
++            source.getText('UTF-8').split('(?<=\n)', -1).eachWithIndex { line, index ->
++                def directive = line =~ /^[\t ]*\/\/[\t ]*#(\w+)(?:[\t ]+([^\r\n]*?))?[\t ]*(?:\r?\n)?$/
++                def newline = line.endsWith('\r\n') ? '\r\n' : line.endsWith('\n') ? '\n' : ''
++                if (!directive.matches()) {
++                    output.append(active ? line : newline)
++                    return
++                }
++                def argument = directive.group(2)?.trim() ?: ''
++                switch (directive.group(1)) {
++                    case 'if':
++                        if (argument != 'PLUGINS') throw new GradleException("${source}:${index + 1}: expected #if PLUGINS")
++                        stack.add([parent: active, alternate: false, line: index + 1])
++                        active = active && !rootProject.ext.inuPluginless
++                        break
++                    case 'else':
++                        if (argument || stack.empty || stack.last().alternate) throw new GradleException("${source}:${index + 1}: unexpected #else")
++                        stack.last().alternate = true
++                        active = stack.last().parent && rootProject.ext.inuPluginless
++                        break
++                    case 'endif':
++                        if (argument || stack.empty) throw new GradleException("${source}:${index + 1}: unexpected #endif")
++                        active = stack.removeLast().parent
++                        break
++                    default:
++                        throw new GradleException("${source}:${index + 1}: unknown directive #${directive.group(1)}")
++                }
++                output.append(newline)
++            }
++            if (!stack.empty) throw new GradleException("${source}:${stack.last().line}: unclosed #if")
++            [(inuSourceDir.toPath().relativize(source.toPath()).toString()): output.toString()]
++        }
++        def targetDir = inuGeneratedSources.get().asFile
++        delete targetDir
++        processed.each { path, contents ->
++            def target = new File(targetDir, path)
++            target.parentFile.mkdirs()
++            target.setText(contents, 'UTF-8')
++        }
++    }
  }
  
  android {
-@@ -134,24 +144,29 @@ android {
+@@ -118,10 +186,19 @@ android {
+     ndkVersion "27.2.12479018"
+ 
+     sourceSets.main.jniLibs.srcDirs = ['./jni/']
++    sourceSets.androidTest.kotlin.srcDirs += ['src/androidTest/kotlin']
++    sourceSets.main.kotlin.srcDir inuGeneratedSources
++    if (rootProject.ext.inuPluginless) {
++        sourceSets.androidTest.kotlin.setSrcDirs([])
++        sourceSets.androidTest.assets.setSrcDirs([])
++    } else {
++        sourceSets.androidTest.jniLibs.srcDirs += ["$rootDir/TMessagesProj_App/build/inuTestJniLibs"]
++    }
+ 
+     externalNativeBuild {
+         cmake {
+             path 'jni/CMakeLists.txt'
++            version '3.31.6'
+         }
+     }
+ 
+@@ -134,24 +211,32 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -90,6 +190,9 @@ index 0000000..0000000 100644
  
      defaultConfig {
 -        minSdkVersion 21
++        buildConfigField "boolean", "INU_PLUGINLESS", rootProject.ext.inuPluginless.toString()
++        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
++        testInstrumentationRunnerArguments package: "desu.inugram"
 +        minSdkVersion 26
          targetSdkVersion 36
  
@@ -112,10 +215,23 @@ index 0000000..0000000 100644
              }
          }
      }
-@@ -162,12 +177,17 @@ android {
+@@ -162,76 +247,34 @@ android {
              shrinkResources false
              multiDexEnabled true
              ndk.debugSymbolLevel = 'FULL'
+-            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
+-            buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_PRIVATE_URL") + "\""
+-            buildConfigField "boolean", "DEBUG_VERSION", "true"
+-            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
+-            buildConfigField "boolean", "BUNDLE", "false"
+-            buildConfigField "int", "VERSION_NUM", "0"
+-        }
+-
+-        HA_private {
+-            matchingFallbacks = ['release']
+-            jniDebuggable false
+-            multiDexEnabled true
+-            ndk.debugSymbolLevel = 'FULL'
 -            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
 -            buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_PRIVATE_URL") + "\""
 +            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + rootProject.ext.verName + "\""
@@ -125,15 +241,53 @@ index 0000000..0000000 100644
              buildConfigField "boolean", "DEBUG_VERSION", "true"
              buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
              buildConfigField "boolean", "BUNDLE", "false"
--            buildConfigField "int", "VERSION_NUM", "0"
 +            buildConfigField "String", "UPDATE_CHANNEL_USERNAME", "\"" + (System.getenv('UPDATE_CHANNEL_USERNAME') ?: 'HundgramCI') + "\""
 +            buildConfigField "long", "UPDATE_CHANNEL_ID", (System.getenv('UPDATE_CHANNEL_ID') ?: '4437164616L')
 +            buildConfigField "int", "TG_APP_ID", String.valueOf(Integer.parseInt(tgAppId))
 +            buildConfigField "String", "TG_APP_HASH", "\"" + tgAppHash + "\""
+-            buildConfigField "int", "VERSION_NUM", "1"
+-        }
+-
+-        HA_public {
+-            matchingFallbacks = ['release']
+-            jniDebuggable false
+-            multiDexEnabled true
+-            ndk.debugSymbolLevel = 'FULL'
+-            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
+-            buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_PUBLIC_URL") + "\""
+-            buildConfigField "boolean", "DEBUG_VERSION", "true"
+-            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
+-            buildConfigField "boolean", "BUNDLE", "false"
+-            buildConfigField "int", "VERSION_NUM", "4"
+-        }
+-
+-        HA_hardcore {
+-            matchingFallbacks = ['release']
+-            jniDebuggable false
+-            multiDexEnabled true
+-            ndk.debugSymbolLevel = 'FULL'
+-            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
+-            buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_HARDCORE_URL") + "\""
+-            buildConfigField "boolean", "DEBUG_VERSION", "true"
+-            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
+-            buildConfigField "boolean", "BUNDLE", "false"
+-            buildConfigField "int", "VERSION_NUM", "5"
+-        }
+-
+-        standalone {
+-            matchingFallbacks = ['release']
+-            jniDebuggable false
+-            multiDexEnabled true
+-            ndk.debugSymbolLevel = 'FULL'
+-            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
+-            buildConfigField "String", "BETA_URL", "\"\""
+-            buildConfigField "boolean", "DEBUG_VERSION", "false"
+-            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
+-            buildConfigField "boolean", "BUNDLE", "false"
+-            buildConfigField "int", "VERSION_NUM", "6"
          }
  
-         HA_private {
-@@ -227,12 +247,17 @@ android {
+         release {
              shrinkResources false
              multiDexEnabled true
              ndk.debugSymbolLevel = 'FULL'
@@ -154,7 +308,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -250,7 +275,6 @@ def getProps(String propName) {
+@@ -250,7 +285,6 @@ def getProps(String propName) {
          return "";
      }
  }
@@ -162,6 +316,18 @@ index 0000000..0000000 100644
  
  task checkVisibility {
      doFirst {
+@@ -272,4 +306,10 @@ task checkVisibility {
+     }
+ }
+ 
+-preBuild.dependsOn checkVisibility
++preBuild.dependsOn checkVisibility, preprocessInuSources
++
++if (!rootProject.ext.inuPluginless) {
++    tasks.matching { it.name ==~ /merge.*AndroidTestJniLibFolders/ }.configureEach {
++        dependsOn ':TMessagesProj_App:prepareInuTestJniLibs'
++    }
++}
 diff --git a/TMessagesProj/google-services.json b/TMessagesProj/google-services.json
 index 0000000..0000000 100644
 --- a/TMessagesProj/google-services.json
@@ -279,7 +445,7 @@ diff --git a/TMessagesProj/proguard-rules.pro b/TMessagesProj/proguard-rules.pro
 index 0000000..0000000 100644
 --- a/TMessagesProj/proguard-rules.pro
 +++ b/TMessagesProj/proguard-rules.pro
-@@ -51,6 +51,19 @@
+@@ -51,6 +51,21 @@
  -keep class ru.noties.jlatexmath.** { *; }
  -dontwarn org.scilab.forge.jlatexmath.**
  
@@ -294,6 +460,8 @@ index 0000000..0000000 100644
 +-dontwarn org.objectweb.asm.**
 +-dontwarn com.google.crypto.tink.**
 +-keep class desu.inugram.** { *; }
++-dontobfuscate
++-dontoptimize
 +# /inu
 +
  # Use -keep to explicitly keep any other classes shrinking would remove
@@ -491,19 +659,30 @@ diff --git a/TMessagesProj_App/build.gradle b/TMessagesProj_App/build.gradle
 index 0000000..0000000 100644
 --- a/TMessagesProj_App/build.gradle
 +++ b/TMessagesProj_App/build.gradle
-@@ -1,4 +1,5 @@
+@@ -1,5 +1,6 @@
  apply plugin: 'com.android.application'
-+apply plugin: 'kotlin-android'
  apply plugin: 'org.telegram.build-app-plugin'
++apply plugin: 'kotlin-android'
  
  repositories {
-@@ -17,18 +18,24 @@ configurations.all {
+     mavenCentral()
+@@ -15,20 +16,34 @@ configurations.all {
+     exclude group: 'androidx.recyclerview', module: 'recyclerview'
+ }
  
++configurations {
++    shadowhookAar { transitive = false }
++}
++
  dependencies {
      implementation project(':TMessagesProj')
 -    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
      implementation files('../TMessagesProj/libs/libgsaverification-client.aar')
 +    implementation 'androidx.core:core:1.16.0'
++    if (!rootProject.ext.inuPluginless) {
++        implementation 'androidx.profileinstaller:profileinstaller:1.4.1'
++        shadowhookAar 'com.bytedance.android:shadowhook:2.0.1'
++    }
  }
  
  android {
@@ -524,7 +703,7 @@ index 0000000..0000000 100644
      lintOptions {
          disable 'MissingTranslation'
          disable 'ExtraTranslation'
-@@ -38,8 +45,6 @@ android {
+@@ -38,25 +53,18 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -533,7 +712,11 @@ index 0000000..0000000 100644
      }
  
      androidResources {
-@@ -48,15 +53,8 @@ android {
+         noCompress += "pack"
+-        localeFilters += ["zz"]
++        localeFilters += ["zz"] + file('../TMessagesProj/src/main/res').listFiles()
++            .findAll { it.name.startsWith('values-') && new File(it, 'strings_inu.xml').exists() }
++            .collect { it.name - 'values-' }
      }
  
      signingConfigs {
@@ -550,7 +733,7 @@ index 0000000..0000000 100644
              storePassword RELEASE_STORE_PASSWORD
              keyAlias RELEASE_KEY_ALIAS
              keyPassword RELEASE_KEY_PASSWORD
-@@ -67,7 +65,7 @@ android {
+@@ -67,7 +75,7 @@ android {
          debug {
              debuggable true
              jniDebuggable true
@@ -559,7 +742,7 @@ index 0000000..0000000 100644
              applicationIdSuffix ".beta"
              minifyEnabled false
              shrinkResources false
-@@ -76,18 +74,6 @@ android {
+@@ -76,18 +84,6 @@ android {
              ndk.debugSymbolLevel = 'FULL'
          }
  
@@ -578,7 +761,7 @@ index 0000000..0000000 100644
          release {
              debuggable false
              jniDebuggable false
-@@ -101,96 +87,39 @@ android {
+@@ -101,100 +97,50 @@ android {
      }
  
      sourceSets.debug {
@@ -662,32 +845,47 @@ index 0000000..0000000 100644
  
      defaultConfig {
 -        minSdkVersion 21
++        buildConfigField "boolean", "INU_PLUGINLESS", rootProject.ext.inuPluginless.toString()
 +        minSdkVersion 26
          targetSdkVersion 36
 -        versionName APP_VERSION_NAME
-+        versionName rootProject.ext.verName
-         ndkVersion "27.2.12479018"
- 
--        multiDexEnabled true
+-        ndkVersion "27.2.12479018"
 -
+-        multiDexEnabled true
++        versionName rootProject.ext.verName
++        ndkVersion "29.0.14206865"
+ 
 -        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 +        ndk {
 +            abiFilters "arm64-v8a"
 +        }
  
-         externalNativeBuild {
+-        externalNativeBuild {
++        if (!rootProject.ext.inuPluginless) externalNativeBuild {
              cmake {
-                 version '3.22.1'
+-                version '3.22.1'
 -                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' // , '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+-                targets 'tmessages.49'
 +                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-26' // , '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
-                 targets 'tmessages.49'
++                targets 'lsplant'
 +                if (rootProject.ext.ccachePath) {
 +                    arguments += ["-DCMAKE_C_COMPILER_LAUNCHER=${rootProject.ext.ccachePath}", "-DCMAKE_CXX_COMPILER_LAUNCHER=${rootProject.ext.ccachePath}"]
 +                }
              }
          }
      }
-@@ -203,6 +132,10 @@ android {
+ 
++    if (!rootProject.ext.inuPluginless) externalNativeBuild {
++        cmake {
++            path 'jni/CMakeLists.txt'
++            version '3.31.6'
++        }
++    }
++
+     buildFeatures {
+         buildConfig = true
+     }
+@@ -203,6 +149,98 @@ android {
      lintOptions {
          checkReleaseBuilds false
      }
@@ -698,6 +896,94 @@ index 0000000..0000000 100644
  }
  
  apply plugin: 'com.google.gms.google-services'
++
++if (rootProject.ext.inuPluginless) return
++
++def shadowhookJniLibsDir = file("$buildDir/shadowhookJniLibs")
++
++tasks.register('unpackShadowhook', Copy) {
++    from({ zipTree(configurations.shadowhookAar.singleFile) }) {
++        include 'jni/**/libshadowhook.so'
++        include 'jni/**/libshadowhook_nothing.so'
++        eachFile { it.path = it.path.replaceFirst('^jni/', '') }
++        includeEmptyDirs = false
++    }
++    into shadowhookJniLibsDir
++}
++
++android.sourceSets.main.jniLibs.srcDirs += shadowhookJniLibsDir
++tasks.matching { it.name ==~ /merge.*JniLibFolders/ }.configureEach {
++    dependsOn 'unpackShadowhook'
++}
++
++def rustModuleDir = file("$projectDir/native")
++def rustJniLibsDir = file("$buildDir/rustJniLibs")
++def userHome = System.getProperty('user.home')
++def cargoHome = System.getenv('CARGO_HOME') ?: "$userHome/.cargo"
++def cargoCandidates = [
++    System.getenv('CARGO'),
++    project.findProperty('cargo.bin'),
++    "$cargoHome/bin/cargo",
++    "$userHome/.cargo/bin/cargo",
++    "/etc/profiles/per-user/${System.getProperty('user.name')}/bin/cargo",
++    "$userHome/.nix-profile/bin/cargo",
++    "/run/current-system/sw/bin/cargo",
++    "/opt/homebrew/bin/cargo",
++    "/usr/local/bin/cargo",
++]
++def cargoFile = cargoCandidates.findAll { it }.collect { file(it) }.find { it.isFile() }
++def cargoExe = cargoFile?.absolutePath ?: 'cargo'
++def cargoPathDirs = [cargoFile?.parentFile?.absolutePath, "$cargoHome/bin", "$userHome/.cargo/bin"].findAll { it }
++
++def inuNativeProfiles = [debug: 'profiling', release: 'release']
++inuNativeProfiles.each { buildType, cargoProfile ->
++    def taskName = "buildInuNative${buildType.capitalize()}"
++    def outputDir = new File(rustJniLibsDir, buildType)
++    tasks.register(taskName, Exec) {
++        workingDir rustModuleDir
++        environment 'ANDROID_NDK_HOME', android.ndkDirectory.absolutePath
++        environment 'PATH', (cargoPathDirs + [System.getenv('PATH') ?: '']).join(File.pathSeparator)
++        def prebuilt = file("${android.ndkDirectory}/toolchains/llvm/prebuilt")
++        def ndkHost = prebuilt.listFiles()?.find { it.isDirectory() }
++        def libclangCandidates = [
++            project.findProperty('libclang.path'),
++            ndkHost ? new File(ndkHost, 'lib').absolutePath : null,
++            ndkHost ? new File(ndkHost, 'lib64').absolutePath : null,
++            '/Library/Developer/CommandLineTools/usr/lib',
++            '/opt/homebrew/opt/llvm/lib', '/usr/local/opt/llvm/lib',
++            '/run/current-system/sw/lib', "${System.getProperty('user.home')}/.nix-profile/lib",
++            '/usr/lib/llvm/lib', '/usr/lib',
++        ]
++        def libclangDir = libclangCandidates.findAll { it }.find { dir ->
++            def d = file(dir)
++            d.isDirectory() && d.listFiles()?.any { it.name ==~ /libclang\.(dylib|so)(\..*)?/ }
++        }
++        if (libclangDir != null) environment 'LIBCLANG_PATH', libclangDir
++        commandLine cargoExe, 'ndk', '-t', 'arm64-v8a', '-o', outputDir.absolutePath, 'build', '--profile', cargoProfile
++    }
++
++    android.sourceSets[buildType].jniLibs.srcDirs += outputDir
++    tasks.matching { it.name ==~ /merge${buildType.capitalize()}.*JniLibFolders/ }.configureEach {
++        dependsOn taskName
++    }
++}
++
++androidComponents {
++    onVariants(selector().withBuildType('debug')) { variant ->
++        variant.packaging.jniLibs.keepDebugSymbols.add('**/libinu_native.so')
++    }
++}
++
++def inuTestJniLibsDir = file("$buildDir/inuTestJniLibs")
++tasks.register('prepareInuTestJniLibs', Sync) {
++    dependsOn 'buildInuNativeDebug', 'unpackShadowhook', 'mergeDebugNativeLibs'
++    from new File(rustJniLibsDir, 'debug')
++    from shadowhookJniLibsDir
++    from("$buildDir/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib") {
++        include '**/liblsplant.so'
++    }
++    into inuTestJniLibsDir
++}
 diff --git a/TMessagesProj_App/google-services.json b/TMessagesProj_App/google-services.json
 index 0000000..0000000 100644
 --- a/TMessagesProj_App/google-services.json
@@ -811,6 +1097,29 @@ index 0000000..0000000 100644
          }
        }
      }
+diff --git a/TMessagesProj_App/jni/CMakeLists.txt b/TMessagesProj_App/jni/CMakeLists.txt
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/TMessagesProj_App/jni/CMakeLists.txt
+@@ -0,0 +1,10 @@
++cmake_minimum_required(VERSION 3.22.1)
++project(inu_jni CXX C)
++
++# There are no sources here on purpose. liblsplant.so is lsplant's own target; the C entry points
++# the rust engine dlopens come from patches-native/lsplant-c-abi.patch, applied to the submodule.
++
++set(DEBUG_SYMBOLS_PATH ${CMAKE_BINARY_DIR}/symbols)
++
++set(LSPLANT_BUILD_SHARED ON CACHE BOOL "" FORCE)
++add_subdirectory(lsplant/lsplant/src/main/jni)
+diff --git a/TMessagesProj_App/jni/lsplant b/TMessagesProj_App/jni/lsplant
+new file mode 160000
+index 0000000..0000000
+--- /dev/null
++++ b/TMessagesProj_App/jni/lsplant
+@@ -0,0 +1 @@
++Subproject commit 61e10e51eb99dca00dd873f48c28a674dd2b4c4c
 diff --git a/TMessagesProj_AppTests/build.gradle b/TMessagesProj_AppTests/build.gradle
 index 0000000..0000000 100644
 --- a/TMessagesProj_AppTests/build.gradle
@@ -844,15 +1153,7 @@ index 0000000..0000000 100644
      }
  }
  repositories {
-@@ -33,7 +33,6 @@ subprojects {
-             }
-         }
-     }
--
-     if (project.projectDir.absolutePath.contains('/TMessagesProj_Modules/media/')) {
-         project.plugins.withId('com.android.library') {
-             project.android {
-@@ -52,4 +51,14 @@ subprojects {
+@@ -52,4 +52,19 @@ subprojects {
              }
          }
      }
@@ -860,9 +1161,14 @@ index 0000000..0000000 100644
 \ No newline at end of file
 +}
 +
++def inuBuildProperties = new Properties()
++def inuBuildFile = file('inu-build.properties')
++if (inuBuildFile.exists()) inuBuildFile.withInputStream { inuBuildProperties.load(it) }
++
 +def commitId = System.getenv('COMMIT_ID')
 +
 +ext {
++  inuPluginless = (findProperty('inu.pluginless') ?: inuBuildProperties.getProperty('inu.pluginless', 'false')).toBoolean()
 +  verName = "${APP_VERSION_NAME}${commitId != null ? "-${commitId.take(7)}" : ''}"
 +  verCode = Integer.parseInt(System.getenv('INU_BUILD') ?: '1000000')
 +  stockVerCode = Integer.parseInt(APP_VERSION_CODE)
