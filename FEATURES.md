@@ -7,6 +7,26 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 
 🐶 - Inugram-exclusive (as far as i know, as of writing)
 
+## 🐶 hundgram-specific (vs inugram)
+
+Hundgram tracks Inugram and ships additional features, fixes and different
+opinionated defaults on top. Everything in this section is Hundgram-only;
+the rest of this list is inherited Inugram behavior. (Separate app id and
+its own update channel, pointing at Hundgram releases.)
+
+- 🐶 optional shorter swipe gestures for message replies, chat-list actions, navigation, folder tabs and shared-media tabs; does not change scrolling, touch sensitivity or animation speed
+- 🐶 sleek old-iphone-like style option for material 3 bottom tabs
+- 🐶 disable stories opening on dialog-list overscroll
+- 🐶 hide stories is granular: main list, archive and avatar rings, with optional show-in-archive, show-own and show-rings sub-toggles
+- map theme switch (Auto/light/dark) in settings and on the map itself, for Google and OpenStreetMap views
+- map provider defaults to OpenStreetMap instead of Google, OSM map view is improved
+- independent “Autoplay Video Messages” control in Power Usage
+- disable autoplay for the next audio track
+- optional alternative GIF behavior: open non-autoplaying GIFs directly in the viewer, with playback controls initially visible and inline playback stopped on close
+- configurable update channel for the in-app updater
+- 🐶 bugfix: chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it
+- 🐶 bugfix: GIF seekbar no longer freezes swiping between GIFs, and fast GIF scrolling no longer crashes
+
 ## appearance & general
 
 - navigation drawer, like in older Telegram versions; can be used alongside or instead of the bottom tabs
@@ -18,7 +38,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - show seconds in timestamps
 - override Telegram's detected device performance class
 - 🐶 customizable animation speed multiplier (incl. instant)
-- 🐶 optional shorter swipe gestures for message replies, chat-list actions, navigation, folder tabs and shared-media tabs; does not change scrolling, touch sensitivity or animation speed
 - estimated registration date in profile - *ported & datapoints from [NagramX](https://github.com/risin42/NagramX)*
 - join/creation date in group & channel profiles
 - show linked channel in discussion group profile similar to personal channel
@@ -48,7 +67,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - search and deeplinks for fork settings
 - MapLibre-based map view
 - customizable map preview provider
-- map theme switch (Auto/light/dark) in settings and on the map itself, for Google and OpenStreetMap views
 - in-app updater - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
 - updater picks the APK matching the installed variant (full/pluginless)
 - 🐶 crash report sheet: catches uncaught exceptions, offers to share the log on next launch, posts a tap-to-restart notification
@@ -77,7 +95,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 
 - customizable sticker size - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
 - 🐶 remove extra bottom padding under stickers
-- independent “Autoplay Video Messages” control in Power Usage
 - 🐶 full-quality sticker previews in sticker sheets & emoji panel (instead of blurry 90px thumbs; only on unmetered network or when already downloaded)
 - show all recent stickers
 - minimize sticker creator button in recent stickers
@@ -171,7 +188,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - "copy photo" / "copy frame" menu actions
 - show dc + platform of the photo in menu
 - seek bar for mp4 gifs
-- optional alternative GIF behavior: open non-autoplaying GIFs directly in the viewer, with playback controls initially visible and inline playback stopped on close
 - always use the modern speed-control rewind on long-press
 - mark public (fallback) / personal profile photos next to the date
 
@@ -204,7 +220,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 ## behavior
 
 - call confirmation
-- disable autoplay for the next audio track
 - HD call audio on Bluetooth
 - 🐶 reaction confirmation in non-joined chats
 - 🐶 internal link confirmation (tg://, t.me/…)
@@ -239,7 +254,7 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 
 - hide trending stickers/emoji in egs
 - 🐶 hide ai features
-- hide stories (main list, archive and avatar rings; optional show-in-archive, show-own and show-rings sub-toggles)
+- hide stories
 - hide voice hint
 - hide paid reaction upsell
 - hide hashtag suggestions in chat input
@@ -353,7 +368,6 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - emoji suggestion panel popping up after sending a message (late `:keyword` lookup callback ignored the input having been cleared)
 - phantom empty dialog rows after peeking a non-joined channel / discuss group
 - expand emoji tabs when there's enough space to fit without scrolling
-- chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it
 - "pause music on media" now lets external players auto-resume (transient focus instead of indefinite)
 - "pause music on media" now also applies to videos in the photo viewer, with transient focus so external players auto-resume (stock never requests audio focus for them)
 - reply box right padding when the sender-name line is wider than the message text line
@@ -394,4 +408,3 @@ most things are toggleable in `Settings → Inugram`, with sensible opinionated 
 - correctly publish album name for streamed music
 - permanently white/stale message bubbles on low-memory devices (stock bug: `MessageDrawable` committed its radius/color cache keys even when the bitmap allocation for the bubble nine-patch failed, so the stale drawable was never rebuilt; the shadow nine-patch also recycled its old bitmap before allocating the new one, leaving a recycled bitmap in use)
 - group call recording timer showing a nonsense duration (the whole unix epoch, e.g. `496691:48:15`) right after starting a recording: stock flips the local `recording` flag optimistically while `record_start_date` is still 0
-- crash scrolling GIFs fast (cancelled gif loads recycled their drawable on a worker thread carrying a pending interrupt, and `ReferenceList.iterator()` turns that into `IllegalStateException`)
