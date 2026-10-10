@@ -95,7 +95,7 @@ object InuConfig {
         }
     }
 
-    class StringItem(key: String, default: String, exportable: Boolean = true) :
+    open class StringItem(key: String, default: String, exportable: Boolean = true) :
         Item<String>(key, default, exportable) {
         override val prefType = PrefType.STRING
         override fun read(prefs: SharedPreferences): String = prefs.getString(key, default) ?: default
@@ -288,8 +288,25 @@ object InuConfig {
     @JvmField
     val SORT_ALBUMS_BY_SIZE = BoolItem("sort_albums_by_size", true)
 
+    class DownloadDirectoryItem : StringItem("download_directory", HUNDGRAM) {
+        override fun read(prefs: SharedPreferences): String {
+            val stored = prefs.getString(key, default) ?: default
+            if (stored == LEGACY_INUGRAM) {
+                prefs.edit { putString(key, HUNDGRAM) }
+                return HUNDGRAM
+            }
+            return stored
+        }
+
+        companion object {
+            const val HUNDGRAM = "Hundgram"
+            const val TELEGRAM = "Telegram"
+            const val LEGACY_INUGRAM = "Inugram"
+        }
+    }
+
     @JvmField
-    val DOWNLOAD_DIRECTORY = StringItem("download_directory", "Inugram")
+    val DOWNLOAD_DIRECTORY = DownloadDirectoryItem()
 
     @JvmField
     val AUTO_DISABLE_PROXY_ON_VPN = BoolItem("auto_disable_proxy_on_vpn", false)

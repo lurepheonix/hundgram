@@ -250,7 +250,7 @@ its own update channel, pointing at Hundgram releases.)
 - sort attach panel albums by photo count instead of recency
 - 🐶 optimized attachment menu setting: [smoother animations](https://github.com/teidesu/inugram/pull/56) when opening photos and videos, large photos open at up to 1920px, with full quality loaded when zooming or editing; disables background blur in the media viewer
 - 🐶 "Minimize" option in the attach panel discard prompt to keep the selection (e.g. to choose a message to reply to)
-- choose the media save folder (Inugram/Telegram) used for saved photos, videos, music and downloads
+- choose the media save folder (Hundgram/Telegram) used for saved photos, videos, music and downloads
 - original video quality option in quality picker, including audio removal without re-encoding video
 - remember last used settings in polls + reasonable defaults
 

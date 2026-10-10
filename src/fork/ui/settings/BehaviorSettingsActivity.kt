@@ -143,7 +143,9 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
             UItem.asButton(
                 BUTTON_DOWNLOAD_DIRECTORY,
                 LocaleController.getString(R.string.InuDownloadDirectory),
-                InuConfig.DOWNLOAD_DIRECTORY.value,
+                InuConfig.DOWNLOAD_DIRECTORY.value
+                    .takeIf { it in DOWNLOAD_DIRECTORIES }
+                    ?: InuConfig.DownloadDirectoryItem.HUNDGRAM,
             )
         )
         items.add(UItem.asShadow(null))
@@ -269,18 +271,23 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 (view as? TextCheckCell)?.isChecked = new
             }
 
-            BUTTON_DOWNLOAD_DIRECTORY -> RadioItemOptions.show(
-                this, view,
-                DOWNLOAD_DIRECTORIES,
-                DOWNLOAD_DIRECTORIES.indexOf(InuConfig.DOWNLOAD_DIRECTORY.value),
-            ) { which ->
-                InuConfig.DOWNLOAD_DIRECTORY.value = DOWNLOAD_DIRECTORIES[which]
-                BulletinFactory.of(this)
-                    .createSimpleBulletin(
-                        R.raw.chats_infotip,
-                        LocaleController.getString(R.string.InuDownloadDirectoryApplied),
-                    )
-                    .show()
+            BUTTON_DOWNLOAD_DIRECTORY -> {
+                val current = InuConfig.DOWNLOAD_DIRECTORY.value
+                    .takeIf { it in DOWNLOAD_DIRECTORIES }
+                    ?: InuConfig.DownloadDirectoryItem.HUNDGRAM
+                RadioItemOptions.show(
+                    this, view,
+                    DOWNLOAD_DIRECTORIES,
+                    DOWNLOAD_DIRECTORIES.indexOf(current).coerceAtLeast(0),
+                ) { which ->
+                    InuConfig.DOWNLOAD_DIRECTORY.value = DOWNLOAD_DIRECTORIES[which]
+                    BulletinFactory.of(this)
+                        .createSimpleBulletin(
+                            R.raw.chats_infotip,
+                            LocaleController.getString(R.string.InuDownloadDirectoryApplied),
+                        )
+                        .show()
+                }
             }
 
             BUTTON_PERFORMANCE_CLASS -> showPerformanceClassSelector()
@@ -481,7 +488,8 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val BUTTON_PERFORMANCE_CLASS = InuUtils.generateId()
         private val BUTTON_DOWNLOAD_DIRECTORY = InuUtils.generateId()
 
-        private val DOWNLOAD_DIRECTORIES = listOf("Inugram", "Telegram")
+        private val DOWNLOAD_DIRECTORIES =
+            listOf(InuConfig.DownloadDirectoryItem.HUNDGRAM, InuConfig.DownloadDirectoryItem.TELEGRAM)
         private val BUTTON_TEXT_CLASSIFIER_MODE = InuUtils.generateId()
         private val TOGGLE_CALL_CONFIRMATION = InuUtils.generateId()
         private val TOGGLE_HD_BLUETOOTH_CALL_AUDIO = InuUtils.generateId()
