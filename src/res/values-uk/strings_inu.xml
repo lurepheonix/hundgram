@@ -15,7 +15,11 @@
     <string name="InuMiscellaneous">Різне</string>
     <string name="InuAppearance">Зовнішній вигляд</string>
     <string name="InuLookAndFeel">Вигляд та стиль</string>
+    <string name="InuAlternativeGifBehavior">Альтернативна поведінка GIF</string>
+    <string name="InuAlternativeGifBehaviorInfo">Коли автопрогравання GIF вимкнено, відкривати GIF на весь екран першим дотиком і зупиняти після закриття.</string>
     <string name="InuBehavior">Поведінка</string>
+    <string name="InuShorterSwipeGestures">Коротші свайп-жести</string>
+    <string name="InuShorterSwipeGesturesInfo">Зменшує відстань, потрібну для виконання звичайних свайп-жестів.</string>
     <string name="InuPerformanceClass">Клас продуктивності</string>
     <string name="InuPerformanceClassInfo">Не рекомендується змінювати цей параметр, оскільки це може погіршити продуктивність на слабких пристроях</string>
     <string name="InuPerformanceClassMeasured">Виміряний</string>
@@ -51,9 +55,18 @@
     <string name="InuShowReactions">Показувати реакції</string>
     <string name="InuHideStories">Приховати історії</string>
     <string name="InuHideStoriesInfo">Приховує панель історій зі списку чатів</string>
+    <string name="InuShowStoriesInArchive">Показувати історії в архіві</string>
+    <string name="InuShowStoriesInArchiveInfo">Показувати приховані історії в папці «Архів», навіть коли історії приховано</string>
+    <string name="InuShowOwnStories">Показувати власні історії</string>
+    <string name="InuShowOwnStoriesInfo">Залишати кільце власної історії та пункт «Моя історія», поки інші історії приховано</string>
+    <string name="InuShowAvatarRings">Показувати кільця аватарів</string>
+    <string name="InuShowAvatarRingsInfo">Показувати кільця історій на аватарах, навіть коли історії приховано</string>
     <string name="InuShowSeconds">Показувати секунди</string>
     <string name="InuDisableRounding">Вимкнути округлення чисел</string>
     <string name="InuDisableRoundingInfo">1,2K -&gt; 1 234</string>
+    <string name="InuPlayback">Відтворення</string>
+    <string name="InuDisableNextAudioAutoplay">Вимкнути автопрогравання наступного треку</string>
+    <string name="InuDisableNextAudioAutoplayInfo">Зупиняти програвання, коли трек закінчується, замість автоматичного переходу до наступного.</string>
     <string name="InuMaterial3">Material Design 3</string>
     <string name="InuMaterial3Switches">Перемикачі</string>
     <string name="InuMaterial3Sliders">Повзунки</string>
@@ -121,6 +134,8 @@
     <string name="InuHideSendAsPicker">Приховати вибір «Надіслати від імені»</string>
     <string name="InuHideSendAsPickerInfo">Затисніть кнопку емодзі, щоб тимчасово відкрити панель вибору</string>
     <string name="InuHideRepostToStory">Приховати «Репост в Історію»</string>
+    <string name="InuDisableOverscrollStory">Вимкнути відкриття історій потягуванням вниз</string>
+    <string name="InuDisableOverscrollStoryInfo">Історії не відкриватимуться, коли тягнути вниз список чатів</string>
     <string name="InuHideTrendingStickers">Приховати популярні наліпки</string>
     <string name="InuBottomTabs">Нижні вкладки</string>
     <string name="InuBottomTabsHide">Приховати нижні вкладки</string>
@@ -129,6 +144,8 @@
     <string name="InuCompactMode">Компактний режим</string>
     <string name="InuCompactModeInfo">Приховує заголовки та зменшує розмір вкладок</string>
     <string name="InuMaterial3BottomTabs">Нижні вкладки</string>
+    <string name="InuMaterial3BottomTabsNoIndicator">Витончені нижні вкладки</string>
+    <string name="InuMaterial3BottomTabsNoIndicatorInfo">Надає нижнім вкладкам витонченого вигляду, як на iPhone до Liquid Glass</string>
     <string name="InuDialogsFab">Плаваюча кнопка (FAB)</string>
     <string name="InuDialogsFabMainAction">Основна дія</string>
     <string name="InuDialogsFabSecondaryAction">Вторинна дія</string>
@@ -363,6 +380,11 @@
     <string name="InuMapPreviewProviderTelegram">Telegram</string>
     <string name="InuMapPreviewProviderGoogle">Google</string>
     <string name="InuMapPreviewProviderYandex">Yandex</string>
+    <string name="InuMapTheme">Тема мапи</string>
+    <string name="InuMapThemeInfo">Застосовується до Google та OpenStreetMap</string>
+    <string name="InuMapThemeAuto">Авто (системна)</string>
+    <string name="InuMapThemeLight">Світла</string>
+    <string name="InuMapThemeDark">Темна</string>
     <string name="InuReplyIn">Відповісти в…</string>
     <string name="InuDeletedMessage">Видалене повідомлення</string>
     <string name="InuDeletedMessageIdFormat">ID %1$d</string>
@@ -543,6 +565,7 @@
     <string name="InuAbout">Про додаток</string>
     <string name="InuAboutGitHub">GitHub</string>
     <string name="InuAboutChannel">Канал оновлень</string>
+    <string name="InuAboutInugramInfo">Hundgram - це форк &lt;b&gt;Inugram&lt;/b&gt; від teidesu. Дякуємо їм та всім учасникам за основу, на якій збудовано цей клієнт.</string>
     <string name="InuUpdates">Оновлення</string>
     <string name="InuUpdatesEnabled">Автоматично перевіряти оновлення</string>
     <string name="InuUpdateCheckNow">Перевірити зараз</string>
@@ -766,6 +789,7 @@
     <string name="InuStopBotAlert">Ви впевнені, що хочете зупинити **%1$s**? Він більше не зможе надсилати вам повідомлення.</string>
     <string name="InuStopBotAction">Зупинити</string>
     <string name="InuStopBotDone">Бота зупинено</string>
+    <string name="InuAutoplayVideoMessages">Автопрогравання відеоповідомлень</string>
     <string name="InuPreviewMessage">Попередній перегляд</string>
     <string name="InuMinimize">Згорнути</string>
 

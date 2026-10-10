@@ -58,8 +58,6 @@
     <string name="InuPlayback">播放</string>
     <string name="InuDisableNextAudioAutoplay">禁用下一首音频自动播放</string>
     <string name="InuDisableNextAudioAutoplayInfo">音频曲目结束时停止播放，而不是自动播放下一首。</string>
-    <string name="InuDisableInstantCamera">禁用即时相机</string>
-    <string name="InuDisableInstantCameraInfo">打开附件面板时不启动相机</string>
 
     <string name="InuShowAllRecentStickers">显示全部最近贴纸</string>
     <string name="InuNoStickerExtraPadding">去除底部多余的内边距</string>
@@ -508,6 +506,7 @@
     <string name="InuBackupImportNoChanges">该文件与当前设置一致</string>
     <string name="InuBackupImportSheetChanges_one">将对当前设置应用 **%1$d** 项更改。</string>
     <string name="InuBackupImportSheetChanges_other">将对当前设置应用 **%1$d** 项更改。</string>
+    <string name="InuFontStyles_one">%1$d 种样式</string>
     <string name="InuFontStyles_other">%1$d 种样式</string>
     <string name="InuBackupImportSheetApply">是，应用</string>
     <string name="InuBackupImportSheetCancel">否，保持不变</string>
@@ -548,6 +547,7 @@
     <string name="InuAutoDisableProxyOnVpn">VPN 激活时禁用代理</string>
     <string name="InuProxyImportFromClipboard">从剪贴板导入</string>
     <string name="InuProxyImportNothing">剪贴板中没有新的代理链接</string>
+    <string name="InuProxyImported_one">已导入 %1$d 个代理</string>
     <string name="InuProxyImported_other">已导入 %1$d 个代理</string>
     <string name="InuFasterDownloads">加速下载</string>
     <string name="InuFasterUploads">加速上传</string>
@@ -841,6 +841,7 @@
     <string name="InuPluginsRemoveTitle">移除 %s</string>
     <string name="InuPluginsRemoveConfirm">移除此插件及其所有数据？此操作无法撤销。</string>
     <string name="InuPluginsRemoveAll">移除所有插件</string>
+    <string name="InuPluginsRemoveAllConfirm_one">移除 %d 个已安装的插件及其所有数据？此操作无法撤销。</string>
     <string name="InuPluginsRemoveAllConfirm_other">移除全部 %d 个已安装的插件及其所有数据？此操作无法撤销。</string>
     <string name="InuPluginsByAuthor">作者：%1$s</string>
     <string name="InuPluginsPermissions">权限</string>
@@ -916,6 +917,7 @@
     <string name="InuPluginsDevModeBanner">任何能通过 adb 访问此设备的程序都可以安装插件并授予其任意权限，无需询问。完成后请将其关闭。</string>
     <string name="InuPluginsDevModeTurnOff">关闭开发者模式</string>
     <string name="InuPluginsDevChip">开发</string>
+    <string name="InuPluginsDevPushed_one">已推送 %d 个插件</string>
     <string name="InuPluginsDevPushed_other">已推送 %d 个插件</string>
     <string name="InuPluginsDevModeSheetTitle">开启开发者模式？</string>
     <string name="InuPluginsDevModeSheetInfo">此功能用于开发插件：电脑通过 adb 推送文件后，应用会立即安装。\n开启期间：</string>
@@ -947,6 +949,7 @@
     <string name="InuPluginUpdatePermissionsNone">此更新不请求任何新权限。</string>
     <string name="InuPluginUpdatePermissionsDropped">不再请求</string>
     <string name="InuPluginUpdatePermissionsKeptTitle">已授予</string>
+    <string name="InuPluginUpdatePermissionsKept_one">检查已授予的 %1$d 项权限</string>
     <string name="InuPluginUpdatePermissionsKept_other">检查已授予的 %1$d 项权限</string>
     <string name="InuPluginUpdated">已更新 %1$s</string>
     <string name="InuPluginCrashed">%1$s 已崩溃并被关闭</string>

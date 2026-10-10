@@ -58,8 +58,6 @@
     <string name="InuPlayback">再生</string>
     <string name="InuDisableNextAudioAutoplay">次の音声トラックの自動再生を無効化</string>
     <string name="InuDisableNextAudioAutoplayInfo">音声トラックの再生が終わっても次のトラックを自動再生せず、再生を停止します。</string>
-    <string name="InuDisableInstantCamera">インスタントカメラを無効化</string>
-    <string name="InuDisableInstantCameraInfo">添付パネルを開いたときにカメラを起動しない</string>
 
     <string name="InuShowAllRecentStickers">最近のスタンプをすべて表示</string>
     <string name="InuNoStickerExtraPadding">下の余分な余白を削除</string>
@@ -509,6 +507,7 @@
     <string name="InuBackupImportNoChanges">このファイルは現在の設定と一致しています</string>
     <string name="InuBackupImportSheetChanges_one">**%1$d** 件の変更が現在の設定に適用されます。</string>
     <string name="InuBackupImportSheetChanges_other">**%1$d** 件の変更が現在の設定に適用されます。</string>
+    <string name="InuFontStyles_one">%1$d 個のスタイル</string>
     <string name="InuFontStyles_other">%1$d 個のスタイル</string>
     <string name="InuBackupImportSheetApply">はい、適用する</string>
     <string name="InuBackupImportSheetCancel">いいえ、そのままにする</string>
@@ -549,6 +548,7 @@
     <string name="InuAutoDisableProxyOnVpn">VPN 使用時はプロキシを無効化</string>
     <string name="InuProxyImportFromClipboard">クリップボードからインポート</string>
     <string name="InuProxyImportNothing">クリップボードに新しいプロキシリンクがありません</string>
+    <string name="InuProxyImported_one">%1$d 件のプロキシをインポートしました</string>
     <string name="InuProxyImported_other">%1$d 件のプロキシをインポートしました</string>
     <string name="InuFasterDownloads">ダウンロード高速化</string>
     <string name="InuFasterUploads">アップロード高速化</string>
@@ -841,6 +841,7 @@
     <string name="InuPluginsRemoveTitle">%s を削除</string>
     <string name="InuPluginsRemoveConfirm">このプラグインとそのすべてのデータを削除しますか？この操作は元に戻せません。</string>
     <string name="InuPluginsRemoveAll">すべてのプラグインを削除</string>
+    <string name="InuPluginsRemoveAllConfirm_one">インストール済みの %d 件のプラグインとそのすべてのデータを削除しますか？この操作は元に戻せません。</string>
     <string name="InuPluginsRemoveAllConfirm_other">インストール済みの %d 件のプラグインとそのすべてのデータを削除しますか？この操作は元に戻せません。</string>
     <string name="InuPluginsByAuthor">%1$s 作</string>
     <string name="InuPluginsPermissions">権限</string>
@@ -916,6 +917,7 @@
     <string name="InuPluginsDevModeBanner">このデバイスに adb でアクセスできるものは、確認なしでプラグインをインストールし、任意の権限を付与できます。作業が終わったらオフにしてください。</string>
     <string name="InuPluginsDevModeTurnOff">開発者モードをオフにする</string>
     <string name="InuPluginsDevChip">開発</string>
+    <string name="InuPluginsDevPushed_one">%d 件のプラグインをプッシュしました</string>
     <string name="InuPluginsDevPushed_other">%d 件のプラグインをプッシュしました</string>
     <string name="InuPluginsDevModeSheetTitle">開発者モードをオンにしますか？</string>
     <string name="InuPluginsDevModeSheetInfo">プラグイン開発用の機能です。コンピューターから adb 経由でファイルをプッシュすると、アプリがすぐにインストールします。\nオンの間:</string>
@@ -947,6 +949,7 @@
     <string name="InuPluginUpdatePermissionsNone">この更新は新しい権限を要求しません。</string>
     <string name="InuPluginUpdatePermissionsDropped">要求されなくなった権限</string>
     <string name="InuPluginUpdatePermissionsKeptTitle">付与済み</string>
+    <string name="InuPluginUpdatePermissionsKept_one">付与済みの %1$d 件の権限を確認</string>
     <string name="InuPluginUpdatePermissionsKept_other">付与済みの %1$d 件の権限を確認</string>
     <string name="InuPluginUpdated">%1$s を更新しました</string>
     <string name="InuPluginCrashed">%1$s がクラッシュしたため無効にしました</string>
