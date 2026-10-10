@@ -7,9 +7,9 @@ Subject: remove play services stuff only available for official apps
  TMessagesProj/build.gradle                    |   3 -
  .../telegram/messenger/CaptchaController.java | 114 ------
  .../messenger/MessagesController.java         |  12 -
- .../telegram/tgnet/ConnectionsManager.java    |  44 +--
+ .../telegram/tgnet/ConnectionsManager.java    |  43 +--
  .../java/org/telegram/ui/LoginActivity.java   | 345 +-----------------
- 5 files changed, 14 insertions(+), 504 deletions(-)
+ 5 files changed, 13 insertions(+), 504 deletions(-)
  delete mode 100644 TMessagesProj/src/main/java/org/telegram/messenger/CaptchaController.java
 
 diff --git a/TMessagesProj/build.gradle b/TMessagesProj/build.gradle

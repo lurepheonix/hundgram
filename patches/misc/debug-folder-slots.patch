@@ -59,7 +59,7 @@ index 0000000..0000000 100644
  
      private boolean checkingImportDialog;
  
-@@ -3113,6 +3113,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -3120,6 +3120,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
      @Override
      public void onFragmentDestroy() {
          super.onFragmentDestroy();
@@ -67,7 +67,7 @@ index 0000000..0000000 100644
          if (observersGroup != null) {
              observersGroup.removeAllObservers();
              observersGroup = null;
-@@ -5688,6 +5689,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -5695,6 +5696,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              }
          };
          updateFilterTabs(true, false);
@@ -75,7 +75,7 @@ index 0000000..0000000 100644
          rightSlidingDialogContainer.setOpenProgress(0f);
          contentView.addView(dialogStoriesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, DialogStoriesCell.HEIGHT_IN_DP));
          contentView.addView(rightSlidingDialogContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-@@ -6953,6 +6955,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6960,6 +6962,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          viewPages[a].dialogsAdapter.setDialogsType(viewPages[a].dialogsType);
          viewPages[a].layoutManager.scrollToPositionWithOffset(viewPages[a].dialogsType == DIALOGS_TYPE_DEFAULT && hasHiddenArchive() && viewPages[a].archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN ? 1 : 0, (int) scrollYOffset);
          checkListLoad(viewPages[a]);
@@ -83,7 +83,7 @@ index 0000000..0000000 100644
      }
  
      private boolean scrollBarVisible = true;
-@@ -7070,6 +7073,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -7077,6 +7080,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                  viewPages[1].dialogsAdapter.notifyDataSetChanged();
                  canShowFilterTabsView = false;
                  updateFilterTabsVisibility(animated);
@@ -91,7 +91,7 @@ index 0000000..0000000 100644
                  for (int a = 0; a < viewPages.length; a++) {
                      if (viewPages[a].dialogsType == DIALOGS_TYPE_DEFAULT && viewPages[a].archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && hasHiddenArchive()) {
                          int p = viewPages[a].layoutManager.findFirstVisibleItemPosition();
-@@ -7345,7 +7349,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -7352,7 +7356,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                      filterTabsView.selectTabWithStableId(dialogFilter.localId);
                  }
              }
@@ -100,7 +100,7 @@ index 0000000..0000000 100644
      }
  
      @Override
-@@ -11237,6 +11241,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -11244,6 +11248,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          } else if (dialogsType == 7 || dialogsType == 8) {
              MessagesController.DialogFilter dialogFilter = messagesController.selectedDialogFilter[dialogsType == 7 ? 0 : 1];
              if (dialogFilter == null) {

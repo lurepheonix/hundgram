@@ -5,7 +5,7 @@ Subject: build support stuff for fork-specific code: - added kotlin - bumped min
 
 ---
  .gitmodules                                   |   3 +
- TMessagesProj/build.gradle                    | 176 ++++++++-----
+ TMessagesProj/build.gradle                    | 190 +++++++++-----
  TMessagesProj/google-services.json            |  76 +-----
  TMessagesProj/proguard-rules.pro              |  15 ++
  TMessagesProj/src/main/AndroidManifest.xml    |   7 +
@@ -23,7 +23,7 @@ Subject: build support stuff for fork-specific code: - added kotlin - bumped min
  .../org/telegram/tasks/TelegramStringsTask.kt |   2 +-
  gradle.properties                             |   2 +-
  settings.gradle                               |  40 ++-
- 17 files changed, 385 insertions(+), 347 deletions(-)
+ 19 files changed, 404 insertions(+), 348 deletions(-)
  create mode 100644 TMessagesProj_App/jni/CMakeLists.txt
  create mode 160000 TMessagesProj_App/jni/lsplant
 
@@ -156,7 +156,7 @@ index 0000000..0000000 100644
  }
  
  android {
-@@ -118,10 +186,19 @@ android {
+@@ -118,10 +192,19 @@ android {
      ndkVersion "27.2.12479018"
  
      sourceSets.main.jniLibs.srcDirs = ['./jni/']
@@ -176,7 +176,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -134,24 +211,32 @@ android {
+@@ -134,24 +217,32 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -215,15 +215,19 @@ index 0000000..0000000 100644
              }
          }
      }
-@@ -162,76 +247,34 @@ android {
+@@ -162,64 +253,17 @@ android {
              shrinkResources false
              multiDexEnabled true
              ndk.debugSymbolLevel = 'FULL'
 -            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
 -            buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_PRIVATE_URL") + "\""
--            buildConfigField "boolean", "DEBUG_VERSION", "true"
--            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
--            buildConfigField "boolean", "BUNDLE", "false"
++            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + rootProject.ext.verName + "\""
++            buildConfigField "String", "BUILD_DATE", "\"" + rootProject.ext.buildDate + "\""
++            buildConfigField "String", "INU_BUILD_TYPE", "\"" + (System.getenv('INU_BUILD_TYPE') ?: 'debug') + "\""
++            buildConfigField "int", "STOCK_VERSION_CODE", String.valueOf(rootProject.ext.stockVerCode)
+             buildConfigField "boolean", "DEBUG_VERSION", "true"
+             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
+             buildConfigField "boolean", "BUNDLE", "false"
 -            buildConfigField "int", "VERSION_NUM", "0"
 -        }
 -
@@ -234,17 +238,9 @@ index 0000000..0000000 100644
 -            ndk.debugSymbolLevel = 'FULL'
 -            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + APP_VERSION_NAME + "\""
 -            buildConfigField "String", "BETA_URL", "\"" + getProps("BETA_PRIVATE_URL") + "\""
-+            buildConfigField "String", "BUILD_VERSION_STRING", "\"" + rootProject.ext.verName + "\""
-+            buildConfigField "String", "BUILD_DATE", "\"" + rootProject.ext.buildDate + "\""
-+            buildConfigField "String", "INU_BUILD_TYPE", "\"" + (System.getenv('INU_BUILD_TYPE') ?: 'debug') + "\""
-+            buildConfigField "int", "STOCK_VERSION_CODE", String.valueOf(rootProject.ext.stockVerCode)
-             buildConfigField "boolean", "DEBUG_VERSION", "true"
-             buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
-             buildConfigField "boolean", "BUNDLE", "false"
-+            buildConfigField "String", "UPDATE_CHANNEL_USERNAME", "\"" + (System.getenv('UPDATE_CHANNEL_USERNAME') ?: 'HundgramCI') + "\""
-+            buildConfigField "long", "UPDATE_CHANNEL_ID", (System.getenv('UPDATE_CHANNEL_ID') ?: '4437164616L')
-+            buildConfigField "int", "TG_APP_ID", String.valueOf(Integer.parseInt(tgAppId))
-+            buildConfigField "String", "TG_APP_HASH", "\"" + tgAppHash + "\""
+-            buildConfigField "boolean", "DEBUG_VERSION", "true"
+-            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "true"
+-            buildConfigField "boolean", "BUNDLE", "false"
 -            buildConfigField "int", "VERSION_NUM", "1"
 -        }
 -
@@ -285,9 +281,14 @@ index 0000000..0000000 100644
 -            buildConfigField "boolean", "DEBUG_PRIVATE_VERSION", "false"
 -            buildConfigField "boolean", "BUNDLE", "false"
 -            buildConfigField "int", "VERSION_NUM", "6"
++            buildConfigField "String", "UPDATE_CHANNEL_USERNAME", "\"" + (System.getenv('UPDATE_CHANNEL_USERNAME') ?: 'HundgramCI') + "\""
++            buildConfigField "long", "UPDATE_CHANNEL_ID", (System.getenv('UPDATE_CHANNEL_ID') ?: '4437164616L')
++            buildConfigField "int", "TG_APP_ID", String.valueOf(Integer.parseInt(tgAppId))
++            buildConfigField "String", "TG_APP_HASH", "\"" + tgAppHash + "\""
          }
  
          release {
+@@ -227,12 +271,17 @@ android {
              shrinkResources false
              multiDexEnabled true
              ndk.debugSymbolLevel = 'FULL'
@@ -308,7 +309,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -250,7 +285,6 @@ def getProps(String propName) {
+@@ -250,7 +299,6 @@ def getProps(String propName) {
          return "";
      }
  }
@@ -316,7 +317,7 @@ index 0000000..0000000 100644
  
  task checkVisibility {
      doFirst {
-@@ -272,4 +306,10 @@ task checkVisibility {
+@@ -272,4 +320,10 @@ task checkVisibility {
      }
  }
  

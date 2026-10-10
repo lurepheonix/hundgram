@@ -18,7 +18,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
-@@ -1291,6 +1291,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
+@@ -1286,6 +1286,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
  
      @Override
      public void openHiddenStories() {
@@ -45,7 +45,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -12956,15 +12956,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -12757,15 +12757,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          if (StoryRecorder.isVisible() || (getLastStoryViewer() != null && getLastStoryViewer().isFullyVisible())) {
              animated = false;
          }
@@ -77,7 +77,7 @@ index 0000000..0000000 100644
      }
  
      @Override
-@@ -9141,7 +9141,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -9067,7 +9067,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
              for (int i = 0; i < stories.size(); ++i) {
                  TL_stories.PeerStories userStories = stories.get(i);
                  long dialogId = DialogObject.getPeerDialogId(userStories.peer);
@@ -90,7 +90,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
-@@ -5735,6 +5735,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -5672,6 +5672,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              protected void onTap(StoryViewer.PlaceProvider provider) {
                  long did = getDialogId();
                  StoriesController storiesController = getMessagesController().getStoriesController();
@@ -105,7 +105,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesV
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesView.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/ProfileStoriesView.java
-@@ -1181,7 +1181,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
+@@ -1180,7 +1180,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
              return true;
          } else if (event.getAction() == MotionEvent.ACTION_UP) {
              AndroidUtilities.cancelRunOnUIThread(onLongPressRunnable);
@@ -118,7 +118,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesControll
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/StoriesController.java
-@@ -259,6 +259,9 @@ public class StoriesController {
+@@ -256,6 +256,9 @@ public class StoriesController {
          if (isLastUploadingFailed(dialogId)) {
              return true;
          }
@@ -128,7 +128,7 @@ index 0000000..0000000 100644
          TL_stories.PeerStories stories = allStoriesMap.get(dialogId);
          if (stories == null) {
              stories = getStoriesFromFullPeer(dialogId);
-@@ -286,6 +289,7 @@ public class StoriesController {
+@@ -280,6 +283,7 @@ public class StoriesController {
      }
  
      public boolean hasStories() {

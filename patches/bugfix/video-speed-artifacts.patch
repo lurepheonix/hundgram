@@ -4,8 +4,8 @@ Date: Wed, 26 Aug 2026 07:22:06 +0400
 Subject: use low-latency audio stack to avoid crackling artifacts when changing video speed
 
 ---
- .../messenger/video/VideoPlayerRewinder.java  |  2 --
- .../telegram/ui/Components/VideoPlayer.java   | 70 +++++++++++++++++++----
+ .../messenger/video/VideoPlayerRewinder.java  |  2 -
+ .../telegram/ui/Components/VideoPlayer.java   | 70 +++++++++++++++----
  .../java/org/telegram/ui/PhotoViewer.java     |  1 +
  3 files changed, 58 insertions(+), 15 deletions(-)
 
@@ -65,7 +65,7 @@ index 0000000..0000000 100644
      public VideoPlayer() {
          this(true, false);
      }
-@@ -252,10 +276,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -252,10 +277,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
              if (audioVisualizerDelegate != null) {
                  factory = new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext);
              } else {
@@ -78,7 +78,7 @@ index 0000000..0000000 100644
              ExoPlayer.Builder builder = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(factory)
                      .setTrackSelector(trackSelector)
                      .setLoadControl(loadControl);
-@@ -1461,7 +1486,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1467,7 +1493,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
      public void setPlaybackSpeed(float speed) {
          try {
              if (player != null) {
@@ -87,7 +87,7 @@ index 0000000..0000000 100644
              }
          } catch (Exception ignore) {}
      }
-@@ -1796,25 +1821,43 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1805,25 +1831,43 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
          return repeatCount;
      }
  
@@ -146,7 +146,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -10759,6 +10759,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -10760,6 +10760,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  }
              }
  

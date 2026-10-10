@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
-@@ -1465,7 +1465,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
+@@ -1468,7 +1468,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
  
          protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
              int size = itemInternals.size();
