@@ -53,6 +53,7 @@
     <string name="InuDoubleTapInfo">Через особливості обробки подвійних дотиків у Telegram увімкнення цієї дії додає затримку до звичайних дотиків на вказаний вище час, роблячи додаток менш чутливим.\nВи можете змінити тривалість затримки, але повністю її позбутися можна лише вимкнувши ці дії.</string>
     <string name="InuQuickReaction">Швидка реакція</string>
     <string name="InuShowReactions">Показувати реакції</string>
+    <string name="InuStories">Історії</string>
     <string name="InuHideStories">Приховати історії</string>
     <string name="InuHideStoriesInfo">Приховує панель історій зі списку чатів</string>
     <string name="InuShowStoriesInArchive">Показувати історії в архіві</string>

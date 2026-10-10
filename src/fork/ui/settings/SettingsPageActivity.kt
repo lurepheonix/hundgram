@@ -49,7 +49,14 @@ abstract class SettingsPageActivity : UniversalFragment() {
 
     private var highlightItemId: Int = -1
 
-    fun withHighlight(itemId: Int) = apply { highlightItemId = itemId }
+    fun withHighlight(itemId: Int): SettingsPageActivity {
+        highlightItemId = itemId
+        onHighlightId(itemId)
+        return this
+    }
+
+    // lets pages with collapsible sections expand the one containing [itemId] before fillItems.
+    protected open fun onHighlightId(itemId: Int) {}
 
     override fun createView(context: Context): View {
         return super.createView(context).also {

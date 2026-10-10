@@ -44,6 +44,7 @@
     <string name="InuDoubleTapInfo">注意：由于 Telegram 处理双击的方式，启用双击操作会让普通点击延迟上述时间，使应用响应变慢。\n你可以调整时长，但完全消除延迟的唯一方法是禁用这些操作。</string>
     <string name="InuQuickReaction">快速回应</string>
     <string name="InuShowReactions">显示回应</string>
+    <string name="InuStories">快拍</string>
     <string name="InuHideStories">隐藏快拍</string>
     <string name="InuHideStoriesInfo">隐藏主聊天列表顶部的快拍栏</string>
     <string name="InuShowStoriesInArchive">在存档中显示快拍</string>

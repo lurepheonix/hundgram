@@ -19,6 +19,11 @@ import org.telegram.ui.Components.UniversalAdapter
 
 class AnnoyancesSettingsActivity : SettingsPageActivity() {
 
+    private val storiesSection = ExpandableSection(
+        LocaleController.getString(R.string.InuStories),
+        sectionId = SECTION_STORIES,
+    )
+
     private val aiFeaturesGroup = ExpandableBoolGroup(
         LocaleController.getString(R.string.InuHideAiFeatures),
         listOf(
@@ -50,55 +55,69 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuAnnoyances)
 
+    override fun onHighlightId(itemId: Int) {
+        when (itemId) {
+            TOGGLE_HIDE_STORIES,
+            TOGGLE_SHOW_STORIES_IN_ARCHIVE,
+            TOGGLE_SHOW_OWN_STORIES,
+            TOGGLE_SHOW_AVATAR_RINGS,
+            TOGGLE_HIDE_REPOST_TO_STORY,
+            TOGGLE_DISABLE_OVERSCROLL_STORY -> storiesSection.expanded = true
+        }
+    }
+
     override fun fillItems(items: ArrayList<UItem>, adapter: UniversalAdapter) {
-        items.add(
-            mkTwoLineCheckItem(
-                TOGGLE_HIDE_STORIES,
-                R.string.InuHideStories,
-                R.string.InuHideStoriesInfo,
-                InuConfig.HIDE_STORIES.value
-            )
-        )
-        if (InuConfig.HIDE_STORIES.value) {
+        storiesSection.addHeader(items) { listView.adapter.update(true) }
+        if (storiesSection.expanded) {
             items.add(
                 mkTwoLineCheckItem(
-                    TOGGLE_SHOW_STORIES_IN_ARCHIVE,
-                    R.string.InuShowStoriesInArchive,
-                    R.string.InuShowStoriesInArchiveInfo,
-                    InuConfig.SHOW_STORIES_IN_ARCHIVE.value
+                    TOGGLE_HIDE_STORIES,
+                    R.string.InuHideStories,
+                    R.string.InuHideStoriesInfo,
+                    InuConfig.HIDE_STORIES.value
                 )
             )
-            items.add(
-                mkTwoLineCheckItem(
-                    TOGGLE_SHOW_OWN_STORIES,
-                    R.string.InuShowOwnStories,
-                    R.string.InuShowOwnStoriesInfo,
-                    InuConfig.SHOW_OWN_STORIES.value
+            if (InuConfig.HIDE_STORIES.value) {
+                items.add(
+                    mkTwoLineCheckItem(
+                        TOGGLE_SHOW_STORIES_IN_ARCHIVE,
+                        R.string.InuShowStoriesInArchive,
+                        R.string.InuShowStoriesInArchiveInfo,
+                        InuConfig.SHOW_STORIES_IN_ARCHIVE.value
+                    )
                 )
+                items.add(
+                    mkTwoLineCheckItem(
+                        TOGGLE_SHOW_OWN_STORIES,
+                        R.string.InuShowOwnStories,
+                        R.string.InuShowOwnStoriesInfo,
+                        InuConfig.SHOW_OWN_STORIES.value
+                    )
+                )
+                items.add(
+                    mkTwoLineCheckItem(
+                        TOGGLE_SHOW_AVATAR_RINGS,
+                        R.string.InuShowAvatarRings,
+                        R.string.InuShowAvatarRingsInfo,
+                        InuConfig.SHOW_AVATAR_RINGS.value
+                    )
+                )
+            }
+            items.add(
+                UItem.asCheck(
+                    TOGGLE_HIDE_REPOST_TO_STORY,
+                    LocaleController.getString(R.string.InuHideRepostToStory),
+                ).setChecked(InuConfig.HIDE_REPOST_TO_STORY.value)
             )
             items.add(
                 mkTwoLineCheckItem(
-                    TOGGLE_SHOW_AVATAR_RINGS,
-                    R.string.InuShowAvatarRings,
-                    R.string.InuShowAvatarRingsInfo,
-                    InuConfig.SHOW_AVATAR_RINGS.value
+                    TOGGLE_DISABLE_OVERSCROLL_STORY,
+                    R.string.InuDisableOverscrollStory,
+                    R.string.InuDisableOverscrollStoryInfo,
+                    InuConfig.DISABLE_OVERSCROLL_STORY.value
                 )
             )
         }
-        items.add(
-            UItem.asCheck(
-                TOGGLE_HIDE_REPOST_TO_STORY,
-                LocaleController.getString(R.string.InuHideRepostToStory),
-            ).setChecked(InuConfig.HIDE_REPOST_TO_STORY.value)
-        )
-        items.add(
-            mkTwoLineCheckItem(
-                TOGGLE_DISABLE_OVERSCROLL_STORY,
-                R.string.InuDisableOverscrollStory,
-                R.string.InuDisableOverscrollStoryInfo,
-                InuConfig.DISABLE_OVERSCROLL_STORY.value
-            )
-        )
         aiFeaturesGroup.addTo(items) { listView.adapter.update(true) }
         hideSuggestionsGroup.addTo(items) { listView.adapter.update(true) }
         items.add(
@@ -200,6 +219,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
     }
 
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
+        if (storiesSection.handleHeaderClick(item) { listView.adapter.update(true) }) return
         if (aiFeaturesGroup.handleClick(item, view) { listView.adapter.update(true) }) return
         if (hideSuggestionsGroup.handleClick(item, view) { listView.adapter.update(true) }) return
         when (item.id) {
@@ -399,6 +419,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_DISABLE_QUICK_SHARE = InuUtils.generateId()
         private val TOGGLE_DISABLE_PROFILE_MUSIC_AUTOPLAY = InuUtils.generateId()
         private val BUTTON_CLEAR_HINTS = InuUtils.generateId()
+        private val SECTION_STORIES = InuUtils.generateId()
         private val SECTION_HIDE_AI_FEATURES = InuUtils.generateId()
         private val SECTION_HIDE_SUGGESTIONS = InuUtils.generateId()
 
@@ -429,6 +450,7 @@ class AnnoyancesSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("disable-quick-share", R.string.InuDisableQuickShare, TOGGLE_DISABLE_QUICK_SHARE),
                 SearchRegistry.Entry("disable-profile-music-autoplay", R.string.InuDisableProfileMusicAutoplay, TOGGLE_DISABLE_PROFILE_MUSIC_AUTOPLAY),
                 SearchRegistry.Entry("clear-hints", R.string.InuClearHints, BUTTON_CLEAR_HINTS),
+                SearchRegistry.Entry("stories", R.string.InuStories, SECTION_STORIES),
                 SearchRegistry.Entry("hide-ai-features", R.string.InuHideAiFeatures, SECTION_HIDE_AI_FEATURES),
                 SearchRegistry.Entry("hide-suggestions", R.string.InuHideSuggestions, SECTION_HIDE_SUGGESTIONS),
             ),

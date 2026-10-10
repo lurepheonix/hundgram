@@ -53,6 +53,7 @@
     <string name="InuDoubleTapInfo">Note: due to the way Telegram handles double-taps, enabling a double-tap action means that regular taps will be delayed by the above amount of time, making the app feel less responsive.\nYou can tweak the duration, but the only way to completely avoid the delay is to disable the actions.</string>
     <string name="InuQuickReaction">Quick Reaction</string>
     <string name="InuShowReactions">Show Reactions</string>
+    <string name="InuStories">Stories</string>
     <string name="InuHideStories">Hide stories</string>
     <string name="InuHideStoriesInfo">Hides stories bar from the main chat list</string>
     <string name="InuShowStoriesInArchive">Show stories in archive</string>

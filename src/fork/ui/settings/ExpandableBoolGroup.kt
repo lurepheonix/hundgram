@@ -44,6 +44,9 @@ class ExpandableBoolGroup(
                 .onBind(Utilities.Callback { view ->
                     val cell = view as? TextCheckCell2 ?: return@Callback
                     cell.checkBox.also {
+                        // views are recycled across headers: a header without a switch (see
+                        // ExpandableSection below) hides the checkbox, so restore it here.
+                        it.visibility = View.VISIBLE
                         it.setDrawIconType(0)
                         it.setColors(
                             Theme.key_switchTrack,
@@ -75,6 +78,40 @@ class ExpandableBoolGroup(
         val new = opt.config.toggle()
         (view as? CheckBoxCell)?.setChecked(new, true)
         onChange(opt)
+        return true
+    }
+}
+
+// Header-only expandable section: same header look as ExpandableBoolGroup, but without the
+// master switch — for groups whose rows have mixed polarity or custom cells (e.g. stories,
+// where HIDE_* and SHOW_* toggles share no single "enable all" meaning).
+// Inner content is built by the caller while [expanded], so rows keep their own cells,
+// subtitles and click handling; this class only owns the header row and its collapsed state.
+class ExpandableSection(
+    val title: CharSequence,
+    val sectionId: Int = InuUtils.generateId(),
+) {
+    var expanded = false
+
+    fun addHeader(items: ArrayList<UItem>, onToggle: () -> Unit) {
+        // NB: animatedText must be non-empty, otherwise UniversalAdapter hides the collapse arrow.
+        items.add(
+            UItem.asExpandableSwitch(sectionId, title, " ")
+                .setCollapsed(!expanded)
+                .setClickCallback {
+                    expanded = !expanded
+                    onToggle()
+                }
+                .onBind(Utilities.Callback { view ->
+                    (view as? TextCheckCell2)?.checkBox?.visibility = View.GONE
+                })
+        )
+    }
+
+    fun handleHeaderClick(item: UItem, onToggle: () -> Unit): Boolean {
+        if (item.id != sectionId) return false
+        expanded = !expanded
+        onToggle()
         return true
     }
 }
