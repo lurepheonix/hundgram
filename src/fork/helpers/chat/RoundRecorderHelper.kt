@@ -14,6 +14,22 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 object RoundRecorderHelper {
+    @JvmStatic
+    fun shouldMirrorFront(isFrontface: Boolean): Boolean =
+        isFrontface && InuConfig.ROUND_RECORDER_MIRROR_FRONT.value
+
+    // Horizontally mirror in screen space (x -> -x in NDC), independent of
+    // sensor rotation. Returns a flipped copy; never mutates the shared matrix
+    // (it is read from two GL threads, and in-place flips would double-negate).
+    @JvmStatic
+    fun mirroredVertexMatrix(m: FloatArray): FloatArray {
+        val out = m.clone()
+        out[0] = -out[0]
+        out[4] = -out[4]
+        out[8] = -out[8]
+        out[12] = -out[12]
+        return out
+    }
     // physical finger spread is capped by the small recorder container;
     // 3x finger ratio is what comfortably reaches edge-to-edge.
     private const val MAX_PINCH_RATIO = 3f

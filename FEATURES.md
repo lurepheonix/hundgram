@@ -180,6 +180,7 @@ its own update channel, pointing at Hundgram releases.)
   - keep zoom on pinch release
   - gentler exponential zoom curve (like in normal camera apps)
   - toggle to disable dual-camera mode
+  - mirror front camera (preview and recorded file)
 
 ## photo viewer
 

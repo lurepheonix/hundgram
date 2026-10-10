@@ -652,6 +652,8 @@
     <string name="InuRoundRecorderExponentialZoomInfo">更平滑的缩放曲线，类似 Google Camera</string>
     <string name="InuRoundRecorderDualCamera">双摄像头</string>
     <string name="InuRoundRecorderDualCameraInfo">同时打开前后摄像头，可在录制中即时切换。耗电更多。</string>
+    <string name="InuRoundRecorderMirrorFront">镜像前置摄像头</string>
+    <string name="InuRoundRecorderMirrorFrontInfo">水平翻转前置摄像头预览和录制的视频消息</string>
     <string name="InuRoundRecorderCameraApi">圆形录制使用 %1$s API。**切换到 %2$s >**</string>
     <string name="InuHideBottomBarNonJoinedGroups">未加入的群组</string>
     <string name="InuTextSpoilerMode">文本剧透样式</string>

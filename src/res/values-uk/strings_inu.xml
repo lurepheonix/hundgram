@@ -81,6 +81,8 @@
     <string name="InuRoundRecorderExponentialZoomInfo">Плавніша крива зуму, як у Google Camera</string>
     <string name="InuRoundRecorderDualCamera">Подвійна камера</string>
     <string name="InuRoundRecorderDualCameraInfo">Одночасний запуск фронтальної та основної камер для миттєвого перемикання під час запису. Споживає більше батареї.</string>
+    <string name="InuRoundRecorderMirrorFront">Дзеркалити фронтальну камеру</string>
+    <string name="InuRoundRecorderMirrorFrontInfo">Горизонтально віддзеркалює прев\'ю фронтальної камери та записане відеоповідомлення</string>
     <string name="InuRoundRecorderCameraApi">Запис відеоповідомлень використовує %1$s API. **Перемкнути на %2$s >**</string>
     <string name="InuShowAllRecentStickers">Показувати всі нещодавні наліпки</string>
     <string name="InuNoStickerExtraPadding">Прибрати додатковий відступ знизу</string>

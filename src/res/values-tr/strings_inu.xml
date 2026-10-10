@@ -94,6 +94,8 @@
     <string name="InuRoundRecorderExponentialZoomInfo">Google Kamera gibi daha pürüzsüz bir yakınlaştırma eğrisi</string>
     <string name="InuRoundRecorderDualCamera">Çift kamera</string>
     <string name="InuRoundRecorderDualCameraInfo">Kayıt sırasında anında geçiş yapmak için hem ön hem de arka kamerayı aynı anda açar. Daha fazla pil tüketir.</string>
+    <string name="InuRoundRecorderMirrorFront">Ön kamerayı yansıt</string>
+    <string name="InuRoundRecorderMirrorFrontInfo">Ön kamera önizlemesini ve kaydedilen video mesajı yatay olarak çevirir</string>
     <string name="InuRoundRecorderCameraApi">Yuvarlak kaydedici %1$s API\'sini kullanıyor. **%2$s API\'sine geç >**</string>
     <string name="InuShowAllRecentStickers">Tüm son çıkartmaları göster</string>
     <string name="InuNoStickerExtraPadding">Alt boşluğu kaldır</string>

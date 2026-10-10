@@ -1,0 +1,189 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: The Ghost <lurepheonix@gmail.com>
+Date: Sat, 10 Oct 2026 05:23:09 +0400
+Subject: feature: mirror front video message preview and file behind toggle
+
+---
+ .../telegram/ui/Components/InstantCameraView.java | 12 ++++++++++--
+ .../roundvideo/RoundVideoCameraController.java    | 15 +++++++++++++--
+ .../camera/roundvideo/RoundVideoGlProcessor.java  |  9 +++++++++
+ .../roundvideo/RoundVideoOverlayRenderer.java     | 14 ++++++++++++--
+ 4 files changed, 44 insertions(+), 6 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java
+@@ -1851,7 +1851,11 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
+             GLES20.glEnableVertexAttribArray(textureHandle);
+ 
+             GLES20.glUniformMatrix4fv(textureMatrixHandle, 1, false, mSTMatrix, 0);
+-            GLES20.glUniformMatrix4fv(vertexMatrixHandle, 1, false, mMVPMatrix, 0);
++            float[] inu_vertexMatrix = mMVPMatrix;
++            if (RoundRecorderHelper.shouldMirrorFront(isFrontface)) {
++                inu_vertexMatrix = RoundRecorderHelper.mirroredVertexMatrix(mMVPMatrix);
++            }
++            GLES20.glUniformMatrix4fv(vertexMatrixHandle, 1, false, inu_vertexMatrix, 0);
+ 
+             GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+ 
+@@ -2642,7 +2646,11 @@ public class InstantCameraView extends InstantCameraViewBase implements Notifica
+             GLES20.glEnableVertexAttribArray(positionHandle);
+             GLES20.glVertexAttribPointer(textureHandle, 2, GLES20.GL_FLOAT, false, 8, textureBuffer);
+             GLES20.glEnableVertexAttribArray(textureHandle);
+-            GLES20.glUniformMatrix4fv(vertexMatrixHandle, 1, false, mMVPMatrix, 0);
++            float[] inu_vertexMatrix = mMVPMatrix;
++            if (RoundRecorderHelper.shouldMirrorFront(isFrontface)) {
++                inu_vertexMatrix = RoundRecorderHelper.mirroredVertexMatrix(mMVPMatrix);
++            }
++            GLES20.glUniformMatrix4fv(vertexMatrixHandle, 1, false, inu_vertexMatrix, 0);
+ 
+             GLES20.glUniform2f(resolutionHandle, videoWidth, videoHeight);
+ 
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java
+@@ -30,6 +30,8 @@ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.core.content.ContextCompat;
+ 
++import desu.inugram.helpers.chat.RoundRecorderHelper;
++
+ import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+@@ -486,6 +488,7 @@ final class RoundVideoCameraController {
+             Handler handler = cameraHandler;
+             if (handler != null) handler.post(this::startRecordingAfterFirstFrame);
+         });
++        glProcessor.setMirrorOutput(RoundRecorderHelper.shouldMirrorFront(selectedFacing == RoundVideoSession.CameraFacing.FRONT));
+         recordingSurface = glProcessor.start();
+     }
+ 
+@@ -601,7 +604,10 @@ final class RoundVideoCameraController {
+                     try {
+                         activeFacing = selectedFacing;
+                         repeatingBuilder = createRepeatingRequestBuilder(true);
+-                        if (glProcessor != null) glProcessor.onCameraSessionConfigured();
++                        if (glProcessor != null) {
++                            glProcessor.onCameraSessionConfigured();
++                            glProcessor.setMirrorOutput(RoundRecorderHelper.shouldMirrorFront(activeFacing == RoundVideoSession.CameraFacing.FRONT));
++                        }
+                         boolean wasSwitch = notifySwitchCompletion;
+                         notifySwitchCompletion = false;
+                         awaitingSwitchPreviewFrame = wasSwitch;
+@@ -1477,7 +1483,12 @@ final class RoundVideoCameraController {
+         float centerX = previewView.getWidth() * 0.5f;
+         float centerY = previewView.getHeight() * 0.5f;
+         Matrix matrix = new Matrix();
+-        matrix.setScale(scaleX, scaleY, centerX, centerY);
++        RoundVideoSession.CameraFacing facing = activeFacing != null ? activeFacing : requestedFacing;
++        float previewScaleX = scaleX;
++        if (facing == RoundVideoSession.CameraFacing.FRONT && RoundRecorderHelper.shouldMirrorFront(true)) {
++            previewScaleX = -previewScaleX;
++        }
++        matrix.setScale(previewScaleX, scaleY, centerX, centerY);
+         previewView.setTransform(matrix);
+         diagnostics.log("preview transform: view=" + previewView.getWidth() + "x"
+                 + previewView.getHeight()
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java
+@@ -14,6 +14,8 @@ import android.view.Surface;
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ 
++import desu.inugram.helpers.chat.RoundRecorderHelper;
++
+ import java.util.concurrent.CountDownLatch;
+ 
+ final class RoundVideoGlProcessor {
+@@ -104,6 +106,7 @@ final class RoundVideoGlProcessor {
+ 
+     private volatile boolean started;
+     private volatile boolean recordingStarted;
++    private volatile boolean mirrorOutput;
+     private volatile Runnable firstFrameListener;
+     private boolean firstFrameReported;
+     private volatile RuntimeException initializationError;
+@@ -219,6 +222,10 @@ final class RoundVideoGlProcessor {
+         return cameraSurface;
+     }
+ 
++    public void setMirrorOutput(boolean mirror) {
++        mirrorOutput = mirror;
++    }
++
+     public void beginCameraSwitch(
+             @NonNull RoundVideoSession.CameraFacing from,
+             @NonNull RoundVideoSession.CameraFacing to
+@@ -239,6 +246,7 @@ final class RoundVideoGlProcessor {
+             cameraSwitchStartNs = switchStageStartNs = SystemClock.elapsedRealtimeNanos();
+             switchFromFacing = from;
+             switchToFacing = to;
++            mirrorOutput = RoundRecorderHelper.shouldMirrorFront(to == RoundVideoSession.CameraFacing.FRONT);
+             configureSwitchTiming(RoundVideoSwitchTimingStore.getAverageMs(from, to));
+             diagnostics.log("synthetic camera switch started: from=" + from
+                     + ", to=" + to
+@@ -449,6 +457,7 @@ final class RoundVideoGlProcessor {
+         try {
+             inputSurfaceTexture.updateTexImage();
+             inputSurfaceTexture.getTransformMatrix(textureMatrix);
++            overlayRenderer.setMirrorOutput(mirrorOutput);
+             long timestamp = inputSurfaceTexture.getTimestamp();
+             inputFrames++;
+             if (inputFrames == 1) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java
+@@ -255,6 +255,8 @@ final class RoundVideoOverlayRenderer {
+     private final Program watermarkProgram;
+     private final FloatBuffer vertexBuffer;
+     private final FloatBuffer textureBuffer;
++    private final FloatBuffer mirroredVertexBuffer;
++    private boolean mirrorOutput;
+     private FloatBuffer cameraTextureBuffer;
+     private FloatBuffer rotatedCameraTextureBuffer;
+     private final int[] frameBuffers = new int[8];
+@@ -306,6 +308,9 @@ final class RoundVideoOverlayRenderer {
+ 
+         float[] vertexData = new float[48];
+         setVertexCoordinates(vertexData, VERTEX_NORMAL, -1f, 1f, 1f, -1f);
++        float[] mirroredVertexData = new float[12];
++        setVertexCoordinates(mirroredVertexData, 0, 1f, 1f, -1f, -1f);
++        mirroredVertexBuffer = createBuffer(mirroredVertexData);
+         cameraTextureBuffer = createCameraTextureBuffer(inputSize, sourceCropSize, false);
+         rotatedCameraTextureBuffer = createCameraTextureBuffer(inputSize, sourceCropSize, true);
+ 
+@@ -402,6 +407,10 @@ final class RoundVideoOverlayRenderer {
+         lastHistoryFrameNs = 0;
+     }
+ 
++    void setMirrorOutput(boolean mirror) {
++        mirrorOutput = mirror;
++    }
++
+     void captureSwitchFrame(
+             int cameraTexture,
+             @NonNull float[] textureMatrix,
+@@ -783,14 +792,15 @@ final class RoundVideoOverlayRenderer {
+ 
+     private void bindCameraProgram(CameraProgram program, float[] textureMatrix) {
+         GLES20.glUseProgram(program.program);
+-        vertexBuffer.position(VERTEX_NORMAL);
++        FloatBuffer positionBuffer = mirrorOutput ? mirroredVertexBuffer : vertexBuffer;
++        positionBuffer.position(VERTEX_NORMAL);
+         GLES20.glVertexAttribPointer(
+                 program.positionHandle,
+                 3,
+                 GLES20.GL_FLOAT,
+                 false,
+                 12,
+-                vertexBuffer
++                positionBuffer
+         );
+         FloatBuffer selectedTextureBuffer = swapsTextureAxes(textureMatrix)
+                 ? rotatedCameraTextureBuffer
