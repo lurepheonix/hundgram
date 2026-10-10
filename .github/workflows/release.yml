@@ -111,7 +111,7 @@ jobs:
         run: |
           tag='${{ needs.build.outputs.tag }}'
           notes=(--generate-notes)
-          changelog='changelogs/${{ needs.build.outputs.build-num }}.md'
+          changelog='changelogs/hundgram/${{ needs.build.outputs.build-num }}.md'
           if [ -f "$changelog" ]; then
             notes=(--notes-file "$changelog")
           fi

@@ -65,7 +65,7 @@ async function persistSession(session: string) {
 }
 
 try {
-  const notes = await fs.readFile(`changelogs/${info.buildNum}.md`, 'utf8').catch(() => '')
+  const notes = await fs.readFile(`changelogs/hundgram/${info.buildNum}.md`, 'utf8').catch(() => '')
   const fullChangelog = info.baseTag
     ? `[Full changelog: ${info.baseTag}...${info.commitSha.slice(0, 7)}](https://github.com/${info.repo}/compare/${info.baseTag}...${info.commitSha})`
     : `[Full changelog](https://github.com/${info.repo}/commits/${info.commitSha})`
@@ -84,7 +84,7 @@ try {
       type: 'markdown',
       // tg://document links are undocumented, but work in image syntax
       content: [
-        `## Inugram v${info.buildNum}`,
+        `## Hundgram v${info.buildNum}`,
         `<footer>#release v${info.verName} (build ${info.buildNum}, based on ${info.appVerCode})</footer>`,
         ...variants.map(variant => `![${variant}](tg://document?id=${variant})`),
         '<details><summary>Changelog</summary>',

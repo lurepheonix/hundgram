@@ -225,3 +225,8 @@ when those change; keep implementation walkthroughs and benchmark history out.
   path, patch file, pinned base SHA, idempotency marker) alongside upstream's
   `applySubmodulePatches`; `pnpm run setup` runs both. Never hand-edit an overlay;
   regenerate from the submodule diff (`git -C <sub> diff` > `submodule-overlays/<name>.patch`).
+- Release notes are split: upstream notes live in `changelogs/inugram/` (reference
+  only), Hundgram notes in `changelogs/hundgram/<INU_BUILD>.md` (what CI posts).
+  After every upstream merge, `git mv` any new loose `changelogs/<N>.md` into
+  `changelogs/inugram/` before committing; draft Hundgram notes with the
+  `inugram-changelog` skill.

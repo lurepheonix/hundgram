@@ -2,34 +2,45 @@
 name: inugram-changelog
 description: >
   Use when drafting release notes for the next inugram release - the
-  `changelogs/<build>.md` file the release workflow posts to Telegram and GitHub.
+  `changelogs/hundgram/<build>.md` file the release workflow posts to Telegram and GitHub.
   Trigger on "write the changelog", "draft release notes", "what changed since the
   last release", or before dispatching `release.yml`.
 ---
 
 # Inugram changelog
 
-The release workflow reads `changelogs/<build>.md`, where `<build>` is the build
+The release workflow reads `changelogs/hundgram/<build>.md`, where `<build>` is the build
 number of the release being made. It puts the file inside the collapsed
 "Changelog" block of the Telegram post, followed by an auto-generated
 "Full changelog" link, and uses it as the GitHub release notes. Without the file,
 the post only has that link.
 
+`changelogs/inugram/` holds upstream Inugram's release notes as merged (reference
+only, never edited). `changelogs/` root holds no loose `<N>.md` files: after every
+upstream merge, `git mv` any new `changelogs/<N>.md` into `changelogs/inugram/`
+before committing.
+
 ## Find the range
+
+`INU_BUILD` is the source of truth for the next build number. Confirm with
+`gh variable get INU_BUILD` (outside the sandbox) when available.
+
+Tags share a namespace with upstream (`v<APP_VERSION_NAME>-<build>` on both sides),
+so tag arithmetic is unreliable: `git describe --tags --match 'v*'` may resolve to
+an upstream tag. Prefer the last Hundgram release tag (highest build among tags
+reachable without crossing the upstream merge), and trust `INU_BUILD` if they differ.
 
 ```sh
 git fetch --tags
-base=$(git describe --tags --abbrev=0 --match 'v*')
 ```
-
-Release tags are `v<APP_VERSION_NAME>-<build>`. The next build is the highest
-build among `git tag -l 'v*'` plus one. Confirm with `gh variable get INU_BUILD`
-(outside the sandbox) when available; trust the variable if they differ.
 
 ## Gather
 
 - `git log --no-merges --format='%h %s%n%b' $base..HEAD`
 - `git diff $base..HEAD -- FEATURES.md`: the best source of user-facing wording.
+- Newly arrived `changelogs/inugram/*.md` since the last Hundgram release: upstream
+  features new to Hundgram users get full bullets (adapted, not copied), not a
+  one-line rebase entry. A plain stock-Telegram version bump stays one bullet.
 - `git diff $base..HEAD -- <path>` for commits whose subject is unclear.
 - `git diff $base..HEAD -- patches/` shows stock changes; the patch name tells the area.
 
