@@ -4,8 +4,8 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.LocaleController
-import org.telegram.messenger.R
 import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
 import desu.inugram.helpers.security.ParanoiaHelper
 
 // resolves fork ("local-only") strings against the Telegram-selected locale instead of the
@@ -16,6 +16,7 @@ object LocaleHelper {
     private var cachedKey: String? = null
     private var cachedDefault: Resources? = null
     private var cachedCandidates: List<Resources> = emptyList()
+    private val resNames = ConcurrentHashMap<Int, String>()
 
     @JvmStatic
     fun isLocalOnlyString(key: String?): Boolean {
@@ -27,24 +28,20 @@ object LocaleHelper {
             key == "AppUpdateBeta"
     }
 
-    // res-ID variant: single-arg getString(res) passes key=null, and upstream's
-    // getByResNameOrResId falls back to a res-ID lookup in that case, bypassing
-    // the key-based guard above and returning stock "Telegram" from the external
-    // localization. Covers R.string.AppName/AppNameBeta/AppUpdate/AppUpdateBeta.
+    // res-ID variant for the branding patch call sites: single-arg getString(res)
+    // passes key=null, so the name is recovered the same way getLocalString does.
     @JvmStatic
     fun isLocalOnlyString(resId: Int): Boolean {
-        return resId == R.string.AppName ||
-            resId == R.string.AppNameBeta ||
-            resId == R.string.AppUpdate ||
-            resId == R.string.AppUpdateBeta
+        return isLocalOnlyString(getResourceName(resId))
     }
 
     @JvmStatic
     fun getLocalString(key: String?, res: Int): String? {
-        if (!isLocalOnlyString(key) && !isLocalOnlyString(res)) return null
-        disguiseName(key)?.let { return it }
+        val name = key ?: getResourceName(res)
+        if (!isLocalOnlyString(name)) return null
+        disguiseName(name)?.let { return it }
         val ctx = ApplicationLoader.applicationContext ?: return null
-        val id = if (res != 0) res else ctx.resources.getIdentifier(key, "string", ctx.packageName)
+        val id = if (res != 0) res else ctx.resources.getIdentifier(name, "string", ctx.packageName)
         if (id == 0) return null
         return resolve(id) ?: getResourceString(id, null)
     }
@@ -62,6 +59,18 @@ object LocaleHelper {
         } catch (_: Exception) {
             null
         }
+    }
+
+    private fun getResourceName(res: Int): String? {
+        if (res == 0) return null
+        val ctx = ApplicationLoader.applicationContext ?: return null
+        return resNames.getOrPut(res) {
+            try {
+                ctx.resources.getResourceEntryName(res)
+            } catch (_: Resources.NotFoundException) {
+                ""
+            }
+        }.ifEmpty { null }
     }
 
     // when disguised, the app name must read as stock Telegram regardless of locale.

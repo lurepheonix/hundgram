@@ -257,7 +257,6 @@ bugfix/save-uncached-documents-to-downloads.patch
 bugfix/album-caption-spoiler-reset.patch
 bugfix/story-privacy-hint-npe.patch
 bugfix/preview-rotation-black-screen.patch
-bugfix/dead-animated-drawable.patch
 bugfix/community-admin-list-spam.patch
 feature/unified-video-rewind.patch
 feature/user-deeplink.patch
@@ -357,6 +356,12 @@ bugfix/case-insensitive-settings-search.patch
 feature/edited-message-date.patch
 bugfix/photo-viewer-selection-crash.patch
 bugfix/forum-cache-race.patch
+bugfix/edit-stale-message-object.patch
+bugfix/reaction-read-sync.patch
+hooks/code-highlight-spans.patch
+feature/shared-media-selection-menu.patch
+bugfix/extended-grid-layout-cache.patch
+bugfix/forum-bot-menu-layering.patch
 bugfix/forbidden-record-button-mode.patch
 bugfix/gif-scroll-crash.patch
 feature/mirror-front-video-message.patch

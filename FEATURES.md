@@ -159,6 +159,7 @@ its own update channel, pointing at Hundgram releases.)
 - 🐶 lift 100-message selection cap (forwards/saves/deletes are auto-chunked)
 - 🐶 two-finger swipe over messages to select/deselect them
 - more bulk actions in message selection mode (save, translate, gallery, pin/unpin, no-quote forward)
+- three-dot menu in shared media selection mode (save, gallery, no-quote forward, plugin actions)
 - in-place message translation, with optional web preview translation, original-text appending and on-device source-language auto-detection (hides Translate when already in your language)
 - instant view pages translator
 - show original time/date in the forwarded header, with regular, icon-only label, and compact one-line modes
@@ -324,6 +325,8 @@ its own update channel, pointing at Hundgram releases.)
 - custom emoji reaction burst respects litemode (stock only gated the "around" animation of regular emoji)
 - reaction counter shift during long-tap menu
 - reactions silently disappearing right after being sent (stale server read race)
+- seen reactions coming back to the unread reactions counter (stock only told the server once the local counter hit 0, so every server count reload resurrected them); each read is now reported via `readMessageContents`
+- reactions vanishing for a moment after editing a message that got reacted to while the edit was open (the edit applied a stale copy of the message)
 - channel reactions: toggling "Enable Reactions" was silently discarded on back (unsaved-changes check only compared the emoji selection, never the enabled state), and re-enabling always saved the prefilled list as an explicit set instead of "All"
 - rounded section backgrounds ignored the alpha of the fading container they lived in, so they stayed fully opaque during the animation and only popped away on the next unrelated redraw (e.g. toggling "Enable Reactions" in channel reactions)
 - sticky date pill jump and color shift when replacing an inline date separator
