@@ -3,6 +3,7 @@ worktree/
 worktree-pluginless/
 .DS_Store
 src/core/build
+src/core/.gradle
 sdk/types/android.tl.d.ts
 sdk/types/tl-names.txt
 sdk/cli/dist
