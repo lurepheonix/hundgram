@@ -29,6 +29,7 @@ its own update channel, pointing at Hundgram releases.)
 - 🐶 mirror front camera in the attachment camera (preview, photo and video), on a separate switch with a cross-link to the round recorder one
 - 🐶 bugfix: chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it
 - 🐶 bugfix: GIF seekbar no longer freezes swiping between GIFs, and fast GIF scrolling no longer crashes
+- 🐶 play videos in original quality (fullscreen player; optional inline autoplay in chats), off by default
 
 ## appearance & general
 

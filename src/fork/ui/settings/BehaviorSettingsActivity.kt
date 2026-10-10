@@ -59,6 +59,24 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuPlayback)))
         items.add(
             mkTwoLineCheckItem(
+                TOGGLE_PLAY_ORIGINAL_VIDEO,
+                R.string.InuPlayOriginalVideo,
+                R.string.InuPlayOriginalVideoInfo,
+                InuConfig.PLAY_ORIGINAL_VIDEO.value,
+            )
+        )
+        if (InuConfig.PLAY_ORIGINAL_VIDEO.value) {
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_PLAY_ORIGINAL_VIDEO_INLINE,
+                    R.string.InuPlayOriginalVideoInline,
+                    R.string.InuPlayOriginalVideoInlineInfo,
+                    InuConfig.PLAY_ORIGINAL_VIDEO_INLINE.value,
+                )
+            )
+        }
+        items.add(
+            mkTwoLineCheckItem(
                 TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY,
                 R.string.InuDisableNextAudioAutoplay,
                 R.string.InuDisableNextAudioAutoplayInfo,
@@ -346,6 +364,17 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_PLAY_ORIGINAL_VIDEO -> {
+                val new = InuConfig.PLAY_ORIGINAL_VIDEO.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                listView.adapter.update(true)
+            }
+
+            TOGGLE_PLAY_ORIGINAL_VIDEO_INLINE -> {
+                val new = InuConfig.PLAY_ORIGINAL_VIDEO_INLINE.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
             BUTTON_MAP_PROVIDER -> RadioItemOptions.show(
                 this, view,
                 listOf(
@@ -473,6 +502,8 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_SHOW_SECONDS = InuUtils.generateId()
         private val TOGGLE_DISABLE_ROUNDING = InuUtils.generateId()
         private val TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY = InuUtils.generateId()
+        private val TOGGLE_PLAY_ORIGINAL_VIDEO = InuUtils.generateId()
+        private val TOGGLE_PLAY_ORIGINAL_VIDEO_INLINE = InuUtils.generateId()
         private val TOGGLE_ACCOUNT_SWITCH_SHORTCUT = InuUtils.generateId()
 
         private fun performanceClassLabel(value: Int): String = when (value) {
@@ -521,6 +552,8 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("show-seconds", R.string.InuShowSeconds, TOGGLE_SHOW_SECONDS),
                 SearchRegistry.Entry("disable-rounding", R.string.InuDisableRounding, TOGGLE_DISABLE_ROUNDING),
                 SearchRegistry.Entry("disable-next-audio-autoplay", R.string.InuDisableNextAudioAutoplay, TOGGLE_DISABLE_NEXT_AUDIO_AUTOPLAY),
+                SearchRegistry.Entry("play-original-video", R.string.InuPlayOriginalVideo, TOGGLE_PLAY_ORIGINAL_VIDEO),
+                SearchRegistry.Entry("play-original-video-inline", R.string.InuPlayOriginalVideoInline, TOGGLE_PLAY_ORIGINAL_VIDEO_INLINE),
                 SearchRegistry.Entry("account-switch-shortcut", R.string.InuAccountSwitchShortcut, TOGGLE_ACCOUNT_SWITCH_SHORTCUT),
             ),
         )

@@ -362,3 +362,4 @@ bugfix/gif-scroll-crash.patch
 feature/mirror-front-video-message.patch
 feature/mirror-front-attach-camera.patch
 feature/audio_sleep_timer.patch
+feature/play_original_video.patch

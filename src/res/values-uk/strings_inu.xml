@@ -68,6 +68,10 @@
     <string name="InuPlayback">Відтворення</string>
     <string name="InuDisableNextAudioAutoplay">Вимкнути автопрогравання наступного треку</string>
     <string name="InuDisableNextAudioAutoplayInfo">Зупиняти програвання, коли трек закінчується, замість автоматичного переходу до наступного.</string>
+    <string name="InuPlayOriginalVideo">Відтворювати відео в оригінальній якості</string>
+    <string name="InuPlayOriginalVideoInfo">Починати повноекранне відтворення з оригінального файла замість автоматично вибраної зменшеної версії. Якість, вибрана вручну для відео, має пріоритет.</string>
+    <string name="InuPlayOriginalVideoInline">Оригінальна якість для автопрогравання</string>
+    <string name="InuPlayOriginalVideoInlineInfo">Автопрогравати відео в чатах також в оригінальній якості. Збільшує витрати трафіку.</string>
     <string name="InuMaterial3">Material Design 3</string>
     <string name="InuMaterial3Switches">Перемикачі</string>
     <string name="InuMaterial3Sliders">Повзунки</string>

@@ -68,6 +68,10 @@
     <string name="InuPlayback">Oynatma</string>
     <string name="InuDisableNextAudioAutoplay">Sonraki ses parçası için otomatik oynatmayı kapat</string>
     <string name="InuDisableNextAudioAutoplayInfo">Bir ses parçası bittiğinde otomatik olarak sonrakine geçmek yerine oynatmayı durdurur.</string>
+    <string name="InuPlayOriginalVideo">Videoları orijinal kalitede oynat</string>
+    <string name="InuPlayOriginalVideoInfo">Tam ekran oynatmayı otomatik seçilen düşük kaliteli sürüm yerine orijinal dosyadan başlatır. Bir video için elle seçilen kalite önceliğini korur.</string>
+    <string name="InuPlayOriginalVideoInline">Otomatik oynatmada orijinal kalite</string>
+    <string name="InuPlayOriginalVideoInlineInfo">Sohbetlerdeki videoları da orijinal kalitede otomatik oynatır. Daha fazla veri kullanır.</string>
     <string name="InuMaterial3">Material Design 3</string>
     <string name="InuMaterial3Switches">Anahtarlar</string>
     <string name="InuMaterial3Sliders">Kaydırıcılar</string>

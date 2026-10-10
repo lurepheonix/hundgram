@@ -59,6 +59,10 @@
     <string name="InuPlayback">再生</string>
     <string name="InuDisableNextAudioAutoplay">次の音声トラックの自動再生を無効化</string>
     <string name="InuDisableNextAudioAutoplayInfo">音声トラックの再生が終わっても次のトラックを自動再生せず、再生を停止します。</string>
+    <string name="InuPlayOriginalVideo">動画をオリジナルの画質で再生</string>
+    <string name="InuPlayOriginalVideoInfo">自動選択された低画質版ではなく、オリジナルファイルを全画面再生します。動画ごとに手動で選んだ画質が優先されます。</string>
+    <string name="InuPlayOriginalVideoInline">自動再生もオリジナル画質で</string>
+    <string name="InuPlayOriginalVideoInlineInfo">チャット内の自動再生もオリジナル画質にします。通信量が増えます。</string>
 
     <string name="InuShowAllRecentStickers">最近のスタンプをすべて表示</string>
     <string name="InuNoStickerExtraPadding">下の余分な余白を削除</string>

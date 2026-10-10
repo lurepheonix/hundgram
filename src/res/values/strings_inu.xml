@@ -68,6 +68,10 @@
     <string name="InuPlayback">Playback</string>
     <string name="InuDisableNextAudioAutoplay">Disable autoplay for the next audio track</string>
     <string name="InuDisableNextAudioAutoplayInfo">Stop playback when an audio track ends instead of automatically playing the next track.</string>
+    <string name="InuPlayOriginalVideo">Play videos in original quality</string>
+    <string name="InuPlayOriginalVideoInfo">Start fullscreen playback on the original file instead of the automatically chosen downscaled version. A quality picked manually for a video still wins.</string>
+    <string name="InuPlayOriginalVideoInline">Original quality for inline autoplay</string>
+    <string name="InuPlayOriginalVideoInlineInfo">Autoplay videos in chats in original quality too. Uses more traffic.</string>
     <string name="InuMaterial3">Material Design 3</string>
     <string name="InuMaterial3Switches">Switches</string>
     <string name="InuMaterial3Sliders">Sliders</string>

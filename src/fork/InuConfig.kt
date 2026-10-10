@@ -473,6 +473,12 @@ object InuConfig {
     val DISABLE_VIDEO_MESSAGE_AUTOPLAY = BoolItem("disable_video_message_autoplay", false)
 
     @JvmField
+    val PLAY_ORIGINAL_VIDEO = BoolItem("play_original_video", false)
+
+    @JvmField
+    val PLAY_ORIGINAL_VIDEO_INLINE = BoolItem("play_original_video_inline", false)
+
+    @JvmField
     val HIDE_REACTIONS_ENTRY = BoolItem("hide_reactions_entry", false)
 
     @JvmField
