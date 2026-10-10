@@ -654,6 +654,10 @@
     <string name="InuRoundRecorderDualCameraInfo">同时打开前后摄像头，可在录制中即时切换。耗电更多。</string>
     <string name="InuRoundRecorderMirrorFront">镜像前置摄像头</string>
     <string name="InuRoundRecorderMirrorFrontInfo">水平翻转前置摄像头预览和录制的视频消息</string>
+    <string name="InuRoundRecorderMirrorFrontSeeAlso">仅影响视频消息。**也镜像附件中的相机吗?**</string>
+    <string name="InuAttachCameraMirrorFront">镜像前置摄像头</string>
+    <string name="InuAttachCameraMirrorFrontInfo">水平翻转前置摄像头预览和拍摄的照片或视频</string>
+    <string name="InuAttachCameraMirrorFrontSeeAlso">仅影响照片和视频。**也镜像视频消息吗?**</string>
     <string name="InuRoundRecorderCameraApi">圆形录制使用 %1$s API。**切换到 %2$s >**</string>
     <string name="InuHideBottomBarNonJoinedGroups">未加入的群组</string>
     <string name="InuTextSpoilerMode">文本剧透样式</string>

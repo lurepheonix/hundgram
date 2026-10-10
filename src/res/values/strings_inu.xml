@@ -96,6 +96,10 @@
     <string name="InuRoundRecorderDualCameraInfo">Open both front and rear cameras simultaneously for instant switching while recording. Uses more battery.</string>
     <string name="InuRoundRecorderMirrorFront">Mirror front camera</string>
     <string name="InuRoundRecorderMirrorFrontInfo">Horizontally flip the front camera preview and the recorded video message</string>
+    <string name="InuRoundRecorderMirrorFrontSeeAlso">This only affects round videos. **Also mirror the attachment camera?**</string>
+    <string name="InuAttachCameraMirrorFront">Mirror front camera</string>
+    <string name="InuAttachCameraMirrorFrontInfo">Horizontally flip the front camera preview and the captured photo or video</string>
+    <string name="InuAttachCameraMirrorFrontSeeAlso">This only affects photos and videos. **Also mirror round videos?**</string>
     <string name="InuRoundRecorderCameraApi">Round recorder uses %1$s API. **Switch to %2$s >**</string>
     <string name="InuShowAllRecentStickers">Show all recent stickers</string>
     <string name="InuNoStickerExtraPadding">Remove extra bottom padding</string>

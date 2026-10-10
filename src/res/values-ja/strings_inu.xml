@@ -655,6 +655,10 @@
     <string name="InuRoundRecorderDualCameraInfo">フロントとリアのカメラを同時に開き、録画中に瞬時に切り替えできます。電池消費が増えます。</string>
     <string name="InuRoundRecorderMirrorFront">フロントカメラを反転</string>
     <string name="InuRoundRecorderMirrorFrontInfo">フロントカメラのプレビューと録画したビデオメッセージを左右反転する</string>
+    <string name="InuRoundRecorderMirrorFrontSeeAlso">ビデオメッセージにのみ影響します。**添付シートのカメラも反転しますか?**</string>
+    <string name="InuAttachCameraMirrorFront">フロントカメラを反転</string>
+    <string name="InuAttachCameraMirrorFrontInfo">フロントカメラのプレビューと撮影した写真や動画を左右反転する</string>
+    <string name="InuAttachCameraMirrorFrontSeeAlso">写真と動画にのみ影響します。**ビデオメッセージも反転しますか?**</string>
     <string name="InuRoundRecorderCameraApi">丸メッセージの録画は %1$s API を使用しています。**%2$s に切り替える >**</string>
     <string name="InuHideBottomBarNonJoinedGroups">未参加のグループ</string>
     <string name="InuTextSpoilerMode">テキストスポイラーのスタイル</string>

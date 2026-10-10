@@ -659,6 +659,9 @@ object InuConfig {
     @JvmField
     val ROUND_RECORDER_MIRROR_FRONT = BoolItem("round_recorder_mirror_front", false)
 
+    @JvmField
+    val ATTACH_CAMERA_MIRROR_FRONT = BoolItem("attach_camera_mirror_front", false)
+
     // todo: remove in 40
     class NonIslandSplitFromTabBarsItem(key: String) : BoolItem(key, true) {
         override fun read(prefs: SharedPreferences): Boolean {

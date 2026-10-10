@@ -96,6 +96,10 @@
     <string name="InuRoundRecorderDualCameraInfo">Kayıt sırasında anında geçiş yapmak için hem ön hem de arka kamerayı aynı anda açar. Daha fazla pil tüketir.</string>
     <string name="InuRoundRecorderMirrorFront">Ön kamerayı yansıt</string>
     <string name="InuRoundRecorderMirrorFrontInfo">Ön kamera önizlemesini ve kaydedilen video mesajı yatay olarak çevirir</string>
+    <string name="InuRoundRecorderMirrorFrontSeeAlso">Yalnızca video mesajları etkiler. **Ekteki kamera da yansıtılsın mı?**</string>
+    <string name="InuAttachCameraMirrorFront">Ön kamerayı yansıt</string>
+    <string name="InuAttachCameraMirrorFrontInfo">Ön kamera önizlemesini ve çekilen fotoğraf veya videoyu yatay olarak çevirir</string>
+    <string name="InuAttachCameraMirrorFrontSeeAlso">Yalnızca fotoğraf ve videoları etkiler. **Video mesajları da yansıtılsın mı?**</string>
     <string name="InuRoundRecorderCameraApi">Yuvarlak kaydedici %1$s API\'sini kullanıyor. **%2$s API\'sine geç >**</string>
     <string name="InuShowAllRecentStickers">Tüm son çıkartmaları göster</string>
     <string name="InuNoStickerExtraPadding">Alt boşluğu kaldır</string>

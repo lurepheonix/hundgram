@@ -83,6 +83,10 @@
     <string name="InuRoundRecorderDualCameraInfo">Одночасний запуск фронтальної та основної камер для миттєвого перемикання під час запису. Споживає більше батареї.</string>
     <string name="InuRoundRecorderMirrorFront">Дзеркалити фронтальну камеру</string>
     <string name="InuRoundRecorderMirrorFrontInfo">Горизонтально віддзеркалює прев\'ю фронтальної камери та записане відеоповідомлення</string>
+    <string name="InuRoundRecorderMirrorFrontSeeAlso">Стосується лише відеоповідомлень. **Віддзеркалювати й камеру зі вкладень?**</string>
+    <string name="InuAttachCameraMirrorFront">Дзеркалити фронтальну камеру</string>
+    <string name="InuAttachCameraMirrorFrontInfo">Горизонтально віддзеркалює прев\'ю фронтальної камери та зняте фото або відео</string>
+    <string name="InuAttachCameraMirrorFrontSeeAlso">Стосується лише фото та відео. **Віддзеркалювати й відеоповідомлення?**</string>
     <string name="InuRoundRecorderCameraApi">Запис відеоповідомлень використовує %1$s API. **Перемкнути на %2$s >**</string>
     <string name="InuShowAllRecentStickers">Показувати всі нещодавні наліпки</string>
     <string name="InuNoStickerExtraPadding">Прибрати додатковий відступ знизу</string>

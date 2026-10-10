@@ -92,6 +92,24 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 attachCameraModeLabel(InuConfig.ATTACH_CAMERA_MODE.value),
             )
         )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_ATTACH_CAMERA_MIRROR_FRONT,
+                R.string.InuAttachCameraMirrorFront,
+                R.string.InuAttachCameraMirrorFrontInfo,
+                InuConfig.ATTACH_CAMERA_MIRROR_FRONT.value,
+            )
+        )
+        items.add(
+            UItem.asShadow(
+                AndroidUtilities.replaceArrows(
+                    AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.InuAttachCameraMirrorFrontSeeAlso)) {
+                        jumpToItem(TOGGLE_ROUND_RECORDER_MIRROR_FRONT)
+                    },
+                    true,
+                )
+            )
+        )
         if (InuConfig.ATTACH_CAMERA_MODE.value != InuConfig.AttachCameraModeItem.FAB) {
             items.add(
                 mkTwoLineCheckItem(
@@ -156,6 +174,24 @@ class ChatsSettingsActivity : SettingsPageActivity() {
             )
         )
         val usingCamera2 = SharedConfig.isUsingCamera2(currentAccount)
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_ROUND_RECORDER_MIRROR_FRONT,
+                R.string.InuRoundRecorderMirrorFront,
+                R.string.InuRoundRecorderMirrorFrontInfo,
+                InuConfig.ROUND_RECORDER_MIRROR_FRONT.value,
+            )
+        )
+        items.add(
+            UItem.asShadow(
+                AndroidUtilities.replaceArrows(
+                    AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.InuRoundRecorderMirrorFrontSeeAlso)) {
+                        jumpToItem(TOGGLE_ATTACH_CAMERA_MIRROR_FRONT)
+                    },
+                    true,
+                )
+            )
+        )
         if (DualCameraView.roundDualAvailableStatic(context) && usingCamera2) {
             items.add(
                 mkTwoLineCheckItem(
@@ -166,14 +202,6 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 )
             )
         }
-        items.add(
-            mkTwoLineCheckItem(
-                TOGGLE_ROUND_RECORDER_MIRROR_FRONT,
-                R.string.InuRoundRecorderMirrorFront,
-                R.string.InuRoundRecorderMirrorFrontInfo,
-                InuConfig.ROUND_RECORDER_MIRROR_FRONT.value,
-            )
-        )
         val cameraApi = if (usingCamera2) "Camera2" else "Camera1"
         val otherCameraApi = if (usingCamera2) "Camera1" else "Camera2"
         val cameraApiText = LocaleController.formatString(R.string.InuRoundRecorderCameraApi, cameraApi, otherCameraApi)
@@ -285,6 +313,18 @@ class ChatsSettingsActivity : SettingsPageActivity() {
         )
     }
 
+    private fun jumpToItem(itemId: Int) {
+        val lv = listView ?: return
+        var i = 0
+        while (true) {
+            val item = lv.adapter.getItem(i) ?: return
+            if (item.id == itemId) break
+            i++
+        }
+        lv.layoutManager?.scrollToPositionWithOffset(i, AndroidUtilities.dp(60f))
+        lv.highlightRow { i }
+    }
+
     override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
         if (hideBotSlashGroup.handleClick(item, view) { listView.adapter.update(true) }) return
         if (hideBottomBarGroup.handleClick(item, view) { listView.adapter.update(true) }) return
@@ -311,6 +351,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
             }
 
             TOGGLE_CHAT_VOICE_IN_ATTACH -> (view as? NotificationsCheckCell)?.isChecked = InuConfig.CHAT_VOICE_IN_ATTACH.toggle()
+            TOGGLE_ATTACH_CAMERA_MIRROR_FRONT -> (view as? NotificationsCheckCell)?.isChecked = InuConfig.ATTACH_CAMERA_MIRROR_FRONT.toggle()
             TOGGLE_SORT_ALBUMS_BY_SIZE -> (view as? NotificationsCheckCell)?.isChecked = InuConfig.SORT_ALBUMS_BY_SIZE.toggle()
             TOGGLE_SIMPLE_ATTACH_POPUP_ANIMATION -> (view as? TextCheckCell)?.isChecked = InuConfig.SIMPLE_ATTACH_POPUP_ANIMATION.toggle()
             TOGGLE_OPTIMIZED_ATTACHMENT_MENU -> {
@@ -391,6 +432,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
         private val BUTTON_CHAT_MENU_ORDER = InuUtils.generateId()
         private val SECTION_HIDE_BOTTOM_BAR = InuUtils.generateId()
         private val SECTION_HIDE_BOT_SLASH = InuUtils.generateId()
+        private val TOGGLE_ATTACH_CAMERA_MIRROR_FRONT = InuUtils.generateId()
 
         private fun attachCameraModeLabel(value: Int): String = when (value) {
             InuConfig.AttachCameraModeItem.INSTANT -> LocaleController.getString(R.string.InuAttachCameraModeInstant)
@@ -418,6 +460,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("chat-two-finger-select", R.string.InuChatTwoFingerSelect, TOGGLE_CHAT_TWO_FINGER_SELECT),
                 SearchRegistry.Entry("disable-bot-draft-top", R.string.InuDisableBotDraftTop, TOGGLE_DISABLE_BOT_DRAFT_TOP),
                 SearchRegistry.Entry("attach-camera-mode", R.string.InuAttachCameraMode, BUTTON_ATTACH_CAMERA_MODE),
+                SearchRegistry.Entry("attach-camera-mirror-front", R.string.InuAttachCameraMirrorFront, TOGGLE_ATTACH_CAMERA_MIRROR_FRONT),
                 SearchRegistry.Entry("chat-voice-in-attach", R.string.InuChatVoiceInAttach, TOGGLE_CHAT_VOICE_IN_ATTACH),
                 SearchRegistry.Entry("sort-albums-by-size", R.string.InuSortAlbumsBySize, TOGGLE_SORT_ALBUMS_BY_SIZE),
                 SearchRegistry.Entry("simple-attach-popup-animation", R.string.InuSimpleAttachPopupAnimation, TOGGLE_SIMPLE_ATTACH_POPUP_ANIMATION),

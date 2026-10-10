@@ -24,6 +24,8 @@ its own update channel, pointing at Hundgram releases.)
 - disable autoplay for the next audio track
 - optional alternative GIF behavior: open non-autoplaying GIFs directly in the viewer, with playback controls initially visible and inline playback stopped on close
 - configurable update channel for the in-app updater
+- 🐶 mirror front camera in the round recorder (preview and recorded file)
+- 🐶 mirror front camera in the attachment camera (preview, photo and video), on a separate switch with a cross-link to the round recorder one
 - 🐶 bugfix: chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it
 - 🐶 bugfix: GIF seekbar no longer freezes swiping between GIFs, and fast GIF scrolling no longer crashes
 
@@ -180,7 +182,6 @@ its own update channel, pointing at Hundgram releases.)
   - keep zoom on pinch release
   - gentler exponential zoom curve (like in normal camera apps)
   - toggle to disable dual-camera mode
-  - mirror front camera (preview and recorded file)
 
 ## photo viewer
 
