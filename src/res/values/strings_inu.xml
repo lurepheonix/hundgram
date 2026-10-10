@@ -958,4 +958,11 @@
     <string name="InuPluginsFailedAtRuntime">Runtime error</string>
     <string name="InuPluginsFailedAtUnload">Unload error</string>
     <string name="InuPluginsFailedFormat">%1$s: %2$s</string>
+
+    <string name="InuSleepTimer">Sleep timer</string>
+    <string name="InuSleepTimerOff">Off</string>
+    <string name="InuSleepTimerEndOfTrack">Play current song to end</string>
+    <string name="InuSleepTimerDisable">Disable</string>
+    <string name="InuSleepTimerStatusOn">Timer on · %1$s left</string>
+    <string name="InuSleepTimerStatusOff">Timer off</string>
 </resources>

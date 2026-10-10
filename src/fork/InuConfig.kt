@@ -479,6 +479,9 @@ object InuConfig {
     val DISABLE_NEXT_AUDIO_AUTOPLAY = BoolItem("disable_next_audio_autoplay", false)
 
     @JvmField
+    val SLEEP_TIMER_END_OF_TRACK = BoolItem("sleep_timer_end_of_track", false)
+
+    @JvmField
     val HIDE_SUGGESTION_BIRTHDAY_SETUP = BoolItem("hide_suggestion_birthday_setup", true)
 
     @JvmField

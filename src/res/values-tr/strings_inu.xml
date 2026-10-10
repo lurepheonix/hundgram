@@ -964,4 +964,11 @@
     <string name="InuPluginsFailedAtUnload">Kaldırma hatası</string>
     <string name="InuPluginsFailedFormat">%1$s: %2$s</string>
 
+    <string name="InuSleepTimer">Uyku zamanlayıcısı</string>
+    <string name="InuSleepTimerOff">Kapalı</string>
+    <string name="InuSleepTimerEndOfTrack">Geçerli şarkıyı sonuna kadar çal</string>
+    <string name="InuSleepTimerDisable">Devre dışı bırak</string>
+    <string name="InuSleepTimerStatusOn">Zamanlayıcı açık · kalan %1$s</string>
+    <string name="InuSleepTimerStatusOff">Zamanlayıcı kapalı</string>
+
 </resources>

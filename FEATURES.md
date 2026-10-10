@@ -22,6 +22,7 @@ its own update channel, pointing at Hundgram releases.)
 - map provider defaults to OpenStreetMap instead of Google, OSM map view is improved
 - independent “Autoplay Video Messages” control in Power Usage
 - disable autoplay for the next audio track
+- sleep timer for the music player: poweramp-style dial (one ring per hour, up to 3 hours, shown as e.g. "1 hour 10 minutes"), keeps counting across track switches and while paused, optional "play current song to end"
 - optional alternative GIF behavior: open non-autoplaying GIFs directly in the viewer, with playback controls initially visible and inline playback stopped on close
 - configurable update channel for the in-app updater
 - 🐶 mirror front camera in the round recorder (preview and recorded file)

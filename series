@@ -361,3 +361,4 @@ bugfix/forbidden-record-button-mode.patch
 bugfix/gif-scroll-crash.patch
 feature/mirror-front-video-message.patch
 feature/mirror-front-attach-camera.patch
+feature/audio_sleep_timer.patch

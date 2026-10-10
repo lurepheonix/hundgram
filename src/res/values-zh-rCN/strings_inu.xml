@@ -967,4 +967,11 @@
     <string name="InuPluginsFailedAtUnload">卸载错误</string>
     <string name="InuPluginsFailedFormat">%1$s: %2$s</string>
 
+    <string name="InuSleepTimer">睡眠定时器</string>
+    <string name="InuSleepTimerOff">关闭</string>
+    <string name="InuSleepTimerEndOfTrack">播放当前歌曲至结束</string>
+    <string name="InuSleepTimerDisable">禁用</string>
+    <string name="InuSleepTimerStatusOn">定时器开 · 还剩%1$s</string>
+    <string name="InuSleepTimerStatusOff">定时器关</string>
+
 </resources>
