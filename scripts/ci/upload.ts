@@ -9,7 +9,7 @@ interface BuildInfo {
   verCode: number
   appVerCode: number
   buildNum: number
-  apkFiles: { full: string, pluginless: string }
+  apkFiles: { plugins: string, pluginless: string }
   baseTag: string | null
   commitSha: string
   repo: string
@@ -17,7 +17,7 @@ interface BuildInfo {
 
 const artifactDir = resolve(process.argv[2] ?? 'out')
 const info: BuildInfo = JSON.parse(await fs.readFile(join(artifactDir, 'build-info.json'), 'utf8'))
-const variants = ['full', 'pluginless'] as const
+const variants = ['pluginless', 'plugins'] as const
 for (const variant of variants) {
   await fs.access(join(artifactDir, info.apkFiles[variant]))
 }
@@ -86,6 +86,7 @@ try {
       content: [
         `## Hundgram v${info.buildNum}`,
         `<footer>#release v${info.verName} (build ${info.buildNum}, based on ${info.appVerCode})</footer>`,
+        'Two flavors: pluginless (standard, recommended); plugins — if you need Inugram plugins.',
         ...variants.map(variant => `![${variant}](tg://document?id=${variant})`),
         '<details><summary>Changelog</summary>',
         notes.trim(),

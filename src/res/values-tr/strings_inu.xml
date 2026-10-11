@@ -573,7 +573,7 @@
     <string name="InuCodeLanguage">Kod dili</string>
     <string name="InuVersion">Hundgram v%1$s (%2$s tabanlı, derleme %3$s, Inugram v%4$s)</string>
 
-    <string name="InuBuildFull">Tam</string>
+    <string name="InuBuildFull">Eklentili</string>
     <string name="InuBuildPluginless">Eklentisiz</string>
 
 

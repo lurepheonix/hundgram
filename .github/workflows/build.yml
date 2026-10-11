@@ -7,8 +7,8 @@ on:
         required: true
         type: string
     outputs:
-      apk-full-name:
-        value: ${{ jobs.build.outputs.apk-full-name }}
+      apk-plugins-name:
+        value: ${{ jobs.build.outputs.apk-plugins-name }}
       apk-pluginless-name:
         value: ${{ jobs.build.outputs.apk-pluginless-name }}
       ver-name:
@@ -51,12 +51,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - variant: full
+          - variant: plugins
             worktree: worktree
           - variant: pluginless
             worktree: worktree-pluginless
     outputs:
-      apk-full-name: ${{ steps.info.outputs.apk-full-name }}
+      apk-plugins-name: ${{ steps.info.outputs.apk-plugins-name }}
       apk-pluginless-name: ${{ steps.info.outputs.apk-pluginless-name }}
       ver-name: ${{ steps.info.outputs.ver-name }}
       ver-code: ${{ steps.info.outputs.ver-code }}
@@ -94,13 +94,13 @@ jobs:
       # rquickjs-sys always runs bindgen, which loads the clang C api; the runner image ships the
       # clang drivers without libclang.so
       - name: install libclang
-        if: matrix.variant == 'full'
+        if: matrix.variant == 'plugins'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libclang-dev
 
       - name: cache cargo
-        if: matrix.variant == 'full'
+        if: matrix.variant == 'plugins'
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: |
@@ -112,7 +112,7 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: install android rust toolchain
-        if: matrix.variant == 'full'
+        if: matrix.variant == 'plugins'
         run: |
           rustup target add aarch64-linux-android
           cargo install cargo-ndk --version 4.1.2 --locked
@@ -120,7 +120,7 @@ jobs:
       # the plugin engine's own suite, including every bundled oracle; ubuntu-latest already ships
       # rustup and a stable toolchain
       - name: test (plugin engine)
-        if: matrix.variant == 'full'
+        if: matrix.variant == 'plugins'
         working-directory: src/native
         run: cargo test --locked
 
@@ -147,13 +147,13 @@ jobs:
       # the node --check loop plus both tsc projects: the plugin contract, and the bundled plugins
       # against it - a bundled oracle that lost a member reads as a refusal and passes without this
       - name: typecheck (plugin contract + bundled plugins)
-        if: matrix.variant == 'full'
+        if: matrix.variant == 'plugins'
         run: pnpm run typecheck-plugins
 
       # the two typings files the tl generator writes, which the sdk publish in release.yml needs and
       # cannot make without a worktree of its own
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: matrix.variant == 'full'
+        if: matrix.variant == 'plugins'
         with:
           name: ${{ env.ARTIFACT_NAME }}-sdk
           path: |
@@ -218,9 +218,9 @@ jobs:
       - name: stage artifacts
         run: |
           mkdir -p out
-          apk='${{ matrix.variant == 'full' && steps.info.outputs.apk-full-name || steps.info.outputs.apk-pluginless-name }}'
+          apk='${{ matrix.variant == 'plugins' && steps.info.outputs.apk-plugins-name || steps.info.outputs.apk-pluginless-name }}'
           cp '${{ matrix.worktree }}/TMessagesProj_App/build/outputs/apk/release/app.apk' "out/$apk"
-          if [ '${{ matrix.variant }}' != full ]; then
+          if [ '${{ matrix.variant }}' != plugins ]; then
             exit 0
           fi
 
@@ -230,12 +230,12 @@ jobs:
             --argjson verCode '${{ steps.info.outputs.ver-code }}' \
             --argjson appVerCode '${{ steps.info.outputs.app-ver-code }}' \
             --argjson buildNum '${{ steps.info.outputs.build-num }}' \
-            --arg apkFull '${{ steps.info.outputs.apk-full-name }}' \
+            --arg apkPlugins '${{ steps.info.outputs.apk-plugins-name }}' \
             --arg apkPluginless '${{ steps.info.outputs.apk-pluginless-name }}' \
             --arg baseTag "$base" \
             --arg commitSha "$GITHUB_SHA" \
             --arg repo "$GITHUB_REPOSITORY" \
-            '{verName:$verName,verCode:$verCode,appVerCode:$appVerCode,buildNum:$buildNum,apkFiles:{full:$apkFull,pluginless:$apkPluginless},baseTag:(if $baseTag == "" then null else $baseTag end),commitSha:$commitSha,repo:$repo}' \
+            '{verName:$verName,verCode:$verCode,appVerCode:$appVerCode,buildNum:$buildNum,apkFiles:{plugins:$apkPlugins,pluginless:$apkPluginless},baseTag:(if $baseTag == "" then null else $baseTag end),commitSha:$commitSha,repo:$repo}' \
             > out/build-info.json
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

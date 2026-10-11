@@ -73,7 +73,7 @@ its own update channel, pointing at Hundgram releases.)
 - MapLibre-based map view
 - customizable map preview provider
 - in-app updater - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
-- updater picks the APK matching the installed variant (full/pluginless)
+- updater picks the APK matching the installed variant (plugins/pluginless)
 - 🐶 crash report sheet: catches uncaught exceptions, offers to share the log on next launch, posts a tap-to-restart notification
 - keep search query after picking a result in peer selection screens
 

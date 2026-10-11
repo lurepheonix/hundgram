@@ -460,7 +460,7 @@
     <string name="InuCodeLanguage">代码语言</string>
     <string name="InuVersion">Hundgram v%1$s (基于 %2$s, 构建 %3$s, Inugram v%4$s)</string>
 
-    <string name="InuBuildFull">完整版</string>
+    <string name="InuBuildFull">插件版</string>
     <string name="InuBuildPluginless">无插件版</string>
 
 

@@ -460,7 +460,7 @@
     <string name="InuCodeLanguage">Язык кода</string>
     <string name="InuVersion">Hundgram v%1$s (на основе %2$s, сборка %3$s, Inugram v%4$s)</string>
 
-    <string name="InuBuildFull">Полная</string>
+    <string name="InuBuildFull">С плагинами</string>
     <string name="InuBuildPluginless">Без плагинов</string>
 
 

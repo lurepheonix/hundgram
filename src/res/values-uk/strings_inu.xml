@@ -546,7 +546,7 @@
     <string name="InuFormattingPopupDivider">——————</string>
     <string name="InuCut">Вирізати</string>
     <string name="InuCodeLanguage">Мова коду</string>
-    <string name="InuBuildFull">Повна</string>
+    <string name="InuBuildFull">З плагінами</string>
     <string name="InuBuildPluginless">Без плагінів</string>
     <string name="InuVersion">Inugram v%1$s (%4$s, на основі %2$s, збірка %3$s)</string>
     <string name="InuSearchFilter">Фільтр за типом медіа</string>

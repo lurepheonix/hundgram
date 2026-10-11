@@ -65,7 +65,7 @@ object UpdateHelper {
     // upstream Inugram version this fork is based on (one-time value, bump manually)
     private const val INUGRAM_VERSION = "45"
 
-    private val APK_RE = Regex("^hundgram-(.+)-(\\d+)-(full|pluginless)\\.apk$")
+    private val APK_RE = Regex("^hundgram-(.+)-(\\d+)-(plugins|pluginless)\\.apk$")
     private val SHORT_SHA_RE = Regex("-([0-9a-f]{7,40})$")
 
     @Volatile
@@ -348,7 +348,7 @@ object UpdateHelper {
     private fun currentBuild(): CurrentBuild = CurrentBuild(packageInfo.versionCode)
 
     private fun extractApkInfo(msg: TLRPC.Message): ApkInfo? {
-        val variant = if (BuildConfig.INU_PLUGINLESS) "pluginless" else "full"
+        val variant = if (BuildConfig.INU_PLUGINLESS) "pluginless" else "plugins"
         val (match, doc) = msg.rich_message?.documents.orEmpty().firstNotNullOfOrNull { doc ->
             APK_RE.matchEntire(FileLoader.getDocumentFileName(doc))
                 ?.takeIf { it.groupValues[3] == variant }

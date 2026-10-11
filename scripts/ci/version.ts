@@ -16,7 +16,7 @@ const sha = process.env.GITHUB_SHA ?? ''
 const shortSha = sha.slice(0, 7)
 const verName = `${appVerName}-${shortSha}`
 const verCode = buildNum
-const apkFullName = `hundgram-${verName}-${verCode}-full.apk`
+const apkPluginsName = `hundgram-${verName}-${verCode}-plugins.apk`
 const apkPluginlessName = `hundgram-${verName}-${verCode}-pluginless.apk`
 const tag = `v${appVerName}-${buildNum}`
 
@@ -26,7 +26,7 @@ const out = {
   'build-num': String(buildNum),
   'ver-name': verName,
   'ver-code': String(verCode),
-  'apk-full-name': apkFullName,
+  'apk-plugins-name': apkPluginsName,
   'apk-pluginless-name': apkPluginlessName,
   tag,
 }

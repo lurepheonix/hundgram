@@ -571,7 +571,7 @@
     <string name="InuCodeLanguage">Code language</string>
     <string name="InuVersion">Hundgram v%1$s (based on %2$s, build %3$s, Inugram v%4$s, %5$s)</string>
 
-    <string name="InuBuildFull">Full</string>
+    <string name="InuBuildFull">Plugins</string>
     <string name="InuBuildPluginless">Pluginless</string>
 
 

@@ -59,7 +59,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           apksigner=$ANDROID_HOME/build-tools/36.0.0/apksigner
-          for apk in '${{ needs.build.outputs.apk-full-name }}' '${{ needs.build.outputs.apk-pluginless-name }}'; do
+          for apk in '${{ needs.build.outputs.apk-pluginless-name }}' '${{ needs.build.outputs.apk-plugins-name }}'; do
             "$apksigner" sign \
               --ks "$RUNNER_TEMP/release.keystore" \
               --ks-key-alias hundgram \
@@ -115,7 +115,7 @@ jobs:
           if [ -f "$changelog" ]; then
             notes=(--notes-file "$changelog")
           fi
-          apks=('out/${{ needs.build.outputs.apk-full-name }}' 'out/${{ needs.build.outputs.apk-pluginless-name }}')
+          apks=('out/${{ needs.build.outputs.apk-pluginless-name }}' 'out/${{ needs.build.outputs.apk-plugins-name }}')
           if target=$(gh release view "$tag" --json targetCommitish --jq .targetCommitish 2>/dev/null); then
             if [ "$target" != "$GITHUB_SHA" ]; then
               echo "::error::release $tag already exists for $target; re-run the run that created it instead"

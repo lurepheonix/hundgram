@@ -461,7 +461,7 @@
     <string name="InuCodeLanguage">コードの言語</string>
     <string name="InuVersion">Hundgram v%1$s (%2$s ベース, ビルド %3$s, Inugram v%4$s)</string>
 
-    <string name="InuBuildFull">フル</string>
+    <string name="InuBuildFull">プラグインあり</string>
     <string name="InuBuildPluginless">プラグインなし</string>
 
 
