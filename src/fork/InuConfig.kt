@@ -662,7 +662,7 @@ object InuConfig {
     val STRIP_TRACKING_PARAMS_ON_PASTE = BoolItem("strip_tracking_params_on_paste", true)
 
     @JvmField
-    val IDN_URL_PRETTY_LINK = BoolItem("idn_url_pretty_link", false)
+    val IDN_URL_PRETTY_LINK = BoolItem("idn_url_pretty_link", true)
 
     @JvmField
     val IDN_URL_REPLACE_IN_PLACE = BoolItem("idn_url_replace_in_place", false)
