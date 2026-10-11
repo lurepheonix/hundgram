@@ -380,6 +380,11 @@
     <string name="InuStripTrackingParamsAlreadyLatest">已是最新规则集</string>
     <string name="InuStripTrackingParamsUpdateFailed">规则更新失败</string>
 
+    <string name="InuDecodeIdnUrls">粘贴时解码国际化网址</string>
+    <string name="InuDecodeIdnUrlsInfo">以可读形式显示 punycode 和转义地址（例如 xn--、%D0%…）。链接本身保持不变。</string>
+    <string name="InuDecodeIdnReplace">用解码后的形式替换网址</string>
+    <string name="InuDecodeIdnReplaceInfo">实验性功能：重写粘贴的网址本身，而不仅仅是其预览。可能会破坏某些链接 — 保持关闭以保留原始链接。</string>
+
     <string name="InuWebPreviewReplacements">网页预览替换</string>
     <string name="InuWebPreviewEnabled">启用替换</string>
     <string name="InuWebPreviewReplacementsInfo">获取网页预览时对 URL 应用的正则替换。长按删除。</string>

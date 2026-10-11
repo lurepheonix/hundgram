@@ -381,6 +381,11 @@
     <string name="InuStripTrackingParamsAlreadyLatest">すでに最新のルールセットです</string>
     <string name="InuStripTrackingParamsUpdateFailed">ルールの更新に失敗しました</string>
 
+    <string name="InuDecodeIdnUrls">貼り付け時に国際化URLをデコード</string>
+    <string name="InuDecodeIdnUrlsInfo">punycodeやエスケープされたアドレス（例: xn--、%D0%…）を読みやすい形で表示します。リンク自体は変更されません。</string>
+    <string name="InuDecodeIdnReplace">URLをデコードした形に置き換える</string>
+    <string name="InuDecodeIdnReplaceInfo">実験的機能: プレビューだけでなく、貼り付けたURL自体を書き換えます。一部のリンクが壊れる可能性があります — 元のリンクを維持するにはオフのままにしてください。</string>
+
     <string name="InuWebPreviewReplacements">ウェブプレビューの置換</string>
     <string name="InuWebPreviewEnabled">置換を有効化</string>
     <string name="InuWebPreviewReplacementsInfo">ウェブプレビュー取得時に URL に適用される正規表現の置換。長押しで削除。</string>

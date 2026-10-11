@@ -486,6 +486,11 @@
     <string name="InuStripTrackingParamsAlreadyLatest">Zaten en son kural setindesiniz</string>
     <string name="InuStripTrackingParamsUpdateFailed">Kurallar güncellenemedi</string>
 
+    <string name="InuDecodeIdnUrls">Yapıştırırken uluslararası URL\'leri çöz</string>
+    <string name="InuDecodeIdnUrlsInfo">punycode ve kaçışlı adresleri (örn. xn--, %D0%…) okunabilir biçimde gösterir. Bağlantının kendisi değişmez.</string>
+    <string name="InuDecodeIdnReplace">URL\'leri çözülmüş haliyle değiştir</string>
+    <string name="InuDecodeIdnReplaceInfo">Deneysel: yalnızca önizlemesini değil, yapıştırılan URL\'nin kendisini yeniden yazar. Bazı bağlantıları bozabilir — orijinal bağlantıyı korumak için kapalı bırakın.</string>
+
     <string name="InuWebPreviewReplacements">Web önizleme değişiklikleri</string>
     <string name="InuWebPreviewEnabled">Değişiklikleri etkinleştir</string>
     <string name="InuWebPreviewReplacementsInfo">Web önizlemeleri alınırken URL\'lere uygulanan Regex değişiklikleri. Silmek için uzun basın.</string>

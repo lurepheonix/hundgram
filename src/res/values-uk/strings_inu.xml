@@ -471,6 +471,11 @@
     <string name="InuStripTrackingParamsUpdated">Правила оновлено</string>
     <string name="InuStripTrackingParamsAlreadyLatest">Вже використовується найновіший набір правил</string>
     <string name="InuStripTrackingParamsUpdateFailed">Не вдалося оновити правила</string>
+
+    <string name="InuDecodeIdnUrls">Декодувати інтернаціональні посилання під час вставлення</string>
+    <string name="InuDecodeIdnUrlsInfo">Показувати punycode та екрановані адреси (наприклад, xn--, %D0%…) у читабельному вигляді. Саме посилання не змінюється.</string>
+    <string name="InuDecodeIdnReplace">Замінювати посилання декодованим варіантом</string>
+    <string name="InuDecodeIdnReplaceInfo">Експериментально: переписує саме вставлене посилання, а не лише його превʼю. Може зламати деякі посилання — лишіть вимкненим, щоб вихідне посилання не змінювалося.</string>
     <string name="InuWebPreviewReplacements">Заміни у прев\'ю посилань</string>
     <string name="InuWebPreviewEnabled">Увімкнути заміни</string>
     <string name="InuWebPreviewReplacementsInfo">Заміни за регулярними виразами, що застосовуються до URL під час завантаження попереднього перегляду. Затисніть, щоб видалити.</string>

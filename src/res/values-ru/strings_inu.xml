@@ -380,6 +380,11 @@
     <string name="InuStripTrackingParamsAlreadyLatest">Уже актуальная версия правил</string>
     <string name="InuStripTrackingParamsUpdateFailed">Не удалось обновить правила</string>
 
+    <string name="InuDecodeIdnUrls">Декодировать интернациональные ссылки при вставке</string>
+    <string name="InuDecodeIdnUrlsInfo">Показывать punycode и экранированные адреса (например, xn--, %D0%…) в читаемом виде. Сама ссылка не меняется.</string>
+    <string name="InuDecodeIdnReplace">Заменять ссылки декодированным вариантом</string>
+    <string name="InuDecodeIdnReplaceInfo">Экспериментально: переписывает саму вставленную ссылку, а не только её превью. Может сломать некоторые ссылки — оставьте выключенным, чтобы исходная ссылка не менялась.</string>
+
     <string name="InuWebPreviewReplacements">Замены для превью ссылок</string>
     <string name="InuWebPreviewEnabled">Включить замены</string>
     <string name="InuWebPreviewReplacementsInfo">Замены по регулярным выражениям, применяемые к URL при получении превью ссылок. Долгое нажатие — удалить.</string>

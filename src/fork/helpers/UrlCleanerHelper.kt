@@ -130,16 +130,26 @@ object UrlCleanerHelper {
 
     @JvmStatic
     fun cleanUrlString(url: CharSequence): CharSequence {
-        if (!InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value) return url
+        val stripOn = InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value
+        val replaceOn = IdnUrlHelper.replaceEnabled()
+        if (!stripOn && !replaceOn) return url
         val s = url.toString()
-        val cleaned = cleanUrl(s)
-        return if (cleaned === s) url else cleaned
+        var out = if (stripOn) cleanUrl(s) else s
+        if (replaceOn) out = IdnUrlHelper.decodeForReplace(out)
+        return if (out === s) url else out
     }
 
-    /** Scans URLs in [text]; returns same ref if nothing matched/changed. */
+    /**
+     * Scans URLs in [text]: strips tracking params, then applies IDN conversion
+     * (pretty display spans, or plain in-place replacement); returns same ref if nothing changed.
+     */
     @JvmStatic
     fun cleanText(text: CharSequence?): CharSequence? {
-        if (text.isNullOrEmpty() || !InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value) return text
+        if (text.isNullOrEmpty()) return text
+        val stripOn = InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value
+        val replaceOn = IdnUrlHelper.replaceEnabled()
+        val prettyOn = IdnUrlHelper.prettyEnabled() && !replaceOn
+        if (!stripOn && !replaceOn && !prettyOn) return text
         val matcher = AndroidUtilities.WEB_URL?.matcher(text) ?: return text
         var out: SpannableStringBuilder? = null
         var shift = 0
@@ -147,11 +157,37 @@ object UrlCleanerHelper {
             val start = matcher.start()
             val end = matcher.end()
             val original = text.subSequence(start, end).toString()
-            val cleaned = cleanUrl(original)
-            if (cleaned === original) continue
-            if (out == null) out = SpannableStringBuilder(text)
-            out.replace(start + shift, end + shift, cleaned)
-            shift += cleaned.length - (end - start)
+            val stripped = if (stripOn) cleanUrl(original) else original
+            if (replaceOn) {
+                val decoded = IdnUrlHelper.decodeForReplace(stripped)
+                if (decoded === original) continue
+                if (out == null) out = SpannableStringBuilder(text)
+                out.replace(start + shift, end + shift, decoded)
+                shift += decoded.length - (end - start)
+            } else if (prettyOn) {
+                val display = IdnUrlHelper.decodeForDisplay(stripped)
+                if (display === stripped) {
+                    if (stripped === original) continue
+                    if (out == null) out = SpannableStringBuilder(text)
+                    out.replace(start + shift, end + shift, stripped)
+                    shift += stripped.length - (end - start)
+                } else {
+                    if (out == null) out = SpannableStringBuilder(text)
+                    val newStart = start + shift
+                    out.replace(newStart, end + shift, display)
+                    shift += display.length - (end - start)
+                    out.setSpan(
+                        URLSpanReplacement(stripped),
+                        newStart, newStart + display.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+                    )
+                }
+            } else {
+                if (stripped === original) continue
+                if (out == null) out = SpannableStringBuilder(text)
+                out.replace(start + shift, end + shift, stripped)
+                shift += stripped.length - (end - start)
+            }
         }
         if (out != null && out.length != text.length) {
             BaseInputConnection.removeComposingSpans(out)
@@ -165,7 +201,7 @@ object UrlCleanerHelper {
     /** Returns true if the paste was consumed (text inserted). */
     @JvmStatic
     fun handleContextMenuPaste(editText: EditText): Boolean {
-        if (!InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value) return false
+        if (!InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value && !IdnUrlHelper.prettyEnabled()) return false
         val ctx = editText.context ?: return false
         val cb = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return false
         val clip = cb.primaryClip?.takeIf { it.itemCount >= 1 } ?: return false
@@ -191,8 +227,9 @@ object UrlCleanerHelper {
         if (ic == null) return null
         return object : InputConnectionWrapper(ic, true) {
             override fun commitText(text: CharSequence?, newCursorPosition: Int): Boolean {
-                val cleaned = if (text != null && InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value
-                    && text.toString().contains("https://")
+                val cleaned = if (text != null &&
+                    (InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value || IdnUrlHelper.prettyEnabled()) &&
+                    text.toString().contains("http")
                 ) cleanText(text) else text
                 return super.commitText(cleaned, newCursorPosition)
             }
@@ -200,19 +237,49 @@ object UrlCleanerHelper {
     }
 
     @JvmStatic
-    fun cleanSpannedUrls(text: Spannable) {
-        if (!InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value) return
+    fun cleanSpannedUrls(text: SpannableStringBuilder) {
+        val stripOn = InuConfig.STRIP_TRACKING_PARAMS_ON_PASTE.value
+        val replaceOn = IdnUrlHelper.replaceEnabled()
+        val prettyOn = IdnUrlHelper.prettyEnabled() && !replaceOn
+        if (!stripOn && !replaceOn && !prettyOn) return
         for (span in text.getSpans(0, text.length, URLSpan::class.java)) {
             val url = span.url ?: continue
-            val cleaned = cleanUrl(url)
-            if (cleaned === url) continue
+            val stripped = if (stripOn) cleanUrl(url) else url
             val start = text.getSpanStart(span)
             val end = text.getSpanEnd(span)
             val flags = text.getSpanFlags(span)
-            text.removeSpan(span)
-            val replacement = if (span is URLSpanReplacement) URLSpanReplacement(cleaned, span.textStyleRun)
-            else URLSpan(cleaned)
-            text.setSpan(replacement, start, end, flags)
+            // display text of a rich-text link stays author-chosen; only bare links
+            // (display == href) get their display converted along with the href
+            val bare = text.subSequence(start, end).toString() == url
+            if (replaceOn) {
+                val decoded = IdnUrlHelper.decodeForReplace(stripped)
+                if (bare && decoded != text.subSequence(start, end).toString()) {
+                    text.removeSpan(span)
+                    text.replace(start, end, decoded)
+                    val replacement = if (span is URLSpanReplacement) URLSpanReplacement(decoded, span.textStyleRun)
+                    else URLSpan(decoded)
+                    text.setSpan(replacement, start, start + decoded.length, flags)
+                } else if (decoded !== url) {
+                    text.removeSpan(span)
+                    val replacement = if (span is URLSpanReplacement) URLSpanReplacement(decoded, span.textStyleRun)
+                    else URLSpan(decoded)
+                    text.setSpan(replacement, start, end, flags)
+                }
+            } else if (prettyOn && bare) {
+                val display = IdnUrlHelper.decodeForDisplay(stripped)
+                if (display === stripped && stripped === url) continue
+                text.removeSpan(span)
+                text.replace(start, end, display)
+                val replacement = if (span is URLSpanReplacement) URLSpanReplacement(stripped, span.textStyleRun)
+                else URLSpanReplacement(stripped)
+                text.setSpan(replacement, start, start + display.length, flags)
+            } else {
+                if (stripped === url) continue
+                text.removeSpan(span)
+                val replacement = if (span is URLSpanReplacement) URLSpanReplacement(stripped, span.textStyleRun)
+                else URLSpan(stripped)
+                text.setSpan(replacement, start, end, flags)
+            }
         }
     }
 }

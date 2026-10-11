@@ -160,6 +160,25 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
             )
         )
         items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_IDN_URL_PRETTY_LINK,
+                R.string.InuDecodeIdnUrls,
+                R.string.InuDecodeIdnUrlsInfo,
+                InuConfig.IDN_URL_PRETTY_LINK.value,
+            )
+        )
+        if (InuConfig.IDN_URL_PRETTY_LINK.value) {
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_IDN_URL_REPLACE_IN_PLACE,
+                    R.string.InuDecodeIdnReplace,
+                    R.string.InuDecodeIdnReplaceInfo,
+                    InuConfig.IDN_URL_REPLACE_IN_PLACE.value,
+                    experimental = true,
+                )
+            )
+        }
+        items.add(
             UItem.asCheck(
                 TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE,
                 LocaleController.getString(R.string.InuDisableBrowserSwipeCollapse),
@@ -306,6 +325,17 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
 
             TOGGLE_CONFIRM_INTERNAL_LINKS -> {
                 val new = InuConfig.CONFIRM_INTERNAL_LINKS.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+            }
+
+            TOGGLE_IDN_URL_PRETTY_LINK -> {
+                val new = InuConfig.IDN_URL_PRETTY_LINK.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                listView.adapter.update(true)
+            }
+
+            TOGGLE_IDN_URL_REPLACE_IN_PLACE -> {
+                val new = InuConfig.IDN_URL_REPLACE_IN_PLACE.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
@@ -494,6 +524,8 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_CALL_CONFIRMATION = InuUtils.generateId()
         private val TOGGLE_HD_BLUETOOTH_CALL_AUDIO = InuUtils.generateId()
         private val TOGGLE_CONFIRM_INTERNAL_LINKS = InuUtils.generateId()
+        private val TOGGLE_IDN_URL_PRETTY_LINK = InuUtils.generateId()
+        private val TOGGLE_IDN_URL_REPLACE_IN_PLACE = InuUtils.generateId()
         private val TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE = InuUtils.generateId()
         private val TOGGLE_GIF_SEEKBAR = InuUtils.generateId()
         private val TOGGLE_ALTERNATIVE_GIF_BEHAVIOR = InuUtils.generateId()
@@ -543,6 +575,8 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("call-confirmation", R.string.InuCallConfirmation, TOGGLE_CALL_CONFIRMATION),
                 SearchRegistry.Entry("hd-bluetooth-call-audio", R.string.InuHdBluetoothCallAudio, TOGGLE_HD_BLUETOOTH_CALL_AUDIO),
                 SearchRegistry.Entry("confirm-internal-links", R.string.InuConfirmInternalLinks, TOGGLE_CONFIRM_INTERNAL_LINKS),
+                SearchRegistry.Entry("decode-idn-urls", R.string.InuDecodeIdnUrls, TOGGLE_IDN_URL_PRETTY_LINK),
+                SearchRegistry.Entry("decode-idn-replace-in-place", R.string.InuDecodeIdnReplace, TOGGLE_IDN_URL_REPLACE_IN_PLACE),
                 SearchRegistry.Entry("disable-browser-swipe-collapse", R.string.InuDisableBrowserSwipeCollapse, TOGGLE_DISABLE_BROWSER_SWIPE_COLLAPSE),
                 SearchRegistry.Entry("gif-seekbar", R.string.InuGifSeekbar, TOGGLE_GIF_SEEKBAR),
                 SearchRegistry.Entry("alternative-gif-behavior", R.string.InuAlternativeGifBehavior, TOGGLE_ALTERNATIVE_GIF_BEHAVIOR),

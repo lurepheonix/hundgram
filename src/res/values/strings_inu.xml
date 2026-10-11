@@ -484,6 +484,11 @@
     <string name="InuStripTrackingParamsAlreadyLatest">Already on the latest ruleset</string>
     <string name="InuStripTrackingParamsUpdateFailed">Failed to update rules</string>
 
+    <string name="InuDecodeIdnUrls">Decode internationalized URLs when pasting</string>
+    <string name="InuDecodeIdnUrlsInfo">Show punycode and escaped addresses (e.g. xn--, %D0%…) in readable form. The link itself stays unchanged.</string>
+    <string name="InuDecodeIdnReplace">Replace URLs with decoded form</string>
+    <string name="InuDecodeIdnReplaceInfo">Experimental: rewrites the pasted URL itself instead of only its preview. May break some links — leave off to keep the original link untouched.</string>
+
     <string name="InuWebPreviewReplacements">Web preview replacements</string>
     <string name="InuWebPreviewEnabled">Enable replacements</string>
     <string name="InuWebPreviewReplacementsInfo">Regex replacements applied to URLs when fetching web previews. Long-press to delete.</string>
