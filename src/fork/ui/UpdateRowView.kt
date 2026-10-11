@@ -56,7 +56,7 @@ class UpdateRowView(context: Context) : FrameLayout(context) {
         tv.setTextColor(0xffffffff.toInt())
         tv.setGravity(Gravity.CENTER)
         addView(tv, LayoutHelper.createFrameMatchParent())
-        tv.setText(LocaleController.getString(R.string.AppUpdateBeta), false)
+        tv.setText(LocaleController.getString(R.string.InuUpdateBeta), false)
         textView = tv
 
         iconProgress = RadialProgress2(tv).apply {
@@ -129,7 +129,7 @@ class UpdateRowView(context: Context) : FrameLayout(context) {
             showSize = false
         } else {
             iconProgress.setIcon(MediaActionDrawable.ICON_DOWNLOAD, true, animated)
-            textView.setText(LocaleController.getString(R.string.AppUpdate), animated)
+            textView.setText(LocaleController.getString(R.string.InuUpdate), animated)
             showSize = true
         }
         sizeText.setText(

@@ -107,7 +107,7 @@ class UpdateAppAlertDialog(
         actionBar.titleTextView.alpha = alpha
     }
 
-    override fun getTitle(): CharSequence = LocaleController.getString(R.string.AppUpdate)
+    override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuUpdate)
 
     override fun createAdapter(listView: RecyclerListView): RecyclerListView.SelectionAdapter {
         adapter = UniversalAdapter(recyclerListView, context, currentAccount, 0, false, { items, _ ->
@@ -141,7 +141,7 @@ class UpdateAppAlertDialog(
             setTextColor(Theme.getColor(Theme.key_dialogTextBlack))
             isSingleLine = true
             ellipsize = TextUtils.TruncateAt.END
-            text = LocaleController.getString(R.string.AppUpdate)
+            text = LocaleController.getString(R.string.InuUpdate)
             gravity = Gravity.CENTER_HORIZONTAL
             setPadding(dp(23f), dp(16f), dp(23f), 0)
         })

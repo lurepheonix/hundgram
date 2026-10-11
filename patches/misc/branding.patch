@@ -9,6 +9,7 @@ Subject: change app name to Hundgram
  .../messenger/ContactsController.java         | 10 +++---
  .../telegram/messenger/LocaleController.java  | 36 +++++++++++++++----
  .../telegram/messenger/MediaController.java   | 22 ++++++------
+ .../ui/Components/BlockingUpdateView.java     |  2 +-
  .../java/org/telegram/ui/DialogsActivity.java |  6 +++-
  .../telegram/ui/LauncherIconController.java   |  6 ++--
  .../ui/Stories/DialogStoriesCell.java         | 23 +++++++-----
@@ -30,7 +31,7 @@ Subject: change app name to Hundgram
  TMessagesProj/src/main/res/values/strings.xml | 10 +++---
  TMessagesProj/src/main/res/xml/auth.xml       |  2 +-
  .../src/main/res/xml/sync_contacts.xml        |  2 +-
- 26 files changed, 160 insertions(+), 80 deletions(-)
+ 27 files changed, 161 insertions(+), 81 deletions(-)
  create mode 100644 TMessagesProj/src/main/res/mipmap-anydpi-v26/ic_launcher_stock.xml
  create mode 100644 TMessagesProj/src/main/res/mipmap-anydpi-v26/ic_launcher_stock_round.xml
 
@@ -321,6 +322,19 @@ index 0000000..0000000 100644
                  contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                  uriToInsert = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                  contentValues.put(MediaStore.Audio.Media.DISPLAY_NAME, filename);
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/BlockingUpdateView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/BlockingUpdateView.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/BlockingUpdateView.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/BlockingUpdateView.java
+@@ -94,7 +94,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
+         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+         titleTextView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+         titleTextView.setTypeface(AndroidUtilities.bold());
+-        titleTextView.setText(LocaleController.getString(R.string.UpdateTelegram));
++        titleTextView.setText(LocaleController.getString(R.string.InuUpdate));
+         container.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
+ 
+         textView = new TextView(context);
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java

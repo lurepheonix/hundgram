@@ -606,6 +606,8 @@
     <string name="InuAboutChannel">Güncelleme kanalı</string>
     <string name="InuAboutInugramInfo">Hundgram, teidesu\'nun &lt;b&gt;Inugram&lt;/b&gt; projesinin bir fork\'udur. Bu istemcinin üzerine kurulduğu temel için onlara ve tüm katkıda bulunanlara teşekkürler.</string>
     <string name="InuUpdates">Güncellemeler</string>
+    <string name="InuUpdate">Hundgram\'ı güncelle</string>
+    <string name="InuUpdateBeta">Hundgram Beta\'yı güncelle</string>
     <string name="InuUpdatesEnabled">Güncellemeleri otomatik denetle</string>
     <string name="InuUpdateCheckNow">Şimdi denetle</string>
     <string name="InuUpdateLastChecked">Son denetleme: %1$s</string>

@@ -81,6 +81,8 @@ object LocaleHelper {
             "AppNameBeta" -> "Telegram Beta"
             "AppUpdate" -> "Update Telegram"
             "AppUpdateBeta" -> "Update Telegram Beta"
+            "InuUpdate" -> "Update Telegram"
+            "InuUpdateBeta" -> "Update Telegram Beta"
             else -> null
         }
     }

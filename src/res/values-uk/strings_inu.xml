@@ -577,6 +577,8 @@
     <string name="InuAboutChannel">Канал оновлень</string>
     <string name="InuAboutInugramInfo">Hundgram - це форк &lt;b&gt;Inugram&lt;/b&gt; від teidesu. Дякуємо їм та всім учасникам за основу, на якій збудовано цей клієнт.</string>
     <string name="InuUpdates">Оновлення</string>
+    <string name="InuUpdate">Оновити Hundgram</string>
+    <string name="InuUpdateBeta">Оновити Hundgram Beta</string>
     <string name="InuUpdatesEnabled">Автоматично перевіряти оновлення</string>
     <string name="InuUpdateCheckNow">Перевірити зараз</string>
     <string name="InuUpdateLastChecked">Остання перевірка: %1$s</string>

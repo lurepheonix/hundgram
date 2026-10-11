@@ -604,6 +604,8 @@
     <string name="InuAboutChannel">Updates channel</string>
     <string name="InuAboutInugramInfo">Hundgram is a fork of &lt;b&gt;Inugram&lt;/b&gt; by teidesu. Thanks to them and all contributors for the foundation this client is built on.</string>
     <string name="InuUpdates">Updates</string>
+    <string name="InuUpdate">Update Hundgram</string>
+    <string name="InuUpdateBeta">Update Hundgram Beta</string>
     <string name="InuUpdatesEnabled">Check for updates automatically</string>
     <string name="InuUpdateCheckNow">Check now</string>
     <string name="InuUpdateLastChecked">Last checked: %1$s</string>

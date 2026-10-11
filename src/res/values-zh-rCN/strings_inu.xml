@@ -491,6 +491,8 @@
     <string name="InuAboutChannel">更新频道</string>
     <string name="InuAboutInugramInfo">Hundgram 是 teidesu 的 &lt;b&gt;Inugram&lt;/b&gt; 的一个分支。感谢他们和所有贡献者为本客户端打下的基础。</string>
     <string name="InuUpdates">更新</string>
+    <string name="InuUpdate">更新 Hundgram</string>
+    <string name="InuUpdateBeta">更新 Hundgram Beta</string>
     <string name="InuUpdatesEnabled">自动检查更新</string>
     <string name="InuUpdateCheckNow">立即检查</string>
     <string name="InuUpdateLastChecked">上次检查: %1$s</string>
