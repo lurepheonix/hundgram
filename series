@@ -362,6 +362,14 @@ hooks/code-highlight-spans.patch
 feature/shared-media-selection-menu.patch
 bugfix/extended-grid-layout-cache.patch
 bugfix/forum-bot-menu-layering.patch
+bugfix/deleted-bot-bottom-overlay.patch
+bugfix/emoji-panel-blur.patch
+bugfix/rich-message-state.patch
+bugfix/optimistic-saved-forward-ownership.patch
+bugfix/photo-editor-blur-outline.patch
+bugfix/notification-avatar-reload.patch
+bugfix/profile-post-button-flicker.patch
+bugfix/sticker-pack-edit.patch
 bugfix/forbidden-record-button-mode.patch
 bugfix/gif-scroll-crash.patch
 feature/mirror-front-video-message.patch
