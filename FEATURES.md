@@ -25,6 +25,7 @@ its own update channel, pointing at Hundgram releases.)
 - sleep timer for the music player: poweramp-style dial (one ring per hour, up to 3 hours, shown as e.g. "1 hour 10 minutes"), keeps counting across track switches and while paused, optional "play current song to end"
 - optional alternative GIF behavior: open non-autoplaying GIFs directly in the viewer, with playback controls initially visible and inline playback stopped on close
 - configurable update channel for the in-app updater
+- 🐶 changelog browser in Settings → About: current and older release notes from the updates channel, with newer/older navigation
 - 🐶 mirror front camera in the round recorder (preview and recorded file)
 - 🐶 mirror front camera in the attachment camera (preview, photo and video), on a separate switch with a cross-link to the round recorder one
 - 🐶 bugfix: chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it

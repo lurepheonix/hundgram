@@ -166,7 +166,7 @@ object UpdateHelper {
                 }
                 loadRichMessage(account, messageId) { msg ->
                     if (!isPendingStart) return@loadRichMessage
-                    val freshDoc = msg?.let { extractApkInfo(it, currentVariant())?.document }
+                    val freshDoc = msg?.let { parseApkInfo(it, currentVariant())?.document }
                     if (msg == null || freshDoc == null) {
                         beginLoad(account, doc, sourceMessageParent(messageId))
                     } else {
@@ -260,7 +260,7 @@ object UpdateHelper {
                     val latest = resp.messages.filter { it.rich_message != null }.maxByOrNull { it.id }
                     fun onLoaded(msg: TLRPC.Message?) {
                         val info = msg?.let {
-                            extractApkInfo(it, if (BuildConfig.INU_PLUGINLESS) "plugins" else "pluginless")
+                            parseApkInfo(it, if (BuildConfig.INU_PLUGINLESS) "plugins" else "pluginless")
                         }
                         finishVariantSwitch(
                             callback,
@@ -331,7 +331,7 @@ object UpdateHelper {
                 }
                 val latest = resp.messages.filter { it.rich_message != null }.maxByOrNull { it.id }
                 fun onLoaded(msg: TLRPC.Message?) {
-                    val info = msg?.let { extractApkInfo(it, variant) }
+                    val info = msg?.let { parseApkInfo(it, variant) }
                     val current = currentBuild()
                     if (info == null || !isNewer(info, current)) {
                         clearPending()
@@ -347,7 +347,7 @@ object UpdateHelper {
     }
 
     // search results may hold a truncated rich message without all of its documents
-    private fun loadRichMessage(account: Int, messageId: Int, callback: (TLRPC.Message?) -> Unit) {
+    fun loadRichMessage(account: Int, messageId: Int, callback: (TLRPC.Message?) -> Unit) {
         val req = TL_iv.getRichMessage().apply {
             peer = MessagesController.getInstance(account).getInputPeer(-CHANNEL_ID)
             id = messageId
@@ -366,7 +366,7 @@ object UpdateHelper {
         val rich = msg.rich_message ?: return
         fun onLoaded(full: TLRPC.Message?) {
             val variant = currentVariant()
-            val info = full?.let { extractApkInfo(it, variant) } ?: return
+            val info = full?.let { parseApkInfo(it, variant) } ?: return
             val current = currentBuild()
             if (!isNewer(info, current)) return
             applyUpdate(full, info, current, variant)
@@ -385,18 +385,7 @@ object UpdateHelper {
         current: CurrentBuild,
         variant: String,
     ): TLRPC.TL_help_appUpdate {
-        var skipping = false
-        val blocks = msg.rich_message.blocks.filterIsInstance<TL_iv.pageBlockDetails>().firstOrNull()?.blocks.orEmpty().filterTo(ArrayList()) {
-            if (it is TL_iv.pageBlockHeading2) {
-                skipping = variant == "pluginless" && RichMessageLayout.getString(it.text).trim() == "Plugins"
-            }
-            !skipping
-        }
-        val changelog = TL_iv.RichMessage().apply {
-            this.blocks = blocks
-            photos = msg.rich_message.photos
-            documents = msg.rich_message.documents
-        }
+        val changelog = changelogForVariant(msg, variant)
         val data = SerializedData(changelog.objectSize)
         changelog.serializeToStream(data)
 
@@ -435,7 +424,27 @@ object UpdateHelper {
     @Suppress("DEPRECATION")
     private fun currentBuild(): CurrentBuild = CurrentBuild(packageInfo.versionCode)
 
-    private fun extractApkInfo(msg: TLRPC.Message, variant: String): ApkInfo? {
+    @Suppress("DEPRECATION")
+    fun installedVersionCode(): Int = packageInfo.versionCode
+
+    // changelog body of a channel post, with the variant-specific sections (e.g. Plugins
+    // on pluginless) stripped — the same body the update dialog shows for new versions.
+    fun changelogForVariant(msg: TLRPC.Message, variant: String): TL_iv.RichMessage {
+        var skipping = false
+        val blocks = msg.rich_message.blocks.filterIsInstance<TL_iv.pageBlockDetails>().firstOrNull()?.blocks.orEmpty().filterTo(ArrayList()) {
+            if (it is TL_iv.pageBlockHeading2) {
+                skipping = variant == "pluginless" && RichMessageLayout.getString(it.text).trim() == "Plugins"
+            }
+            !skipping
+        }
+        return TL_iv.RichMessage().apply {
+            this.blocks = blocks
+            photos = msg.rich_message.photos
+            documents = msg.rich_message.documents
+        }
+    }
+
+    fun parseApkInfo(msg: TLRPC.Message, variant: String): ApkInfo? {
         val (match, doc) = msg.rich_message?.documents.orEmpty().firstNotNullOfOrNull { doc ->
             APK_RE.matchEntire(FileLoader.getDocumentFileName(doc))
                 ?.takeIf { it.groupValues[3] == variant }
@@ -447,7 +456,7 @@ object UpdateHelper {
         return ApkInfo(verCode, appVerName, doc)
     }
 
-    private fun currentVariant(): String = if (BuildConfig.INU_PLUGINLESS) "pluginless" else "plugins"
+    fun currentVariant(): String = if (BuildConfig.INU_PLUGINLESS) "pluginless" else "plugins"
 
     private fun isNewer(remote: ApkInfo, current: CurrentBuild): Boolean {
         return remote.verCode > current.versionCode
@@ -472,7 +481,7 @@ object UpdateHelper {
         internal val sourceMessage: TLRPC.Message,
     )
 
-    private data class ApkInfo(
+    data class ApkInfo(
         val verCode: Int,
         val appVerName: String,
         val document: TLRPC.Document,

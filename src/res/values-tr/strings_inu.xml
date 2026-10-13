@@ -610,6 +610,12 @@
     <string name="InuUpdateBeta">Hundgram Beta\'yı güncelle</string>
     <string name="InuUpdatesEnabled">Güncellemeleri otomatik denetle</string>
     <string name="InuUpdateCheckNow">Şimdi denetle</string>
+    <string name="InuChangelog">Değişiklik günlüğü</string>
+    <string name="InuChangelogShow">Değişiklikleri göster</string>
+    <string name="InuChangelogVersion">%1$s (derleme %2$d)</string>
+    <string name="InuChangelogEmpty">Bu sürüm için değişiklik günlüğü yok</string>
+    <string name="InuChangelogNewer">‹ Daha yeni</string>
+    <string name="InuChangelogOlder">Daha eski ›</string>
     <string name="InuUpdateLastChecked">Son denetleme: %1$s</string>
     <string name="InuUpdateUpToDate">En son sürümü kullanıyorsunuz</string>
     <string name="InuUpdateError">Güncelleme denetimi başarısız: %1$s</string>

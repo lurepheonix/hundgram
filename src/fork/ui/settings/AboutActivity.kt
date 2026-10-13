@@ -84,6 +84,12 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
                 "@" + UpdateHelper.USERNAME,
             ).also { it.bind = fullValueBind("@" + UpdateHelper.USERNAME) }
         )
+        items.add(
+            UItem.asButton(
+                BUTTON_CHANGELOG,
+                LocaleController.getString(R.string.InuChangelogShow),
+            )
+        )
         items.add(UItem.asShadow(null))
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuUpdates)))
@@ -178,6 +184,7 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
             }
 
             BUTTON_CHECK_NOW -> runManualCheck()
+            BUTTON_CHANGELOG -> presentFragment(ChangelogActivity())
             TOGGLE_LOGS_ENABLED -> {
                 val new = !LogsHelper.isEnabled()
                 LogsHelper.setEnabled(new)
@@ -721,6 +728,7 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
         private val BUTTON_CHANNEL_LINK = InuUtils.generateId()
         private val TOGGLE_UPDATES_ENABLED = InuUtils.generateId()
         private val BUTTON_CHECK_NOW = InuUtils.generateId()
+        private val BUTTON_CHANGELOG = InuUtils.generateId()
         private val TOGGLE_LOGS_ENABLED = InuUtils.generateId()
         private val TOGGLE_EXTRA_DEBUG_LOGS = InuUtils.generateId()
         private val BUTTON_COPY_SYSINFO = InuUtils.generateId()

@@ -608,6 +608,12 @@
     <string name="InuUpdateBeta">Update Hundgram Beta</string>
     <string name="InuUpdatesEnabled">Check for updates automatically</string>
     <string name="InuUpdateCheckNow">Check now</string>
+    <string name="InuChangelog">Changelog</string>
+    <string name="InuChangelogShow">Show changelog</string>
+    <string name="InuChangelogVersion">%1$s (build %2$d)</string>
+    <string name="InuChangelogEmpty">No changelog for this version</string>
+    <string name="InuChangelogNewer">‹ Newer</string>
+    <string name="InuChangelogOlder">Older ›</string>
     <string name="InuUpdateBuildFullInfo">You are on the plugins build. **Switch to pluginless >**</string>
     <string name="InuUpdateBuildPluginlessInfo">You are on the pluginless build. **Switch to plugins >**</string>
     <string name="InuSwitchConfirmFull">Switch to the plugins build?</string>
