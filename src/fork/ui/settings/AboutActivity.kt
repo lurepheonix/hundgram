@@ -725,6 +725,14 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
 
     companion object {
         private const val GITHUB_REPO = "lurepheonix/hundgram"
+        private val BUTTON_GITHUB = InuUtils.generateId()
+        private val BUTTON_CHANNEL_LINK = InuUtils.generateId()
+        private val TOGGLE_UPDATES_ENABLED = InuUtils.generateId()
+        private val BUTTON_CHECK_NOW = InuUtils.generateId()
+        private val BUTTON_CHANGELOG = InuUtils.generateId()
+        private val TOGGLE_LOGS_ENABLED = InuUtils.generateId()
+        private val TOGGLE_EXTRA_DEBUG_LOGS = InuUtils.generateId()
+        private val BUTTON_COPY_SYSINFO = InuUtils.generateId()
 
         @JvmField
         val PAGE = SearchRegistry.Page(
@@ -736,13 +744,5 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
                 SearchRegistry.Entry("changelog", R.string.InuChangelogShow, BUTTON_CHANGELOG),
             ),
         )
-        private val BUTTON_GITHUB = InuUtils.generateId()
-        private val BUTTON_CHANNEL_LINK = InuUtils.generateId()
-        private val TOGGLE_UPDATES_ENABLED = InuUtils.generateId()
-        private val BUTTON_CHECK_NOW = InuUtils.generateId()
-        private val BUTTON_CHANGELOG = InuUtils.generateId()
-        private val TOGGLE_LOGS_ENABLED = InuUtils.generateId()
-        private val TOGGLE_EXTRA_DEBUG_LOGS = InuUtils.generateId()
-        private val BUTTON_COPY_SYSINFO = InuUtils.generateId()
     }
 }
