@@ -22,7 +22,6 @@ import desu.inugram.InuConfig.AttachCameraModeItem.Companion.TAB
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
 import org.telegram.messenger.AndroidUtilities
-import org.telegram.messenger.Bitmaps
 import org.telegram.messenger.ImageLoader
 import org.telegram.messenger.Utilities
 import org.telegram.ui.ActionBar.Theme
@@ -49,7 +48,7 @@ object AttachCameraHelper {
         try {
             val bitmap = BitmapFactory.decodeFile(file.absolutePath) ?: return false
             val matrix = Matrix().apply { postScale(-1f, 1f) }
-            val mirrored = Bitmaps.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            val mirrored = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
             if (mirrored !== bitmap) bitmap.recycle()
             FileOutputStream(file).use { out ->
                 mirrored.compress(Bitmap.CompressFormat.JPEG, 90, out)

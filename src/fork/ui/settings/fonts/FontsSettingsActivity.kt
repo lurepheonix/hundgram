@@ -184,7 +184,7 @@ class FontsSettingsActivity : SettingsPageActivity(), NotificationCenter.Notific
         // for imported/system families, list individual faces as disabled rows (in their own face) on top
         val faces = FontLibrary.getFontFaces(font)
 
-        val opts = ItemOptions.makeOptions(this, anchor)
+        val opts = ItemOptions.makeOptions(this, anchor).setLongPressSelectionEnabled(false)
         if (faces.isNotEmpty()) {
             val muted = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText)
             for ((label, tf) in faces) {

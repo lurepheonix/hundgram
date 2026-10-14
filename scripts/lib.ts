@@ -153,14 +153,7 @@ interface SubmoduleOverlay {
 // fork edits inside submodules ship as overlay files, applied by setup after
 // the submodule sync. To regenerate: edit inside the submodule, then
 // `git -C <sub> diff` over submoduleOverlaysDir/<patch>.
-const SUBMODULE_OVERLAYS: SubmoduleOverlay[] = [
-  {
-    sub: 'TMessagesProj_Modules/media',
-    patch: 'media-audio-focus.patch',
-    baseSha: 'c430d207677071b1873f9f18266d55ec45722180',
-    marker: 'inu_transientFocus',
-  },
-]
+const SUBMODULE_OVERLAYS: SubmoduleOverlay[] = []
 
 export async function applySubmoduleOverlays(repoDir: string) {
   let appliedAny = false

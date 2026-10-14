@@ -55,7 +55,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/FileLoadOperatio
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/FileLoadOperation.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/FileLoadOperation.java
-@@ -141,7 +141,7 @@ public class FileLoadOperation {
+@@ -154,7 +154,7 @@ public class FileLoadOperation {
          }
      }
  
@@ -64,7 +64,7 @@ index 0000000..0000000 100644
  
      private final static int stateIdle = 0;
      private final static int stateDownloading = 1;
-@@ -203,9 +203,9 @@ public class FileLoadOperation {
+@@ -216,9 +216,9 @@ public class FileLoadOperation {
      protected TLRPC.InputFileLocation location;
      private TLRPC.InputWebFileLocation webLocation;
      private WebFile webFile;

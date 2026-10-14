@@ -19,7 +19,7 @@ index 0000000..0000000 100644
  import org.telegram.tgnet.TLRPC;
  import org.telegram.tgnet.tl.TL_account;
  import org.telegram.tgnet.tl.TL_keyboard;
-@@ -117,6 +118,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -118,6 +119,7 @@ public class NotificationsController extends BaseController implements Notificat
      private final LongSparseArray<Integer> lastWearNotifiedMessageId = new LongSparseArray<>();
      private final LongSparseArray<Integer> pushDialogsOverrideMention = new LongSparseArray<>();
      private final HashSet<String> pendingVoiceLoads = new HashSet<>();
@@ -27,7 +27,7 @@ index 0000000..0000000 100644
      public final ArrayList<MessageObject> popupMessages = new ArrayList<>();
      public ArrayList<MessageObject> popupReplyMessages = new ArrayList<>();
      private final HashSet<Long> openedInBubbleDialogs = new HashSet<>();
-@@ -254,6 +256,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -255,6 +257,7 @@ public class NotificationsController extends BaseController implements Notificat
  
          AndroidUtilities.runOnUIThread(() -> {
              getNotificationCenter().addObserver(this, NotificationCenter.fileLoaded);
@@ -35,7 +35,7 @@ index 0000000..0000000 100644
          });
      }
  
-@@ -3402,8 +3405,14 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -3460,8 +3463,14 @@ public class NotificationsController extends BaseController implements Notificat
              notificationsQueue.postRunnable(() -> {
                  if (pendingVoiceLoads.remove(path)) {
                      showOrUpdateNotification(true);
@@ -50,7 +50,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -4808,7 +4817,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -4866,7 +4875,7 @@ public class NotificationsController extends BaseController implements Notificat
                      mBuilder.setLargeIcon(img.getBitmap());
                  } else {
                      try {
@@ -59,7 +59,7 @@ index 0000000..0000000 100644
                          if (file.exists()) {
                              float scaleFactor = 160.0f / AndroidUtilities.dp(50);
                              BitmapFactory.Options options = new BitmapFactory.Options();
-@@ -5291,7 +5300,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -5349,7 +5358,7 @@ public class NotificationsController extends BaseController implements Notificat
              }
  
              if (photoPath != null) {
@@ -68,7 +68,7 @@ index 0000000..0000000 100644
                  if (Build.VERSION.SDK_INT < 28) {
                      BitmapDrawable img = ImageLoader.getInstance().getImageFromMemory(photoPath, null, "50_50");
                      if (img != null) {
-@@ -5384,7 +5393,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -5442,7 +5451,7 @@ public class NotificationsController extends BaseController implements Notificat
                  try {
                      if (sender != null && sender.photo != null && sender.photo.photo_small != null && sender.photo.photo_small.volume_id != 0 && sender.photo.photo_small.local_id != 0) {
                          Person.Builder personBuilder = new Person.Builder().setName(LocaleController.getString(R.string.FromYou));
@@ -77,7 +77,7 @@ index 0000000..0000000 100644
                          loadRoundAvatar(getUserConfig().getClientUserId(), avatar, personBuilder);
                          selfPerson = personBuilder.build();
                          personCache.put(selfUserId, selfPerson);
-@@ -5537,7 +5546,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -5595,7 +5604,7 @@ public class NotificationsController extends BaseController implements Notificat
                                      }
                                  }
                                  if (sender != null && sender.photo != null && sender.photo.photo_small != null && sender.photo.photo_small.volume_id != 0 && sender.photo.photo_small.local_id != 0) {
@@ -86,7 +86,7 @@ index 0000000..0000000 100644
                                  }
                                  desu.inugram.helpers.NotificationDebugHelper.onAvatarResolved(currentAccount, dialogId, "sender" + fromId, sender, avatar);
                              }
-@@ -5545,12 +5554,12 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -5603,12 +5612,12 @@ public class NotificationsController extends BaseController implements Notificat
                                  if (uid >= 0) {
                                      TLRPC.User sender = getMessagesController().getUser(uid);
                                      if (sender != null && sender.photo != null && sender.photo.photo_small != null && sender.photo.photo_small.volume_id != 0 && sender.photo.photo_small.local_id != 0) {
@@ -101,7 +101,7 @@ index 0000000..0000000 100644
                                      }
                                  }
                              }
-@@ -5992,7 +6001,7 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -6050,7 +6059,7 @@ public class NotificationsController extends BaseController implements Notificat
              if (user1 != null) {
                  username = UserObject.getUserName(user1);
                  if (user1 != null && user1.photo != null && user1.photo.photo_small != null && user1.photo.photo_small.volume_id != 0 && user1.photo.photo_small.local_id != 0) {
@@ -110,7 +110,7 @@ index 0000000..0000000 100644
                      if (!file.exists()) {
                          file = null;
                          if (user1.photo.photo_big != null) {
-@@ -6027,6 +6036,18 @@ public class NotificationsController extends BaseController implements Notificat
+@@ -6085,6 +6094,18 @@ public class NotificationsController extends BaseController implements Notificat
          return new Pair<>(storiesCount, hidden);
      }
  

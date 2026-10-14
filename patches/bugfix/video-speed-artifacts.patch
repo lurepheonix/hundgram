@@ -78,7 +78,7 @@ index 0000000..0000000 100644
              ExoPlayer.Builder builder = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(factory)
                      .setTrackSelector(trackSelector)
                      .setLoadControl(loadControl);
-@@ -1467,7 +1493,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1461,7 +1487,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
      public void setPlaybackSpeed(float speed) {
          try {
              if (player != null) {
@@ -87,7 +87,7 @@ index 0000000..0000000 100644
              }
          } catch (Exception ignore) {}
      }
-@@ -1805,25 +1831,43 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -1796,25 +1822,43 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
          return repeatCount;
      }
  

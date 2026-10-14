@@ -616,6 +616,15 @@
     <string name="InuChangelogEmpty">Bu sürüm için değişiklik günlüğü yok</string>
     <string name="InuChangelogNewer">Daha yeni</string>
     <string name="InuChangelogOlder">Daha eski</string>
+    <string name="InuUpdateBuildFullInfo">Tam sürümü kullanıyorsunuz. **Eklentisiz sürüme geç >**</string>
+    <string name="InuUpdateBuildPluginlessInfo">Eklentisiz sürümü kullanıyorsunuz. **Tam sürüme geç >**</string>
+    <string name="InuSwitchConfirmFull">Tam sürüme geçilsin mi?</string>
+    <string name="InuSwitchConfirmPluginless">Eklentisiz sürüme geçilsin mi?</string>
+    <string name="InuSwitchPreparing">Sürüm aranıyor</string>
+    <string name="InuSwitchDownloadingFull">Tam sürüm indiriliyor</string>
+    <string name="InuSwitchDownloadingPluginless">Eklentisiz sürüm indiriliyor</string>
+    <string name="InuSwitchDownloadFailed">Seçilen sürüm indirilemedi</string>
+    <string name="InuSwitchUnavailable">Güncelleme kanalında sürüm bulunamadı</string>
     <string name="InuUpdateLastChecked">Son denetleme: %1$s</string>
     <string name="InuUpdateUpToDate">En son sürümü kullanıyorsunuz</string>
     <string name="InuUpdateError">Güncelleme denetimi başarısız: %1$s</string>
@@ -843,6 +852,9 @@
     <string name="InuPluginsInfo">Eklentiler, uygulamayı genişleten kullanıcı yapımı betiklerdir. Yalnızca güvendiğiniz kaynaklardan eklenti yükleyin.</string>
     <string name="InuPluginsEnableEngine">Eklentileri etkinleştir</string>
     <string name="InuPluginsEnableEngineInfo">Yüklü eklentileri başlangıçta çalıştır</string>
+    <string name="InuPluginsEngineDisabled">Eklentiler şu anda devre dışı\n\nBu eklentiyi yüklemek için ayarlardan etkinleştirin</string>
+    <string name="InuPluginsPluginlessBuild">Bu sürüm eklentileri desteklemiyor\n\nTam sürüme geçmek için Hakkında bölümüne gidin</string>
+    <string name="InuPluginsOpenSettings">Ayarları aç</string>
     <string name="InuPluginsInstalled">Yüklü</string>
     <string name="InuPluginsEnabled">Etkin</string>
     <string name="InuPluginsEmpty">Yüklü eklenti yok</string>

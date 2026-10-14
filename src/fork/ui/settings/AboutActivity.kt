@@ -493,7 +493,7 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
     }
 
     private fun showShareMenu(anchor: View) {
-        val opts = ItemOptions.makeOptions(this, anchor)
+        val opts = ItemOptions.makeOptions(this, anchor).setLongPressSelectionEnabled(false)
         opts.add(R.drawable.msg_archive, LocaleController.getString(R.string.InuLogsShareZip)) {
             val activity = parentActivity as? LaunchActivity ?: return@add
             LogsHelper.shareZip(activity, ::onShareDone)

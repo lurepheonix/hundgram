@@ -102,7 +102,7 @@ object LocaleHelper {
             }
             if (v != def) return v
         }
-        return null
+        return def
     }
 
     @Synchronized

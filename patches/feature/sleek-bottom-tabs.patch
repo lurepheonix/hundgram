@@ -11,7 +11,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/glass/GlassT
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/glass/GlassTabView.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/glass/GlassTabView.java
-@@ -701,7 +701,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
+@@ -702,7 +702,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
          } else {
              imageView.setLayoutParams(LayoutHelper.createFrame(iconSize, iconSize, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, iconTop, 0, 0));
          }
@@ -20,7 +20,7 @@ index 0000000..0000000 100644
          M3MainTabsHelper.applyTabRipple(this, colorSelected);
      }
  
-@@ -720,13 +720,15 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
+@@ -721,13 +721,15 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
  
          if (backupImageView != null) {
              final int avatarSize = inu_materialTabs ? (int) M3MainTabsHelper.ICON_SIZE : 22;

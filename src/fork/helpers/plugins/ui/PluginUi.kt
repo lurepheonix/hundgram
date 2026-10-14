@@ -227,7 +227,8 @@ object PluginUi : SessionResource {
             val next = when (type) {
                 "chat" -> ChatActivity(Bundle().apply {
                     if (dialogId > 0) putLong("user_id", dialogId) else putLong("chat_id", -dialogId)
-                    options.optInt("topicId").takeIf { it != 0 }?.let { putInt("message_id", it) }
+                    (options.optInt("messageId").takeIf { it != 0 } ?: options.optInt("topicId").takeIf { it != 0 })
+                        ?.let { putInt("message_id", it) }
                 })
                 "profile" -> ProfileActivity.of(dialogId)
                 "dialogs" -> DrawerHelper.createMainFragment()
@@ -278,7 +279,7 @@ object PluginUi : SessionResource {
                 return@runOnUIThread
             }
             var clicked = false
-            val opts = ItemOptions.makeOptions(activity, anchorView)
+            val opts = ItemOptions.makeOptions(activity, anchorView).setLongPressSelectionEnabled(false)
             // any `checked` (even false) makes the menu radio-style, aligning every row on the checkmark column
             val radioStyle = items.any { it.checked != null }
             items.forEachIndexed { index, item ->

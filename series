@@ -50,7 +50,6 @@ feature/id-in-profile.patch
 feature/hide-spoiler-pending.patch
 bugfix/paid-reaction-animation.patch
 feature/folders-display-mode.patch
-hooks/internal-web-app.patch
 hooks/profile-menu.patch
 debloat/disable-chat-themes.patch
 bugfix/attach-panel-perf.patch
@@ -76,7 +75,6 @@ debloat/motion-photos.patch
 feature/long-press-reply-in-replies.patch
 feature/animation-multiplier.patch
 feature/predictive-back.patch
-feature/search-media-type-filter.patch
 debloat/disable-bg-parallax.patch
 feature/no-join-discuss.patch
 feature/voice-recorder.patch
@@ -348,7 +346,6 @@ feature/optimized-attachment-menu.patch
 bugfix/sticker-mask-alpha.patch
 misc/debug-photo-crop.patch
 bugfix/sent-message-server-entities.patch
-misc/debug-folder-slots.patch
 bugfix/tgnet-session-reset.patch
 bugfix/background-pending-requests.patch
 bugfix/emoji-status-tabs.patch
@@ -376,3 +373,14 @@ feature/mirror-front-video-message.patch
 feature/mirror-front-attach-camera.patch
 feature/audio_sleep_timer.patch
 feature/play_original_video.patch
+bugfix/forum-title-overlay.patch
+bugfix/animated-drawable-recycle-interrupt.patch
+bugfix/story-reactions-window-keyboard.patch
+bugfix/folder-slot-stolen-by-picker.patch
+bugfix/transcription-on-message-replace.patch
+bugfix/sheet-dialog-dismiss.patch
+bugfix/item-options-touch-through.patch
+feature/join-request-open-profile.patch
+feature/join-request-open-page.patch
+feature/chat-search-filters.patch
+bugfix/scrim-menu-theme.patch

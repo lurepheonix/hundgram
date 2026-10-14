@@ -875,7 +875,7 @@ pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeUiPageClo
 }
 
 #[no_mangle]
-pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeChatHistoryLoad(
+pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeChatHistoryLoadMore(
   mut env: EnvUnowned,
   _this: JObject,
   ptr: jlong,
@@ -885,8 +885,23 @@ pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeChatHisto
   newer: jboolean,
 ) {
   with_engine_env(&mut env, ptr, (), |env, engine| {
-    let cursor = if cursor.is_null() { None } else { Some(jstring_to_string(env, &cursor)) };
-    engine.history.dispatch_load(&engine.ctx, history_id, request_id, cursor.as_deref(), newer);
+    let cursor = jstring_to_string(env, &cursor);
+    engine.history.dispatch_load_more(&engine.ctx, history_id, request_id, &cursor, newer);
+  })
+}
+
+#[no_mangle]
+pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeChatHistoryLoadAround(
+  mut env: EnvUnowned,
+  _this: JObject,
+  ptr: jlong,
+  history_id: jlong,
+  request_id: jlong,
+  target: JString,
+) {
+  with_engine_env(&mut env, ptr, (), |env, engine| {
+    let target = jstring_to_string(env, &target);
+    engine.history.dispatch_load_around(&engine.ctx, history_id, request_id, &target);
   })
 }
 
@@ -912,6 +927,16 @@ pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeChatHisto
   history_id: jlong,
 ) {
   with_engine(ptr, (), |engine| engine.history.dispatch_button_click(&engine.ctx, history_id));
+}
+
+#[no_mangle]
+pub extern "system" fn Java_desu_inugram_helpers_plugins_QuickJs_nativeChatHistoryHeaderTap(
+  _env: EnvUnowned,
+  _this: JObject,
+  ptr: jlong,
+  history_id: jlong,
+) {
+  with_engine(ptr, (), |engine| engine.history.dispatch_header_tap(&engine.ctx, history_id));
 }
 
 #[no_mangle]

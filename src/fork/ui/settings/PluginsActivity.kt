@@ -363,7 +363,7 @@ class PluginsActivity : SettingsPageActivity() {
     }
 
     companion object {
-        private val ENGINE_TOGGLE = InuUtils.generateId()
+        val ENGINE_TOGGLE = InuUtils.generateId()
         private val BUTTON_LOAD = InuUtils.generateId()
         private val SAFE_MODE_BANNER = InuUtils.generateId()
         private val DEV_BANNER = InuUtils.generateId()

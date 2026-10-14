@@ -35,6 +35,9 @@ import desu.inugram.helpers.plugins.ui.PluginActions
 import desu.inugram.helpers.plugins.ui.PluginChatHistory
 import desu.inugram.helpers.plugins.ui.PluginIcons
 import desu.inugram.helpers.plugins.ui.RegisteredActionRow
+import desu.inugram.ui.settings.PluginsActivity
+// #else
+import desu.inugram.ui.settings.AboutActivity
 // #endif
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.StickerDownloadHelper
@@ -1311,11 +1314,7 @@ object ChatHelper {
     fun maybeHandleFileClick(fragment: BaseFragment, message: MessageObject): Boolean {
         val name = message.documentName ?: return false
         val isSettings = name.endsWith(SettingsBackupHelper.FILENAME_SUFFIX)
-        // #if PLUGINS
-        val isPlugin = !isSettings && PluginManager.isEngineEnabled() && PluginImportHelper.isPluginFileName(name)
-        // #else
-        val isPlugin = false
-        // #endif
+        val isPlugin = !isSettings && name.endsWith(".inu.js", ignoreCase = true)
         val isFont = !isSettings && !isPlugin && FontImportHelper.isFontFileName(name)
         if (!isSettings && !isPlugin && !isFont) return false
         val attach = message.messageOwner?.attachPath?.takeIf { it.isNotEmpty() }?.let { File(it) }
@@ -1326,11 +1325,39 @@ object ChatHelper {
         when {
             isSettings -> SettingsBackupHelper.startImportFromFile(fragment, file)
             // #if PLUGINS
-            isPlugin -> PluginImportHelper.startImportFromFile(fragment, file)
+            isPlugin && PluginManager.isEngineEnabled() -> PluginImportHelper.startImportFromFile(fragment, file)
+            isPlugin -> showPluginsUnavailableDialog(
+                fragment,
+                R.string.InuPluginsEngineDisabled,
+                R.string.InuPluginsOpenSettings,
+            ) { PluginsActivity().withHighlight(PluginsActivity.ENGINE_TOGGLE) }
+            // #else
+            isPlugin -> showPluginsUnavailableDialog(
+                fragment,
+                R.string.InuPluginsPluginlessBuild,
+                R.string.InuPluginsOpenSettings,
+            ) { AboutActivity() }
             // #endif
             else -> FontImportHelper.startImportFromFile(fragment, message, file, name)
         }
         return true
+    }
+
+    private fun showPluginsUnavailableDialog(
+        fragment: BaseFragment,
+        message: Int,
+        button: Int,
+        createTarget: () -> BaseFragment,
+    ) {
+        val context = fragment.context ?: fragment.parentActivity ?: return
+        fragment.showDialog(
+            AlertDialog.Builder(context, fragment.resourceProvider)
+                .setTitle(LocaleController.getString(R.string.InuPlugins))
+                .setMessage(LocaleController.getString(message))
+                .setPositiveButton(LocaleController.getString(button)) { _, _ -> fragment.presentFragment(createTarget()) }
+                .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
+                .create()
+        )
     }
 
     @JvmStatic

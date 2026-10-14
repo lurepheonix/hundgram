@@ -426,7 +426,7 @@
     <string name="InuEditedMessageDateModeSend">Дата отправки</string>
 
     <string name="InuAddToStickersGifs">Добавить в стикеры/GIF</string>
-    <string name="InuLongTapAction">Действие по долгому тапу</string>
+    <string name="InuLongTapAction">Долгий тап</string>
     <string name="InuMenuMode">Режим</string>
     <string name="InuForwardWithoutAuthor">Без автора</string>
     <string name="InuForwardWithoutCaption">Без подписи</string>
@@ -501,6 +501,15 @@
     <string name="InuChangelogEmpty">Нет журнала изменений для этой версии</string>
     <string name="InuChangelogNewer">Новее</string>
     <string name="InuChangelogOlder">Старее</string>
+    <string name="InuUpdateBuildFullInfo">Вы используете полную сборку. **Переключиться на сборку без плагинов >**</string>
+    <string name="InuUpdateBuildPluginlessInfo">Вы используете сборку без плагинов. **Переключиться на полную >**</string>
+    <string name="InuSwitchConfirmFull">Переключиться на полную сборку?</string>
+    <string name="InuSwitchConfirmPluginless">Переключиться на сборку без плагинов?</string>
+    <string name="InuSwitchPreparing">Поиск сборки</string>
+    <string name="InuSwitchDownloadingFull">Загрузка полной сборки</string>
+    <string name="InuSwitchDownloadingPluginless">Загрузка сборки без плагинов</string>
+    <string name="InuSwitchDownloadFailed">Не удалось загрузить выбранную сборку</string>
+    <string name="InuSwitchUnavailable">Сборка не найдена в канале обновлений</string>
     <string name="InuUpdateLastChecked">Последняя проверка: %1$s</string>
     <string name="InuUpdateUpToDate">У вас установлена последняя версия</string>
     <string name="InuUpdateError">Не удалось проверить обновления: %1$s</string>
@@ -858,6 +867,9 @@
     <string name="InuPluginsInfo">Плагины — пользовательские скрипты, расширяющие приложение. Устанавливайте плагины только из доверенных источников.</string>
     <string name="InuPluginsEnableEngine">Включить плагины</string>
     <string name="InuPluginsEnableEngineInfo">Запускать установленные плагины при старте</string>
+    <string name="InuPluginsEngineDisabled">Плагины сейчас отключены\n\nВключите их в настройках, чтобы установить этот плагин</string>
+    <string name="InuPluginsPluginlessBuild">Эта сборка не поддерживает плагины\n\nОткройте раздел «О приложении», чтобы перейти на полную сборку</string>
+    <string name="InuPluginsOpenSettings">Открыть настройки</string>
     <string name="InuPluginsInstalled">Установленные</string>
     <string name="InuPluginsEnabled">Включён</string>
     <string name="InuPluginsEmpty">Нет установленных плагинов</string>

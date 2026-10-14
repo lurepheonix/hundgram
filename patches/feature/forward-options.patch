@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -15280,6 +15280,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -15359,6 +15359,7 @@ public class ChatActivity extends BaseFragment implements
                      messagePreviewParams.attach(forwardingPreviewView);
                  }
                  messagePreviewParams.updateForward(messageObjectsToForward, dialog_id);
@@ -20,7 +20,7 @@ index 0000000..0000000 100644
                  if (messagePreviewParams.isEmpty() && editingMessageObject == null) {
                      messagePreviewParams = null;
                  }
-@@ -31263,7 +31264,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -31367,7 +31368,7 @@ public class ChatActivity extends BaseFragment implements
              final boolean showSponsorInfo = !suggestEdit && !isEphemeral && selectedObject != null && selectedObject.isSponsored() && (selectedObject.sponsoredInfo != null || selectedObject.sponsoredAdditionalInfo != null || selectedObject.sponsoredUrl != null && !selectedObject.sponsoredUrl.startsWith("https://" + getMessagesController().linkPrefix));
              final boolean isReactionsAvailableFinal = !suggestEdit && isReactionsAvailable;
  
@@ -29,7 +29,7 @@ index 0000000..0000000 100644
              if (isReactionsViewAvailable || showMessageSeen || showSponsorInfo) {
                  flags |= ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK;
              }
-@@ -33477,6 +33478,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -33581,6 +33582,7 @@ public class ChatActivity extends BaseFragment implements
                  break;
              }
              case OPTION_FORWARD: {
@@ -37,7 +37,7 @@ index 0000000..0000000 100644
                  if (getMessagesController().isFrozen()) {
                      AccountFrozenAlert.show(currentAccount);
                      selectedObject = null;
-@@ -34575,8 +34577,9 @@ public class ChatActivity extends BaseFragment implements
+@@ -34695,8 +34697,9 @@ public class ChatActivity extends BaseFragment implements
                          params.suggestionParams = messageSuggestionParams;
                          getSendMessagesHelper().sendMessage(params);
                      }
@@ -52,7 +52,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -12087,6 +12087,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -12088,6 +12088,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          final boolean onlyMyselfFinal = onlyMyself;
  
          ItemOptions.makeOptions(this, view)

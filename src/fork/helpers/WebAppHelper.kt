@@ -11,24 +11,13 @@ import org.telegram.tgnet.TLObject
 import org.telegram.tgnet.TLRPC
 import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.LaunchActivity
-import org.telegram.ui.bots.BotWebViewAttachedSheet
 import org.telegram.ui.bots.BotWebViewSheet
 import org.telegram.ui.bots.WebViewRequestProps
 
 
 object WebAppHelper {
-    // using a bot seems to be the the easiest way to force a webview
     const val HELPER_BOT_USERNAME = "inu_helper_bot"
     const val HELPER_BOT_ID = 8589894659L
-    const val TYPE_TLV = 1;
-
-    @JvmStatic
-    fun getInternalBotName(props: WebViewRequestProps): String? {
-        return when (props.inu_internalType) {
-            TYPE_TLV -> LocaleController.getString(R.string.InuShowJson);
-            else -> null
-        }
-    }
 
     @JvmStatic
     fun openTlViewer(fragment: BaseFragment, arr: List<TLObject>) {
@@ -82,37 +71,17 @@ object WebAppHelper {
             return;
         }
         val url = "https://schema.jppgr.am/embed#data=" + serialized + "&layer=" + TLRPC.LAYER + "&hide-toolbar=1";
-        openInternalWebApp(fragment, url, TYPE_TLV);
+        openInternalWebApp(fragment, url, LocaleController.getString(R.string.InuShowJson))
     }
 
-    private fun openInternalWebApp(fragment: BaseFragment, url: String, type: Int, allowResolve: Boolean = true) {
-        val bot = fragment.messagesController.getUser(HELPER_BOT_ID)
-        if (bot == null) {
-            if (allowResolve) {
-                fragment.messagesController.userNameResolver.resolve(HELPER_BOT_USERNAME) {
-                    openInternalWebApp(fragment, url, type, false)
-                }
-            }
-            return
-        }
+    private fun openInternalWebApp(fragment: BaseFragment, url: String, name: String) {
+        val context = fragment.parentActivity ?: return
         val props = WebViewRequestProps.of(
-            fragment.getCurrentAccount(),
-            HELPER_BOT_ID,
-            HELPER_BOT_ID,
-            null,
-            url,
-            BotWebViewAttachedSheet.TYPE_WEB_VIEW_BUTTON,
+            fragment.currentAccount, 0, 0, name, url, BotWebViewSheet.TYPE_FAKE_WEB_VIEW,
             0, 0, false, null, false, null, null, 0, false, false
         )
-        props.inu_internalType = type;
-        val context = fragment.getParentActivity() ?: return
-        if (context is LaunchActivity) {
-            if (context.getBottomSheetTabs() != null && context.getBottomSheetTabs().tryReopenTab(props) != null) {
-                return
-            }
-        }
-
-        val webViewSheet = BotWebViewSheet(context, fragment.getResourceProvider())
+        if ((context as? LaunchActivity)?.bottomSheetTabs?.tryReopenTab(props) != null) return
+        val webViewSheet = BotWebViewSheet(context, fragment.resourceProvider)
         webViewSheet.setDefaultFullsize(false)
         webViewSheet.setNeedsContext(false)
         webViewSheet.setParentActivity(context)

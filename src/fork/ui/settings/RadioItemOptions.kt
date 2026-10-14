@@ -13,7 +13,7 @@ object RadioItemOptions {
         selectedIndex: Int,
         onSelect: (Int) -> Unit,
     ) {
-        val options = ItemOptions.makeOptions(fragment, anchor)
+        val options = ItemOptions.makeOptions(fragment, anchor).setLongPressSelectionEnabled(false)
         items.forEachIndexed { index, text ->
             options.addChecked(index == selectedIndex, text) {
                 if (index == selectedIndex) return@addChecked
