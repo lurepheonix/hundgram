@@ -497,10 +497,10 @@
     <string name="InuUpdateCheckNow">立即检查</string>
     <string name="InuChangelog">更新日志</string>
     <string name="InuChangelogShow">查看更新日志</string>
-    <string name="InuChangelogVersion">%1$s（内部版本 %2$d）</string>
+    <string name="InuChangelogVersion">Hundgram v%1$d</string>
     <string name="InuChangelogEmpty">此版本没有更新日志</string>
-    <string name="InuChangelogNewer">‹ 较新</string>
-    <string name="InuChangelogOlder">较旧 ›</string>
+    <string name="InuChangelogNewer">较新</string>
+    <string name="InuChangelogOlder">较旧</string>
     <string name="InuUpdateLastChecked">上次检查: %1$s</string>
     <string name="InuUpdateUpToDate">已是最新版本</string>
     <string name="InuUpdateError">检查更新失败: %1$s</string>

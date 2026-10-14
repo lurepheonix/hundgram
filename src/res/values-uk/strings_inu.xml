@@ -583,10 +583,10 @@
     <string name="InuUpdateCheckNow">Перевірити зараз</string>
     <string name="InuChangelog">Журнал змін</string>
     <string name="InuChangelogShow">Показати журнал змін</string>
-    <string name="InuChangelogVersion">%1$s (збірка %2$d)</string>
+    <string name="InuChangelogVersion">Hundgram v%1$d</string>
     <string name="InuChangelogEmpty">Немає журналу змін для цієї версії</string>
-    <string name="InuChangelogNewer">‹ Новіше</string>
-    <string name="InuChangelogOlder">Старіше ›</string>
+    <string name="InuChangelogNewer">Новіше</string>
+    <string name="InuChangelogOlder">Старіше</string>
     <string name="InuUpdateLastChecked">Остання перевірка: %1$s</string>
     <string name="InuUpdateUpToDate">У вас встановлено найновішу версію</string>
     <string name="InuUpdateError">Не вдалося перевірити оновлення: %1$s</string>

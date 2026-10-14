@@ -498,10 +498,10 @@
     <string name="InuUpdateCheckNow">今すぐ確認</string>
     <string name="InuChangelog">変更履歴</string>
     <string name="InuChangelogShow">変更履歴を表示</string>
-    <string name="InuChangelogVersion">%1$s (ビルド %2$d)</string>
+    <string name="InuChangelogVersion">Hundgram v%1$d</string>
     <string name="InuChangelogEmpty">このバージョンの変更履歴はありません</string>
-    <string name="InuChangelogNewer">‹ 新しい</string>
-    <string name="InuChangelogOlder">古い ›</string>
+    <string name="InuChangelogNewer">新しい</string>
+    <string name="InuChangelogOlder">古い</string>
     <string name="InuUpdateLastChecked">最終確認: %1$s</string>
     <string name="InuUpdateUpToDate">最新バージョンです</string>
     <string name="InuUpdateError">アップデート確認に失敗: %1$s</string>

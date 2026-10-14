@@ -497,10 +497,10 @@
     <string name="InuUpdateCheckNow">Проверить сейчас</string>
     <string name="InuChangelog">Журнал изменений</string>
     <string name="InuChangelogShow">Показать журнал изменений</string>
-    <string name="InuChangelogVersion">%1$s (сборка %2$d)</string>
+    <string name="InuChangelogVersion">Hundgram v%1$d</string>
     <string name="InuChangelogEmpty">Нет журнала изменений для этой версии</string>
-    <string name="InuChangelogNewer">‹ Новее</string>
-    <string name="InuChangelogOlder">Старее ›</string>
+    <string name="InuChangelogNewer">Новее</string>
+    <string name="InuChangelogOlder">Старее</string>
     <string name="InuUpdateLastChecked">Последняя проверка: %1$s</string>
     <string name="InuUpdateUpToDate">У вас установлена последняя версия</string>
     <string name="InuUpdateError">Не удалось проверить обновления: %1$s</string>
