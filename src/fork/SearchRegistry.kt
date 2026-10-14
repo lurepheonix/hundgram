@@ -3,6 +3,7 @@ package desu.inugram
 import android.content.Intent
 import desu.inugram.helpers.security.ParanoiaHelper
 import desu.inugram.ui.settings.AnnoyancesSettingsActivity
+import desu.inugram.ui.settings.AboutActivity
 import desu.inugram.ui.settings.AppearanceSettingsActivity
 import desu.inugram.ui.settings.BackupSettingsActivity
 import desu.inugram.ui.settings.BehaviorSettingsActivity
@@ -39,6 +40,7 @@ object SearchRegistry {
     private val pages: List<Page> by lazy {
         listOf(
             InuSettingsActivity.PAGE,
+            AboutActivity.PAGE,
             AppearanceSettingsActivity.PAGE,
             FontsSettingsActivity.PAGE,
             FontStackActivity.PAGE,

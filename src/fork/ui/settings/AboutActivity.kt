@@ -21,6 +21,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import desu.inugram.InuConfig
+import desu.inugram.SearchRegistry
 import desu.inugram.helpers.CrashReporter
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.LogsHelper
@@ -724,6 +725,17 @@ class AboutActivity : SettingsPageActivity(), NotificationCenter.NotificationCen
 
     companion object {
         private const val GITHUB_REPO = "lurepheonix/hundgram"
+
+        @JvmField
+        val PAGE = SearchRegistry.Page(
+            slug = "about-page",
+            titleRes = R.string.InuAbout,
+            iconRes = R.drawable.msg_info,
+            factory = ::AboutActivity,
+            entries = listOf(
+                SearchRegistry.Entry("changelog", R.string.InuChangelogShow, BUTTON_CHANGELOG),
+            ),
+        )
         private val BUTTON_GITHUB = InuUtils.generateId()
         private val BUTTON_CHANNEL_LINK = InuUtils.generateId()
         private val TOGGLE_UPDATES_ENABLED = InuUtils.generateId()
