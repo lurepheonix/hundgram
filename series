@@ -384,3 +384,10 @@ feature/join-request-open-profile.patch
 feature/join-request-open-page.patch
 feature/chat-search-filters.patch
 bugfix/scrim-menu-theme.patch
+bugfix/adaptive-shortcut-icons.patch
+bugfix/photo-viewer-reparent.patch
+bugfix/pin-unloaded-dialog.patch
+bugfix/storage-query-plans.patch
+bugfix/keep-history-on-channel-too-long.patch
+bugfix/keep-channel-queue-during-diff.patch
+feature/app-icon-splash.patch

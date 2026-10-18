@@ -207,7 +207,7 @@ object ApkInstaller {
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
             setTextColor(Theme.getColor(Theme.key_dialogTextGray))
             text = LocaleController.getString(
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Settings.canDrawOverlays(context)) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Build.VERSION.SDK_INT >= 37 || Settings.canDrawOverlays(context)) {
                     R.string.InuUpdateInstallingHint
                 } else {
                     R.string.InuUpdateInstallingNotificationHint
@@ -318,6 +318,8 @@ object ApkInstaller {
     class UpdateReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
+            // android 17+ relaunches a running app by itself after update
+            if (Build.VERSION.SDK_INT >= 37) return
             val pkg = context.packageName
             if (pkg != context.packageManager.getInstallerPackageName(pkg)) return
 

@@ -170,7 +170,7 @@ index 0000000..0000000 100644
                          if (index < 0) {
                              blockePeers.put(user.id, 1);
                              getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad);
-@@ -19224,7 +19232,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -19226,7 +19234,7 @@ public class MessagesController extends BaseController implements NotificationCe
                  TL_update.TL_updatePeerBlocked finalUpdate = (TL_update.TL_updatePeerBlocked) baseUpdate;
                  getMessagesStorage().getStorageQueue().postRunnable(() -> AndroidUtilities.runOnUIThread(() -> {
                      long id = MessageObject.getPeerId(finalUpdate.peer_id);
@@ -179,7 +179,7 @@ index 0000000..0000000 100644
                          if (blockePeers.indexOfKey(id) < 0) {
                              blockePeers.put(id, 1);
                          }
-@@ -22211,6 +22219,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22213,6 +22221,7 @@ public class MessagesController extends BaseController implements NotificationCe
          }
          for (int a = 0, N = allDialogs.size(); a < N; a++) {
              TLRPC.Dialog d = allDialogs.get(a);
@@ -187,7 +187,7 @@ index 0000000..0000000 100644
              final boolean isCommunity = d instanceof TLRPC.TL_dialogCommunity;
              if (d instanceof TLRPC.TL_dialog || isCommunity) {
                  long dialogId = d.id;
-@@ -22424,6 +22433,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22426,6 +22435,7 @@ public class MessagesController extends BaseController implements NotificationCe
                  }
                  for (int a = 0, N = allDialogs.size(); a < N; a++) {
                      final TLRPC.Dialog d = allDialogs.get(a);
@@ -195,7 +195,7 @@ index 0000000..0000000 100644
                      final boolean isCommunity = d instanceof TLRPC.TL_dialogCommunity;
                      if (d instanceof TLRPC.TL_dialog || isCommunity) {
                          long dialogId = d.id;
-@@ -22463,6 +22473,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22465,6 +22475,7 @@ public class MessagesController extends BaseController implements NotificationCe
          }
          for (int a = 0, N = allDialogs.size(); a < N; a++) {
              TLRPC.Dialog d = allDialogs.get(a);
@@ -207,7 +207,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
-@@ -10194,6 +10194,7 @@ public class MessagesStorage extends BaseController {
+@@ -10197,6 +10197,7 @@ public class MessagesStorage extends BaseController {
                      if (id == -1) {
                          continue;
                      }
@@ -215,7 +215,7 @@ index 0000000..0000000 100644
                      dids.add(id);
                      if (users != null && chats != null) {
                          if (DialogObject.isUserDialog(id)) {
-@@ -10279,6 +10280,7 @@ public class MessagesStorage extends BaseController {
+@@ -10282,6 +10283,7 @@ public class MessagesStorage extends BaseController {
                      if (id == -1) {
                          continue;
                      }
@@ -223,7 +223,7 @@ index 0000000..0000000 100644
                      dids.add(id);
                      if (DialogObject.isUserDialog(id)) {
                          usersToLoad.add(id);
-@@ -10313,6 +10315,7 @@ public class MessagesStorage extends BaseController {
+@@ -10316,6 +10318,7 @@ public class MessagesStorage extends BaseController {
                      if (DialogObject.isFolderDialogId(dialogId)) {
                          continue;
                      }
@@ -231,7 +231,7 @@ index 0000000..0000000 100644
                      if (add) {
                          dids.add(dialogId);
                      }
-@@ -18288,6 +18291,7 @@ public class MessagesStorage extends BaseController {
+@@ -18312,6 +18315,7 @@ public class MessagesStorage extends BaseController {
              }
              while (cursor.next()) {
                  long id = cursor.longValue(0);
@@ -239,7 +239,7 @@ index 0000000..0000000 100644
                  DialogsSearchAdapter.DialogSearchResult dialogSearchResult = new DialogsSearchAdapter.DialogSearchResult();
                  dialogSearchResult.date = cursor.intValue(1);
                  dialogsResult.put(id, dialogSearchResult);
-@@ -18563,6 +18567,9 @@ public class MessagesStorage extends BaseController {
+@@ -18587,6 +18591,9 @@ public class MessagesStorage extends BaseController {
                  cursor = getDatabase().queryFinalized("SELECT u.data, u.status, u.name, u.uid FROM users as u INNER JOIN contacts as c ON u.uid = c.uid");
                  while (cursor.next()) {
                      long uid = cursor.longValue(3);
@@ -479,7 +479,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -6971,7 +6971,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6979,7 +6979,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              filterOptions = null;
          }
          final ArrayList<MessagesController.DialogFilter> filters = getMessagesController().getDialogFilters();
@@ -488,7 +488,7 @@ index 0000000..0000000 100644
              if (force || filterTabsView.getVisibility() != View.VISIBLE) {
                  boolean animatedUpdateItems = animated;
                  if (filterTabsView.getVisibility() != View.VISIBLE) {
-@@ -8628,7 +8628,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -8636,7 +8636,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              getMessagesController().filtersEnabled &&
              getMessagesController().dialogFiltersLoaded &&
              getMessagesController().dialogFilters != null &&

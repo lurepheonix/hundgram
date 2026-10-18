@@ -494,11 +494,8 @@ object ChatHelper {
     fun bindMenuCell(cell: ActionBarMenuSubItem, option: Int) {
         if (option == OPTION_PLUGIN_ACTIONS) {
             val menu = messageMenu ?: return
-            menu.actionsCell = cell
             cell.setRightIcon(R.drawable.msg_arrowright)
-            if (menu.done && menu.rows.none { PluginActions.isEnabled(it.key) && !PluginActions.isPinned(it.key) }) {
-                cell.visibility = View.GONE
-            }
+            if (menu.done) bindActionsCell(menu, cell) else menu.actionsCell = cell
             return
         }
         if (option < PluginActions.OPTION_BASE) return
@@ -544,12 +541,22 @@ object ChatHelper {
         PluginActions.bindSecondaryCallback(cell, row, menu.surface) { menu.activity.closeMenu() }
     }
 
+    private fun bindActionsCell(menu: MessageMenu, cell: ActionBarMenuSubItem) {
+        val enabled = menu.rows.filter { PluginActions.isEnabled(it.key) }
+        val lone = enabled.singleOrNull()
+        if (lone != null && !PluginActions.isPinned(lone.key)) {
+            PluginIcons.setIcon(cell, lone.text, lone.icon, lone.owner, R.drawable.msg_settings_old)
+            cell.setRightIcon(0)
+            PluginActions.bindSecondaryCallback(cell, lone, menu.surface) { menu.activity.closeMenu() }
+        } else if (PluginActions.getSubmenuRows(PluginActions.KIND_MESSAGE, enabled).isEmpty()) {
+            cell.visibility = View.GONE
+        }
+    }
+
     private fun finishPluginItems(menu: MessageMenu) {
         menu.done = true
         for ((option, cell) in menu.cells) bindRow(menu, option, cell)
-        if (menu.rows.none { PluginActions.isEnabled(it.key) && !PluginActions.isPinned(it.key) }) {
-            menu.actionsCell?.visibility = View.GONE
-        }
+        menu.actionsCell?.let { bindActionsCell(menu, it) }
         menu.actionsCell = null
         // the cells are the popup's views and this is the last thing that binds them: a menu is
         // built in one turn and filled in the next, so holding them past here keeps the closed
@@ -1313,15 +1320,24 @@ object ChatHelper {
     @JvmStatic
     fun maybeHandleFileClick(fragment: BaseFragment, message: MessageObject): Boolean {
         val name = message.documentName ?: return false
+        return maybeHandleFile(fragment, name, message.mimeType) {
+            message.messageOwner?.attachPath?.takeIf { it.isNotEmpty() }?.let { File(it) }?.takeIf { it.exists() }
+                ?: FileLoader.getInstance(fragment.currentAccount).getPathToMessage(message.messageOwner)
+        }
+    }
+
+    @JvmStatic
+    fun maybeHandleRichDocumentClick(document: TLRPC.Document, file: File): Boolean {
+        val fragment = LaunchActivity.getSafeLastFragment() ?: return false
+        return maybeHandleFile(fragment, FileLoader.getDocumentFileName(document), document.mime_type) { file }
+    }
+
+    private fun maybeHandleFile(fragment: BaseFragment, name: String, mimeType: String?, resolveFile: () -> File?): Boolean {
         val isSettings = name.endsWith(SettingsBackupHelper.FILENAME_SUFFIX)
         val isPlugin = !isSettings && name.endsWith(".inu.js", ignoreCase = true)
         val isFont = !isSettings && !isPlugin && FontImportHelper.isFontFileName(name)
         if (!isSettings && !isPlugin && !isFont) return false
-        val attach = message.messageOwner?.attachPath?.takeIf { it.isNotEmpty() }?.let { File(it) }
-        val file = attach?.takeIf { it.exists() }
-            ?: FileLoader.getInstance(fragment.currentAccount).getPathToMessage(message.messageOwner)
-                ?.takeIf { it.exists() }
-            ?: return false
+        val file = resolveFile()?.takeIf { it.exists() } ?: return false
         when {
             isSettings -> SettingsBackupHelper.startImportFromFile(fragment, file)
             // #if PLUGINS
@@ -1338,7 +1354,7 @@ object ChatHelper {
                 R.string.InuPluginsOpenSettings,
             ) { AboutActivity() }
             // #endif
-            else -> FontImportHelper.startImportFromFile(fragment, message, file, name)
+            else -> FontImportHelper.startImportFromFile(fragment, file, name, mimeType)
         }
         return true
     }
@@ -1670,12 +1686,15 @@ object ChatHelper {
         // #if PLUGINS
         if (option == OPTION_PLUGIN_ACTIONS) {
             val menu = messageMenu ?: return true
-            val rows = PluginActions.orderRows(
-                PluginActions.KIND_MESSAGE,
-                menu.rows.filter { PluginActions.isEnabled(it.key) },
-                false,
-            )
-            if (rows.isEmpty()) return true
+            val enabled = menu.rows.filter { PluginActions.isEnabled(it.key) }
+            val rows = PluginActions.getSubmenuRows(PluginActions.KIND_MESSAGE, enabled)
+            if (rows.isEmpty()) {
+                enabled.singleOrNull()?.let {
+                    PluginActions.dispatch(it, menu.surface)
+                    activity.closeMenu()
+                }
+                return true
+            }
             return openLongTapSubmenu(activity, popupLayout, cell) { submenu ->
                 for (row in rows) {
                     PluginIcons.addMenuItem(

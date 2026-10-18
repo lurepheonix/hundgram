@@ -41,6 +41,7 @@ its own update channel, pointing at Hundgram releases.)
 - 🐶 classic ui mode for folders bar, shared media tabs, global search and chat elements (reverts the >12.6 "liquid glass" look)
 - icon replacement (solar pack by [480 Design](https://t.me/Design480) - *ported from [NagramX](https://github.com/risin42/NagramX)*; vkui pack by [VK](https://github.com/VKCOM/icons) - *ported from [Catogram](https://github.com/Catogram/Catogram)*)
 - notification icon: Telegram (default) or Inugram
+- 🐶 animated splash screen follows the selected app icon and Monet theme (Android 12+)
 - show seconds in timestamps
 - override Telegram's detected device performance class
 - 🐶 customizable animation speed multiplier (incl. instant)
@@ -335,6 +336,10 @@ its own update channel, pointing at Hundgram releases.)
 - reactions silently disappearing right after being sent (stale server read race)
 - seen reactions coming back to the unread reactions counter (stock only told the server once the local counter hit 0, so every server count reload resurrected them); each read is now reported via `readMessageContents`
 - reactions vanishing for a moment after editing a message that got reacted to while the edit was open (the edit applied a stale copy of the message)
+- unread reactions counter drifting and wiping unseen reactions: stock never decremented the chat's counter per read, never told an open group chat about new unread reactions, and "fixed" both by marking everything read once its own local counter hit 0; reads now update the counter per message, and only an explicit "read all" or an empty server answer marks everything read
+- reaction effect and haptic skipped whenever the in-chat counter was already 0, and never played for reactions reached via the jump button (the jump marked them read before the message was even shown)
+- album reactions counted once per bottom-row photo; a stale reactions update could also mark a just-seen reaction unread again
+- in-memory unread reactions count overwritten by a stale database copy after deleting messages
 - channel reactions: toggling "Enable Reactions" was silently discarded on back (unsaved-changes check only compared the emoji selection, never the enabled state), and re-enabling always saved the prefilled list as an explicit set instead of "All"
 - rounded section backgrounds ignored the alpha of the fading container they lived in, so they stayed fully opaque during the animation and only popped away on the next unrelated redraw (e.g. toggling "Enable Reactions" in channel reactions)
 - sticky date pill jump and color shift when replacing an inline date separator
@@ -376,6 +381,7 @@ its own update channel, pointing at Hundgram releases.)
 - admin logs scroll jumping when loading events
 - fix glitch when quickly dismissing photo editor after cropping
 - persist crop when rotating photo in photo editor
+- photo viewer crop showing a black screen, captions going missing and broken pip transitions after the viewer moves to another activity
 - chat preview no longer marks visible reactions/poll votes as read
 - dialogs list briefly flashing over the lockscreen after ending/declining a call
 - fix camera2api a/v sync issue in round messages
@@ -427,3 +433,6 @@ its own update channel, pointing at Hundgram releases.)
 - correctly publish album name for streamed music
 - permanently white/stale message bubbles on low-memory devices (stock bug: `MessageDrawable` committed its radius/color cache keys even when the bitmap allocation for the bubble nine-patch failed, so the stale drawable was never rebuilt; the shadow nine-patch also recycled its old bitmap before allocating the new one, leaving a recycled bitmap in use)
 - group call recording timer showing a nonsense duration (the whole unix epoch, e.g. `496691:48:15`) right after starting a recording: stock flips the local `recording` flag optimistically while `record_start_date` is still 0
+- message database stalls (up to minutes) on big chats: reading mentions, deleting replied-to messages and loading the user rating scanned the whole cached history because sqlite picked the wrong index; also reply previews of deleted messages are now actually cleared when several messages are deleted at once (stock bound the id list as one string, matching nothing)
+- a busy channel no longer loses its whole cached history whenever the server answers "difference too long" (stock wiped every cached message, which could block the message database for minutes on big chats and stopped music playing from that chat); the cache is kept but reloaded from the server, and channel messages deleted while the app was not watching now disappear once their part of the history is loaded (stock kept them forever)
+- new channel messages sometimes appearing minutes late (until the next update in that chat): stock threw away channel updates that arrived while it was already fetching a channel's missed updates, and replayed the waiting ones before applying the fetched state

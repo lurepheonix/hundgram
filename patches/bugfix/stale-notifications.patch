@@ -15,7 +15,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesControll
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesController.java
-@@ -20718,6 +20718,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -20720,6 +20720,7 @@ public class MessagesController extends BaseController implements NotificationCe
                      } else if (baseUpdate instanceof TL_update.TL_updateReadChannelDiscussionInbox) {
                          TL_update.TL_updateReadChannelDiscussionInbox update = (TL_update.TL_updateReadChannelDiscussionInbox) baseUpdate;
                          getNotificationCenter().postNotificationName(NotificationCenter.threadMessagesRead, -update.channel_id, update.top_msg_id, update.read_max_id, 0);
@@ -23,7 +23,7 @@ index 0000000..0000000 100644
                          if ((update.flags & 1) != 0) {
                              getMessagesStorage().updateRepliesMaxReadId(update.broadcast_id, update.broadcast_post, update.read_max_id, 0,true);
                              getNotificationCenter().postNotificationName(NotificationCenter.commentsRead, update.broadcast_id, update.broadcast_post, update.read_max_id);
-@@ -21362,6 +21363,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -21364,6 +21365,7 @@ public class MessagesController extends BaseController implements NotificationCe
      }
  
      public void checkUnreadReactions(long dialogId, long topicId, SparseBooleanArray unreadReactions) {
@@ -35,7 +35,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
-@@ -14544,6 +14544,16 @@ public class MessagesStorage extends BaseController {
+@@ -14547,6 +14547,16 @@ public class MessagesStorage extends BaseController {
          });
      }
  

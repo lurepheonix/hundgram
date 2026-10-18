@@ -4,7 +4,9 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.RectF
 import android.view.View
+import android.widget.Toast
 import desu.inugram.helpers.DebugLogUtils
+import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.FileLog
 import org.telegram.messenger.MediaController
 import org.telegram.ui.Components.Crop.CropView
@@ -46,7 +48,10 @@ object CropDebugHelper {
     @JvmStatic
     fun onReparent(from: Activity?, to: Activity, photoCropView: PhotoCropView?, containerView: View?) {
         if (!isEnabled()) return
-        log("reparent from=$from to=$to ${describe(photoCropView, containerView)}")
+        log("reparent from=$from finishing=${from?.isFinishing} destroyed=${from?.isDestroyed} to=$to ${describe(photoCropView, containerView)}")
+        if (photoCropView != null) {
+            Toast.makeText(ApplicationLoader.applicationContext, "InuCrop: crop view orphaned, check logs", Toast.LENGTH_LONG).show()
+        }
     }
 
     @JvmStatic

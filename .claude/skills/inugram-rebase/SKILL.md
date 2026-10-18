@@ -189,7 +189,7 @@ done and what to re-check.
 
 ## End of rebase
 
-`stg push -a` exits 0 with no conflict when done. Then run **all seven** checks —
+`stg push -a` exits 0 with no conflict when done. Then run **all eight** checks —
 a rebase is not finished until they pass.
 
 ### 1. Stack fully applied, no leftovers
@@ -279,7 +279,24 @@ For each option not in either set, read its `processSelectedOption` case. Add it
 the server; if it does and should work on real entries, route it to `realId` and add
 it to `REAL_MESSAGE_OPTIONS`; otherwise leave it out. Log the ones left out to `TODO.md`.
 
-### 7. The app actually builds
+### 7. Forced SQLite indexes still exist
+
+`bugfix__storage-query-plans` and `bugfix__keep-history-on-channel-too-long` pin
+stock queries to specific indexes with `INDEXED BY`, because SQLite (no `ANALYZE`
+stats) picks full-dialog scans for them.
+If upstream renames or drops one of those indexes, the statement fails at prepare
+time and `checkSQLException` swallows it, so the query silently does nothing.
+
+```bash
+.claude/skills/inugram-rebase/scripts/forced-indexes.sh
+```
+
+Any output is a broken hint: point it at the index that replaced it, or drop the
+hint if none fits. When upstream changes the columns of a hinted index (or of the
+statement), recheck that the hint is still a win: it only helps when the index
+seeks to the rows the statement touches instead of scanning the dialog.
+
+### 8. The app actually builds
 
 Compile errors are the main thing a marker-free resolution still gets wrong:
 upstream renames a class, moves a package, or changes a signature, and both the

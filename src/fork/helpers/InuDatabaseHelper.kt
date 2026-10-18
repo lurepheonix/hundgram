@@ -5,6 +5,8 @@ import org.telegram.SQLite.SQLiteDatabase
 import org.telegram.messenger.MessagesStorage
 
 object InuDatabaseHelper {
+    private const val VERSION = 2
+
     @JvmStatic
     fun migrate(messagesStorage: MessagesStorage) {
         val db = messagesStorage.database;
@@ -13,12 +15,23 @@ object InuDatabaseHelper {
             .stepThis().dispose();
         var version = readKv(db, "version")?.toInt() ?: 0;
         Log.d("InuDatabaseHelper", "migrating from version $version")
+        if (version < VERSION) messagesStorage.inu_startDatabaseMigration()
 
         if (version == 0) {
             db.executeFast("CREATE TABLE IF NOT EXISTS inu_folder_meta(filter_id INTEGER PRIMARY KEY, emoticon TEXT)")
                 .stepThis().dispose();
             writeKv(db, "version", "1")
             version = 1
+        }
+
+        // fixup broken holes caused by older phantom-peek-dialogs.patch
+        if (version == 1) {
+            for (table in listOf("messages_v2", "messages_holes", "media_v4", "media_holes_v2", "media_counts_v2")) {
+                db.executeFast("DELETE FROM $table WHERE uid NOT IN (SELECT did FROM dialogs WHERE folder_id >= 0)")
+                    .stepThis().dispose();
+            }
+            writeKv(db, "version", "2")
+            version = 2
         }
 
         Log.d("InuDatabaseHelper", "migrating finished, new version = $version")

@@ -16,7 +16,7 @@ import org.telegram.ui.Stories.recorder.DualCameraView
 
 class ChatsSettingsActivity : SettingsPageActivity() {
 
-    override fun getTitle(): CharSequence = LocaleController.getString(R.string.Chats)
+    override fun getTitle(): CharSequence = LocaleController.getString(R.string.MainTabsChats)
 
     override fun onResume() {
         super.onResume()
@@ -450,7 +450,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
         @JvmField
         val PAGE = SearchRegistry.Page(
             slug = "chats",
-            titleRes = R.string.Chats,
+            titleRes = R.string.MainTabsChats,
             iconRes = R.drawable.msg_discussion,
             factory = ::ChatsSettingsActivity,
             entries = listOf(

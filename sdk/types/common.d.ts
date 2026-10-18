@@ -32,6 +32,17 @@ declare type MismatchedRpcReturns<M extends tl.TypeRpcMethod['_'], All extends t
 declare type SharedRpcReturn<M extends tl.TypeRpcMethod['_']>
   = [MismatchedRpcReturns<M>] extends [never] ? tl.RpcCallReturn[M] : never
 
+declare interface InvokeRpcOptions {
+  /**
+   * Apply the result to the app, as if the app had sent the request: new messages, edits, deletions
+   * and the update state. Covers an `Updates` result, and the `messages.affectedMessages` of deleting
+   * messages and reading their contents. Update handlers of every plugin see them, like any other
+   * update. Without it, or for other results, the app only learns about the changes from its next
+   * sync. Defaults to `true`.
+   */
+  processUpdates?: boolean
+}
+
 declare interface InterceptRpcOptions {
   /** Fail the app's RPC when the middleware returns an invalid TL value. The default logs and skips that middleware. */
   strict?: boolean
@@ -486,10 +497,55 @@ declare namespace inu {
       asDocument?: boolean
     }): Promise<LocalMedia>
 
-    /** @needs-grant account.read(peers) */
-    getUserFull(peer: InputPeerLike): Promise<tl.TypeUserFull | null>
-    /** @needs-grant account.read(peers) */
-    getChatFull(peer: InputPeerLike): Promise<tl.TypeChatFull | null>
+    /**
+     * Get the full user.
+     *
+     * Reads the app's cache (memory or database) first, otherwise asks the server.
+     *
+     * A cached result may be stale: pass `force` to always ask the server, or use
+     * {@link getUserFullCached} to skip the network.
+     *
+     * @throws if the chat itself is not cached or the peer is a chat.
+     *
+     * @needs-grant account.read(peers)
+     */
+    getUserFull(
+      peer: InputPeerLike,
+      options?: {
+        /** skip the cache and ask the server */
+        force?: boolean
+      },
+    ): Promise<tl.TypeUserFull | null>
+    /**
+     * Returns the full chat from the app's cache (memory or database), otherwise from the server.
+     * A cached result may be stale: pass `force` to always ask the server, or use
+     * {@link getChatFullCached} to skip the network.
+     *
+     * @throws if the chat itself is not cached or the peer is a user.
+     *
+     * @needs-grant account.read(peers)
+     */
+    getChatFull(
+      peer: InputPeerLike,
+      options?: {
+        /** skip the cache and ask the server */
+        force?: boolean
+      },
+    ): Promise<tl.TypeChatFull | null>
+    /**
+     * Returns the full user from the app's cache (memory or database), or `null` if missing.
+     * Never uses the network, but may block on a database read.
+     *
+     * @needs-grant account.read(peers)
+     */
+    getUserFullCached(peer: InputPeerLike): tl.TypeUserFull | null
+    /**
+     * Returns the full chat from the app's cache (memory or database), or `null` if missing
+     * or the peer is a user. Never uses the network, but may block on a database read.
+     *
+     * @needs-grant account.read(peers)
+     */
+    getChatFullCached(peer: InputPeerLike): tl.TypeChatFull | null
 
     /**
      * `fields` preloads selected fields for faster reads, as in {@link getDialogsCached}.
@@ -858,7 +914,7 @@ declare namespace inu {
      *
      * @needs-grant invokeRpc
      */
-    invokeRpc<T extends tl.TypeRpcMethod>(params: T): Promise<tl.RpcCallReturn[T['_']] | null>
+    invokeRpc<T extends tl.TypeRpcMethod>(params: T, options?: InvokeRpcOptions): Promise<tl.RpcCallReturn[T['_']] | null>
 
     /**
      * invoke a raw mtproto rpc method, given its TL serialization,
@@ -868,7 +924,7 @@ declare namespace inu {
      * for cases where you want to call a method that is not yet supported by the current
      * app's layer. beware that can cause the app to crash or otherwise misbehave,
      * due to the server "bumping" the layer. in almost all cases, you should use
-     * {@link invokeRpc} instead.
+     * {@link invokeRpc} instead. the response is never applied to the app.
      *
      * @needs-grant unsafe.invokeRaw
      */
@@ -1510,6 +1566,13 @@ declare namespace inu {
       checked: boolean
       /** Switch change (click) handler */
       onChange: (checked: boolean, anchor: UIAnchor) => void
+      /**
+       * Row body click handler
+       *
+       * When set, the row is split: tapping the body calls this,
+       * and only tapping the switch calls {@link onChange}
+       */
+      onClick?: (anchor: UIAnchor) => void
       /** Secondary tap (long tap) handler */
       onSecondaryClick?: (anchor: UIAnchor) => void
     }): UIElement
@@ -1629,7 +1692,7 @@ declare namespace inu {
    *
    * @needs-grant invokeRpc
    */
-  function invokeRpc<T extends tl.TypeRpcMethod>(params: T): Promise<tl.RpcCallReturn[T['_']] | null>
+  function invokeRpc<T extends tl.TypeRpcMethod>(params: T, options?: InvokeRpcOptions): Promise<tl.RpcCallReturn[T['_']] | null>
 
   /**
    * invoke a raw mtproto rpc method via the currently active account,
@@ -1639,7 +1702,7 @@ declare namespace inu {
    * for cases where you want to call a method that is not yet supported by the current
    * app's layer. beware that can cause the app to crash or otherwise misbehave,
    * due to the server "bumping" the layer. in almost all cases, you should use
-   * {@link invokeRpc} instead.
+   * {@link invokeRpc} instead. the response is never applied to the app.
    *
    * @needs-grant unsafe.invokeRaw
    */
@@ -1765,9 +1828,9 @@ declare namespace inu {
 
   interface ActionOptions<Ctx, GetterCtx = Ctx> {
     id: string
-    text: string | ((ctx: GetterCtx) => string)
-    icon?: UIIcon | ((ctx: GetterCtx) => UIIcon)
-    visible?: (ctx: Ctx) => boolean
+    text: string | ((ctx: GetterCtx) => MaybePromise<string>)
+    icon?: UIIcon | ((ctx: GetterCtx) => MaybePromise<UIIcon>)
+    visible?: (ctx: Ctx) => MaybePromise<boolean>
     callback: (ctx: Ctx) => void
     /** Long-tap handler */
     secondaryCallback?: (ctx: Ctx) => void
@@ -1780,6 +1843,8 @@ declare namespace inu {
 
   /**
    * Register a global action handler, shown in the drawer or the hamburger menu on the main page
+   *
+   * Getters may be async. Rows whose getters have not settled within the render budget are not shown.
    *
    * **Limits: 150 ms to render plugin actions, 8 rows per menu per plugin.**
    */

@@ -52,7 +52,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -12088,6 +12088,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -12096,6 +12096,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          final boolean onlyMyselfFinal = onlyMyself;
  
          ItemOptions.makeOptions(this, view)
