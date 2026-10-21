@@ -259,7 +259,7 @@ index 0000000..0000000 100644
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java
 @@ -53,6 +53,8 @@ import org.telegram.ui.Stories.recorder.FlashViews;
  import desu.inugram.helpers.chat.VoiceRecorderHelper;
- import org.telegram.utils.camera.roundvideo.RoundVideoSession;
+ import org.telegram.utils.recorder.round.RoundVideoSession;
  
 +import desu.inugram.helpers.chat.RoundRecorderHelper;
 +

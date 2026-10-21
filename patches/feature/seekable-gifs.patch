@@ -72,7 +72,7 @@ index 0000000..0000000 100644
                          object.imageReceiver.setAllowStartAnimation(false);
                          object.imageReceiver.stopAnimation();
                          if (MediaController.getInstance().isPlayingMessage(messageObject)) {
-@@ -19533,6 +19540,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -19569,6 +19576,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          }
          playerAutoStarted = false;
          setImageIndex(currentIndex + add, init, true);
@@ -82,7 +82,7 @@ index 0000000..0000000 100644
          if (shouldMessageObjectAutoPlayed(currentMessageObject) || shouldIndexAutoPlayed(currentIndex)) {
              playerAutoStarted = true;
              onActionClick(true);
-@@ -19551,6 +19561,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -19587,6 +19597,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
      }
  
      private boolean shouldMessageObjectAutoPlayed(MessageObject messageObject) {

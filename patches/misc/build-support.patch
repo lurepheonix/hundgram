@@ -4,27 +4,27 @@ Date: Sat, 26 Sep 2026 21:53:56 +0400
 Subject: build support stuff for fork-specific code: - added kotlin - bumped min sdk to 26, removed desugaring - versioning
 
 ---
- .gitmodules                                   |    3 +
- TMessagesProj/build.gradle                    |  193 ++++++++----
- TMessagesProj/google-services.json            |   76 +----
- TMessagesProj/jni/CMakeLists.txt              |    3 +
- TMessagesProj/jni/exports.map                 |    1 +
- TMessagesProj/proguard-rules.pro              |   15 +
- TMessagesProj/src/main/AndroidManifest.xml    |    7 +
- .../org/telegram/messenger/BuildVars.java     |   12 +
- .../telegram/tgnet/ConnectionsManager.java    |    2 -
- .../org/telegram/ui/PaymentFormActivity.java  |   28 +-
- .../org/telegram/ui/SettingsActivity.java     |   24 -
- TMessagesProj_App/build.gradle                |  225 +++++++++-----
- TMessagesProj_App/google-services.json        |   76 +----
- TMessagesProj_App/jni/CMakeLists.txt          |   10 +
- TMessagesProj_App/jni/lsplant                 |    1 +
- TMessagesProj_AppTests/build.gradle           |    5 -
- build.gradle                                  |   19 +
- .../telegram/plugin/TelegramBuildAppPlugin.kt |    4 +
- .../org/telegram/tasks/TelegramStringsTask.kt |    2 -
- gradle.properties                             |    2 -
- settings.gradle                               |   40 ++
+ .gitmodules                                   |   3 +
+ TMessagesProj/build.gradle                    | 193 +++++++++------
+ TMessagesProj/google-services.json            |  76 +-----
+ TMessagesProj/jni/CMakeLists.txt              |   3 +
+ TMessagesProj/jni/exports.map                 |   1 +
+ TMessagesProj/proguard-rules.pro              |  15 ++
+ TMessagesProj/src/main/AndroidManifest.xml    |   7 +
+ .../org/telegram/messenger/BuildVars.java     |  12 +-
+ .../telegram/tgnet/ConnectionsManager.java    |   2 +-
+ .../org/telegram/ui/PaymentFormActivity.java  |  28 +--
+ .../org/telegram/ui/SettingsActivity.java     |  24 +-
+ TMessagesProj_App/build.gradle                | 225 +++++++++++-------
+ TMessagesProj_App/google-services.json        |  76 +-----
+ TMessagesProj_App/jni/CMakeLists.txt          |  10 +
+ TMessagesProj_App/jni/lsplant                 |   1 +
+ TMessagesProj_AppTests/build.gradle           |   5 +-
+ build.gradle                                  |  19 +-
+ .../telegram/plugin/TelegramBuildAppPlugin.kt |   4 +
+ .../org/telegram/tasks/TelegramStringsTask.kt |   2 +-
+ gradle.properties                             |   2 +-
+ settings.gradle                               |  40 +++-
  21 files changed, 416 insertions(+), 332 deletions(-)
  create mode 100644 TMessagesProj_App/jni/CMakeLists.txt
  create mode 160000 TMessagesProj_App/jni/lsplant

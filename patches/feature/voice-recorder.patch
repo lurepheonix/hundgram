@@ -339,7 +339,7 @@ index 0000000..0000000 100644
  import org.telegram.ui.Components.voip.CellFlickerDrawable;
  import org.telegram.ui.Stories.recorder.FlashViews;
 +import desu.inugram.helpers.chat.VoiceRecorderHelper;
- import org.telegram.utils.camera.roundvideo.RoundVideoSession;
+ import org.telegram.utils.recorder.round.RoundVideoSession;
  
  import java.io.File;
 @@ -381,7 +382,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {

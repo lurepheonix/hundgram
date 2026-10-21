@@ -5,9 +5,9 @@ Subject: feature: mirror front video message preview and file behind toggle
 
 ---
  .../telegram/ui/Components/InstantCameraView.java | 12 ++++++++++--
- .../roundvideo/RoundVideoCameraController.java    | 15 +++++++++++++--
- .../camera/roundvideo/RoundVideoGlProcessor.java  |  9 +++++++++
- .../roundvideo/RoundVideoOverlayRenderer.java     | 14 ++++++++++++--
+ .../round/RoundVideoCameraController.java         | 15 +++++++++++++--
+ .../recorder/round/RoundVideoGlProcessor.java     |  9 +++++++++
+ .../recorder/round/RoundVideoOverlayRenderer.java | 14 ++++++++++++--
  4 files changed, 44 insertions(+), 6 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java
@@ -40,10 +40,10 @@ index 0000000..0000000 100644
  
              GLES20.glUniform2f(resolutionHandle, videoWidth, videoHeight);
  
-diff --git a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
 index 0000000..0000000 100644
---- a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java
-+++ b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoCameraController.java
+--- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
 @@ -30,6 +30,8 @@ import androidx.annotation.NonNull;
  import androidx.annotation.Nullable;
  import androidx.core.content.ContextCompat;
@@ -87,10 +87,10 @@ index 0000000..0000000 100644
          previewView.setTransform(matrix);
          diagnostics.log("preview transform: view=" + previewView.getWidth() + "x"
                  + previewView.getHeight()
-diff --git a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java
 index 0000000..0000000 100644
---- a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java
-+++ b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoGlProcessor.java
+--- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java
 @@ -14,6 +14,8 @@ import android.view.Surface;
  import androidx.annotation.NonNull;
  import androidx.annotation.Nullable;
@@ -135,10 +135,10 @@ index 0000000..0000000 100644
              long timestamp = surfaceTexture.getTimestamp();
              inputFrames++;
              long inputCount;
-diff --git a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
 index 0000000..0000000 100644
---- a/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java
-+++ b/TMessagesProj/src/main/java/org/telegram/utils/camera/roundvideo/RoundVideoOverlayRenderer.java
+--- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
 @@ -255,6 +255,8 @@ final class RoundVideoOverlayRenderer {
      private final Program watermarkProgram;
      private final FloatBuffer vertexBuffer;

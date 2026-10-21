@@ -14,7 +14,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
-@@ -2608,6 +2608,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+@@ -2631,6 +2631,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                          voiceMessagesPlaylistMap = null;
                      }
                  }

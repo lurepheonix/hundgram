@@ -103,7 +103,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaL
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java
-@@ -5977,13 +5977,20 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
+@@ -5978,13 +5978,20 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
              if (inu_additionalOffset != 0) {
                  if (Math.abs(velX) > 1500) {
                      backAnimation = animatingForward ? velX > 0 : velX < 0;
@@ -129,7 +129,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -1505,14 +1505,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -1506,14 +1506,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                  if (Math.abs(velX) > 1500) {
                                      backAnimation = animatingForward ? velX > 0 : velX < 0;
                                  } else {
@@ -153,7 +153,7 @@ index 0000000..0000000 100644
                              }
                          }
                          float dx;
-@@ -2731,7 +2738,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -2732,7 +2739,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
  
          @Override
          public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
@@ -166,7 +166,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -19432,7 +19432,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -19468,7 +19468,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                  zooming = false;
                  moving = false;
              } else if (draggingDown) {
