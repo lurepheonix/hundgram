@@ -110,35 +110,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
         items.add(UItem.asShadow(null))
         // end chat list section
 
-        // bottom tabs section
-        items.add(UItem.asHeader(LocaleController.getString(R.string.InuBottomTabs)))
-        items.add(
-            mkTwoLineCheckItem(
-                TOGGLE_BOTTOM_TABS_HIDE,
-                R.string.InuBottomTabsHide,
-                R.string.InuBottomTabsHideInfo,
-                InuConfig.BOTTOM_TABS_HIDE.value
-            )
-        )
-        if (!InuConfig.BOTTOM_TABS_HIDE.value) {
-            items.add(
-                UItem.asCheck(
-                    TOGGLE_HIDE_CONTACTS_TAB,
-                    LocaleController.getString(R.string.InuHideContactsTab),
-                ).setChecked(InuConfig.BOTTOM_TABS_HIDE_CONTACTS.value)
-            )
-            items.add(
-                mkTwoLineCheckItem(
-                    TOGGLE_COMPACT_MODE,
-                    R.string.InuCompactMode,
-                    R.string.InuCompactModeInfo,
-                    InuConfig.BOTTOM_TABS_COMPACT_MODE.value
-                )
-            )
-        }
-        items.add(UItem.asShadow(null))
-        // end bottom tabs section
-
         // fab section
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuDialogsFab)))
         val mainAction = DialogsFabHelper.Action.fromValue(InuConfig.DIALOGS_FAB_MAIN_ACTION.value)
@@ -251,32 +222,13 @@ class DialogsSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
-            TOGGLE_BOTTOM_TABS_HIDE -> {
-                val new = InuConfig.BOTTOM_TABS_HIDE.toggle()
-                (view as? NotificationsCheckCell)?.isChecked = new
-                listView.adapter.update(true)
-                softRebuild()
-            }
-
-            TOGGLE_HIDE_CONTACTS_TAB -> {
-                val new = InuConfig.BOTTOM_TABS_HIDE_CONTACTS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                showRestartBulletin()
-            }
-
-            TOGGLE_COMPACT_MODE -> {
-                val new = InuConfig.BOTTOM_TABS_COMPACT_MODE.toggle()
-                (view as? NotificationsCheckCell)?.isChecked = new
-                softRebuild()
-            }
-
             BUTTON_TITLE_TEXT -> RadioItemOptions.show(
                 this, view,
                 listOf(
                     LocaleController.getString(R.string.AppName),
                     LocaleController.getString(R.string.Username),
                     LocaleController.getString(R.string.FirstNameSmall),
-                    LocaleController.getString(R.string.Chats),
+                    LocaleController.getString(R.string.FilterChats),
                 ),
                 InuConfig.DIALOGS_TITLE_TEXT.value - 1,
             ) { which ->
@@ -392,9 +344,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
         private val BUTTON_PULL_DOWN_ACTION = InuUtils.generateId()
         private val TOGGLE_DISABLE_SWIPE_TO_UNARCHIVE = InuUtils.generateId()
         private val TOGGLE_DISABLE_SWIPE_TO_HIDE_GENERAL_TOPIC = InuUtils.generateId()
-        private val TOGGLE_BOTTOM_TABS_HIDE = InuUtils.generateId()
-        private val TOGGLE_HIDE_CONTACTS_TAB = InuUtils.generateId()
-        private val TOGGLE_COMPACT_MODE = InuUtils.generateId()
         private val BUTTON_FAB_MAIN_ACTION = InuUtils.generateId()
         private val BUTTON_FAB_SECONDARY_ACTION = InuUtils.generateId()
         private val TOGGLE_FAB_HIDE_ON_SCROLL = InuUtils.generateId()
@@ -408,7 +357,7 @@ class DialogsSettingsActivity : SettingsPageActivity() {
         private fun titleTextLabel(value: Int): String = when (value) {
             InuConfig.DialogsTitleTextItem.USERNAME -> LocaleController.getString(R.string.Username)
             InuConfig.DialogsTitleTextItem.FIRST_NAME -> LocaleController.getString(R.string.FirstNameSmall)
-            InuConfig.DialogsTitleTextItem.CHATS -> LocaleController.getString(R.string.Chats)
+            InuConfig.DialogsTitleTextItem.CHATS -> LocaleController.getString(R.string.FilterChats)
             else -> LocaleController.getString(R.string.AppName)
         }
 
@@ -444,9 +393,6 @@ class DialogsSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("hide-bot-webview-dialogs", R.string.InuHideBotWebView, TOGGLE_BOT_WEBVIEW_BUTTON),
                 SearchRegistry.Entry("disable-chat-preview-expand", R.string.InuDisableChatPreviewExpand, TOGGLE_INTERACTIVE_CHAT_PREVIEW),
                 SearchRegistry.Entry("community-display-mode", R.string.InuCommunityDisplayMode, BUTTON_COMMUNITY_DISPLAY_MODE),
-                SearchRegistry.Entry("bottom-tabs-hide", R.string.InuBottomTabsHide, TOGGLE_BOTTOM_TABS_HIDE),
-                SearchRegistry.Entry("hide-contacts-tab", R.string.InuHideContactsTab, TOGGLE_HIDE_CONTACTS_TAB),
-                SearchRegistry.Entry("compact-mode", R.string.InuCompactMode, TOGGLE_COMPACT_MODE),
                 SearchRegistry.Entry("dialogs-fab-main-action", R.string.InuDialogsFabMainAction, BUTTON_FAB_MAIN_ACTION),
                 SearchRegistry.Entry("dialogs-fab-secondary-action", R.string.InuDialogsFabSecondaryAction, BUTTON_FAB_SECONDARY_ACTION),
                 SearchRegistry.Entry("dialogs-fab-hide-on-scroll", R.string.InuDialogsFabHideOnScroll, TOGGLE_FAB_HIDE_ON_SCROLL),

@@ -11,6 +11,7 @@
     <string name="InuBehavior">動作</string>
     <string name="InuShorterSwipeGestures">短めのスワイプ操作</string>
     <string name="InuShorterSwipeGesturesInfo">一般的なスワイプ操作を完了するのに必要な距離を短くします。</string>
+    <string name="InuAnimatedAvatars">アニメーションアバター</string>
     <string name="InuPerformanceClass">パフォーマンスクラス</string>
     <string name="InuPerformanceClassInfo">この設定の変更はおすすめしません。低性能な端末ではパフォーマンスが大きく低下する可能性があります</string>
     <string name="InuPerformanceClassMeasured">実測値</string>
@@ -96,8 +97,7 @@
     <string name="InuDisableOverscrollStoryInfo">ダイアログリストを下にスワイプしてもストーリーが開かなくなります</string>
     <string name="InuHideTrendingStickers">人気のスタンプを非表示</string>
     <string name="InuBottomTabs">下部タブ</string>
-    <string name="InuBottomTabsHide">下部タブを非表示</string>
-    <string name="InuBottomTabsHideInfo">項目はメイン画面のハンバーガーメニューに移動します</string>
+    <string name="InuNavigation">ナビゲーション</string>
     <string name="InuHideContactsTab">連絡先タブを非表示</string>
     <string name="InuCompactMode">コンパクトモード</string>
     <string name="InuCompactModeInfo">タイトルを非表示にし、タブを小さくします</string>
@@ -155,6 +155,7 @@
     <string name="InuReduceProfileMotion">プロフィールのアニメーションを軽減</string>
     <string name="InuProfilePreferMediaTab">「メディア」タブを優先</string>
     <string name="InuProfilePreferMediaTabInfo">…ギフトや投稿タブの代わりに</string>
+    <string name="InuShowProfileGiftButton">「ギフト」アクションボタンを表示</string>
     <string name="InuDisableMotionPhotos">モーションフォトを無効化</string>
     <string name="InuDisableMotionPhotosInfo">ピッカーとメッセージでモーションフォトを検出・表示しない</string>
     <string name="InuChatAlwaysShowDown">常に「最下部へ」を表示</string>
@@ -362,6 +363,7 @@
     <string name="InuProfilePhotoGradientFade">プロフィール写真のぼかしを無効化</string>
 
     <string name="InuNonIslandUI">クラシック UI</string>
+    <string name="InuInterfaceStyle">インターフェーススタイル</string>
     <string name="InuAnimationSpeed">アニメーション速度</string>
     <string name="InuAnimationSpeedInstant">瞬時</string>
     <string name="InuAnimationSpeedInfo">注：スプリングベースのアニメーション（ボトムシート、ポップアップ、一部の遷移）と一部のアニメーションは影響を受けません。</string>
@@ -389,6 +391,7 @@
     <string name="InuWebPreviewReplacements">ウェブプレビューの置換</string>
     <string name="InuWebPreviewEnabled">置換を有効化</string>
     <string name="InuWebPreviewReplacementsInfo">ウェブプレビュー取得時に URL に適用される正規表現の置換。長押しで削除。</string>
+    <string name="InuWebPreviewReplaceOnPaste">貼り付け時に置換</string>
     <string name="InuWebPreviewAdd">置換を追加</string>
     <string name="InuWebPreviewEdit">置換を編集</string>
     <string name="InuWebPreviewReset">デフォルトに戻す</string>
@@ -655,7 +658,7 @@
     <string name="InuSendToDiscussWithoutJoin">ディスカッショングループに参加せずに書き込む</string>
     <string name="InuSendToDiscussWithoutJoinInfo">ディスカッショングループのクライアント側メンバーシップチェックをスキップします</string>
     <string name="InuNavigationDrawer">ナビゲーションドロワー</string>
-    <string name="InuNavigationDrawerInfo">12.0 以前のハンバーガーサイドドロワーを復活させます。再起動が必要です。</string>
+    <string name="InuNavigationDrawerInfo">12.0 以前のハンバーガーサイドドロワーを復活させます。</string>
     <string name="InuDrawerBackGesture">戻るジェスチャーでドロワーを開く</string>
     <string name="InuDrawerBackGestureInfo">チャットリストの左端から戻るスワイプをすると、アプリを終了せずにドロワーを開きます。</string>
     <string name="InuMaterial3">Material Design 3</string>
@@ -736,6 +739,11 @@
     <string name="InuChatMenuItems">項目</string>
     <string name="InuChatMenuOrderInfo">チャットの 3 点メニューの項目を並べ替えたり非表示にできます。ハンドルをドラッグして並べ替え、スイッチで非表示を切り替えます。</string>
     <string name="InuChatMenuReset">デフォルトに戻す</string>
+    <string name="InuDrawerMenuOrder">項目をカスタマイズ</string>
+    <string name="InuDrawerMenuItems">項目</string>
+    <string name="InuDrawerMenuReset">デフォルトに戻す</string>
+    <string name="InuDrawerMenuMiniApps">ミニアプリ</string>
+    <string name="InuDrawerMenuDivider">区切り線</string>
     <string name="InuGoToMessage">メッセージへ移動</string>
     <string name="InuGoToMessagePrompt">メッセージ ID</string>
     <string name="InuParanoiaHideFolders">フォルダーを隠す</string>
@@ -805,6 +813,8 @@
 
     <string name="InuStripTrackingParamsOnOpen">リンクを開くとき</string>
     <string name="InuStripTrackingParamsOnPaste">貼り付け時</string>
+    <string name="InuResolveTrackableRedirects">追跡可能なリダイレクトを展開</string>
+    <string name="InuResolveTrackableRedirectsInfo">一部の共有リンク（vt.tiktok.com/… など）を貼り付け時や開く時に展開します。\nリンク先のサーバーに接続します</string>
     <string name="InuStripTrackingParamsSourceRow">フィルターソース</string>
 
     <string name="InuSimulateOom">OOM クラッシュをシミュレート</string>
@@ -862,10 +872,29 @@
     <string name="InuPluginsEnabled">有効</string>
     <string name="InuPluginsEmpty">プラグインがインストールされていません</string>
     <string name="InuPluginsLoadFromDisk">ファイルから読み込む</string>
+    <string name="InuPluginRepos">リポジトリ</string>
+    <string name="InuPluginReposInfo">リポジトリとは、プラグインファイルが投稿される Telegram チャンネルです。リポジトリからインストールしたプラグインはそこから更新を受け取ります。</string>
+    <string name="InuPluginReposAdd">リポジトリを追加</string>
+    <string name="InuPluginReposOpenChannel">チャンネルを開く</string>
+    <string name="InuPluginReposUpdates">アップデート</string>
+    <string name="InuPluginReposChecking">アップデートを確認中…</string>
+    <string name="InuPluginReposCheckFailed">一部のリポジトリのアップデートを確認できませんでした</string>
+    <string name="InuPluginReposUpToDate">アップデートはありません</string>
+    <string name="InuPluginReposErrorLink">チャンネルのユーザー名またはリンクを入力してください</string>
+    <string name="InuPluginReposErrorNotChannel">公開チャンネルではありません</string>
+    <string name="InuPluginReposErrorExists">このリポジトリは既に追加されています</string>
+    <string name="InuPluginRepoEmpty">このリポジトリにはプラグインがありません</string>
+    <string name="InuPluginRepoErrorLoad">リポジトリを読み込めませんでした</string>
+    <string name="InuPluginRepoErrorDownload">プラグインをダウンロードできませんでした</string>
+    <string name="InuPluginRepoRetry">再試行</string>
+    <string name="InuPluginRepoUpdate">アップデート</string>
     <string name="InuPluginsCompactView">コンパクト表示</string>
     <string name="InuPluginsNormalView">通常表示</string>
     <string name="InuPluginsReload">再読み込み</string>
     <string name="InuPluginsViewSource">ソースコードを表示</string>
+    <string name="InuPluginAssets">同梱ファイル</string>
+    <string name="InuPluginAssetsCount_other">%1$d 個のファイル</string>
+    <string name="InuPluginsMemoryUsage">メモリ使用量</string>
     <string name="InuPluginSourceTitle">ソースコード</string>
     <string name="InuPluginsRemove">削除</string>
     <string name="InuPluginsRemoveTitle">%s を削除</string>
@@ -877,6 +906,7 @@
     <string name="InuPluginsPermissions">権限</string>
     <string name="InuPluginsPermissionsNone">このプラグインは権限を要求しません</string>
     <string name="InuPluginGrantFs">ファイルストレージ</string>
+    <string name="InuPluginGrantSqlite">データベース</string>
     <string name="InuPluginGrantClipboardWrite">クリップボードへの書き込み</string>
     <string name="InuPluginGrantOpenUrl">リンクを開く</string>
     <string name="InuPluginGrantAppVisibility">アプリの表示状態を監視</string>
@@ -991,6 +1021,7 @@
     <string name="InuPluginsErrorApiVersion">新しい Inugram が必要です（プラグイン API %1$d、このアプリは %2$d）</string>
     <string name="InuPluginsErrorPlatform">このプラットフォーム用ではありません（%1$s が必要）</string>
     <string name="InuPluginsErrorBadGrant">無効な権限が要求されました（%1$s）</string>
+    <string name="InuPluginsErrorBadAssets">無効な同梱ファイル（%1$s）</string>
     <string name="InuPluginsErrorUnconsentedGrants">インストール時に確認されていない権限を要求しています（%1$s）。確認するにはプラグインを更新してください</string>
     <string name="InuPluginsFailedAtLoad">読み込みエラー</string>
     <string name="InuPluginsFailedAtRuntime">実行時エラー</string>

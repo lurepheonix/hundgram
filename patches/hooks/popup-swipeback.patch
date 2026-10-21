@@ -60,7 +60,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatScrimPop
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatScrimPopupContainerLayout.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatScrimPopupContainerLayout.java
-@@ -126,7 +126,8 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
+@@ -127,7 +127,8 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
      }
  
      private void updatePopupTranslation() {

@@ -7,6 +7,7 @@ import desu.inugram.InuConfig
 import desu.inugram.InuHooks
 import desu.inugram.SearchRegistry
 import desu.inugram.helpers.InuUtils
+import desu.inugram.helpers.dialogs.DrawerHelper
 import desu.inugram.helpers.theme.MonetHelper
 import desu.inugram.ui.settings.fonts.FontsSettingsActivity
 import org.telegram.messenger.LocaleController
@@ -19,6 +20,34 @@ import org.telegram.ui.Components.UniversalAdapter
 class AppearanceSettingsActivity : SettingsPageActivity() {
 
     private var animationSpeedSlider: SliderCell? = null
+
+    private val material3Group = ExpandableBoolGroup(
+        LocaleController.getString(R.string.InuMaterial3),
+        listOf(
+            ExpandableBoolGroup.Option(R.string.InuMaterial3Switches, InuConfig.MATERIAL3_SWITCHES, TOGGLE_MATERIAL3_SWITCHES),
+            ExpandableBoolGroup.Option(R.string.InuMaterial3Sliders, InuConfig.MATERIAL3_SLIDERS, TOGGLE_MATERIAL3_SLIDERS),
+            ExpandableBoolGroup.Option(R.string.InuMaterial3Fabs, InuConfig.MATERIAL3_FABS, TOGGLE_MATERIAL3_FABS),
+            ExpandableBoolGroup.Option(R.string.InuMaterial3Sections, InuConfig.M3_SECTIONS_STYLE, TOGGLE_M3_SECTIONS_STYLE),
+            ExpandableBoolGroup.Option(R.string.InuMaterial3Avatars, InuConfig.MATERIAL3_AVATARS, TOGGLE_MATERIAL3_AVATARS),
+            ExpandableBoolGroup.Option(R.string.InuMaterial3BottomTabs, InuConfig.M3_BOTTOM_TABS, TOGGLE_M3_BOTTOM_TABS),
+            ExpandableBoolGroup.Option(R.string.InuMaterialProfileActions, InuConfig.MATERIAL_PROFILE_ACTIONS, TOGGLE_MATERIAL_PROFILE_ACTIONS),
+            ExpandableBoolGroup.Option(R.string.InuMaterial3NavigationAnimation, InuConfig.M3_NAVIGATION_ANIMATION, TOGGLE_M3_NAVIGATION_ANIMATION),
+        ),
+    )
+
+    private val classicUiGroup = ExpandableBoolGroup(
+        LocaleController.getString(R.string.InuNonIslandUI),
+        listOf(
+            ExpandableBoolGroup.Option(R.string.InuNonIslandFoldersBar, InuConfig.NON_ISLAND_FOLDERS_BAR, TOGGLE_NON_ISLAND_FOLDERS_BAR),
+            ExpandableBoolGroup.Option(R.string.InuNonIslandSharedMediaTabs, InuConfig.NON_ISLAND_SHARED_MEDIA_TABS, TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS),
+            ExpandableBoolGroup.Option(R.string.InuNonIslandGlobalSearch, InuConfig.NON_ISLAND_GLOBAL_SEARCH, TOGGLE_NON_ISLAND_GLOBAL_SEARCH),
+            ExpandableBoolGroup.Option(R.string.InuNonIslandChatElements, InuConfig.NON_ISLAND_CHAT_ELEMENTS, TOGGLE_NON_ISLAND_CHAT_ELEMENTS),
+            ExpandableBoolGroup.Option(R.string.InuHideFadeView, InuConfig.HIDE_FADE_VIEW, TOGGLE_HIDE_FADE_VIEW),
+            ExpandableBoolGroup.Option(R.string.InuDisableGlassGlare, InuConfig.DISABLE_GLASS_GLARE, TOGGLE_DISABLE_GLASS_GLARE),
+        ),
+    )
+
+    override val expandableGroups = listOf(material3Group, classicUiGroup)
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuLookAndFeel)
 
@@ -49,44 +78,57 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         )
         items.add(UItem.asShadow(null))
 
-        items.add(UItem.asHeader(addExperimentalSpan(LocaleController.getString(R.string.InuMaterial3))))
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuNavigation)))
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_NAVIGATION_DRAWER,
+                R.string.InuNavigationDrawer,
+                R.string.InuNavigationDrawerInfo,
+                InuConfig.NAVIGATION_DRAWER.value,
+            )
+        )
+        if (InuConfig.NAVIGATION_DRAWER.value) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                items.add(
+                    mkTwoLineCheckItem(
+                        TOGGLE_DRAWER_BACK_GESTURE,
+                        R.string.InuDrawerBackGesture,
+                        R.string.InuDrawerBackGestureInfo,
+                        InuConfig.DRAWER_BACK_GESTURE.value,
+                    )
+                )
+            }
+            items.add(mkSubPageButton(BUTTON_DRAWER_MENU_ORDER, LocaleController.getString(R.string.InuDrawerMenuOrder)))
+            items.add(UItem.asShadow(null))
+        }
         items.add(
             UItem.asCheck(
-                TOGGLE_MATERIAL3_SWITCHES,
-                LocaleController.getString(R.string.InuMaterial3Switches)
-            ).setChecked(InuConfig.MATERIAL3_SWITCHES.value)
+                TOGGLE_BOTTOM_TABS,
+                LocaleController.getString(R.string.InuBottomTabs),
+            ).setChecked(!InuConfig.BOTTOM_TABS_HIDE.value)
         )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_MATERIAL3_SLIDERS,
-                LocaleController.getString(R.string.InuMaterial3Sliders)
-            ).setChecked(InuConfig.MATERIAL3_SLIDERS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_MATERIAL3_FABS,
-                LocaleController.getString(R.string.InuMaterial3Fabs)
-            ).setChecked(InuConfig.MATERIAL3_FABS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_M3_SECTIONS_STYLE,
-                LocaleController.getString(R.string.InuMaterial3Sections)
-            ).setChecked(InuConfig.M3_SECTIONS_STYLE.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_MATERIAL3_AVATARS,
-                LocaleController.getString(R.string.InuMaterial3Avatars)
-            ).setChecked(InuConfig.MATERIAL3_AVATARS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_M3_BOTTOM_TABS,
-                LocaleController.getString(R.string.InuMaterial3BottomTabs)
-            ).setChecked(InuConfig.M3_BOTTOM_TABS.value)
-        )
-        if (InuConfig.M3_BOTTOM_TABS.value) {
+        if (!InuConfig.BOTTOM_TABS_HIDE.value) {
+            items.add(
+                UItem.asCheck(
+                    TOGGLE_HIDE_CONTACTS_TAB,
+                    LocaleController.getString(R.string.InuHideContactsTab),
+                ).setChecked(InuConfig.BOTTOM_TABS_HIDE_CONTACTS.value)
+            )
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_COMPACT_MODE,
+                    R.string.InuCompactMode,
+                    R.string.InuCompactModeInfo,
+                    InuConfig.BOTTOM_TABS_COMPACT_MODE.value,
+                )
+            )
+        }
+        items.add(UItem.asShadow(null))
+
+        items.add(UItem.asHeader(addExperimentalSpan(LocaleController.getString(R.string.InuInterfaceStyle))))
+        material3Group.addTo(items, ::applyStyleChanges)
+        classicUiGroup.addTo(items, ::applyStyleChanges)
+        if (material3Group.expanded && InuConfig.M3_BOTTOM_TABS.value) {
             items.add(
                 mkTwoLineCheckItem(
                     TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR,
@@ -97,16 +139,12 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             )
         }
         items.add(
-            UItem.asCheck(
-                TOGGLE_MATERIAL_PROFILE_ACTIONS,
-                LocaleController.getString(R.string.InuMaterialProfileActions),
-            ).setChecked(InuConfig.MATERIAL_PROFILE_ACTIONS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_M3_NAVIGATION_ANIMATION,
-                LocaleController.getString(R.string.InuMaterial3NavigationAnimation),
-            ).setChecked(InuConfig.M3_NAVIGATION_ANIMATION.value)
+            mkTwoLineCheckItem(
+                TOGGLE_DISABLE_SCRIM_BLUR,
+                R.string.InuDisableScrimBlur,
+                R.string.InuDisableScrimBlurInfo,
+                InuConfig.DISABLE_SCRIM_BLUR.value
+            )
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             items.add(
@@ -126,73 +164,6 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 )
             )
         }
-        items.add(UItem.asShadow(null))
-
-        items.add(
-            UItem.asHeader(addExperimentalSpan(LocaleController.getString(R.string.InuNonIslandUI)))
-        )
-        items.add(
-            mkTwoLineCheckItem(
-                TOGGLE_NAVIGATION_DRAWER,
-                R.string.InuNavigationDrawer,
-                R.string.InuNavigationDrawerInfo,
-                InuConfig.NAVIGATION_DRAWER.value,
-            )
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && InuConfig.NAVIGATION_DRAWER.value) {
-            items.add(
-                mkTwoLineCheckItem(
-                    TOGGLE_DRAWER_BACK_GESTURE,
-                    R.string.InuDrawerBackGesture,
-                    R.string.InuDrawerBackGestureInfo,
-                    InuConfig.DRAWER_BACK_GESTURE.value,
-                )
-            )
-        }
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_FOLDERS_BAR,
-                LocaleController.getString(R.string.InuNonIslandFoldersBar),
-            ).setChecked(InuConfig.NON_ISLAND_FOLDERS_BAR.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS,
-                LocaleController.getString(R.string.InuNonIslandSharedMediaTabs),
-            ).setChecked(InuConfig.NON_ISLAND_SHARED_MEDIA_TABS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_GLOBAL_SEARCH,
-                LocaleController.getString(R.string.InuNonIslandGlobalSearch),
-            ).setChecked(InuConfig.NON_ISLAND_GLOBAL_SEARCH.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_NON_ISLAND_CHAT_ELEMENTS,
-                LocaleController.getString(R.string.InuNonIslandChatElements),
-            ).setChecked(InuConfig.NON_ISLAND_CHAT_ELEMENTS.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_HIDE_FADE_VIEW,
-                LocaleController.getString(R.string.InuHideFadeView),
-            ).setChecked(InuConfig.HIDE_FADE_VIEW.value)
-        )
-        items.add(
-            UItem.asCheck(
-                TOGGLE_DISABLE_GLASS_GLARE,
-                LocaleController.getString(R.string.InuDisableGlassGlare),
-            ).setChecked(InuConfig.DISABLE_GLASS_GLARE.value)
-        )
-        items.add(
-            mkTwoLineCheckItem(
-                TOGGLE_DISABLE_SCRIM_BLUR,
-                R.string.InuDisableScrimBlur,
-                R.string.InuDisableScrimBlurInfo,
-                InuConfig.DISABLE_SCRIM_BLUR.value
-            )
-        )
         items.add(UItem.asShadow(LocaleController.getString(R.string.InuNonIslandHint)))
 
         if (animationSpeedSlider == null) animationSpeedSlider = SliderCell(
@@ -232,14 +203,20 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         items.add(UItem.asShadow(LocaleController.getString(R.string.InuAnimationSpeedInfo)))
     }
 
-    override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
-        when (item.id) {
-            TOGGLE_HIDE_FADE_VIEW -> {
-                val new = InuConfig.HIDE_FADE_VIEW.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-            }
+    private fun applyStyleChanges(changed: List<ExpandableBoolGroup.Option>) {
+        val configs = changed.map { it.config }
+        if (InuConfig.MATERIAL3_SWITCHES in configs || InuConfig.MATERIAL3_SLIDERS in configs) invalidateVisibleRows()
+        if (configs.any { it in SOFT_REBUILD_CONFIGS }) softRebuild()
+        if (InuConfig.M3_SECTIONS_STYLE in configs) inu_rebuildSelf()
+        if (InuConfig.M3_BOTTOM_TABS in configs && !InuConfig.M3_BOTTOM_TABS.value) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
+        if (InuConfig.NON_ISLAND_CHAT_ELEMENTS in configs) InuHooks.syncChatInputRowHeight()
+        listView.adapter.update(true)
+    }
 
+    override fun onClick(item: UItem, view: View, position: Int, x: Float, y: Float) {
+        if (material3Group.handleClick(item, view) { applyStyleChanges(listOfNotNull(it)) }) return
+        if (classicUiGroup.handleClick(item, view) { applyStyleChanges(listOfNotNull(it)) }) return
+        when (item.id) {
             BUTTON_ICON_REPLACEMENT -> RadioItemOptions.show(
                 this, view,
                 listOf(
@@ -266,14 +243,11 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
             BUTTON_FONTS -> presentFragment(FontsSettingsActivity())
 
+            BUTTON_DRAWER_MENU_ORDER -> presentFragment(DrawerMenuOrderActivity())
+
             TOGGLE_DISABLE_SCRIM_BLUR -> {
                 val new = InuConfig.DISABLE_SCRIM_BLUR.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
-            }
-
-            TOGGLE_DISABLE_GLASS_GLARE -> {
-                val new = InuConfig.DISABLE_GLASS_GLARE.toggle()
-                (view as? TextCheckCell)?.isChecked = new
             }
 
             TOGGLE_REDUCE_MENU_MOTION -> {
@@ -286,66 +260,21 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
-            TOGGLE_MATERIAL3_SWITCHES -> {
-                val new = InuConfig.MATERIAL3_SWITCHES.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                invalidateVisibleRows()
-                softRebuild()
-            }
-
-            TOGGLE_MATERIAL3_SLIDERS -> {
-                val new = InuConfig.MATERIAL3_SLIDERS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                invalidateVisibleRows()
-            }
-
-            TOGGLE_MATERIAL3_FABS -> {
-                val new = InuConfig.MATERIAL3_FABS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-            }
-
-            TOGGLE_M3_SECTIONS_STYLE -> {
-                val new = InuConfig.M3_SECTIONS_STYLE.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-                inu_rebuildSelf()
-            }
-
-            TOGGLE_MATERIAL3_AVATARS -> {
-                val new = InuConfig.MATERIAL3_AVATARS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-            }
-
-            TOGGLE_M3_BOTTOM_TABS -> {
-                val new = InuConfig.M3_BOTTOM_TABS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                if (!new) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
-                listView.adapter.update(true)
-            }
-
             TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR -> {
                 val new = InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
                 softRebuild()
             }
 
-            TOGGLE_MATERIAL_PROFILE_ACTIONS -> {
-                val new = InuConfig.MATERIAL_PROFILE_ACTIONS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                softRebuild()
-            }
-
-            TOGGLE_M3_NAVIGATION_ANIMATION -> {
-                val new = InuConfig.M3_NAVIGATION_ANIMATION.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-            }
-
             TOGGLE_NAVIGATION_DRAWER -> {
                 val new = InuConfig.NAVIGATION_DRAWER.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
                 listView.adapter.update(true)
-                showRestartBulletin()
+                if (new) DrawerHelper.ensureSetup(parentLayout) else DrawerHelper.teardown(parentLayout)
+                softRebuild()
+                if (new && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && InuConfig.DRAWER_BACK_GESTURE.value) {
+                    showRestartBulletin()
+                }
             }
 
             TOGGLE_DRAWER_BACK_GESTURE -> {
@@ -354,27 +283,23 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 showRestartBulletin()
             }
 
-            TOGGLE_NON_ISLAND_FOLDERS_BAR -> {
-                val new = InuConfig.NON_ISLAND_FOLDERS_BAR.toggle()
+            TOGGLE_BOTTOM_TABS -> {
+                val new = !InuConfig.BOTTOM_TABS_HIDE.toggle()
                 (view as? TextCheckCell)?.isChecked = new
+                listView.adapter.update(true)
                 softRebuild()
             }
 
-            TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS -> {
-                val new = InuConfig.NON_ISLAND_SHARED_MEDIA_TABS.toggle()
+            TOGGLE_HIDE_CONTACTS_TAB -> {
+                val new = InuConfig.BOTTOM_TABS_HIDE_CONTACTS.toggle()
                 (view as? TextCheckCell)?.isChecked = new
+                showRestartBulletin()
             }
 
-            TOGGLE_NON_ISLAND_GLOBAL_SEARCH -> {
-                val new = InuConfig.NON_ISLAND_GLOBAL_SEARCH.toggle()
-                (view as? TextCheckCell)?.isChecked = new
+            TOGGLE_COMPACT_MODE -> {
+                val new = InuConfig.BOTTOM_TABS_COMPACT_MODE.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
                 softRebuild()
-            }
-
-            TOGGLE_NON_ISLAND_CHAT_ELEMENTS -> {
-                val new = InuConfig.NON_ISLAND_CHAT_ELEMENTS.toggle()
-                (view as? TextCheckCell)?.isChecked = new
-                InuHooks.syncChatInputRowHeight()
             }
 
             BUTTON_MONET_THEME -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) RadioItemOptions.show(
@@ -412,6 +337,10 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_HIDE_FADE_VIEW = InuUtils.generateId()
         private val TOGGLE_NAVIGATION_DRAWER = InuUtils.generateId()
         private val TOGGLE_DRAWER_BACK_GESTURE = InuUtils.generateId()
+        private val BUTTON_DRAWER_MENU_ORDER = InuUtils.generateId()
+        private val TOGGLE_BOTTOM_TABS = InuUtils.generateId()
+        private val TOGGLE_HIDE_CONTACTS_TAB = InuUtils.generateId()
+        private val TOGGLE_COMPACT_MODE = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_FOLDERS_BAR = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_GLOBAL_SEARCH = InuUtils.generateId()
@@ -434,6 +363,17 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val BUTTON_NOTIFICATION_ICON = InuUtils.generateId()
         private val BUTTON_PREDICTIVE_BACK_MODE = InuUtils.generateId()
         private val BUTTON_MONET_THEME = InuUtils.generateId()
+
+        private val SOFT_REBUILD_CONFIGS = setOf(
+            InuConfig.MATERIAL3_SWITCHES,
+            InuConfig.MATERIAL3_FABS,
+            InuConfig.M3_SECTIONS_STYLE,
+            InuConfig.M3_BOTTOM_TABS,
+            InuConfig.MATERIAL_PROFILE_ACTIONS,
+            InuConfig.NON_ISLAND_FOLDERS_BAR,
+            InuConfig.NON_ISLAND_GLOBAL_SEARCH,
+            InuConfig.HIDE_FADE_VIEW,
+        )
 
         @RequiresApi(Build.VERSION_CODES.S)
         private fun monetThemeModeLabel(mode: MonetHelper.ThemeMode): String = when (mode) {
@@ -478,6 +418,10 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("predictive-back-mode", R.string.InuPredictiveBack, BUTTON_PREDICTIVE_BACK_MODE),
                 SearchRegistry.Entry("navigation-drawer", R.string.InuNavigationDrawer, TOGGLE_NAVIGATION_DRAWER),
                 SearchRegistry.Entry("drawer-back-gesture", R.string.InuDrawerBackGesture, TOGGLE_DRAWER_BACK_GESTURE),
+                SearchRegistry.Entry("drawer-menu-order", R.string.InuDrawerMenuOrder, BUTTON_DRAWER_MENU_ORDER),
+                SearchRegistry.Entry("bottom-tabs-hide", R.string.InuBottomTabs, TOGGLE_BOTTOM_TABS),
+                SearchRegistry.Entry("hide-contacts-tab", R.string.InuHideContactsTab, TOGGLE_HIDE_CONTACTS_TAB),
+                SearchRegistry.Entry("compact-mode", R.string.InuCompactMode, TOGGLE_COMPACT_MODE),
                 SearchRegistry.Entry("non-island-folders-bar", R.string.InuNonIslandFoldersBar, TOGGLE_NON_ISLAND_FOLDERS_BAR),
                 SearchRegistry.Entry("non-island-shared-media-tabs", R.string.InuNonIslandSharedMediaTabs, TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS),
                 SearchRegistry.Entry("non-island-global-search", R.string.InuNonIslandGlobalSearch, TOGGLE_NON_ISLAND_GLOBAL_SEARCH),

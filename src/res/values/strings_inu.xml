@@ -5,7 +5,7 @@
     <string name="InuSendToDiscussWithoutJoin">Write to discuss groups without joining</string>
     <string name="InuSendToDiscussWithoutJoinInfo">Skip the client-only membership check for discussion groups</string>
     <string name="InuNavigationDrawer">Navigation drawer</string>
-    <string name="InuNavigationDrawerInfo">Brings back the pre-12.0 hamburger side drawer. Requires restart.</string>
+    <string name="InuNavigationDrawerInfo">Brings back the pre-12.0 hamburger side drawer.</string>
     <string name="InuDrawerBackGesture">Open drawer with back gesture</string>
     <string name="InuDrawerBackGestureInfo">Swiping back from the left edge of the chat list opens the drawer instead of leaving the app.</string>
     <string name="InuSettings">Hundgram Settings</string>
@@ -20,6 +20,7 @@
     <string name="InuBehavior">Behavior</string>
     <string name="InuShorterSwipeGestures">Shorter swipe gestures</string>
     <string name="InuShorterSwipeGesturesInfo">Reduce the distance required to complete common swipe actions.</string>
+    <string name="InuAnimatedAvatars">Animated avatars</string>
     <string name="InuPerformanceClass">Performance class</string>
     <string name="InuPerformanceClassInfo">It is not recommended to change this settings, as this might tank performance on low-performance budget devices</string>
     <string name="InuPerformanceClassMeasured">Measured</string>
@@ -143,8 +144,7 @@
     <string name="InuDisableOverscrollStoryInfo">Stories will not open when pulling down on the dialogs list</string>
     <string name="InuHideTrendingStickers">Hide trending stickers</string>
     <string name="InuBottomTabs">Bottom tabs</string>
-    <string name="InuBottomTabsHide">Hide bottom tabs</string>
-    <string name="InuBottomTabsHideInfo">Items are moved into the hamburger menu of the main screen</string>
+    <string name="InuNavigation">Navigation</string>
     <string name="InuHideContactsTab">Hide contacts tab</string>
     <string name="InuCompactMode">Compact mode</string>
     <string name="InuCompactModeInfo">Hides titles and make the tabs smaller</string>
@@ -221,6 +221,7 @@
     <string name="InuReduceProfileMotion">Reduce profile motion</string>
     <string name="InuProfilePreferMediaTab">Prefer \"Media\" tab</string>
     <string name="InuProfilePreferMediaTabInfo">…over Gifts and Posts tabs</string>
+    <string name="InuShowProfileGiftButton">Show \"Gift\" action button</string>
     <string name="InuDisableMotionPhotos">Disable motion photos</string>
     <string name="InuDisableMotionPhotosInfo">Don\'t detect or render motion photos, in picker and in messages</string>
     <string name="InuDisableVolumePlayVideo">Disable volume keys playing videos</string>
@@ -450,6 +451,7 @@
 
     <string name="InuProfilePhotoGradientFade">Disable profile photo blur</string>
     <string name="InuNonIslandUI">Classic UI</string>
+    <string name="InuInterfaceStyle">Interface style</string>
     <string name="InuTypographyAndIcons">Typography &amp; icons</string>
     <string name="InuMotion">Motion</string>
     <string name="InuFormatting">Formatting</string>
@@ -476,6 +478,8 @@
     <string name="InuStripTrackingParams">Strip tracking parameters</string>
     <string name="InuStripTrackingParamsOnOpen">When opening links</string>
     <string name="InuStripTrackingParamsOnPaste">When pasting</string>
+    <string name="InuResolveTrackableRedirects">Resolve trackable redirects</string>
+    <string name="InuResolveTrackableRedirectsInfo">Expand some share links (like vt.tiktok.com/…) when pasting and/or opening.\nContacts the link\'s server</string>
     <string name="InuStripTrackingParamsSource">AdGuard URL Tracking filter, updated %1$s</string>
     <string name="InuStripTrackingParamsSourceRow">Filter source</string>
     <string name="InuStripTrackingParamsUpdate">Update rules from AdGuard</string>
@@ -492,6 +496,7 @@
     <string name="InuWebPreviewReplacements">Web preview replacements</string>
     <string name="InuWebPreviewEnabled">Enable replacements</string>
     <string name="InuWebPreviewReplacementsInfo">Regex replacements applied to URLs when fetching web previews. Long-press to delete.</string>
+    <string name="InuWebPreviewReplaceOnPaste">Replace when pasting</string>
     <string name="InuWebPreviewAdd">Add replacement</string>
     <string name="InuWebPreviewEdit">Edit replacement</string>
     <string name="InuWebPreviewReset">Reset to defaults</string>
@@ -740,6 +745,11 @@
     <string name="InuChatMenuItems">Items</string>
     <string name="InuChatMenuOrderInfo">Reorder or hide items in the three-dots menu in chats. Drag the handle to rearrange, toggle the switch to hide.</string>
     <string name="InuChatMenuReset">Reset to default</string>
+    <string name="InuDrawerMenuOrder">Customize items</string>
+    <string name="InuDrawerMenuItems">Items</string>
+    <string name="InuDrawerMenuReset">Reset to default</string>
+    <string name="InuDrawerMenuMiniApps">Mini apps</string>
+    <string name="InuDrawerMenuDivider">Divider</string>
     <string name="InuGoToMessage">Go to message</string>
     <string name="InuGoToMessagePrompt">Message ID</string>
     <string name="InuPrivacySecurity">Privacy &amp; Security</string>
@@ -854,10 +864,30 @@
     <string name="InuPluginsEnabled">Enabled</string>
     <string name="InuPluginsEmpty">No plugins installed</string>
     <string name="InuPluginsLoadFromDisk">Load from file</string>
+    <string name="InuPluginRepos">Repositories</string>
+    <string name="InuPluginReposInfo">A repository is a Telegram channel where plugin files are posted. Plugins installed from a repository get updates from it.</string>
+    <string name="InuPluginReposAdd">Add repository</string>
+    <string name="InuPluginReposOpenChannel">Open channel</string>
+    <string name="InuPluginReposUpdates">Updates</string>
+    <string name="InuPluginReposChecking">Checking for updates…</string>
+    <string name="InuPluginReposCheckFailed">Some repositories could not be checked for updates</string>
+    <string name="InuPluginReposUpToDate">No updates available</string>
+    <string name="InuPluginReposErrorLink">Enter a channel username or link</string>
+    <string name="InuPluginReposErrorNotChannel">This is not a public channel</string>
+    <string name="InuPluginReposErrorExists">This repository is already added</string>
+    <string name="InuPluginRepoEmpty">No plugins in this repository</string>
+    <string name="InuPluginRepoErrorLoad">Could not load the repository</string>
+    <string name="InuPluginRepoErrorDownload">Could not download the plugin</string>
+    <string name="InuPluginRepoRetry">Retry</string>
+    <string name="InuPluginRepoUpdate">Update</string>
     <string name="InuPluginsCompactView">Compact view</string>
     <string name="InuPluginsNormalView">Normal view</string>
     <string name="InuPluginsReload">Reload</string>
     <string name="InuPluginsViewSource">View source code</string>
+    <string name="InuPluginAssets">Bundled files</string>
+    <string name="InuPluginAssetsCount_one">%1$d file</string>
+    <string name="InuPluginAssetsCount_other">%1$d files</string>
+    <string name="InuPluginsMemoryUsage">Memory usage</string>
     <string name="InuPluginSourceTitle">Source code</string>
     <string name="InuPluginsRemove">Remove</string>
     <string name="InuPluginsRemoveTitle">Remove %s</string>
@@ -869,6 +899,7 @@
     <string name="InuPluginsPermissions">Permissions</string>
     <string name="InuPluginsPermissionsNone">This plugin doesn\'t request any permissions</string>
     <string name="InuPluginGrantFs">File storage</string>
+    <string name="InuPluginGrantSqlite">Database</string>
     <string name="InuPluginGrantClipboardWrite">Write to clipboard</string>
     <string name="InuPluginGrantOpenUrl">Open links</string>
     <string name="InuPluginGrantAppVisibility">Monitor app visibility</string>
@@ -984,6 +1015,7 @@
     <string name="InuPluginsErrorApiVersion">Needs a newer Inugram (plugin API %1$d, this app has %2$d)</string>
     <string name="InuPluginsErrorPlatform">Not made for this platform (needs %1$s)</string>
     <string name="InuPluginsErrorBadGrant">Invalid permissions requested (%1$s)</string>
+    <string name="InuPluginsErrorBadAssets">Invalid bundled assets (%1$s)</string>
     <string name="InuPluginsErrorUnconsentedGrants">Requests permissions that weren\'t reviewed at install (%1$s); update the plugin to review them</string>
     <string name="InuPluginsFailedAtLoad">Load error</string>
     <string name="InuPluginsFailedAtRuntime">Runtime error</string>

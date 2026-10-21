@@ -282,3 +282,41 @@ class MessageMenuConfig(key: String) : MenuOrderConfig<MessageMenuConfig.Item>(k
         private val OFF_BY_DEFAULT = setOf(Item.REPLY_IN, Item.DETAILS, Item.FORWARD_NO_QUOTE, Item.SUMMARIZE, Item.REMOVE_FROM_CACHE, Item.REPEAT)
     }
 }
+
+class DrawerMenuConfig(key: String) : MenuOrderConfig<DrawerMenuConfig.Item>(key, Item.entries, OFF_BY_DEFAULT) {
+    enum class Item(
+        override val key: String,
+        override val labelRes: Int,
+        override val iconRes: Int,
+    ) : MenuOrderItem {
+        MY_PROFILE("my_profile", R.string.MyProfile, R.drawable.left_status_profile),
+        MINI_APPS("mini_apps", R.string.InuDrawerMenuMiniApps, R.drawable.msg_bots),
+        DIVIDER("divider", R.string.InuDrawerMenuDivider, R.drawable.iv_divider),
+        NEW_GROUP("new_group", R.string.NewGroup, R.drawable.msg_groups),
+        CONTACTS("contacts", R.string.Contacts, R.drawable.msg_contacts),
+        CALLS("calls", R.string.Calls, R.drawable.msg_calls),
+        SAVED_MESSAGES("saved_messages", R.string.SavedMessages, R.drawable.msg_saved),
+        ARCHIVE("archive", R.string.ArchivedChats, R.drawable.msg_archive),
+        PROXY("proxy", R.string.ProxySettings, R.drawable.outline_shield_check),
+        // #if PLUGINS
+        PLUGINS("plugins", R.string.InuPlugins, R.drawable.inu_tabler_code),
+        // #endif
+        SETTINGS("settings", R.string.Settings, R.drawable.msg_settings_old);
+
+        companion object {
+            private val byKey: Map<String, Item> by lazy { Item.entries.associateBy { it.key } }
+
+            fun forKey(key: String): Item? = byKey[key]
+        }
+    }
+
+    override fun itemByKey(key: String): Item? = Item.forKey(key)
+
+    companion object {
+        private val OFF_BY_DEFAULT = setOf<Item>(
+            // #if PLUGINS
+            Item.PLUGINS,
+            // #endif
+        )
+    }
+}

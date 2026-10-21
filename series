@@ -332,7 +332,6 @@ bugfix/chat-keyboard-transition-gap.patch
 bugfix/keyboard-transition-delay.patch
 bugfix/rich_preview_entities.patch
 bugfix/reactions-cull-during-change.patch
-bugfix/persistent-bot-keyboard-back.patch
 feature/bot-description-media-viewer.patch
 bugfix/forward-sender-avatar.patch
 bugfix/search-highlight-block-offset.patch
@@ -391,3 +390,11 @@ bugfix/storage-query-plans.patch
 bugfix/keep-history-on-channel-too-long.patch
 bugfix/keep-channel-queue-during-diff.patch
 feature/app-icon-splash.patch
+feature/profile-gift-button.patch
+bugfix/expanded-dark-theme.patch
+bugfix/no-quick-ack-sent-state.patch
+bugfix/sent-message-server-order.patch
+bugfix/settings-camera-button-clip.patch
+bugfix/settings-header-avatar.patch
+feature/animated-avatars.patch
+misc/experimental-settings-in-release.patch

@@ -11,6 +11,7 @@
     <string name="InuBehavior">Поведение</string>
     <string name="InuShorterSwipeGestures">Короткие жесты свайпа</string>
     <string name="InuShorterSwipeGesturesInfo">Уменьшает дистанцию, необходимую для выполнения обычных действий свайпом.</string>
+    <string name="InuAnimatedAvatars">Анимированные аватары</string>
     <string name="InuPerformanceClass">Класс производительности</string>
     <string name="InuPerformanceClassInfo">Не рекомендуется менять эту настройку: на слабых бюджетных устройствах это может сильно снизить производительность</string>
     <string name="InuPerformanceClassMeasured">Измеренный</string>
@@ -96,8 +97,7 @@
     <string name="InuDisableOverscrollStoryInfo">Истории не будут открываться при прокрутке списка диалогов вниз</string>
     <string name="InuHideTrendingStickers">Скрыть популярные стикеры</string>
     <string name="InuBottomTabs">Нижние вкладки</string>
-    <string name="InuBottomTabsHide">Скрыть нижние вкладки</string>
-    <string name="InuBottomTabsHideInfo">Пункты перемещаются в гамбургер-меню главного экрана</string>
+    <string name="InuNavigation">Навигация</string>
     <string name="InuHideContactsTab">Скрыть вкладку «Контакты»</string>
     <string name="InuCompactMode">Компактный режим</string>
     <string name="InuCompactModeInfo">Скрывает названия и уменьшает вкладки</string>
@@ -155,6 +155,7 @@
     <string name="InuReduceProfileMotion">Уменьшить анимацию профиля</string>
     <string name="InuProfilePreferMediaTab">Открывать вкладку «Медиа»</string>
     <string name="InuProfilePreferMediaTabInfo">…вместо вкладок «Подарки» и «Истории»</string>
+    <string name="InuShowProfileGiftButton">Показывать кнопку «Подарок»</string>
     <string name="InuDisableMotionPhotos">Отключить живые фото</string>
     <string name="InuDisableMotionPhotosInfo">Не определять и не показывать живые фото ни в выборщике, ни в сообщениях</string>
     <string name="InuChatAlwaysShowDown">Всегда показывать кнопку «вниз»</string>
@@ -292,7 +293,7 @@
     <string name="InuIconReplacementVkui">VKUI от VK</string>
 
     <string name="InuMapsHeader">Карты</string>
-    <string name="InuMapProvider">Источник карт</string>
+    <string name="InuMapProvider">Источник просмотра карт</string>
     <string name="InuMapProviderGoogle">Google Maps</string>
     <string name="InuMapProviderOsm">OpenStreetMap</string>
     <string name="InuMapPreviewProvider">Источник превью карт</string>
@@ -361,6 +362,7 @@
     <string name="InuProfilePhotoGradientFade">Отключить размытие фото профиля</string>
 
     <string name="InuNonIslandUI">Классический интерфейс</string>
+    <string name="InuInterfaceStyle">Стиль интерфейса</string>
     <string name="InuAnimationSpeed">Скорость анимаций</string>
     <string name="InuAnimationSpeedInstant">Мгновенно</string>
     <string name="InuAnimationSpeedInfo">Примечание: пружинные анимации (нижние шторки, всплывающие окна, некоторые переходы) и часть других анимаций не затрагиваются.</string>
@@ -388,6 +390,7 @@
     <string name="InuWebPreviewReplacements">Замены для превью ссылок</string>
     <string name="InuWebPreviewEnabled">Включить замены</string>
     <string name="InuWebPreviewReplacementsInfo">Замены по регулярным выражениям, применяемые к URL при получении превью ссылок. Долгое нажатие — удалить.</string>
+    <string name="InuWebPreviewReplaceOnPaste">Заменять при вставке</string>
     <string name="InuWebPreviewAdd">Добавить замену</string>
     <string name="InuWebPreviewEdit">Изменить замену</string>
     <string name="InuWebPreviewReset">Сбросить по умолчанию</string>
@@ -662,7 +665,7 @@
     <string name="InuSendToDiscussWithoutJoin">Писать в комментарии без вступления</string>
     <string name="InuSendToDiscussWithoutJoinInfo">Пропускать клиентскую проверку членства для групп обсуждения (комментариев)</string>
     <string name="InuNavigationDrawer">Боковое меню</string>
-    <string name="InuNavigationDrawerInfo">Возвращает боковое гамбургер-меню из версий до 12.0. Требуется перезапуск.</string>
+    <string name="InuNavigationDrawerInfo">Возвращает боковое гамбургер-меню из версий до 12.0.</string>
     <string name="InuDrawerBackGesture">Открывать меню жестом «назад»</string>
     <string name="InuDrawerBackGestureInfo">Свайп назад от левого края списка чатов открывает боковое меню вместо выхода из приложения.</string>
     <string name="InuMaterial3">Material Design 3</string>
@@ -747,6 +750,11 @@
     <string name="InuChatMenuItems">Пункты</string>
     <string name="InuChatMenuOrderInfo">Переставь или скрой пункты в меню «три точки» в чатах. Перетаскивай ручку для перестановки, используй переключатель чтобы скрыть.</string>
     <string name="InuChatMenuReset">Сбросить по умолчанию</string>
+    <string name="InuDrawerMenuOrder">Настроить пункты</string>
+    <string name="InuDrawerMenuItems">Пункты</string>
+    <string name="InuDrawerMenuReset">Сбросить по умолчанию</string>
+    <string name="InuDrawerMenuMiniApps">Мини-приложения</string>
+    <string name="InuDrawerMenuDivider">Разделитель</string>
     <string name="InuGoToMessage">Перейти к сообщению</string>
     <string name="InuGoToMessagePrompt">ID сообщения</string>
     <string name="InuParanoiaHideFolders">Скрыть папки</string>
@@ -812,6 +820,8 @@
 
     <string name="InuStripTrackingParamsOnOpen">При открытии ссылок</string>
     <string name="InuStripTrackingParamsOnPaste">При вставке</string>
+    <string name="InuResolveTrackableRedirects">Раскрывать отслеживаемые ссылки</string>
+    <string name="InuResolveTrackableRedirectsInfo">Раскрывать некоторые короткие ссылки (например, vt.tiktok.com/…) при вставке и/или открытии.\nВыполняет запрос к серверу ссылки</string>
     <string name="InuStripTrackingParamsSourceRow">Источник фильтра</string>
 
     <string name="InuSimulateOom">Симулировать OOM-краш</string>
@@ -874,10 +884,32 @@
     <string name="InuPluginsEnabled">Включён</string>
     <string name="InuPluginsEmpty">Нет установленных плагинов</string>
     <string name="InuPluginsLoadFromDisk">Загрузить из файла</string>
+    <string name="InuPluginRepos">Репозитории</string>
+    <string name="InuPluginReposInfo">Репозиторий — это Telegram-канал, в который публикуются файлы плагинов. Плагины, установленные из репозитория, получают из него обновления.</string>
+    <string name="InuPluginReposAdd">Добавить репозиторий</string>
+    <string name="InuPluginReposOpenChannel">Открыть канал</string>
+    <string name="InuPluginReposUpdates">Обновления</string>
+    <string name="InuPluginReposChecking">Проверка обновлений…</string>
+    <string name="InuPluginReposCheckFailed">Не удалось проверить обновления для некоторых репозиториев</string>
+    <string name="InuPluginReposUpToDate">Обновлений нет</string>
+    <string name="InuPluginReposErrorLink">Введите юзернейм или ссылку на канал</string>
+    <string name="InuPluginReposErrorNotChannel">Это не публичный канал</string>
+    <string name="InuPluginReposErrorExists">Этот репозиторий уже добавлен</string>
+    <string name="InuPluginRepoEmpty">В этом репозитории нет плагинов</string>
+    <string name="InuPluginRepoErrorLoad">Не удалось загрузить репозиторий</string>
+    <string name="InuPluginRepoErrorDownload">Не удалось скачать плагин</string>
+    <string name="InuPluginRepoRetry">Повторить</string>
+    <string name="InuPluginRepoUpdate">Обновить</string>
     <string name="InuPluginsCompactView">Компактный вид</string>
     <string name="InuPluginsNormalView">Обычный вид</string>
     <string name="InuPluginsReload">Перезагрузить</string>
     <string name="InuPluginsViewSource">Посмотреть исходный код</string>
+    <string name="InuPluginAssets">Встроенные файлы</string>
+    <string name="InuPluginAssetsCount_one">%1$d файл</string>
+    <string name="InuPluginAssetsCount_few">%1$d файла</string>
+    <string name="InuPluginAssetsCount_many">%1$d файлов</string>
+    <string name="InuPluginAssetsCount_other">%1$d файлов</string>
+    <string name="InuPluginsMemoryUsage">Использование памяти</string>
     <string name="InuPluginSourceTitle">Исходный код</string>
     <string name="InuPluginsRemove">Удалить</string>
     <string name="InuPluginsRemoveTitle">Удалить %s</string>
@@ -891,6 +923,7 @@
     <string name="InuPluginsPermissions">Разрешения</string>
     <string name="InuPluginsPermissionsNone">Этот плагин не запрашивает разрешений</string>
     <string name="InuPluginGrantFs">Хранилище файлов</string>
+    <string name="InuPluginGrantSqlite">База данных</string>
     <string name="InuPluginGrantClipboardWrite">Запись в буфер обмена</string>
     <string name="InuPluginGrantOpenUrl">Открытие ссылок</string>
     <string name="InuPluginGrantAppVisibility">Отслеживание видимости приложения</string>
@@ -1012,6 +1045,7 @@
     <string name="InuPluginsErrorApiVersion">Нужна более новая версия Inugram (API плагинов %1$d, в приложении %2$d)</string>
     <string name="InuPluginsErrorPlatform">Не для этой платформы (требуется %1$s)</string>
     <string name="InuPluginsErrorBadGrant">Запрошены некорректные разрешения (%1$s)</string>
+    <string name="InuPluginsErrorBadAssets">Некорректные встроенные файлы (%1$s)</string>
     <string name="InuPluginsErrorUnconsentedGrants">Запрошены не проверенные при установке разрешения (%1$s); обновите плагин, чтобы их проверить</string>
     <string name="InuPluginsFailedAtLoad">Ошибка загрузки</string>
     <string name="InuPluginsFailedAtRuntime">Ошибка выполнения</string>

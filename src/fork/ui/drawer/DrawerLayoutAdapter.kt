@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import desu.inugram.InuConfig
 import desu.inugram.helpers.dialogs.AccountOrderHelper
 import desu.inugram.helpers.dialogs.DialogsFabHelper
 import desu.inugram.helpers.dialogs.DrawerHelper
 import desu.inugram.helpers.dialogs.PullActionHelper
+import desu.inugram.helpers.menu.DrawerMenuConfig
 // #if PLUGINS
 import desu.inugram.helpers.plugins.ui.PluginActions
 // #endif
@@ -207,35 +209,61 @@ class DrawerLayoutAdapter(
         items.clear()
         if (!UserConfig.getInstance(UserConfig.selectedAccount).isClientActivated()) return
 
-        items.add(Item(16, LocaleController.getString(R.string.MyProfile), R.drawable.left_status_profile))
-        val menuBots = MediaDataController.getInstance(UserConfig.selectedAccount).getAttachMenuBots()
-        if (menuBots?.bots != null) {
-            for (bot in menuBots.bots) {
-                if (bot.show_in_side_menu) {
-                    items.add(Item(bot))
+        for (entry in InuConfig.DRAWER_MENU_ITEMS.value) {
+            if (!entry.enabled) continue
+            when (entry.item) {
+                DrawerMenuConfig.Item.MY_PROFILE ->
+                    items.add(Item(16, LocaleController.getString(R.string.MyProfile), R.drawable.left_status_profile))
+
+                DrawerMenuConfig.Item.MINI_APPS -> {
+                    val menuBots = MediaDataController.getInstance(UserConfig.selectedAccount).getAttachMenuBots()
+                    if (menuBots?.bots != null) {
+                        for (bot in menuBots.bots) {
+                            if (bot.show_in_side_menu) items.add(Item(bot))
+                        }
+                    }
                 }
+
+                DrawerMenuConfig.Item.DIVIDER -> addDivider()
+
+                // Mirrors the overflow menu: a pending compose-draft swaps "New Group" for "New Message".
+                DrawerMenuConfig.Item.NEW_GROUP -> if (DialogsFabHelper.hasNewMessage()) {
+                    items.add(Item(17, LocaleController.getString(R.string.NewMessageTitle), R.drawable.menu_topic_add))
+                } else {
+                    items.add(Item(2, LocaleController.getString(R.string.NewGroup), R.drawable.msg_groups))
+                }
+
+                DrawerMenuConfig.Item.CONTACTS ->
+                    items.add(Item(6, LocaleController.getString(R.string.Contacts), R.drawable.msg_contacts))
+
+                DrawerMenuConfig.Item.CALLS ->
+                    items.add(Item(10, LocaleController.getString(R.string.Calls), R.drawable.msg_calls))
+
+                DrawerMenuConfig.Item.SAVED_MESSAGES ->
+                    items.add(Item(11, LocaleController.getString(R.string.SavedMessages), R.drawable.msg_saved))
+
+                DrawerMenuConfig.Item.ARCHIVE -> if (PullActionHelper.shouldShowArchiveEntry(UserConfig.selectedAccount)) {
+                    items.add(Item(ITEM_ARCHIVE, LocaleController.getString(R.string.ArchivedChats), R.drawable.msg_archive))
+                }
+
+                DrawerMenuConfig.Item.PROXY ->
+                    items.add(Item(ITEM_PROXY, LocaleController.getString(R.string.ProxySettings), R.drawable.outline_shield_check))
+
+                DrawerMenuConfig.Item.SETTINGS ->
+                    items.add(Item(8, LocaleController.getString(R.string.Settings), R.drawable.msg_settings_old))
+
+                // #if PLUGINS
+                DrawerMenuConfig.Item.PLUGINS ->
+                    items.add(Item(ITEM_PLUGINS, LocaleController.getString(R.string.InuPlugins), R.drawable.inu_tabler_code))
+                // #endif
             }
         }
-        items.add(null) // divider
-        // Mirrors the overflow menu: a pending compose-draft swaps "New Group" for "New Message".
-        if (DialogsFabHelper.hasNewMessage()) {
-            items.add(Item(17, LocaleController.getString(R.string.NewMessageTitle), R.drawable.menu_topic_add))
-        } else {
-            items.add(Item(2, LocaleController.getString(R.string.NewGroup), R.drawable.msg_groups))
-        }
-        items.add(Item(6, LocaleController.getString(R.string.Contacts), R.drawable.msg_contacts))
-        items.add(Item(10, LocaleController.getString(R.string.Calls), R.drawable.msg_calls))
-        items.add(Item(11, LocaleController.getString(R.string.SavedMessages), R.drawable.msg_saved))
-        if (PullActionHelper.shouldShowArchiveEntry(UserConfig.selectedAccount)) {
-            items.add(Item(ITEM_ARCHIVE, LocaleController.getString(R.string.ArchivedChats), R.drawable.msg_archive))
-        }
-        items.add(Item(ITEM_PROXY, LocaleController.getString(R.string.ProxySettings), R.drawable.outline_shield_check))
-        items.add(Item(8, LocaleController.getString(R.string.Settings), R.drawable.msg_settings_old))
+        if (items.isNotEmpty() && items.last() == null) items.removeAt(items.lastIndex)
 
         // #if PLUGINS
         val pluginRows = DrawerHelper.globalActionRows
         if (pluginRows.isNotEmpty()) {
-            items.add(null)
+            addDivider()
             for (row in pluginRows) {
                 items.add(Item(PluginActions.optionIdFor(row.key), row.text, R.drawable.msg_settings_old))
             }
@@ -243,9 +271,14 @@ class DrawerLayoutAdapter(
         // #endif
     }
 
+    private fun addDivider() {
+        if (items.isNotEmpty() && items.last() != null) items.add(null)
+    }
+
     companion object {
         const val ITEM_PROXY = 9
         const val ITEM_ARCHIVE = 18
+        const val ITEM_PLUGINS = 19
     }
 
     class Item private constructor(

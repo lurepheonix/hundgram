@@ -110,14 +110,15 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             src/native/target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('src/native/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('src/native/Cargo.lock', 'src/native/rust-toolchain.toml') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
 
       - name: install android rust toolchain
         if: matrix.variant == 'plugins'
+        working-directory: src/native
         run: |
-          rustup target add aarch64-linux-android
+          rustup toolchain install
           cargo install cargo-ndk --version 4.1.2 --locked
 
       # the plugin engine's own suite, including every bundled oracle; ubuntu-latest already ships

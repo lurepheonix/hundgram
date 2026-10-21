@@ -6,12 +6,12 @@ Subject: visual tweaks for the message menu
 ---
  .../ui/ActionBar/ActionBarPopupWindow.java    |   4 +
  .../java/org/telegram/ui/ChatActivity.java    | 117 ++++++++++++++----
- .../ChatScrimPopupContainerLayout.java        |  18 ++-
+ .../ChatScrimPopupContainerLayout.java        |  27 ++--
  .../Reactions/CustomEmojiReactionsWindow.java |  13 +-
  .../Components/ReactionsContainerLayout.java  |  21 +++-
  .../java/org/telegram/ui/MessageSeenView.java |   9 +-
  .../ui/SelectAnimatedEmojiDialog.java         |  10 +-
- 7 files changed, 153 insertions(+), 39 deletions(-)
+ 7 files changed, 158 insertions(+), 43 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBarPopupWindow.java b/TMessagesProj/src/main/java/org/telegram/ui/ActionBar/ActionBarPopupWindow.java
 index 0000000..0000000 100644
@@ -310,7 +310,24 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatScrimPop
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatScrimPopupContainerLayout.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/ChatScrimPopupContainerLayout.java
-@@ -163,9 +163,19 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
+@@ -45,11 +45,12 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
+             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+ 
+             int maxWidth = reactionsLayout.getMeasuredWidth();
+-            if (popupWindowLayout.getSwipeBack() != null && popupWindowLayout.getSwipeBack().getMeasuredWidth() > maxWidth) {
+-                maxWidth = popupWindowLayout.getSwipeBack().getMeasuredWidth();
++            int inu_foregroundExtraWidth = reactionsLayout.showCustomEmojiReaction() && popupWindowLayout.getSwipeBack() != null ? popupWindowLayout.getSwipeBack().getMeasuredWidth() - popupWindowLayout.getSwipeBack().getChildAt(0).getMeasuredWidth() : 0;
++            if (popupWindowLayout.getSwipeBack() != null && popupWindowLayout.getSwipeBack().getMeasuredWidth() - inu_foregroundExtraWidth > maxWidth) {
++                maxWidth = popupWindowLayout.getSwipeBack().getMeasuredWidth() - inu_foregroundExtraWidth;
+             }
+-            if (popupWindowLayout.getMeasuredWidth() > maxWidth) {
+-                maxWidth = popupWindowLayout.getMeasuredWidth();
++            if (popupWindowLayout.getMeasuredWidth() - inu_foregroundExtraWidth > maxWidth) {
++                maxWidth = popupWindowLayout.getMeasuredWidth() - inu_foregroundExtraWidth;
+             }
+             if (reactionsLayout.showCustomEmojiReaction()) {
+                 widthMeasureSpec = MeasureSpec.makeMeasureSpec(maxWidth, MeasureSpec.EXACTLY);
+@@ -163,9 +164,19 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
          }
      }
  
@@ -332,7 +349,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -174,7 +184,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
+@@ -174,7 +185,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
      }
  
      public void setExpandSize(float expandSize) {
@@ -341,7 +358,7 @@ index 0000000..0000000 100644
          this.expandSize = expandSize;
          updateBottomViewPosition();
      }
-@@ -192,7 +202,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
+@@ -192,7 +203,7 @@ public class ChatScrimPopupContainerLayout extends LinearLayout {
              bottomView.setAlpha(v);
              float scale = 0.5f + v * 0.5f;
              bottomView.setPivotX(bottomView.getMeasuredWidth());

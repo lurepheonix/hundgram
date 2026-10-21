@@ -11,6 +11,7 @@
     <string name="InuBehavior">行为</string>
     <string name="InuShorterSwipeGestures">更短的滑动手势</string>
     <string name="InuShorterSwipeGesturesInfo">缩短完成常用滑动操作所需的距离。</string>
+    <string name="InuAnimatedAvatars">动态头像</string>
     <string name="InuPerformanceClass">性能等级</string>
     <string name="InuPerformanceClassInfo">不建议更改此设置，在低性能的入门设备上可能会严重影响性能</string>
     <string name="InuPerformanceClassMeasured">实测</string>
@@ -96,8 +97,7 @@
     <string name="InuDisableOverscrollStoryInfo">下拉对话列表时不再打开快拍</string>
     <string name="InuHideTrendingStickers">隐藏热门贴纸</string>
     <string name="InuBottomTabs">底部标签</string>
-    <string name="InuBottomTabsHide">隐藏底部标签</string>
-    <string name="InuBottomTabsHideInfo">条目会移入主屏幕的汉堡菜单</string>
+    <string name="InuNavigation">导航</string>
     <string name="InuHideContactsTab">隐藏联系人标签</string>
     <string name="InuCompactMode">紧凑模式</string>
     <string name="InuCompactModeInfo">隐藏标题并缩小标签</string>
@@ -155,6 +155,7 @@
     <string name="InuReduceProfileMotion">减少资料动画</string>
     <string name="InuProfilePreferMediaTab">优先「媒体」标签</string>
     <string name="InuProfilePreferMediaTabInfo">…而不是「礼物」和「帖子」标签</string>
+    <string name="InuShowProfileGiftButton">显示「礼物」操作按钮</string>
     <string name="InuDisableMotionPhotos">禁用动态照片</string>
     <string name="InuDisableMotionPhotosInfo">不在选择器和消息中检测或渲染动态照片</string>
     <string name="InuChatAlwaysShowDown">始终显示「跳到底部」</string>
@@ -361,6 +362,7 @@
     <string name="InuProfilePhotoGradientFade">禁用资料头像模糊</string>
 
     <string name="InuNonIslandUI">经典界面</string>
+    <string name="InuInterfaceStyle">界面风格</string>
     <string name="InuAnimationSpeed">动画速度</string>
     <string name="InuAnimationSpeedInstant">瞬间</string>
     <string name="InuAnimationSpeedInfo">注意：基于弹簧的动画（底部弹层、弹窗、部分过渡）和某些动画不受影响。</string>
@@ -388,6 +390,7 @@
     <string name="InuWebPreviewReplacements">网页预览替换</string>
     <string name="InuWebPreviewEnabled">启用替换</string>
     <string name="InuWebPreviewReplacementsInfo">获取网页预览时对 URL 应用的正则替换。长按删除。</string>
+    <string name="InuWebPreviewReplaceOnPaste">粘贴时替换</string>
     <string name="InuWebPreviewAdd">添加替换</string>
     <string name="InuWebPreviewEdit">编辑替换</string>
     <string name="InuWebPreviewReset">恢复默认</string>
@@ -654,7 +657,7 @@
     <string name="InuSendToDiscussWithoutJoin">不加入即在讨论组发言</string>
     <string name="InuSendToDiscussWithoutJoinInfo">跳过讨论组的客户端成员检查</string>
     <string name="InuNavigationDrawer">侧边抽屉</string>
-    <string name="InuNavigationDrawerInfo">恢复 12.0 之前的汉堡侧边抽屉。需重启。</string>
+    <string name="InuNavigationDrawerInfo">恢复 12.0 之前的汉堡侧边抽屉。</string>
     <string name="InuDrawerBackGesture">用返回手势打开抽屉</string>
     <string name="InuDrawerBackGestureInfo">从聊天列表左边缘向内滑动返回时打开抽屉，而不是退出应用。</string>
     <string name="InuMaterial3">Material Design 3</string>
@@ -736,6 +739,11 @@
     <string name="InuChatMenuItems">项目</string>
     <string name="InuChatMenuOrderInfo">重新排序或隐藏聊天中三点菜单的项目。拖动手柄进行排序，使用开关进行隐藏。</string>
     <string name="InuChatMenuReset">重置为默认</string>
+    <string name="InuDrawerMenuOrder">自定义项目</string>
+    <string name="InuDrawerMenuItems">项目</string>
+    <string name="InuDrawerMenuReset">重置为默认</string>
+    <string name="InuDrawerMenuMiniApps">小程序</string>
+    <string name="InuDrawerMenuDivider">分隔线</string>
     <string name="InuGoToMessage">跳到消息</string>
     <string name="InuGoToMessagePrompt">消息 ID</string>
     <string name="InuParanoiaHideFolders">隐藏文件夹</string>
@@ -804,6 +812,8 @@
 
     <string name="InuStripTrackingParamsOnOpen">打开链接时</string>
     <string name="InuStripTrackingParamsOnPaste">粘贴时</string>
+    <string name="InuResolveTrackableRedirects">解析可追踪的重定向</string>
+    <string name="InuResolveTrackableRedirectsInfo">在粘贴和/或打开时展开部分分享链接（如 vt.tiktok.com/…）。\n会连接链接所在的服务器</string>
     <string name="InuStripTrackingParamsSourceRow">过滤器源</string>
 
     <string name="InuSimulateOom">模拟 OOM 崩溃</string>
@@ -862,10 +872,29 @@
     <string name="InuPluginsEnabled">已启用</string>
     <string name="InuPluginsEmpty">未安装插件</string>
     <string name="InuPluginsLoadFromDisk">从文件加载</string>
+    <string name="InuPluginRepos">仓库</string>
+    <string name="InuPluginReposInfo">仓库是发布插件文件的 Telegram 频道。从仓库安装的插件会从该仓库获取更新。</string>
+    <string name="InuPluginReposAdd">添加仓库</string>
+    <string name="InuPluginReposOpenChannel">打开频道</string>
+    <string name="InuPluginReposUpdates">更新</string>
+    <string name="InuPluginReposChecking">正在检查更新…</string>
+    <string name="InuPluginReposCheckFailed">部分仓库无法检查更新</string>
+    <string name="InuPluginReposUpToDate">没有可用更新</string>
+    <string name="InuPluginReposErrorLink">请输入频道用户名或链接</string>
+    <string name="InuPluginReposErrorNotChannel">这不是公开频道</string>
+    <string name="InuPluginReposErrorExists">该仓库已添加</string>
+    <string name="InuPluginRepoEmpty">此仓库中没有插件</string>
+    <string name="InuPluginRepoErrorLoad">无法加载仓库</string>
+    <string name="InuPluginRepoErrorDownload">无法下载插件</string>
+    <string name="InuPluginRepoRetry">重试</string>
+    <string name="InuPluginRepoUpdate">更新</string>
     <string name="InuPluginsCompactView">紧凑视图</string>
     <string name="InuPluginsNormalView">普通视图</string>
     <string name="InuPluginsReload">重新加载</string>
     <string name="InuPluginsViewSource">查看源代码</string>
+    <string name="InuPluginAssets">附带文件</string>
+    <string name="InuPluginAssetsCount_other">%1$d 个文件</string>
+    <string name="InuPluginsMemoryUsage">内存占用</string>
     <string name="InuPluginSourceTitle">源代码</string>
     <string name="InuPluginsRemove">移除</string>
     <string name="InuPluginsRemoveTitle">移除 %s</string>
@@ -877,6 +906,7 @@
     <string name="InuPluginsPermissions">权限</string>
     <string name="InuPluginsPermissionsNone">此插件不请求任何权限</string>
     <string name="InuPluginGrantFs">文件存储</string>
+    <string name="InuPluginGrantSqlite">数据库</string>
     <string name="InuPluginGrantClipboardWrite">写入剪贴板</string>
     <string name="InuPluginGrantOpenUrl">打开链接</string>
     <string name="InuPluginGrantAppVisibility">监视应用可见性</string>
@@ -991,6 +1021,7 @@
     <string name="InuPluginsErrorApiVersion">需要更新版本的 Inugram（插件 API %1$d，此应用为 %2$d）</string>
     <string name="InuPluginsErrorPlatform">并非为此平台制作（需要 %1$s）</string>
     <string name="InuPluginsErrorBadGrant">请求了无效权限（%1$s）</string>
+    <string name="InuPluginsErrorBadAssets">无效的附带文件（%1$s）</string>
     <string name="InuPluginsErrorUnconsentedGrants">请求了安装时未经审核的权限（%1$s）；请更新插件以审核这些权限</string>
     <string name="InuPluginsFailedAtLoad">加载错误</string>
     <string name="InuPluginsFailedAtRuntime">运行时错误</string>

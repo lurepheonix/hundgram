@@ -21,7 +21,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java b/TMes
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/PhotoViewer.java
-@@ -7801,8 +7801,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -7803,8 +7803,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                      containerView.requestLayout();
                  }
                  desu.inugram.helpers.media.PhotoViewerHelper.updateHdrMode(this);
@@ -33,7 +33,7 @@ index 0000000..0000000 100644
                  if (!wasLayout) {
                      dontResetZoomOnFirstLayout = true;
                  } else {
-@@ -12043,6 +12045,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -12079,6 +12081,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          if (currentEditMode == mode || (isCurrentVideo && photoProgressViews[0].backgroundState != 3) && !isCurrentVideo && (centerImage.getBitmap() == null || photoProgressViews[0].backgroundState != -1) || changeModeAnimation != null || imageMoveAnimation != null || isCaptionOpen()) {
              return;
          }
@@ -43,7 +43,7 @@ index 0000000..0000000 100644
          if (!isCurrentVideo && currentEditMode == EDIT_MODE_NONE && mode != EDIT_MODE_NONE && currentIndex >= 0 && currentIndex < imagesArrLocals.size()) {
              Object object = imagesArrLocals.get(currentIndex);
              if (object instanceof MediaController.MediaEditState) {
-@@ -15779,6 +15784,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -15815,6 +15820,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
  
          int prevIndex = currentIndex;
          currentIndex = index;
@@ -53,7 +53,7 @@ index 0000000..0000000 100644
          setIsAboutToSwitchToIndex(currentIndex, init, animateCaption, force);
  
          boolean isVideo = false;
-@@ -16815,6 +16823,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -16851,6 +16859,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                              path = photoEntry.path;
                          }
                          int editSize = (int) (AndroidUtilities.getPhotoSize(true) / AndroidUtilities.density);
@@ -61,7 +61,7 @@ index 0000000..0000000 100644
                          filter = String.format(Locale.US, "%d_%d", editSize, editSize);
                      }
                  } else if (object instanceof TLRPC.BotInlineResult) {
-@@ -18258,6 +18267,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -18294,6 +18303,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
              qualityPicker.cancelButton.callOnClick();
              return;
          }
@@ -69,7 +69,7 @@ index 0000000..0000000 100644
          desu.inugram.helpers.media.PhotoViewerHelper.clearHdrMode(this);
          isVisibleOrAnimating = false;
          openedFullScreenVideo = false;
-@@ -18809,6 +18819,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -18839,6 +18849,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
      }
  
      public void destroyPhotoViewer() {
@@ -77,7 +77,7 @@ index 0000000..0000000 100644
          if (parentActivity == null || windowView == null) {
              return;
          }
-@@ -18850,6 +18861,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -18880,6 +18891,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
      }
  
      private void onPhotoClosed(PlaceProviderObject object) {
@@ -85,7 +85,7 @@ index 0000000..0000000 100644
          if (doneButtonPressed) {
              releasePlayer(true);
          }
-@@ -19302,6 +19314,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -19332,6 +19344,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                      rotate = (float) ((Math.atan2(ev.getY(1) - ev.getY(0), ev.getX(1) - ev.getX(0)) - pinchStartAngle) / Math.PI * 180 + pinchStartRotate);
                  }
                  scale = (float) Math.hypot(ev.getX(1) - ev.getX(0), ev.getY(1) - ev.getY(0)) / pinchStartDistance * pinchStartScale;
@@ -95,7 +95,7 @@ index 0000000..0000000 100644
                  translationX = (pinchCenterX - getContainerViewWidth() / 2) - ((pinchCenterX - getContainerViewWidth() / 2) - pinchStartX) * (scale / pinchStartScale);
                  translationY = (pinchCenterY - getContainerViewHeight() / 2) - ((pinchCenterY - getContainerViewHeight() / 2) - pinchStartY) * (scale / pinchStartScale);
                  updateMinMax(scale);
-@@ -19588,6 +19603,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
+@@ -19618,6 +19633,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
          if (scale == newScale && translationX == newTx && translationY == newTy) {
              return;
          }

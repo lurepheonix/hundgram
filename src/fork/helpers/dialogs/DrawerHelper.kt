@@ -17,6 +17,7 @@ import desu.inugram.helpers.plugins.ui.ActionRow
 import desu.inugram.helpers.plugins.ui.ActionSurface
 import desu.inugram.helpers.plugins.ui.PluginActions
 import desu.inugram.helpers.plugins.ui.PluginIcons
+import desu.inugram.ui.settings.PluginsActivity
 // #endif
 import desu.inugram.helpers.dialogs.DrawerHelper.setupMainFragment
 import desu.inugram.helpers.update.UpdateHelper
@@ -43,7 +44,6 @@ import org.telegram.tgnet.ConnectionsManager
 import org.telegram.tgnet.TLRPC
 import org.telegram.tgnet.tl.TL_stars
 import org.telegram.ui.AccountFrozenAlert
-import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.ActionBar.DrawerLayoutContainer
 import org.telegram.ui.ActionBar.INavigationLayout
 import org.telegram.ui.ActionBar.MenuDrawable
@@ -83,37 +83,18 @@ object DrawerHelper {
     private var menuDrawableRef: MenuDrawable? = null
     private var statusPopup: SelectAnimatedEmojiDialog.SelectAnimatedEmojiDialogWindow? = null
 
-    @JvmStatic
-    @JvmOverloads
-    fun createMainFragment(args: Bundle? = null): BaseFragment {
-        if (MainTabsHelper.isHidden) return DialogsActivity(args)
-        val main = MainTabsActivity()
-        if (args != null) main.prepareDialogsActivity(args)
-        return main
-    }
-
     /** Root fragment on startup: stock `addFragmentToStack` + navigation drawer wiring. */
     @JvmStatic
     fun setupMainFragment(activity: LaunchActivity, layout: INavigationLayout, dlc: DrawerLayoutContainer) {
-        layout.addFragmentToStack(createMainFragment())
+        layout.addFragmentToStack(MainTabsActivity())
         if (InuConfig.NAVIGATION_DRAWER.value) setup(activity, dlc, layout)
-    }
-
-    /** Push the main fragment, forwarding a pending search query when tabs are present. */
-    @JvmStatic
-    fun addMainFragmentToStack(layout: INavigationLayout, searchQuery: String?) {
-        val main = createMainFragment()
-        val dialogs = if (main is MainTabsActivity) main.prepareDialogsActivity(null) else main as DialogsActivity
-        if (searchQuery != null) dialogs.setInitialSearchString(searchQuery)
-        layout.addFragmentToStack(main, INavigationLayout.FORCE_NOT_ATTACH_VIEW)
-        ensureSetup(layout)
     }
 
     /**
      * Wire the side drawer onto the activity's container once (idempotent), or
      * refresh its contents if already wired. Needed for login/relogin flows that
      * present the main fragment outside [setupMainFragment] — without this the
-     * post-login `DialogsActivity` has no drawer.
+     * post-login main fragment has no drawer.
      */
     @JvmStatic
     fun ensureSetup(layout: INavigationLayout?) {
@@ -126,6 +107,19 @@ object DrawerHelper {
             rebindPerAccountObservers()
             refreshUpdateState()
         }
+    }
+
+    @JvmStatic
+    fun teardown(layout: INavigationLayout?) {
+        val dlc = layout?.drawerLayoutContainer ?: return
+        val controller = dlc.inu_drawer ?: return
+        controller.detach()
+        dlc.inu_drawer = null
+        adapter = null
+        sideMenu = null
+        sideMenuContainer = null
+        updateLayout = null
+        menuDrawableRef = null
     }
 
     fun refreshUpdateState() {
@@ -659,6 +653,13 @@ object DrawerHelper {
                 close()
             }
 
+            // #if PLUGINS
+            ITEM_PLUGINS -> {
+                nav.presentFragment(PluginsActivity())
+                close()
+            }
+            // #endif
+
             else -> close()
         }
     }
@@ -681,6 +682,7 @@ object DrawerHelper {
     private const val ITEM_SETTINGS = 8
     private const val ITEM_PROXY = DrawerLayoutAdapter.ITEM_PROXY
     private const val ITEM_ARCHIVE = DrawerLayoutAdapter.ITEM_ARCHIVE
+    private const val ITEM_PLUGINS = DrawerLayoutAdapter.ITEM_PLUGINS
 
     @JvmStatic
     fun notifyDataChanged() {

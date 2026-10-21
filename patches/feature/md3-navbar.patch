@@ -207,7 +207,7 @@ index 0000000..0000000 100644
  
          final WindowInsetsCompat consumed = isUpdateLayoutVisible ?
              insets.inset(0, 0, 0, navigationBarHeight) : insets;
-@@ -1277,6 +1280,9 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
+@@ -1278,6 +1281,9 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
          if (tabsView != null) {
              tabsView.invalidate();
          }

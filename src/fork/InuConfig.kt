@@ -7,6 +7,7 @@ import desu.inugram.helpers.chat.DoubleTapActionHelper
 import desu.inugram.helpers.chat.PinnedReactionsHelper
 import desu.inugram.helpers.font.FontConfig
 import desu.inugram.helpers.menu.ChatMenuConfig
+import desu.inugram.helpers.menu.DrawerMenuConfig
 import desu.inugram.helpers.menu.MessageMenuConfig
 // #if PLUGINS
 import desu.inugram.helpers.plugins.ui.PluginActionSettingsConfig
@@ -172,6 +173,10 @@ object InuConfig {
 
     @JvmField
     val PLUGINS_COMPACT_LIST = BoolItem("plugins_compact_list", false)
+
+    // json: [{channel, username, title}]
+    @JvmField
+    val PLUGIN_REPOS = StringItem("plugin_repos", "")
 
     // the "only install plugins you trust" warning was read and accepted: consent, not a
     // preference, so it is never carried over by an import
@@ -475,6 +480,9 @@ object InuConfig {
     val PROFILE_PREFER_MEDIA_TAB = BoolItem("profile_prefer_media_tab", true)
 
     @JvmField
+    val SHOW_PROFILE_GIFT_BUTTON = BoolItem("show_profile_gift_button", false)
+
+    @JvmField
     val DISABLE_MOTION_PHOTOS = BoolItem("disable_motion_photos", true)
 
     @JvmField
@@ -485,6 +493,9 @@ object InuConfig {
 
     @JvmField
     val DISABLE_PROFILE_MUSIC_AUTOPLAY = BoolItem("disable_profile_music_autoplay", true)
+
+    @JvmField
+    val DISABLE_ANIMATED_AVATARS = BoolItem("disable_animated_avatars", false)
 
     @JvmField
     val DISABLE_VIDEO_MESSAGE_AUTOPLAY = BoolItem("disable_video_message_autoplay", false)
@@ -656,10 +667,16 @@ object InuConfig {
     val WEB_PREVIEW_REPLACEMENTS = StringItem("web_preview_replacements", "")
 
     @JvmField
+    val WEB_PREVIEW_REPLACE_ON_PASTE = BoolItem("web_preview_replace_on_paste", false)
+
+    @JvmField
     val STRIP_TRACKING_PARAMS_ON_OPEN = BoolItem("strip_tracking_params", true)
 
     @JvmField
     val STRIP_TRACKING_PARAMS_ON_PASTE = BoolItem("strip_tracking_params_on_paste", true)
+
+    @JvmField
+    val RESOLVE_TRACKABLE_REDIRECTS = BoolItem("resolve_trackable_redirects", false)
 
     @JvmField
     val IDN_URL_PRETTY_LINK = BoolItem("idn_url_pretty_link", true)
@@ -862,6 +879,9 @@ object InuConfig {
 
     @JvmField
     val CHAT_MENU_ITEMS = ChatMenuConfig("chat_menu_items")
+
+    @JvmField
+    val DRAWER_MENU_ITEMS = DrawerMenuConfig("drawer_menu_items")
 
     // #if PLUGINS
     @JvmField

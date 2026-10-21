@@ -16,6 +16,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import desu.inugram.core.plugins.JsLiterals
+import desu.inugram.core.plugins.PluginAssetsParser
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.R
@@ -83,20 +85,48 @@ class PluginSourceSheet(context: Context, private val name: String, private val 
         }
     }
 
+    private val displaySource = buildString {
+        fun placeholder(size: Long) = "[…${AndroidUtilities.formatFileSize(size)}…]"
+        val footer = PluginAssetsParser.findFooter(source)
+        append(JsLiterals.collapseEncodedStrings(source.substring(0, footer), MAX_LINE_LENGTH) { placeholder(it.toLong()) })
+        var last = footer
+        val assets = runCatching { PluginAssetsParser.parse(source) }.getOrDefault(emptyList())
+        for (asset in assets) {
+            if (asset.start == asset.end) continue
+            append(source, last, asset.start).append(placeholder(asset.size))
+            last = asset.end
+        }
+        append(source, last, source.length)
+    }
+
     private val chunks: List<IntRange> = run {
         val result = ArrayList<IntRange>()
         var chunkStart = 0
         var lines = 0
-        var i = source.indexOf('\n')
-        while (i != -1) {
-            if (++lines == CHUNK_LINES) {
-                result.add(chunkStart until i)
-                chunkStart = i + 1
+        var lineStart = 0
+        while (true) {
+            val newline = displaySource.indexOf('\n', lineStart)
+            val lineEnd = if (newline == -1) displaySource.length else newline
+            if (lineEnd - lineStart > MAX_LINE_LENGTH) {
+                if (lineStart > chunkStart) result.add(chunkStart until lineStart - 1)
+                var rowStart = lineStart
+                while (rowStart < lineEnd) {
+                    var rowEnd = minOf(rowStart + MAX_LINE_LENGTH, lineEnd)
+                    if (rowEnd < lineEnd && displaySource[rowEnd - 1].isHighSurrogate()) rowEnd--
+                    result.add(rowStart until rowEnd)
+                    rowStart = rowEnd
+                }
+                chunkStart = lineEnd + 1
+                lines = 0
+            } else if (++lines == CHUNK_LINES) {
+                result.add(chunkStart until lineEnd)
+                chunkStart = lineEnd + 1
                 lines = 0
             }
-            i = source.indexOf('\n', i + 1)
+            if (newline == -1) break
+            lineStart = newline + 1
         }
-        if (chunkStart < source.length || result.isEmpty()) result.add(chunkStart until source.length)
+        if (chunkStart < displaySource.length || result.isEmpty()) result.add(chunkStart until displaySource.length)
         result
     }
     private var highlightedChunks: List<CharSequence>? = null
@@ -104,14 +134,14 @@ class PluginSourceSheet(context: Context, private val name: String, private val 
     private var codeScrollX = 0
 
     init {
-        if (source.length <= HIGHLIGHT_MAX_LENGTH) {
-            CodeHighlighting.SERVICE.request(source, "javascript") { result ->
+        if (displaySource.length <= HIGHLIGHT_MAX_LENGTH) {
+            CodeHighlighting.SERVICE.request(displaySource, "javascript") { result ->
                 val ranges = result.tokens?.copyStyledRanges() ?: return@request
                 Utilities.searchQueue.postRunnable {
                     var first = 0
                     val highlighted = chunks.map { range ->
                         val end = range.last + 1
-                        val text = SpannableString(source.substring(range.first, end))
+                        val text = SpannableString(displaySource.substring(range.first, end))
                         while (first < ranges.size && ranges[first + 1] <= range.first) first += 3
                         var i = first
                         while (i < ranges.size && ranges[i] < end) {
@@ -148,8 +178,9 @@ class PluginSourceSheet(context: Context, private val name: String, private val 
             setHorizontallyScrolling(true)
         }
         if (codeWidth == 0) {
-            codeWidth = source.lineSequence().maxOf { Layout.getDesiredWidth(it, code.paint) }.toInt() +
-                AndroidUtilities.dp(44f)
+            codeWidth = chunks.maxOf { range ->
+                displaySource.subSequence(range.first, range.last + 1).lineSequence().maxOf { Layout.getDesiredWidth(it, code.paint) }
+            }.toInt() + AndroidUtilities.dp(44f)
         }
         code.minWidth = codeWidth
         return object : HorizontalScrollView(context) {
@@ -177,7 +208,7 @@ class PluginSourceSheet(context: Context, private val name: String, private val 
                 AndroidUtilities.dp(22f),
                 if (index == chunks.lastIndex) AndroidUtilities.dp(16f) else 0,
             )
-            text = highlightedChunks?.get(index) ?: source.substring(range.first, range.last + 1)
+            text = highlightedChunks?.get(index) ?: displaySource.substring(range.first, range.last + 1)
         }
         view.scrollX = codeScrollX
     }
@@ -203,5 +234,6 @@ class PluginSourceSheet(context: Context, private val name: String, private val 
     companion object {
         private const val HIGHLIGHT_MAX_LENGTH = 200_000
         private const val CHUNK_LINES = 40
+        private const val MAX_LINE_LENGTH = 1000
     }
 }

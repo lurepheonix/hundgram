@@ -108,7 +108,7 @@ index 0000000..0000000 100644
      private void fetchFolderInLoadedPinnedDialogs(TLRPC.TL_messages_peerDialogs res) {
          for (int a = 0, N = res.dialogs.size(); a < N; a++) {
              TLRPC.Dialog dialog = res.dialogs.get(a);
-@@ -17526,6 +17606,9 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -17687,6 +17767,9 @@ public class MessagesController extends BaseController implements NotificationCe
              }
          }
          getMessagesStorage().setDialogPinned(dialogId, dialog.pinnedNum);
@@ -118,7 +118,7 @@ index 0000000..0000000 100644
          return true;
      }
  
-@@ -22754,7 +22837,7 @@ public class MessagesController extends BaseController implements NotificationCe
+@@ -22928,7 +23011,7 @@ public class MessagesController extends BaseController implements NotificationCe
                          }
                      }
                      if (maxDate > Integer.MIN_VALUE) {
@@ -192,7 +192,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -9899,6 +9899,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -9894,6 +9894,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          if (filter != null) {
              if (pin) {
                  filter.pinnedDialogs.put(selectedDialog, minPinnedNum);
@@ -202,7 +202,7 @@ index 0000000..0000000 100644
              } else {
                  filter.pinnedDialogs.delete(selectedDialog);
              }
-@@ -10233,6 +10236,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -10228,6 +10231,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
  
      private void showOrUpdateActionMode(long dialogId, View cell) {
          addOrRemoveSelectedDialog(dialogId, cell);
