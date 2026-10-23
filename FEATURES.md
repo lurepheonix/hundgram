@@ -30,6 +30,7 @@ its own update channel, pointing at Hundgram releases.)
 - 🐶 mirror front camera in the attachment camera (preview, photo and video), on a separate switch with a cross-link to the round recorder one
 - 🐶 bugfix: chats forbidding both voice and video messages no longer show a video icon: the button stays a dimmed mic so the restriction hint matches it
 - 🐶 bugfix: GIF seekbar no longer freezes swiping between GIFs, and fast GIF scrolling no longer crashes
+- 🐶 bugfix: GIFs stuck on the first frame after opening a chat now recover and play (bounded decoder retries over a live stream; fully-downloaded files decode straight from disk)
 - 🐶 play videos in original quality (fullscreen player; optional inline autoplay in chats), off by default
 - 🐶 decode internationalized URLs (punycode/percent-escaped) when pasting: readable preview keeps the original link, optional experimental in-place replacement
 

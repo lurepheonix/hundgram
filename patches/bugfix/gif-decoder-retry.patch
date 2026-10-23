@@ -1,0 +1,105 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: The Ghost <lurepheonix@gmail.com>
+Date: Fri, 23 Oct 2026 02:17:32 +0400
+Subject: retry inline gif decoder creation instead of freezing on first failure
+
+---
+ .../messenger/AnimatedFileDrawableStream.java | 17 ++++++++++++-
+ .../ui/Components/AnimatedFileDrawable.java   | 24 ++++++++++++++++---
+ 2 files changed, 37 insertions(+), 4 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/AnimatedFileDrawableStream.java b/TMessagesProj/src/main/java/org/telegram/messenger/AnimatedFileDrawableStream.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/AnimatedFileDrawableStream.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/AnimatedFileDrawableStream.java
+@@ -24,6 +24,8 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
+     private String finishedFilePath;
+     private int loadingPriority;
+ 
++    private int inu_zeroProgressWaits;
++
+     private int debugCanceledCount;
+     private boolean debugReportSend;
+ 
+@@ -65,6 +67,9 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
+                 while (availableLength == 0) {
+                     long[] result = loadOperation.getDownloadedLengthFromOffset(offset, readLength);
+                     availableLength = result[0];
++                    if (availableLength != 0) {
++                        inu_zeroProgressWaits = 0;
++                    }
+                     if (!finishedLoadingFile && result[1] != 0) {
+                         finishedLoadingFile = true;
+                         finishedFilePath = loadOperation.getCacheFileFinal().getAbsolutePath();
+@@ -98,9 +103,19 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
+                         if (countDownLatch != null) {
+                             waitingForLoad = true;
+                             desu.inugram.helpers.media.WebmStickerDebugHelper.onReadWaitBegin(this, offset, readLength);
+-                            countDownLatch.await();
++                            boolean signaled = countDownLatch.await(3, java.util.concurrent.TimeUnit.SECONDS);
+                             waitingForLoad = false;
+                             desu.inugram.helpers.media.WebmStickerDebugHelper.onReadWaitEnd(this);
++                            if (!signaled) {
++                                // No data arrived and nobody cancelled: the load operation may have
++                                // died silently (neither wakeup will ever fire). Force a fresh load
++                                // request and re-check instead of waiting forever; give up boundedly
++                                // so decoder creation fails fast and can retry instead of hanging.
++                                if (++inu_zeroProgressWaits > 4) {
++                                    return 0;
++                                }
++                                lastOffset = -1;
++                            }
+                         }
+                     }
+                 }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
+@@ -323,9 +323,19 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
+             AndroidUtilities.runOnUIThread(uiRunnable);
+             return;
+         }
++        // The constructor may have attempted decoder creation and failed, leaving the
++        // instance poisoned (decoderCreated == true with no decoder). Allow bounded retries
++        // while nothing was ever parsed; the >3840px recycle keeps its metadata and stays out.
++        if (decoderCreated && mDecoder == null && metaData[0] == 0 && decoderTryCount <= MAX_TRIES) {
++            decoderCreated = false;
++        }
+ 
+         if (!decoderCreated && mDecoder == null) {
+-            mDecoder = AnimatedFileNative.createDecoderFrom(path.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, false);
++            if (streamFileSize != 0 && path.exists() && path.length() >= streamFileSize) {
++                mDecoder = AnimatedFileNative.createDecoderFrom(path.getAbsolutePath(), metaData, currentAccount, 0, null, false);
++            } else {
++                mDecoder = AnimatedFileNative.createDecoderFrom(path.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, false);
++            }
+             ptrFail = mDecoder == null && (!isWebmSticker || decoderTryCount > MAX_TRIES);
+             if (mDecoder != null && (metaData[0] > 3840 || metaData[1] > 3840)) {
+                 mDecoder.recycle();
+@@ -333,7 +343,7 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
+             }
+             adaptRenderingSize();
+             updateScaleFactor();
+-            decoderCreated = !isWebmSticker || mDecoder != null || (decoderTryCount++) > MAX_TRIES;
++            decoderCreated = mDecoder != null || (decoderTryCount++) > MAX_TRIES;
+             desu.inugram.helpers.media.WebmStickerDebugHelper.onDecoderCreateAttempt(this);
+             AndroidUtilities.runOnUIThread(AnimatedFileDrawable.this::checkChoreographerInternal);
+         }
+@@ -421,7 +431,15 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
+         } catch (Throwable e) {
+             FileLog.e(e);
+         }
+-        AndroidUtilities.runOnUIThread(uiRunnable);
++        // A failed lazy decoder creation leaves decoderCreated == false (see above) so the
++        // instance can retry instead of freezing; uiRunnableNoFrame reschedules the task which
++        // re-attempts creation, and the successful attempt re-registers the choreographer.
++        // Retries are spaced out so transient codec contention during the open storm can clear.
++        if (!decoderCreated) {
++            AndroidUtilities.runOnUIThread(uiRunnableNoFrame, 150);
++        } else {
++            AndroidUtilities.runOnUIThread(uiRunnable);
++        }
+     }
+ 
+ 
