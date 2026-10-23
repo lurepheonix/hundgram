@@ -399,3 +399,4 @@ bugfix/settings-header-avatar.patch
 feature/animated-avatars.patch
 misc/experimental-settings-in-release.patch
 bugfix/gif-decoder-retry.patch
+bugfix/video-near-end-freeze.patch

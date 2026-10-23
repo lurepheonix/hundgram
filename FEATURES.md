@@ -299,6 +299,7 @@ its own update channel, pointing at Hundgram releases.)
 - sticker cutout/eraser edits no longer progressively fade and/or darken transparent PNGs
 - connection status title no longer gets stuck on "Updating..." when its transition animation is cancelled
 - accelerated video playback no longer applies an unnecessary pitch shift; live speed-slider changes use Android's low-latency audio mixer path
+- looping videos no longer freeze on a frame (then "can't play this file") when seeking close to the end: the playback-params audio buffer is capped at ~1s so the track still fills from the short remainder before the loop point
 - "Save to Downloads" copies uncached documents after downloading instead of requiring a second attempt
 - cancelling a video download kept restarting it after streaming the video in PhotoViewer (the player's loader thread swallowed its shutdown interrupt, survived the viewer close, and re-requested the file on every cancel; also a file-reference refresh landing mid-cancel resurrected the operation into an uncancellable zombie)
 - "Save to Downloads" preserves the original filename on Android 10+

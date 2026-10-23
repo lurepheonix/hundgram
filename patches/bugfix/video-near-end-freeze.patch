@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: The Ghost <lurepheonix@gmail.com>
+Date: Fri, 23 Oct 2026 06:31:04 +0400
+Subject: cap AudioTrack buffer to fix looping videos freezing on near-end seeks
+
+---
+ .../org/telegram/ui/Components/VideoPlayer.java    | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
+@@ -204,9 +204,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+ 
+     /**
+      * The platform never starts a MODE_STREAM AudioTrack whose buffer has not filled, so a buffer
+-     * longer than the media itself stalls forever when the media loops instead of ending. Sizing
+-     * for AudioTrack playback params multiplies the buffer by MAX_PLAYBACK_SPEED (8x), which for
+-     * short clips overshoots the content, so cap it at half the media.
++     * longer than the remaining audio stalls forever: after a near-end seek on a looping video only
++     * a couple seconds of audio remain before the loop point, the track never fills, the audio-driven
++     * media clock freezes (taking video with it) and ExoPlayer trips its stuck-playback watchdog.
++     * Sizing for AudioTrack playback params multiplies the buffer by MAX_PLAYBACK_SPEED (8x), which
++     * overshoots that remainder on any 10-30s clip, so cap the buffer at ~1s of audio (floored at the
++     * base size so sub-second clips still fill, preserving the original short-clip loop fix).
+      */
+     private final DefaultAudioSink.AudioTrackBufferSizeProvider inu_bufferSizeProvider =
+             (minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, maxAudioTrackPlaybackSpeed) -> {
+@@ -216,8 +219,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+                     return size;
+                 }
+                 final int unscaled = provider.getBufferSizeInBytes(minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, 1.0);
++                final long oneSecond = (long) pcmFrameSize * sampleRate;
+                 final long halfMedia = (long) pcmFrameSize * sampleRate * inu_mediaDurationMs / 2000L;
+-                return (int) Math.max(unscaled, Math.min(size, halfMedia - halfMedia % Math.max(pcmFrameSize, 1)));
++                final long cap = Math.min(oneSecond, halfMedia);
++                final long alignedCap = cap - cap % Math.max(pcmFrameSize, 1);
++                return (int) Math.max(unscaled, Math.min(size, alignedCap));
+             };
+ 
+     public VideoPlayer() {
