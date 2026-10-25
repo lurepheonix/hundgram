@@ -117,7 +117,7 @@ index 0000000..0000000 100644
 +        inu_mapThemeButton.setSubMenuOpenSide(2);
 +        inu_mapThemeButton.setAdditionalXOffset(dp(10));
 +        inu_mapThemeButton.setAdditionalYOffset(-dp(10));
-+        inu_mapThemeButton.addSubItem(inu_map_menu_theme_auto, R.drawable.msg_night_auto_solar, getString(R.string.InuMapThemeAuto), getResourceProvider());
++        inu_mapThemeButton.addSubItem(inu_map_menu_theme_auto, R.drawable.msg_theme, getString(R.string.InuMapThemeAuto), getResourceProvider());
 +        inu_mapThemeButton.addSubItem(inu_map_menu_theme_light, R.drawable.menu_day_mode_24, getString(R.string.InuMapThemeLight), getResourceProvider());
 +        inu_mapThemeButton.addSubItem(inu_map_menu_theme_dark, R.drawable.menu_night_mode_24, getString(R.string.InuMapThemeDark), getResourceProvider());
 +        inu_mapThemeButton.setContentDescription(getString(R.string.InuMapTheme));
@@ -159,7 +159,7 @@ index 0000000..0000000 100644
 +        } else if (theme == desu.inugram.InuConfig.MapThemeItem.DARK) {
 +            inu_mapThemeButton.setIcon(R.drawable.menu_night_mode_24);
 +        } else {
-+            inu_mapThemeButton.setIcon(R.drawable.msg_night_auto_solar);
++            inu_mapThemeButton.setIcon(R.drawable.msg_theme);
 +        }
 +    }
 +

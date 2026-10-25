@@ -179,7 +179,7 @@ class BackupSettingsActivity : SettingsPageActivity() {
         items.add(
             UItem.asButton(
                 BUTTON_RESET,
-                R.drawable.msg_reset_solar,
+                R.drawable.msg_reset,
                 LocaleController.getString(R.string.InuBackupReset)
             ).red()
         )

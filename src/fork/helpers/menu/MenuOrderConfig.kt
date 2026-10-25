@@ -244,7 +244,7 @@ class MessageMenuConfig(key: String) : MenuOrderConfig<MessageMenuConfig.Item>(k
             R.string.TranslateMessage,
             R.drawable.msg_translate
         ),
-        SUMMARIZE("summarize", listOf(ChatHelper.OPTION_SUMMARIZE), R.string.InuSummarize, R.drawable.magic_stick_solar),
+        SUMMARIZE("summarize", listOf(ChatHelper.OPTION_SUMMARIZE), R.string.InuSummarize, R.drawable.summary_stars),
         EDIT("edit", listOf(ChatActivity.OPTION_EDIT), R.string.Edit, R.drawable.msg_edit),
         REPORT("report", listOf(ChatActivity.OPTION_REPORT_CHAT), R.string.ReportChat, R.drawable.msg_report),
         SHARE("share", listOf(ChatActivity.OPTION_SHARE), R.string.ShareFile, R.drawable.msg_share),

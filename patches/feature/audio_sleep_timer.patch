@@ -44,7 +44,7 @@ index 0000000..0000000 100644
 +        final String sleepTimerText = SleepTimerHelper.isActive()
 +            ? getString(R.string.InuSleepTimer) + " · " + SleepTimerHelper.formatRemaining()
 +            : getString(R.string.InuSleepTimer) + " · " + getString(R.string.InuSleepTimerOff);
-+        o.add(R.drawable.msg_recent_solar, sleepTimerText, () -> {
++        o.add(R.drawable.msg_recent, sleepTimerText, () -> {
 +            o.dismiss();
 +            SleepTimerDialog.show(getContext(), resourcesProvider);
 +        });

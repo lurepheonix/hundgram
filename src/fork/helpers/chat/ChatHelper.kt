@@ -323,7 +323,7 @@ object ChatHelper {
         if (!selectedObject.messageOwner.summarizedOpen && InuConfig.HIDE_MESSAGE_SUMMARY.value && TranslateController.isSummarizable(selectedObject)) {
             items.add(LocaleController.getString(R.string.InuSummarize))
             options.add(OPTION_SUMMARIZE)
-            icons.add(R.drawable.magic_stick_solar)
+            icons.add(R.drawable.summary_stars)
         }
 
         if (allowSendActions && !noforwards && dialogId != UserConfig.getInstance(activity.currentAccount).clientUserId) {

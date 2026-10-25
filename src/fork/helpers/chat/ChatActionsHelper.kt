@@ -600,7 +600,7 @@ object ChatActionsHelper {
     fun addActionModeItems(activity: ChatActivity, actionMode: ActionBarMenu, anchorAfterId: Int) {
         val item = actionMode.addItemWithWidth(
             ACTION_SELECT_RANGE,
-            R.drawable.msg_select_between_solar,
+            R.drawable.msg_select,
             AndroidUtilities.dp(54f),
             LocaleController.getString(R.string.InuSelectRange),
         )
