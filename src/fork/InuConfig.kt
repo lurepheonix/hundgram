@@ -257,6 +257,9 @@ object InuConfig {
     @JvmField
     val BLOCKED_MESSAGES_MODE = BlockedMessagesModeItem()
 
+    @JvmField
+    val BLOCKED_MESSAGES_HIDE_REPLIES = BoolItem("blocked_messages_hide_replies", false)
+
     class AttachCameraModeItem : IntItem("attach_camera_mode", STATIC) {
         // Migrate the old `disable_instant_camera` boolean toggle: on → static, off → instant.
         override fun read(prefs: SharedPreferences): Int {
@@ -926,16 +929,11 @@ object InuConfig {
     @JvmField
     val ANIMATION_SPEED = FloatItem("animation_speed", 1.0f)
 
-    class IconReplacementItem : IntItem("icon_replacement", OFF) {
-        companion object {
-            const val OFF = 0
-            const val SOLAR = 1
-            const val VKUI = 2
-        }
-    }
+    @JvmField
+    val ICON_PACKS = StringItem("icon_packs", "")
 
     @JvmField
-    val ICON_REPLACEMENT = IconReplacementItem()
+    val ICON_PACKS_ORDER = StringItem("icon_packs_order", "")
 
     class NotificationIconItem : IntItem("notification_icon", TELEGRAM) {
         companion object {

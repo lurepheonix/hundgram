@@ -106,6 +106,7 @@
     <string name="InuAttachCameraMirrorFront">Mirror front camera</string>
     <string name="InuAttachCameraMirrorFrontInfo">Horizontally flip the front camera preview and the captured photo or video</string>
     <string name="InuAttachCameraMirrorFrontSeeAlso">This only affects photos and videos. **Also mirror round videos?**</string>
+    <string name="InuRoundRecorderCamera2Settings">Camera2 settings</string>
     <string name="InuRoundRecorderCameraApi">Round recorder uses %1$s API. **Switch to %2$s >**</string>
     <string name="InuShowAllRecentStickers">Show all recent stickers</string>
     <string name="InuNoStickerExtraPadding">Remove extra bottom padding</string>
@@ -185,6 +186,8 @@
     <string name="InuBlockedMessagesModeHide">Hide</string>
     <string name="InuBlockedMessagesExtra">Also hide messages from</string>
     <string name="InuBlockedMessagesExtraCount">%1$d peers</string>
+    <string name="InuBlockedMessagesHideReplies">Also hide replies to them</string>
+    <string name="InuBlockedMessagesHideRepliesInfo">Incoming messages that reply to a message from a blocked user</string>
     <string name="InuHideMessages">Hide messages</string>
     <string name="InuShowHiddenMessages">Show messages</string>
     <string name="InuSpoilers">Spoilers</string>
@@ -375,9 +378,22 @@
     <string name="InuAttachmentSheet">Attachment sheet</string>
     <string name="InuVoiceRecorder">Voice / round recorder</string>
     <string name="InuIconReplacement">Icon pack</string>
-    <string name="InuIconReplacementOff">Default</string>
-    <string name="InuIconReplacementSolar">Solar by @Design480</string>
-    <string name="InuIconReplacementVkui">VKUI by VK</string>
+    <string name="InuIconPackLoadFromFile">Load from file</string>
+    <string name="InuIconPacksInstalled">Installed packs</string>
+    <string name="InuIconPacksOrderInfo">Icons are resolved in the priority order above. Long-tap to delete</string>
+    <string name="InuIconPacksUnsavedAlert">You have unsaved icon pack changes. Apply them and restart the app?</string>
+    <string name="InuIconPacksApply">Apply and restart</string>
+    <string name="InuIconPacksTelegram">Telegram</string>
+    <string name="InuIconPacksTelegramInfo">Default icons</string>
+    <string name="InuIconPackBundled">bundled</string>
+    <string name="InuIconPackInvalid">This file is not a valid icon pack</string>
+    <string name="InuIconPackInstall">Install</string>
+    <string name="InuIconPackInstalled">Icon pack installed</string>
+    <string name="InuIconPackByAuthor">By %1$s · %2$s</string>
+    <string name="InuIconPackIcons_one">%1$d icon</string>
+    <string name="InuIconPackIcons_other">%1$d icons</string>
+    <string name="InuIconPackDelete">Delete icon pack</string>
+    <string name="InuIconPackDeleteConfirm">Delete %1$s?</string>
 
     <string name="InuMapsHeader">Maps</string>
     <string name="InuMapProvider">Map view provider</string>
@@ -759,6 +775,8 @@
     <string name="InuParanoiaHideOtherAccounts">Hide other accounts</string>
     <string name="InuParanoiaHideFolders">Hide folders</string>
     <string name="InuParanoiaHideMyStories">Hide my stories</string>
+    <string name="InuParanoiaHideStars">Hide Telegram Stars</string>
+    <string name="InuParanoiaHideGram">Hide GRAM</string>
     <string name="InuParanoiaDisguise">Disguise as Telegram</string>
     <string name="InuParanoiaDisguiseInfo">Only the launcher icon and name change. Notifications and the in-app name still show \"Hundgram\", due to Android limitations.</string>
     <string name="InuDisguiseName" translatable="false">Telegram</string>

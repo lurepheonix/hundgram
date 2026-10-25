@@ -143,11 +143,10 @@ the audit reports later patches that fully revert an earlier patch or delete lin
 ## acknowledgements
 
 - the original [Telegram Android](https://github.com/DrKLO/Telegram) - the basis for this fork
-- a bunch of features were ported from [Nekogram](https://github.com/Nekogram/Nekogram), [NagramX](https://github.com/risin42/NagramX), [materialgram](https://github.com/kukuruzka165/materialgram), [Catogram](https://github.com/Catogram/Catogram)
+- a bunch of features were ported from [Nekogram](https://github.com/Nekogram/Nekogram), [NagramX](https://github.com/risin42/NagramX), [materialgram](https://github.com/kukuruzka165/materialgram)
 - `src/res/drawable/icplaceholder.jpg` is a blurred version of [this artwork by Chobles](https://www.pixiv.net/en/artworks/128756420)
 - Tabler icons by [Tabler Team](https://tabler.io/icons)
-- Solar icon pack by [480 Design](https://t.me/Design480)
-- VKUI icon pack by [VK](https://github.com/VKCOM/icons) (MIT), ported from [Catogram](https://github.com/Catogram/Catogram)
+- Solar icon pack by [@r4in80w](https://t.me/r4in80w)
 - AdGuard URL Tracking filter by [AdGuard](https://adguard.com/)
 
 this project is llm-assisted: a bunch of the code and the patches were (and will be) written by claude. this doesn't mean it's "ai slop", i still review all the code myself,

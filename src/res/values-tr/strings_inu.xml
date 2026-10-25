@@ -106,6 +106,7 @@
     <string name="InuAttachCameraMirrorFront">Ön kamerayı yansıt</string>
     <string name="InuAttachCameraMirrorFrontInfo">Ön kamera önizlemesini ve çekilen fotoğraf veya videoyu yatay olarak çevirir</string>
     <string name="InuAttachCameraMirrorFrontSeeAlso">Yalnızca fotoğraf ve videoları etkiler. **Video mesajları da yansıtılsın mı?**</string>
+    <string name="InuRoundRecorderCamera2Settings">Camera2 ayarları</string>
     <string name="InuRoundRecorderCameraApi">Yuvarlak kaydedici %1$s API\'sini kullanıyor. **%2$s API\'sine geç >**</string>
     <string name="InuShowAllRecentStickers">Tüm son çıkartmaları göster</string>
     <string name="InuNoStickerExtraPadding">Alt boşluğu kaldır</string>
@@ -186,6 +187,8 @@
     <string name="InuBlockedMessagesModeHide">Gizle</string>
     <string name="InuBlockedMessagesExtra">Ayrıca şunlardan gelen mesajları da gizle:</string>
     <string name="InuBlockedMessagesExtraCount">%1$d kişi/grup</string>
+    <string name="InuBlockedMessagesHideReplies">Onlara verilen yanıtları da gizle</string>
+    <string name="InuBlockedMessagesHideRepliesInfo">Engellenen bir kullanıcının mesajına yanıt veren gelen mesajlar</string>
     <string name="InuHideMessages">Mesajları gizle</string>
     <string name="InuShowHiddenMessages">Mesajları göster</string>
     <string name="InuSpoilers">Sürprizler (Spoilers)</string>
@@ -376,9 +379,22 @@
     <string name="InuAttachmentSheet">Ek paneli</string>
     <string name="InuVoiceRecorder">Ses / görüntülü mesaj kaydedici</string>
     <string name="InuIconReplacement">Simge paketi</string>
-    <string name="InuIconReplacementOff">Varsayılan</string>
-    <string name="InuIconReplacementSolar">@Design480 tarafından Solar</string>
-    <string name="InuIconReplacementVkui">VK tarafından VKUI</string>
+    <string name="InuIconPackLoadFromFile">Dosyadan yükle</string>
+    <string name="InuIconPacksInstalled">Yüklü paketler</string>
+    <string name="InuIconPacksOrderInfo">Simgeler yukarıdaki öncelik sırasına göre seçilir. Silmek için uzun basın</string>
+    <string name="InuIconPacksUnsavedAlert">Kaydedilmemiş simge paketi değişiklikleriniz var. Uygulanıp uygulama yeniden başlatılsın mı?</string>
+    <string name="InuIconPacksApply">Uygula ve yeniden başlat</string>
+    <string name="InuIconPacksTelegram">Telegram</string>
+    <string name="InuIconPacksTelegramInfo">Varsayılan simgeler</string>
+    <string name="InuIconPackBundled">dahili</string>
+    <string name="InuIconPackInvalid">Bu dosya geçerli bir simge paketi değil</string>
+    <string name="InuIconPackInstall">Yükle</string>
+    <string name="InuIconPackInstalled">Simge paketi yüklendi</string>
+    <string name="InuIconPackByAuthor">%1$s · %2$s</string>
+    <string name="InuIconPackIcons_one">%1$d simge</string>
+    <string name="InuIconPackIcons_other">%1$d simge</string>
+    <string name="InuIconPackDelete">Simge paketini sil</string>
+    <string name="InuIconPackDeleteConfirm">%1$s silinsin mi?</string>
 
     <string name="InuMapsHeader">Haritalar</string>
     <string name="InuMapProvider">Harita görünümü sağlayıcısı</string>
@@ -763,6 +779,8 @@
     <string name="InuParanoiaHideOtherAccounts">Diğer hesapları gizle</string>
     <string name="InuParanoiaHideFolders">Klasörleri gizle</string>
     <string name="InuParanoiaHideMyStories">Hikayelerimi gizle</string>
+    <string name="InuParanoiaHideStars">Telegram Stars\'ı gizle</string>
+    <string name="InuParanoiaHideGram">GRAM\'ı gizle</string>
     <string name="InuParanoiaDisguise">Telegram olarak gizle</string>
     <string name="InuParanoiaDisguiseInfo">Yalnızca başlatıcı simgesi ve adı değişir. Android kısıtlamaları nedeniyle bildirimler ve uygulama içi ad hâlâ \"Hundgram\" olarak görünür.</string>
     <string name="InuDisguiseName" translatable="false">Telegram</string>

@@ -8,6 +8,7 @@ import desu.inugram.InuHooks
 import desu.inugram.SearchRegistry
 import desu.inugram.helpers.InuUtils
 import desu.inugram.helpers.dialogs.DrawerHelper
+import desu.inugram.helpers.icons.IconPackHelper
 import desu.inugram.helpers.theme.MonetHelper
 import desu.inugram.ui.settings.fonts.FontsSettingsActivity
 import org.telegram.messenger.LocaleController
@@ -51,6 +52,11 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuLookAndFeel)
 
+    override fun onResume() {
+        super.onResume()
+        listView?.adapter?.update(true)
+    }
+
 
     override fun fillItems(items: ArrayList<UItem>, adapter: UniversalAdapter) {
         items.add(UItem.asHeader(LocaleController.getString(R.string.InuTypographyAndIcons)))
@@ -59,11 +65,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             UItem.asButton(
                 BUTTON_ICON_REPLACEMENT,
                 LocaleController.getString(R.string.InuIconReplacement),
-                when (InuConfig.ICON_REPLACEMENT.value) {
-                    InuConfig.IconReplacementItem.SOLAR -> LocaleController.getString(R.string.InuIconReplacementSolar)
-                    InuConfig.IconReplacementItem.VKUI -> LocaleController.getString(R.string.InuIconReplacementVkui)
-                    else -> LocaleController.getString(R.string.InuIconReplacementOff)
-                }
+                IconPackHelper.getActivePacksSummary(),
             )
         )
         items.add(
@@ -125,7 +127,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         }
         items.add(UItem.asShadow(null))
 
-        items.add(UItem.asHeader(addExperimentalSpan(LocaleController.getString(R.string.InuInterfaceStyle))))
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuInterfaceStyle)))
         material3Group.addTo(items, ::applyStyleChanges)
         classicUiGroup.addTo(items, ::applyStyleChanges)
         if (material3Group.expanded && InuConfig.M3_BOTTOM_TABS.value) {
@@ -217,18 +219,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         if (material3Group.handleClick(item, view) { applyStyleChanges(listOfNotNull(it)) }) return
         if (classicUiGroup.handleClick(item, view) { applyStyleChanges(listOfNotNull(it)) }) return
         when (item.id) {
-            BUTTON_ICON_REPLACEMENT -> RadioItemOptions.show(
-                this, view,
-                listOf(
-                    LocaleController.getString(R.string.InuIconReplacementOff),
-                    LocaleController.getString(R.string.InuIconReplacementSolar),
-                    LocaleController.getString(R.string.InuIconReplacementVkui),
-                ),
-                InuConfig.ICON_REPLACEMENT.value,
-            ) { which ->
-                InuConfig.ICON_REPLACEMENT.value = which
-                showRestartBulletin()
-            }
+            BUTTON_ICON_REPLACEMENT -> presentFragment(IconPacksActivity())
 
             BUTTON_NOTIFICATION_ICON -> RadioItemOptions.show(
                 this, view,

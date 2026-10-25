@@ -289,9 +289,21 @@
     <string name="InuMessageInput">メッセージ入力欄</string>
     <string name="InuAttachmentSheet">添付シート</string>
     <string name="InuIconReplacement">アイコンパック</string>
-    <string name="InuIconReplacementOff">デフォルト</string>
-    <string name="InuIconReplacementSolar">Solar by @Design480</string>
-    <string name="InuIconReplacementVkui">VKUI by VK</string>
+    <string name="InuIconPackLoadFromFile">ファイルから読み込む</string>
+    <string name="InuIconPacksInstalled">インストール済みのパック</string>
+    <string name="InuIconPacksOrderInfo">アイコンは上の優先順位で適用されます。長押しで削除</string>
+    <string name="InuIconPacksUnsavedAlert">アイコンパックの変更が保存されていません。適用してアプリを再起動しますか？</string>
+    <string name="InuIconPacksApply">適用して再起動</string>
+    <string name="InuIconPacksTelegram">Telegram</string>
+    <string name="InuIconPacksTelegramInfo">デフォルトのアイコン</string>
+    <string name="InuIconPackBundled">内蔵</string>
+    <string name="InuIconPackInvalid">このファイルは有効なアイコンパックではありません</string>
+    <string name="InuIconPackInstall">インストール</string>
+    <string name="InuIconPackInstalled">アイコンパックをインストールしました</string>
+    <string name="InuIconPackByAuthor">作者: %1$s · %2$s</string>
+    <string name="InuIconPackIcons_other">%1$d 個のアイコン</string>
+    <string name="InuIconPackDelete">アイコンパックを削除</string>
+    <string name="InuIconPackDeleteConfirm">%1$s を削除しますか？</string>
 
     <string name="InuMapsHeader">地図</string>
     <string name="InuMapProvider">地図ビューのプロバイダー</string>
@@ -689,6 +701,7 @@
     <string name="InuAttachCameraMirrorFront">フロントカメラを反転</string>
     <string name="InuAttachCameraMirrorFrontInfo">フロントカメラのプレビューと撮影した写真や動画を左右反転する</string>
     <string name="InuAttachCameraMirrorFrontSeeAlso">写真と動画にのみ影響します。**ビデオメッセージも反転しますか?**</string>
+    <string name="InuRoundRecorderCamera2Settings">Camera2 設定</string>
     <string name="InuRoundRecorderCameraApi">丸メッセージの録画は %1$s API を使用しています。**%2$s に切り替える >**</string>
     <string name="InuHideBottomBarNonJoinedGroups">未参加のグループ</string>
     <string name="InuTextSpoilerMode">テキストスポイラーのスタイル</string>
@@ -710,6 +723,8 @@
     <string name="InuBlockedMessagesModeHide">非表示</string>
     <string name="InuBlockedMessagesExtra">次のユーザーからのメッセージも非表示にする</string>
     <string name="InuBlockedMessagesExtraCount">%1$d 人</string>
+    <string name="InuBlockedMessagesHideReplies">そのユーザーへの返信も非表示にする</string>
+    <string name="InuBlockedMessagesHideRepliesInfo">ブロックしたユーザーのメッセージに返信している受信メッセージ</string>
     <string name="InuHideMessages">メッセージを非表示にする</string>
     <string name="InuShowHiddenMessages">メッセージを表示する</string>
     <string name="InuSpoilers">スポイラー</string>
@@ -748,6 +763,8 @@
     <string name="InuGoToMessagePrompt">メッセージ ID</string>
     <string name="InuParanoiaHideFolders">フォルダーを隠す</string>
     <string name="InuParanoiaHideMyStories">自分のストーリーを非表示</string>
+    <string name="InuParanoiaHideStars">Telegram Stars を非表示</string>
+    <string name="InuParanoiaHideGram">GRAM を非表示</string>
     <string name="InuParanoiaSelectWhitelist">表示するチャット</string>
     <string name="InuParanoiaWhitelist">ホワイトリストモード</string>
 

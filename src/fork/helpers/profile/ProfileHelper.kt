@@ -132,16 +132,6 @@ object ProfileHelper {
         } else btnColor
 
     @JvmStatic
-    fun blendChipBackgroundForExpand(backgroundColor: Int, whiteColor: Int, expandProgress: Float): Int =
-        if (useProfilePhotoGradientFade() && expandProgress > 0f) {
-            ColorUtils.blendARGB(backgroundColor, whiteColor, expandProgress)
-        } else backgroundColor
-
-    @JvmStatic
-    fun forceChipShadowForExpand(expandProgress: Float): Boolean =
-        useProfilePhotoGradientFade() && expandProgress > 0f
-
-    @JvmStatic
     fun drawProfilePhotoGradientFade(
         canvas: Canvas,
         blurView: ProfileGalleryBlurView,

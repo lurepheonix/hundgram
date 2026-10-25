@@ -79,7 +79,7 @@ object LongPressDragMenuHelper {
         hoverItem = item
         hoverSaved = item.background
         item.background = makeHighlightBg(item)
-        item.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        item.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
     }
 
     private fun makeHighlightBg(item: View): GradientDrawable {

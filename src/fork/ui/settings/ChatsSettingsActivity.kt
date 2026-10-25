@@ -1,5 +1,7 @@
 package desu.inugram.ui.settings
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.view.View
 import desu.inugram.InuConfig
 import desu.inugram.SearchRegistry
@@ -12,7 +14,9 @@ import org.telegram.ui.Cells.NotificationsCheckCell
 import org.telegram.ui.Cells.TextCheckCell
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
+import org.telegram.ui.RoundVideoSettingsActivity
 import org.telegram.ui.Stories.recorder.DualCameraView
+import org.telegram.utils.settings.SharedSettings
 
 class ChatsSettingsActivity : SettingsPageActivity() {
 
@@ -173,7 +177,13 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 InuConfig.ROUND_RECORDER_EXPONENTIAL_ZOOM.value,
             )
         )
-        val usingCamera2 = SharedConfig.isUsingCamera2(currentAccount)
+        val newRecorder = SharedSettings.roundVideoCamera2Enabled.get()
+        val dualAvailable = if (newRecorder) {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_CONCURRENT)
+        } else {
+            DualCameraView.roundDualAvailableStatic(context) && SharedConfig.isUsingCamera2(currentAccount)
+        }
         items.add(
             mkTwoLineCheckItem(
                 TOGGLE_ROUND_RECORDER_MIRROR_FRONT,
@@ -192,7 +202,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 )
             )
         )
-        if (DualCameraView.roundDualAvailableStatic(context) && usingCamera2) {
+        if (dualAvailable) {
             items.add(
                 mkTwoLineCheckItem(
                     TOGGLE_ROUND_RECORDER_DUAL_CAMERA,
@@ -202,14 +212,22 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 )
             )
         }
-        val cameraApi = if (usingCamera2) "Camera2" else "Camera1"
-        val otherCameraApi = if (usingCamera2) "Camera1" else "Camera2"
+        if (newRecorder) {
+            items.add(
+                mkSubPageButton(
+                    BUTTON_ROUND_VIDEO_SETTINGS,
+                    LocaleController.getString(R.string.InuRoundRecorderCamera2Settings),
+                )
+            )
+        }
+        val cameraApi = if (newRecorder) "Camera2" else "Camera1"
+        val otherCameraApi = if (newRecorder) "Camera1" else "Camera2"
         val cameraApiText = LocaleController.formatString(R.string.InuRoundRecorderCameraApi, cameraApi, otherCameraApi)
         items.add(
             UItem.asShadow(
                 AndroidUtilities.replaceArrows(
                     AndroidUtilities.replaceSingleTag(cameraApiText) {
-                        SharedConfig.toggleUseCamera2(currentAccount)
+                        SharedSettings.roundVideoCamera2Enabled.set(!newRecorder)
                         listView.adapter.update(true)
                     },
                     true,
@@ -223,8 +241,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
                 BUTTON_FORMATTING_POPUP,
                 R.string.InuFormattingPopup,
                 R.string.InuFormattingPopupInfo,
-                InuConfig.FORMATTING_POPUP.value,
-                experimental = true
+                InuConfig.FORMATTING_POPUP.value
             )
         )
         if (chatInputMaxLinesSlider == null) chatInputMaxLinesSlider = SliderCell(
@@ -377,6 +394,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
 
             TOGGLE_ROUND_RECORDER_DUAL_CAMERA -> (view as? NotificationsCheckCell)?.isChecked = InuConfig.ROUND_RECORDER_DUAL_CAMERA.toggle()
             TOGGLE_ROUND_RECORDER_MIRROR_FRONT -> (view as? NotificationsCheckCell)?.isChecked = InuConfig.ROUND_RECORDER_MIRROR_FRONT.toggle()
+            BUTTON_ROUND_VIDEO_SETTINGS -> presentFragment(RoundVideoSettingsActivity())
             TOGGLE_BOT_WEBVIEW_BUTTON -> (view as? TextCheckCell)?.isChecked = InuConfig.HIDE_BOT_WEBVIEW_INPUT.toggle()
             TOGGLE_HIDE_SEND_AS_PICKER -> (view as? NotificationsCheckCell)?.isChecked = InuConfig.HIDE_SEND_AS_PICKER.toggle()
             TOGGLE_SEND_TO_DISCUSS_WITHOUT_JOIN ->
@@ -421,6 +439,7 @@ class ChatsSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_ROUND_RECORDER_EXPONENTIAL_ZOOM = InuUtils.generateId()
         private val TOGGLE_ROUND_RECORDER_DUAL_CAMERA = InuUtils.generateId()
         private val TOGGLE_ROUND_RECORDER_MIRROR_FRONT = InuUtils.generateId()
+        private val BUTTON_ROUND_VIDEO_SETTINGS = InuUtils.generateId()
         private val BUTTON_FORMATTING_POPUP = InuUtils.generateId()
         private val TOGGLE_BOT_WEBVIEW_BUTTON = InuUtils.generateId()
         private val TOGGLE_HIDE_SEND_AS_PICKER = InuUtils.generateId()

@@ -32,7 +32,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -39619,7 +39619,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -39812,7 +39812,7 @@ public class ChatActivity extends BaseFragment implements
                      arrayList = new ArrayList<>();
                      arrayList.add(messageObject);
                  }
@@ -68,7 +68,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java b/T
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LaunchActivity.java
-@@ -6135,7 +6135,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -6248,7 +6248,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
  
      @Override
      public boolean canSelectStories() {
@@ -77,7 +77,7 @@ index 0000000..0000000 100644
      }
  
      @Override
-@@ -9077,7 +9077,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -9222,7 +9222,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
              for (int i = 0; i < stories.size(); ++i) {
                  TL_stories.PeerStories userStories = stories.get(i);
                  long dialogId = DialogObject.getPeerDialogId(userStories.peer);
@@ -90,7 +90,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
-@@ -5676,6 +5676,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -5702,6 +5702,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              protected void onTap(StoryViewer.PlaceProvider provider) {
                  long did = getDialogId();
                  StoriesController storiesController = getMessagesController().getStoriesController();

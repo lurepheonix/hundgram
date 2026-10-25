@@ -23,7 +23,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataControl
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MediaDataController.java
-@@ -8015,7 +8015,7 @@ public class MediaDataController extends BaseController {
+@@ -8094,7 +8094,7 @@ public class MediaDataController extends BaseController {
          return true;
      }
  
@@ -53,7 +53,7 @@ index 0000000..0000000 100644
              messageOwner != null &&
              TranslateController.isTranslatable(this) &&
              translateController.isTranslatingDialog(getDialogId()) &&
-@@ -7516,7 +7517,7 @@ public class MessageObject {
+@@ -7529,7 +7530,7 @@ public class MessageObject {
          }
          if (linkDescription == null) {
              if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaWebPage && getMedia(messageOwner).webpage instanceof TLRPC.TL_webPage && getMedia(messageOwner).webpage.description != null) {
@@ -62,7 +62,7 @@ index 0000000..0000000 100644
                  String siteName = getMedia(messageOwner).webpage.site_name;
                  if (siteName != null) {
                      siteName = siteName.toLowerCase();
-@@ -7668,8 +7669,9 @@ public class MessageObject {
+@@ -7681,8 +7682,9 @@ public class MessageObject {
          } else if (messageOwner.translatedText != null && translated) {
              captionSummarized = false;
              captionTranslated = true;
@@ -74,7 +74,7 @@ index 0000000..0000000 100644
          } else {
              captionSummarized = false;
              captionTranslated = false;
-@@ -8017,7 +8019,8 @@ public class MessageObject {
+@@ -8030,7 +8032,8 @@ public class MessageObject {
              if (messageOwner.voiceTranscriptionOpen) {
                  return messageOwner.translatedVoiceTranscription != null ? messageOwner.translatedVoiceTranscription.entities : null;
              } else {
@@ -360,7 +360,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.j
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
-@@ -1068,6 +1068,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -1069,6 +1069,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
      public int textX;
      private int unmovedTextX;
      private int linkPreviewY;
@@ -369,7 +369,7 @@ index 0000000..0000000 100644
      private int factCheckY;
      public int textY;
      public int totalHeight;
-@@ -1821,6 +1823,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -1822,6 +1824,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
      private int lastDeleteDate;
      private int lastViewsCount;
      private int lastRepliesCount;
@@ -377,7 +377,7 @@ index 0000000..0000000 100644
      private float selectedBackgroundProgress;
      private boolean lastTranslated;
  
-@@ -6788,7 +6791,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -6789,7 +6792,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                  lastPostAuthor != messageObject.messageOwner.post_author ||
                  wasPinned != isPinned ||
                  newReply != lastReplyMessage ||
@@ -387,7 +387,7 @@ index 0000000..0000000 100644
          boolean groupChanged = groupedMessages != currentMessagesGroup;
          boolean pollChanged = false;
  
-@@ -6930,6 +6934,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -6931,6 +6935,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
              linkPreviewY = 0;
              factCheckY = 0;
              lastTranslated = messageObject.translated;
@@ -395,7 +395,7 @@ index 0000000..0000000 100644
              lastSendState = messageObject.messageOwner.send_state;
              lastDeleteDate = messageObject.messageOwner.destroyTime;
              lastViewsCount = messageObject.messageOwner.views;
-@@ -7896,7 +7901,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -7897,7 +7902,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                          isSmallImage = false;
                          linkPreviewAbove = currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.invert_media;
                      } else if (hasLinkPreview) {
@@ -404,7 +404,7 @@ index 0000000..0000000 100644
                          site_name = webPage.site_name;
                          title = drawInstantViewType != 6 && drawInstantViewType != 7 ? webPage.title : null;
                          if (instantViewTypeIsGiftAuction != null) {
-@@ -12450,6 +12455,27 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -12451,6 +12456,27 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
          }
      }
  
@@ -432,7 +432,7 @@ index 0000000..0000000 100644
      @Override
      public void invalidate() {
          if (currentMessageObject == null) {
-@@ -15538,7 +15564,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -15569,7 +15595,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
              restore = true;
  
              AndroidUtilities.rectTmp.set(linkX, linkPreviewY - dp(6), linkX + width, linkPreviewY + linkPreviewHeight + (drawInstantButtonInside && drawInstantView ? dp(42) : 0));
@@ -441,7 +441,7 @@ index 0000000..0000000 100644
              float rad = (float) Math.floor(SharedConfig.bubbleRadius / (currentMessageObject.isSponsored() ? 2f : 3f));
              linkLine
                  .offsetEmoji(0, drawPhotoImageBefore ? (1f - isSmallImage()) * (dp(18) + photoImage.getImageHeight() + (siteNameLayout != null ? siteNameLayout.getLineBottom(siteNameLayout.getLineCount() - 1) : 0)) : 0)
-@@ -15913,7 +15939,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -15944,7 +15970,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                  photoImage.setImageY(smallImageStartY);
              } else {
                  photoImage.setImageX(linkX + (hasInvoicePreview ? -dp(6.3f) : dp(10)));
@@ -450,7 +450,7 @@ index 0000000..0000000 100644
              }
              if (transitionParams != null && transitionParams.animateSmallImage) {
                  if (!isSmallImage && documentAttachType != DOCUMENT_ATTACH_TYPE_DOCUMENT) {
-@@ -16804,7 +16830,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -16835,7 +16861,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
  
          final TranslateController translateController = MessagesController.getInstance(currentAccount).getTranslateController();
          final boolean translating = translateController.isTranslating(currentMessageObject);
@@ -459,7 +459,7 @@ index 0000000..0000000 100644
          final boolean shouldSummarize = currentMessageObject != null && currentMessageObject.messageOwner.summarizedOpen;
          final boolean isFinal = shouldTranslate == (currentMessageObject != null && currentMessageObject.translated) && shouldSummarize == (currentMessageObject != null && currentMessageObject.summarized);
          if (origin == !isFinal) {
-@@ -18490,7 +18516,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -18521,7 +18547,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                  }
                  timeString = LocaleController.formatPmEditedDate(editDate);
              } else {
@@ -468,7 +468,7 @@ index 0000000..0000000 100644
              }
          } else if (currentMessageObject.isSaved && currentMessageObject.messageOwner.fwd_from != null && (currentMessageObject.messageOwner.fwd_from.date != 0 || currentMessageObject.messageOwner.fwd_from.saved_date != 0)) {
              int date = currentMessageObject.messageOwner.fwd_from.saved_date;
-@@ -18544,7 +18570,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -18575,7 +18601,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                  currentTimeString = TextUtils.concat(formatString(R.string.MessageScheduledRepeatSeconds, period), ", ", currentTimeString);
              }
          }
@@ -478,7 +478,7 @@ index 0000000..0000000 100644
          if (currentMessageObject.scheduled && currentMessageObject.messageOwner.date == 0x7FFFFFFE || currentMessageObject.notime) {
              timeWidth -= dp(8);
          }
-@@ -18642,6 +18669,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -18673,6 +18700,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
          } else {
              signWidth = 0;
          }
@@ -502,7 +502,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -9944,7 +9944,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -9946,7 +9946,7 @@ public class ChatActivity extends BaseFragment implements
          translateButton = new TranslateButton(getContext(), this, themeDelegate) {
              @Override
              protected void onButtonClick() {
@@ -511,7 +511,7 @@ index 0000000..0000000 100644
                      getMessagesController().getTranslateController().toggleTranslatingDialog(getDialogId());
                  } else {
                      MessagesController.getNotificationsSettings(currentAccount).edit().putInt("dialog_show_translate_count" + getDialogId(), 14).commit();
-@@ -11399,7 +11399,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -11408,7 +11408,7 @@ public class ChatActivity extends BaseFragment implements
          if (translateItem == null) {
              return;
          }
@@ -520,7 +520,7 @@ index 0000000..0000000 100644
      }
  
      private Animator infoTopViewAnimator;
-@@ -24958,6 +24958,14 @@ public class ChatActivity extends BaseFragment implements
+@@ -25139,6 +25139,14 @@ public class ChatActivity extends BaseFragment implements
      }
  
      private void saveGeneralScroll() {
@@ -535,7 +535,7 @@ index 0000000..0000000 100644
          int scrollByCellHeight = 0;
          ChatMessageCell scrollByCell = null;
          for (int i = 0; i < chatListView.getChildCount(); ++i) {
-@@ -24990,6 +24998,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -25171,6 +25179,7 @@ public class ChatActivity extends BaseFragment implements
          for (MessageObject pinnedMessageObject : pinnedMessageObjects.values()) {
              if (pinnedMessageObject != null && pinnedMessageObject.getId() == messageObject.getId()) {
                  pinnedMessageObject.messageOwner.translatedText = messageObject.messageOwner.translatedText;
@@ -543,7 +543,7 @@ index 0000000..0000000 100644
                  pinnedMessageObject.messageOwner.translatedToLanguage = messageObject.messageOwner.translatedToLanguage;
                  if (pinnedMessageObject.updateTranslation(true)) {
                      updatePinnedMessageView(true, 1);
-@@ -25012,16 +25021,20 @@ public class ChatActivity extends BaseFragment implements
+@@ -25193,16 +25202,20 @@ public class ChatActivity extends BaseFragment implements
                  boolean update = false;
                  if (cellMessageObject.getId() == messageObject.getId()) {
                      cellMessageObject.messageOwner.translatedText = messageObject.messageOwner.translatedText;
@@ -570,7 +570,7 @@ index 0000000..0000000 100644
                      }
                  }
                  MessageObject.GroupedMessages group = groupedMessagesMap.get(messageObject.getGroupId());
-@@ -25050,6 +25063,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -25231,6 +25244,7 @@ public class ChatActivity extends BaseFragment implements
                          saveGeneralScroll();
                      }
                      cellMessageObject.forceUpdate = true;
@@ -578,7 +578,7 @@ index 0000000..0000000 100644
                      cell.setMessageObject(cellMessageObject, cell.getCurrentMessagesGroup(), cell.isPinnedBottom(), cell.isPinnedTop(), cell.isFirstInChat(), cell.isLastInChatList());
                      if (group != null) {
                          if (chatListItemAnimator != null) {
-@@ -26952,6 +26966,8 @@ public class ChatActivity extends BaseFragment implements
+@@ -27133,6 +27147,8 @@ public class ChatActivity extends BaseFragment implements
                  a--;
              }
  
@@ -587,7 +587,7 @@ index 0000000..0000000 100644
              addToPolls(messageObject, old);
              if (old.richCheckboxEcho && messageObject.type == MessageObject.TYPE_ARTICLE && old.richLayout != null && messageObject.messageOwner != null) {
                  messageObject.richLayout = old.richLayout;
-@@ -29417,7 +29433,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -29598,7 +29614,7 @@ public class ChatActivity extends BaseFragment implements
  
          boolean showRestartTopic = !isInPreviewMode() && forumTopic != null && forumTopic.closed && !forumTopic.hidden && ChatObject.canManageTopic(currentAccount, currentChat, forumTopic);
          boolean showTranslate = (
@@ -596,7 +596,7 @@ index 0000000..0000000 100644
                  getMessagesController().getTranslateController().isDialogTranslatable(getDialogId()) && !getMessagesController().getTranslateController().isTranslateDialogHidden(getDialogId()) :
                  !getMessagesController().premiumFeaturesBlocked() && preferences.getInt("dialog_show_translate_count" + did, 5) <= 0
          ) || DEBUG_TOP_PANELS;
-@@ -32215,169 +32231,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -32400,169 +32416,7 @@ public class ChatActivity extends BaseFragment implements
                      });
                      cell.setOnLongClickListener(v1 -> ChatHelper.onMenuOptionLongClick(this, popupLayout, cell, options, i, selectedObject, selectedObjectGroup));
                      if (option == OPTION_TRANSLATE) {
@@ -767,7 +767,7 @@ index 0000000..0000000 100644
                      }
                  }
                  if (selectedObject != null && selectedObject.messageOwner != null && selectedObject.messageOwner.video_processing_pending) {
-@@ -46314,7 +46168,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -46532,7 +46386,7 @@ public class ChatActivity extends BaseFragment implements
                      options.add(OPTION_PIN);
                      icons.add(R.drawable.msg_pin);
                  }
@@ -776,7 +776,7 @@ index 0000000..0000000 100644
                      items.add(LocaleController.getString(R.string.TranslateMessage));
                      options.add(OPTION_TRANSLATE);
                      icons.add(R.drawable.msg_translate);
-@@ -46662,7 +46516,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -46880,7 +46734,7 @@ public class ChatActivity extends BaseFragment implements
                      options.add(OPTION_PIN);
                      icons.add(R.drawable.msg_pin);
                  }

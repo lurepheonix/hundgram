@@ -1,6 +1,7 @@
 package desu.inugram.helpers.chat
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +33,7 @@ import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.BuildVars
 import org.telegram.messenger.ChatObject
 import org.telegram.messenger.LocaleController
+import org.telegram.messenger.MediaController
 import org.telegram.messenger.MessageObject
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.R
@@ -91,6 +93,7 @@ object ChatActionsHelper {
     const val ACTION_SEL_PIN = 1505
     const val ACTION_SEL_UNPIN = 1506
     const val ACTION_SEL_FORWARD_NO_QUOTE = 1507
+    const val ACTION_SEL_DOWNLOADS = 1508
     private const val SELECTION_RENDER_DEBOUNCE_MS = 32L
 
     /** the back row and the gap under it, which every plugin submenu keeps across a rebuild */
@@ -472,7 +475,7 @@ object ChatActionsHelper {
             ACTION_OPEN_IN_DISCUSSION -> openInDiscussionGroup(activity)
 
             ACTION_SELECT_RANGE -> fillSelectionGaps(activity)
-            ACTION_SEL_SAVE, ACTION_SEL_FORWARD_NO_QUOTE, ACTION_SEL_GALLERY ->
+            ACTION_SEL_SAVE, ACTION_SEL_FORWARD_NO_QUOTE, ACTION_SEL_GALLERY, ACTION_SEL_DOWNLOADS ->
                 return selectionMenus[activity]?.let { handleSelectionClick(it, id) } ?: false
             ACTION_SEL_TRANSLATE -> translateSelection(activity)
             ACTION_SEL_PIN -> pinSelection(activity)
@@ -699,8 +702,13 @@ object ChatActionsHelper {
         }
         overflow.addSubItem(
             ACTION_SEL_GALLERY,
-            R.drawable.msg_download,
+            R.drawable.msg_gallery,
             LocaleController.getString(R.string.SaveToGallery),
+        )
+        overflow.addSubItem(
+            ACTION_SEL_DOWNLOADS,
+            R.drawable.msg_download,
+            LocaleController.getString(R.string.SaveToDownloads),
         )
         if (menu.chat != null) {
             overflow.addSubItem(
@@ -752,6 +760,7 @@ object ChatActionsHelper {
             ACTION_SEL_SAVE -> saveSelectionToSavedMessages(menu)
             ACTION_SEL_FORWARD_NO_QUOTE -> menu.forwardWithoutQuote.run()
             ACTION_SEL_GALLERY -> saveSelectionToGallery(menu)
+            ACTION_SEL_DOWNLOADS -> saveSelectionToDownloads(menu)
             // #if PLUGINS
             else -> return dispatchSelectionPluginItem(menu, id)
             // #else
@@ -784,12 +793,14 @@ object ChatActionsHelper {
         val messages = collectSelected(menu)
         var hasText = false
         var hasMedia = false
+        var hasFiles = false
         var canPin = false
         var canUnpin = false
         var allForwardable = true
         for (msg in messages) {
             if (!msg.messageOwner?.message.isNullOrEmpty()) hasText = true
             if (msg.isPhoto || msg.isVideo) hasMedia = true
+            if (msg.isDocument || msg.isMusic) hasFiles = true
             if (chat != null && canPinMessage(chat, msg)) {
                 if (isPinnedMessage(chat, msg)) {
                     canUnpin = true
@@ -804,15 +815,18 @@ object ChatActionsHelper {
         val canForward = messages.isNotEmpty() && allForwardable && !noForwards
         val canSave = canForward && menu.dialogId != UserConfig.getInstance(account).clientUserId
         val canTranslate = chat != null && hasText && InuConfig.IN_PLACE_TRANSLATION.value
+        val canSaveToGallery = hasMedia && canForward
+        val canSaveToDownloads = hasFiles && canForward
         overflow.setSubItemShown(ACTION_SEL_SAVE, canSave)
         overflow.setSubItemShown(ACTION_SEL_FORWARD_NO_QUOTE, canForward)
-        overflow.setSubItemShown(ACTION_SEL_GALLERY, hasMedia)
+        overflow.setSubItemShown(ACTION_SEL_GALLERY, canSaveToGallery)
+        overflow.setSubItemShown(ACTION_SEL_DOWNLOADS, canSaveToDownloads)
         if (chat != null) {
             overflow.setSubItemShown(ACTION_SEL_TRANSLATE, canTranslate)
             overflow.setSubItemShown(ACTION_SEL_PIN, canPin)
             overflow.setSubItemShown(ACTION_SEL_UNPIN, canUnpin)
         }
-        val anyShown = canSave || canForward || canTranslate || hasMedia || canPin || canUnpin
+        val anyShown = canSave || canForward || canTranslate || canSaveToGallery || canSaveToDownloads || canPin || canUnpin
         overflow.visibility = if (anyShown) View.VISIBLE else View.GONE
         // #if PLUGINS
         updateSelectionPluginItems(menu)
@@ -966,9 +980,7 @@ object ChatActionsHelper {
         }
     }
 
-    private fun saveSelectionToGallery(menu: SelectionMenu) {
-        val fragment = menu.fragment
-        val parent = fragment.parentActivity ?: return
+    private fun requestStoragePermissionIfNeeded(parent: Activity): Boolean {
         if (Build.VERSION.SDK_INT >= 23 && (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) &&
             parent.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -976,8 +988,30 @@ object ChatActionsHelper {
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE,
             )
-            return
+            return true
         }
+        return false
+    }
+
+    private fun saveSelectionToDownloads(menu: SelectionMenu) {
+        val fragment = menu.fragment
+        val parent = fragment.parentActivity ?: return
+        if (requestStoragePermissionIfNeeded(parent)) return
+        val files = collectSelected(menu).filter { it.isDocument || it.isMusic }
+        if (files.isEmpty()) return
+        val type = if (files.all { it.isMusic }) BulletinFactory.FileType.AUDIOS else BulletinFactory.FileType.UNKNOWNS
+        MediaController.saveFilesFromMessages(parent, fragment.accountInstance, ArrayList(files)) { count ->
+            if (count > 0 && fragment.parentActivity != null) {
+                BulletinFactory.of(fragment).createDownloadBulletin(type, count, fragment.resourceProvider).show()
+            }
+        }
+        menu.clearSelection.run()
+    }
+
+    private fun saveSelectionToGallery(menu: SelectionMenu) {
+        val fragment = menu.fragment
+        val parent = fragment.parentActivity ?: return
+        if (requestStoragePermissionIfNeeded(parent)) return
         var photos = 0
         var videos = 0
         for (msg in collectSelected(menu)) {

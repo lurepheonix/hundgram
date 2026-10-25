@@ -97,8 +97,7 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                 TOGGLE_REACTION_BAR_BELOW,
                 R.string.InuReactionBarBelow,
                 R.string.InuReactionBarBelowInfo,
-                InuConfig.REACTION_BAR_BELOW.value,
-                experimental = true
+                InuConfig.REACTION_BAR_BELOW.value
             )
         )
         items.add(
@@ -106,8 +105,7 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                 TOGGLE_CHAT_VIEWS_BOTTOM,
                 R.string.InuChatViewsBottom,
                 R.string.InuChatViewsBottomInfo,
-                InuConfig.CHAT_VIEWS_BOTTOM.value,
-                experimental = true
+                InuConfig.CHAT_VIEWS_BOTTOM.value
             )
         )
         items.add(
@@ -231,6 +229,14 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                         R.string.InuBlockedMessagesExtraCount,
                         BlockedMessagesHelper.getExtraHidden(currentAccount).size,
                     ),
+                )
+            )
+            items.add(
+                mkTwoLineCheckItem(
+                    TOGGLE_BLOCKED_MESSAGES_REPLIES,
+                    R.string.InuBlockedMessagesHideReplies,
+                    R.string.InuBlockedMessagesHideRepliesInfo,
+                    InuConfig.BLOCKED_MESSAGES_HIDE_REPLIES.value,
                 )
             )
         }
@@ -413,6 +419,12 @@ class MessagesSettingsActivity : SettingsPageActivity() {
 
             BUTTON_BLOCKED_MESSAGES_EXTRA -> openBlockedExtraPicker()
 
+            TOGGLE_BLOCKED_MESSAGES_REPLIES -> {
+                val new = InuConfig.BLOCKED_MESSAGES_HIDE_REPLIES.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                BlockedMessagesHelper.notifyChanged(currentAccount)
+            }
+
             BUTTON_PINNED_REACTIONS -> presentFragment(PinnedReactionsActivity())
 
             BUTTON_MESSAGE_MENU_ORDER -> presentFragment(MessageMenuOrderActivity())
@@ -525,6 +537,7 @@ class MessagesSettingsActivity : SettingsPageActivity() {
         private val BUTTON_MEDIA_SPOILER_MODE = InuUtils.generateId()
         private val BUTTON_BLOCKED_MESSAGES_MODE = InuUtils.generateId()
         private val BUTTON_BLOCKED_MESSAGES_EXTRA = InuUtils.generateId()
+        private val TOGGLE_BLOCKED_MESSAGES_REPLIES = InuUtils.generateId()
 
         private fun textSpoilerModeLabel(value: Int): String = when (value) {
             InuConfig.TextSpoilerModeItem.SIMPLE -> LocaleController.getString(R.string.InuTextSpoilerModeSimple)
@@ -587,6 +600,7 @@ class MessagesSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("media-spoiler-mode", R.string.InuMediaSpoilerMode, BUTTON_MEDIA_SPOILER_MODE),
                 SearchRegistry.Entry("blocked-messages-mode", R.string.InuBlockedMessagesMode, BUTTON_BLOCKED_MESSAGES_MODE),
                 SearchRegistry.Entry("blocked-messages-extra", R.string.InuBlockedMessagesExtra, BUTTON_BLOCKED_MESSAGES_EXTRA),
+                SearchRegistry.Entry("blocked-messages-replies", R.string.InuBlockedMessagesHideReplies, TOGGLE_BLOCKED_MESSAGES_REPLIES),
             ),
         )
     }

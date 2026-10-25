@@ -288,9 +288,24 @@
     <string name="InuMessageInput">Поле ввода</string>
     <string name="InuAttachmentSheet">Панель вложений</string>
     <string name="InuIconReplacement">Набор иконок</string>
-    <string name="InuIconReplacementOff">По умолчанию</string>
-    <string name="InuIconReplacementSolar">Solar от @Design480</string>
-    <string name="InuIconReplacementVkui">VKUI от VK</string>
+    <string name="InuIconPackLoadFromFile">Загрузить из файла</string>
+    <string name="InuIconPacksInstalled">Установленные наборы</string>
+    <string name="InuIconPacksOrderInfo">Иконки берутся по приоритету в порядке выше. Зажмите, чтобы удалить</string>
+    <string name="InuIconPacksUnsavedAlert">Есть несохранённые изменения наборов иконок. Применить их и перезапустить приложение?</string>
+    <string name="InuIconPacksApply">Применить и перезапустить</string>
+    <string name="InuIconPacksTelegram">Telegram</string>
+    <string name="InuIconPacksTelegramInfo">Стандартные иконки</string>
+    <string name="InuIconPackBundled">встроенный</string>
+    <string name="InuIconPackInvalid">Этот файл не является набором иконок</string>
+    <string name="InuIconPackInstall">Установить</string>
+    <string name="InuIconPackInstalled">Набор иконок установлен</string>
+    <string name="InuIconPackByAuthor">От %1$s · %2$s</string>
+    <string name="InuIconPackIcons_one">%1$d иконка</string>
+    <string name="InuIconPackIcons_few">%1$d иконки</string>
+    <string name="InuIconPackIcons_many">%1$d иконок</string>
+    <string name="InuIconPackIcons_other">%1$d иконки</string>
+    <string name="InuIconPackDelete">Удалить набор иконок</string>
+    <string name="InuIconPackDeleteConfirm">Удалить %1$s?</string>
 
     <string name="InuMapsHeader">Карты</string>
     <string name="InuMapProvider">Источник просмотра карт</string>
@@ -699,6 +714,7 @@
     <string name="InuAttachCameraMirrorFront">Отзеркаливать фронтальную камеру</string>
     <string name="InuAttachCameraMirrorFrontInfo">Горизонтально отражает превью фронтальной камеры и снятое фото или видео</string>
     <string name="InuAttachCameraMirrorFrontSeeAlso">Действует только на фото и видео. **Отзеркаливать и кружочки?**</string>
+    <string name="InuRoundRecorderCamera2Settings">Настройки Camera2</string>
     <string name="InuRoundRecorderCameraApi">Запись кружочков использует %1$s API. **Переключиться на %2$s >**</string>
     <string name="InuHideBottomBarNonJoinedGroups">В группах без участия</string>
     <string name="InuTextSpoilerMode">Стиль текстового спойлера</string>
@@ -720,6 +736,8 @@
     <string name="InuBlockedMessagesModeHide">Скрывать</string>
     <string name="InuBlockedMessagesExtra">Также скрывать сообщения от</string>
     <string name="InuBlockedMessagesExtraCount">%1$d собес-в</string>
+    <string name="InuBlockedMessagesHideReplies">Также скрывать ответы им</string>
+    <string name="InuBlockedMessagesHideRepliesInfo">Входящие сообщения, которые отвечают на сообщение заблокированного пользователя</string>
     <string name="InuHideMessages">Скрыть сообщения</string>
     <string name="InuShowHiddenMessages">Показать сообщения</string>
     <string name="InuSpoilers">Спойлеры</string>
@@ -759,6 +777,8 @@
     <string name="InuGoToMessagePrompt">ID сообщения</string>
     <string name="InuParanoiaHideFolders">Скрыть папки</string>
     <string name="InuParanoiaHideMyStories">Скрыть мои истории</string>
+    <string name="InuParanoiaHideStars">Скрыть Telegram Stars</string>
+    <string name="InuParanoiaHideGram">Скрыть GRAM</string>
     <string name="InuParanoiaSelectWhitelist">Чаты для показа</string>
     <string name="InuParanoiaWhitelist">Режим белого списка</string>
 

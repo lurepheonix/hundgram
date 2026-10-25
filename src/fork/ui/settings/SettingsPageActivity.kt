@@ -217,8 +217,7 @@ abstract class SettingsPageActivity : UniversalFragment() {
         textRes: Int,
         infoRes: Int,
         checked: Boolean,
-        experimental: Boolean = false
-    ): UItem = mkTwoLineCheckItem(id, textRes, infoRes, checked, experimental, split = true)
+    ): UItem = mkTwoLineCheckItem(id, textRes, infoRes, checked, split = true)
 
     class ExperimentalSpan : ReplacementSpan {
         var textPaint: TextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)

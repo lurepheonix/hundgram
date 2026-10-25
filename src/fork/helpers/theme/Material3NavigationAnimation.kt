@@ -77,7 +77,9 @@ object Material3NavigationAnimation {
     private const val OPENING_FADE_START = 50f / 450f
     private const val OPENING_FADE_END = 133f / 450f
 
-    private class BelowBackground(layers: List<Drawable>) : LayerDrawable(layers.toTypedArray()) {
+    private class ExtendedBackground(layers: List<Drawable>) : LayerDrawable(layers.toTypedArray()) {
+        val translatedChildren = HashSet<View>()
+
         fun release() {
             for (i in 0 until numberOfLayers) (getDrawable(i) as? ReleasableDrawable)?.release()
         }
@@ -91,14 +93,17 @@ object Material3NavigationAnimation {
         if (preview || !isEnabled()) return false
         val top = layout.containerView ?: return false
         val below = layout.containerViewBack ?: return false
-        prepareBelow(layout, below)
+        prepareExtension(top, layout.lastFragment, leftEdge = true)
+        prepareExtension(below, layout.backgroundFragment, leftEdge = false)
 
         val offset = dpf2(Material3BackMotion.ENTER_OFFSET_DP)
         val spatial = Material3BackMotion.EMPHASIZED.getInterpolation(progress)
-        top.translationX = offset * (1f - spatial)
+        val topTx = offset * (1f - spatial)
+        top.translationX = 0f
+        translateChildren(top, topTx)
         top.alpha = ((progress - OPENING_FADE_START) / (OPENING_FADE_END - OPENING_FADE_START)).coerceIn(0f, 1f)
         val belowTx = -offset * spatial
-        below.eachChild { it.translationX = belowTx }
+        translateChildren(below, belowTx)
         return true
     }
 
@@ -107,14 +112,16 @@ object Material3NavigationAnimation {
         if (preview || !isEnabled()) return false
         val below = layout.containerView ?: return false
         val top = layout.containerViewBack ?: return false
-        prepareBelow(layout, below)
+        prepareExtension(top, layout.lastFragment, leftEdge = true)
+        prepareExtension(below, layout.backgroundFragment, leftEdge = false)
 
         val offset = dpf2(Material3BackMotion.ENTER_OFFSET_DP)
         val spatial = Material3BackMotion.EMPHASIZED.getInterpolation(progress)
-        top.translationX = offset * spatial
+        val topTx = offset * spatial
+        translateChildren(top, topTx)
         top.alpha = 1f - ((progress - CLOSING_FADE_START) / (CLOSING_FADE_END - CLOSING_FADE_START)).coerceIn(0f, 1f)
         val belowTx = -offset * (1f - spatial)
-        below.eachChild { it.translationX = belowTx }
+        translateChildren(below, belowTx)
         return true
     }
 
@@ -126,46 +133,53 @@ object Material3NavigationAnimation {
     fun applySlideProgress(layout: ActionBarLayout, progress: Float): Boolean {
         if (layout.predictiveBackInProgress || !isEnabled()) return false
         val below = layout.containerViewBack ?: return false
-        prepareBelow(layout, below)
+        prepareExtension(below, layout.backgroundFragment, leftEdge = false)
         val belowTx = -dpf2(Material3BackMotion.ENTER_OFFSET_DP) * (1f - progress.coerceIn(0f, 1f))
-        below.eachChild { it.translationX = belowTx }
+        translateChildren(below, belowTx)
         return true
     }
 
-    // Children are translated instead of the container so the revealed strip on the right stays
-    // covered by the container's own background (emulates AOSP's window <extend>). Translation is
-    // a pure RenderNode matrix op — no layer promotion needed (and a HW layer would re-render per
-    // frame under self-animating content like the dialogs list).
-    private fun prepareBelow(layout: ActionBarLayout, below: ViewGroup) {
-        if (below.background is BelowBackground) return
-        // The plain fill stays underneath the extension: it covers a failed capture and a last column
-        // that happens to be translucent (rounded corners, antialiased edges).
-        val fill = Material3BackMotion.getFragmentBackground(layout.backgroundFragment)?.constantState?.newDrawable()
-            ?: ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite))
-        below.background = BelowBackground(listOfNotNull(fill, captureEdgeExtension(below)))
+    // Tracked because a child can leave the container mid-animation (attached sheets get detached
+    // and reattached later) and would otherwise keep its offset.
+    private fun translateChildren(container: ViewGroup, tx: Float) {
+        val tracked = (container.background as? ExtendedBackground)?.translatedChildren
+        container.eachChild {
+            it.translationX = tx
+            tracked?.add(it)
+        }
     }
 
-    private fun captureEdgeExtension(below: ViewGroup): Drawable? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return null
-        return EdgeExtensionDrawable.capture(below)
+    // Children are translated instead of the container so the revealed strip (right of the below
+    // screen, left of the top one) stays covered by the container's own background (emulates AOSP's
+    // window <extend>). Translation is a pure RenderNode matrix op — no layer promotion needed (and a
+    // HW layer would re-render per frame under self-animating content like the dialogs list).
+    private fun prepareExtension(container: ViewGroup, fragment: BaseFragment?, leftEdge: Boolean) {
+        if (container.background is ExtendedBackground) return
+        // The plain fill stays underneath the extension: it covers a failed capture and an edge column
+        // that happens to be translucent (rounded corners, antialiased edges).
+        val fill = Material3BackMotion.getFragmentBackground(fragment)?.constantState?.newDrawable()
+            ?: ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite))
+        val extension = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) EdgeExtensionDrawable.capture(container, leftEdge) else null
+        container.background = ExtendedBackground(listOfNotNull(fill, extension))
     }
 
     @JvmStatic
     fun cleanup(layout: ActionBarLayout) {
         val cv = layout.containerView
         val cvb = layout.containerViewBack
-        if (cv?.background !is BelowBackground && cvb?.background !is BelowBackground) return
-        resetBelow(cv)
-        resetBelow(cvb)
+        if (cv?.background !is ExtendedBackground && cvb?.background !is ExtendedBackground) return
+        resetExtension(cv)
+        resetExtension(cvb)
         cv?.translationX = 0f
         cvb?.translationX = 0f
     }
 
-    private fun resetBelow(container: ViewGroup?) {
-        val background = container?.background as? BelowBackground ?: return
+    private fun resetExtension(container: ViewGroup?) {
+        val background = container?.background as? ExtendedBackground ?: return
         background.release()
         container.background = null
-        container.eachChild { it.translationX = 0f }
+        background.translatedChildren.forEach { it.translationX = 0f }
+        background.translatedChildren.clear()
     }
 }
 
@@ -175,7 +189,7 @@ object Material3NavigationAnimation {
 // it rasterizes once at 1px and is then stretched by the node's own matrix — no readback, no
 // software draw, and no glyph-cache blowup from re-rasterizing text at 300x scale.
 // A single column is constant along x once stretched, so the drawable can just fill its whole
-// bounds and let the translated children cover the left part; nothing has to follow the animation.
+// bounds and let the translated children cover the rest; nothing has to follow the animation.
 @RequiresApi(Build.VERSION_CODES.Q)
 private class EdgeExtensionDrawable(private val node: RenderNode) : Drawable(), ReleasableDrawable {
     override fun draw(canvas: Canvas) {
@@ -315,18 +329,19 @@ private class EdgeExtensionDrawable(private val node: RenderNode) : Drawable(), 
             if (top < height) canvas.clipOutRect(0, top, STRIP_PX, height)
         }
 
-        fun capture(below: ViewGroup): EdgeExtensionDrawable? {
-            val width = below.width
-            val height = below.height
+        // Scrollbars sit on the right, so the left edge needs no avoidance.
+        fun capture(container: ViewGroup, leftEdge: Boolean): EdgeExtensionDrawable? {
+            val width = container.width
+            val height = container.height
             if (width <= STRIP_PX || height <= 0) return null
 
-            val slices = buildSlices(below)
+            val slices = if (leftEdge) listOf(Slice(0 until height, 0)) else buildSlices(container)
             val node = RenderNode("inu-m3-edge-extension")
             node.setPosition(0, 0, STRIP_PX, height)
             val canvas = node.beginRecording(STRIP_PX, height)
             try {
                 // Grouped by sample column, not per slice: re-recording the hierarchy is the expensive
-                // part, and the rows above and below a scrollbar thumb share the true edge column.
+                // part, and the rows above and container a scrollbar thumb share the true edge column.
                 slices.groupBy { it.sampleX }.forEach { (sampleX, group) ->
                     canvas.save()
                     clipToRows(canvas, group, height)
@@ -335,7 +350,7 @@ private class EdgeExtensionDrawable(private val node: RenderNode) : Drawable(), 
                     // drawRenderNode() for nodes the live container already parents, which records
                     // nothing here. The public entry point re-records the child's own background/onDraw.
                     // left/top rather than x/y — the extension mirrors the content at rest.
-                    below.eachChild { child ->
+                    container.eachChild { child ->
                         if (child.visibility != View.VISIBLE) return@eachChild
                         canvas.save()
                         canvas.translate(child.left.toFloat(), child.top.toFloat())

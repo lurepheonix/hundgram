@@ -197,7 +197,7 @@ class BehaviorSettingsActivity : SettingsPageActivity() {
         items.add(UItem.asShadow(null))
 
         items.add(
-            UItem.asHeader(addExperimentalSpan(LocaleController.getString(R.string.InuNetwork)))
+            UItem.asHeader(LocaleController.getString(R.string.InuNetwork))
         )
         items.add(
             UItem.asCheck(

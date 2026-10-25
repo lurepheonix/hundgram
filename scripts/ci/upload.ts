@@ -82,12 +82,11 @@ try {
   await tg.sendRichMessage(channel, {
     content: {
       type: 'markdown',
-      // tg://document links are undocumented, but work in image syntax
       content: [
         `## Hundgram v${info.buildNum}`,
         `<footer>#release v${info.verName} (build ${info.buildNum}, based on ${info.appVerCode})</footer>`,
         'Two flavors: pluginless (standard, recommended); plugins — if you need Inugram plugins.',
-        ...variants.map(variant => `![${variant}](tg://document?id=${variant})`),
+        ...variants.map(variant => `![](tg://document?id=${variant} "${variant}")`),
         '<details><summary>Changelog</summary>',
         notes.trim(),
         fullChangelog,

@@ -73,7 +73,7 @@ index 0000000..0000000 100644
                          boolean pendingDualSwitch = dualActiveMode
                                  && pendingWarmSwitchFacing != null;
                          boolean wasSwitch = notifySwitchCompletion && !pendingDualSwitch;
-@@ -2517,7 +2523,12 @@ final class RoundVideoCameraController {
+@@ -2518,7 +2524,12 @@ final class RoundVideoCameraController {
          float centerX = previewView.getWidth() * 0.5f;
          float centerY = previewView.getHeight() * 0.5f;
          Matrix matrix = new Matrix();

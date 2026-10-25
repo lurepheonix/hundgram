@@ -560,6 +560,9 @@
       "personal_channel_id",
       "bot_manager_id"
     ],
+    "walletTransactionPeerChannel": [
+      "channel_id"
+    ],
     "walletTransactionPeerUser": [
       "user_id"
     ],

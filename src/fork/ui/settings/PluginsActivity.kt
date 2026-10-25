@@ -63,6 +63,7 @@ class PluginsActivity : SettingsPageActivity() {
     override fun onResume() {
         super.onResume()
         PluginManager.addOnChangedListener(onPluginsChanged)
+        onPluginsChanged()
     }
 
     override fun onPause() {
@@ -554,7 +555,7 @@ class PluginRow(context: Context, val compact: Boolean) : LinearLayout(context) 
     }
 
     private fun linkUsernames(text: String): CharSequence =
-        linkPluginUsernames(text) { username -> onUsernameClick?.invoke(username) }
+        InuUtils.linkUsernames(text) { username -> onUsernameClick?.invoke(username) }
 
     private fun formatDescription(text: String): CharSequence =
         formatPluginDescription(text) { username -> onUsernameClick?.invoke(username) }

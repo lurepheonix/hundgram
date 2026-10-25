@@ -106,6 +106,7 @@
     <string name="InuAttachCameraMirrorFront">Дзеркалити фронтальну камеру</string>
     <string name="InuAttachCameraMirrorFrontInfo">Горизонтально віддзеркалює прев\'ю фронтальної камери та зняте фото або відео</string>
     <string name="InuAttachCameraMirrorFrontSeeAlso">Стосується лише фото та відео. **Віддзеркалювати й відеоповідомлення?**</string>
+    <string name="InuRoundRecorderCamera2Settings">Налаштування Camera2</string>
     <string name="InuRoundRecorderCameraApi">Запис відеоповідомлень використовує %1$s API. **Перемкнути на %2$s >**</string>
     <string name="InuShowAllRecentStickers">Показувати всі нещодавні наліпки</string>
     <string name="InuNoStickerExtraPadding">Прибрати додатковий відступ знизу</string>
@@ -185,6 +186,8 @@
     <string name="InuBlockedMessagesModeHide">Приховувати</string>
     <string name="InuBlockedMessagesExtra">Також приховувати повідомлення від</string>
     <string name="InuBlockedMessagesExtraCount">%1$d чатів</string>
+    <string name="InuBlockedMessagesHideReplies">Також приховувати відповіді їм</string>
+    <string name="InuBlockedMessagesHideRepliesInfo">Вхідні повідомлення, що відповідають на повідомлення заблокованого користувача</string>
     <string name="InuHideMessages">Приховати повідомлення</string>
     <string name="InuShowHiddenMessages">Показати повідомлення</string>
     <string name="InuSpoilers">Спойлери</string>
@@ -375,9 +378,24 @@
     <string name="InuAttachmentSheet">Панель вкладень</string>
     <string name="InuVoiceRecorder">Запис голосових / відеоповідомлень</string>
     <string name="InuIconReplacement">Пакет іконок</string>
-    <string name="InuIconReplacementOff">За замовчуванням</string>
-    <string name="InuIconReplacementSolar">Solar від @Design480</string>
-    <string name="InuIconReplacementVkui">VKUI від VK</string>
+    <string name="InuIconPackLoadFromFile">Завантажити з файлу</string>
+    <string name="InuIconPacksInstalled">Встановлені пакети</string>
+    <string name="InuIconPacksOrderInfo">Іконки беруться за пріоритетом у порядку вище. Затисніть, щоб видалити</string>
+    <string name="InuIconPacksUnsavedAlert">Є незбережені зміни пакетів іконок. Застосувати їх і перезапустити застосунок?</string>
+    <string name="InuIconPacksApply">Застосувати й перезапустити</string>
+    <string name="InuIconPacksTelegram">Telegram</string>
+    <string name="InuIconPacksTelegramInfo">Стандартні іконки</string>
+    <string name="InuIconPackBundled">вбудований</string>
+    <string name="InuIconPackInvalid">Цей файл не є пакетом іконок</string>
+    <string name="InuIconPackInstall">Встановити</string>
+    <string name="InuIconPackInstalled">Пакет іконок встановлено</string>
+    <string name="InuIconPackByAuthor">Від %1$s · %2$s</string>
+    <string name="InuIconPackIcons_one">%1$d іконка</string>
+    <string name="InuIconPackIcons_few">%1$d іконки</string>
+    <string name="InuIconPackIcons_many">%1$d іконок</string>
+    <string name="InuIconPackIcons_other">%1$d іконки</string>
+    <string name="InuIconPackDelete">Видалити пакет іконок</string>
+    <string name="InuIconPackDeleteConfirm">Видалити %1$s?</string>
     <string name="InuMapsHeader">Карти</string>
     <string name="InuMapProvider">Провайдер карт</string>
     <string name="InuMapProviderGoogle">Карти Google</string>
@@ -738,6 +756,8 @@
     <string name="InuParanoiaHideOtherAccounts">Приховати інші акаунти</string>
     <string name="InuParanoiaHideFolders">Приховати папки</string>
     <string name="InuParanoiaHideMyStories">Приховати мої історії</string>
+    <string name="InuParanoiaHideStars">Приховати Telegram Stars</string>
+    <string name="InuParanoiaHideGram">Приховати GRAM</string>
     <string name="InuParanoiaDisguise">Маскування під Telegram</string>
     <string name="InuParanoiaDisguiseInfo">Змінюються лише значок та назва у лаунчері. Через обмеження Android сповіщення та назва всередині додатка все одно показують «Inugram».</string>
     <string name="InuDisguiseName" translatable="false">Telegram</string>

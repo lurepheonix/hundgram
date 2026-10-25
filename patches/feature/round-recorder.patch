@@ -6,9 +6,12 @@ Subject: improvements to the round recorder
 ---
  .../messenger/camera/Camera2Session.java      | 18 ++++++++
  .../messenger/camera/CameraSession.java       |  2 +-
- .../ui/Components/InstantCameraView.java      | 41 ++++++++++++++-----
- .../ui/Components/InstantCameraView2.java     | 35 ++++++++++------
- 4 files changed, 73 insertions(+), 23 deletions(-)
+ .../ui/Components/InstantCameraView.java      | 41 ++++++++++++-----
+ .../ui/Components/InstantCameraView2.java     | 44 +++++++++++++------
+ .../ui/Components/InstantCameraViewBase.java  |  4 +-
+ .../round/RoundVideoCameraController.java     |  1 +
+ .../utils/settings/SharedSettings.java        |  2 +-
+ 7 files changed, 83 insertions(+), 29 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/camera/Camera2Session.java b/TMessagesProj/src/main/java/org/telegram/messenger/camera/Camera2Session.java
 index 0000000..0000000 100644
@@ -257,96 +260,61 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCamer
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView2.java
-@@ -53,6 +53,8 @@ import org.telegram.ui.Stories.recorder.FlashViews;
- import desu.inugram.helpers.chat.VoiceRecorderHelper;
- import org.telegram.utils.recorder.round.RoundVideoSession;
+@@ -31,6 +31,8 @@ import android.widget.LinearLayout;
+ 
+ import androidx.annotation.NonNull;
  
 +import desu.inugram.helpers.chat.RoundRecorderHelper;
-+
- import java.io.File;
- import java.io.FileOutputStream;
- import java.util.ArrayList;
-@@ -124,6 +126,8 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-     private float animationTranslationY;
-     private float pinchStartDistance;
-     private float zoomProgress;
-+    private ZoomControlView inu_zoomSlider;
-+    private float inu_pinchStartT = 0f;
-     private int zoomPointerId1 = -1;
++import desu.inugram.helpers.chat.VoiceRecorderHelper;
+ import org.telegram.messenger.AndroidUtilities;
+ import org.telegram.messenger.ApplicationLoader;
+ import org.telegram.messenger.FileLog;
+@@ -128,6 +130,8 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
      private int zoomPointerId2 = -1;
  
-@@ -243,6 +247,10 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+     private boolean pinchZoomActive;
++    private ZoomControlView inu_zoomSlider;
++    private float inu_pinchStartT;
+     private boolean heavyOperationsStopped;
+     private float previousWindowBrightness = Float.NaN;
+     private int textureViewSize;
+@@ -243,6 +247,8 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
                  0
          ));
  
-+        inu_zoomSlider = RoundRecorderHelper.attachZoomSlider(this, t -> {
-+            if (session != null) session.setZoom(t);
-+        });
++        inu_zoomSlider = RoundRecorderHelper.attachZoomSlider(this, t -> inu_setZoomT(t));
 +
          switchCameraButton = new FlashViews.ImageViewInvertable(context);
          switchCameraButton.setScaleType(ImageView.ScaleType.CENTER);
          switchCameraButton.setContentDescription(
-@@ -327,6 +335,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
- 
-     @Override
-     public void destroy(boolean async) {
-+        RoundRecorderHelper.setSliderVisible(inu_zoomSlider, false);
-         setRecordingUiFrameClockActive(false);
-         cancelCameraFlipAnimation();
-         if (zoomResetAnimator != null) zoomResetAnimator.cancel();
-@@ -529,6 +538,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-     @Override
-     public void cancel(boolean byGesture) {
-         if (session == null) return;
-+        RoundRecorderHelper.setSliderVisible(inu_zoomSlider, false);
-         postRecordStopped(byGesture ? 0 : 6);
-         session.cancel();
-         if (upload != null) upload.release(true);
-@@ -668,6 +678,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-             if (info.getState() == RoundVideoSession.State.RECORDING) {
-                 stopHeavyOperations();
-                 hideInitialPlaceholder();
-+                RoundRecorderHelper.setSliderVisible(inu_zoomSlider, true);
-                 setRecordingUiFrameClockActive(true);
-                 updateRecordingUiFrame();
-                 if (!startedNotificationSent) {
-@@ -684,6 +695,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-                     );
-                 }
-             } else {
-+                RoundRecorderHelper.setSliderVisible(inu_zoomSlider, false);
-                 setRecordingUiFrameClockActive(false);
-                 progressView.setProgress(
-                         info.getRecordedDurationMs() / (float) info.getMaximumDurationMs()
-@@ -710,6 +722,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-             if (cameraCapabilities.getActiveFacing() != null) {
-                 SharedSettings.roundVideoLastCamera.set(cameraCapabilities.getActiveFacing());
+@@ -700,6 +706,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+                 postRecordStopped(2);
              }
-+            if (inu_zoomSlider != null && stateInfo != null) {
-+                inu_zoomSlider.setZoom(stateInfo.getZoomProgress(), false);
-+            }
              updateButtons();
-         }
- 
-@@ -724,6 +739,9 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
-             FileLog.d("RoundVideo camera flip session ready: facing=" + facing
-                     + ", elapsedMs=" + getCameraFlipElapsedMs());
-             maybeFinishCameraFlip();
-+            if (inu_zoomSlider != null && stateInfo != null) {
-+                inu_zoomSlider.setZoom(stateInfo.getZoomProgress(), false);
-+            }
++            zoomProgress = info.getZoomProgress();
++            inu_syncZoomSlider();
++            RoundRecorderHelper.setSliderVisible(inu_zoomSlider, info.getState() == RoundVideoSession.State.RECORDING);
          }
  
          @Override
-@@ -1002,6 +1020,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -711,6 +720,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+                 SharedSettings.roundVideoLastCamera.set(cameraCapabilities.getActiveFacing());
+             }
+             updateButtons();
++            inu_syncZoomSlider();
+         }
+ 
+         @Override
+@@ -1001,7 +1011,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+             zoomPointerId2 = event.getPointerId(1);
              pinchStartDistance = pointerDistance(event, 0, 1);
              pinchZoomActive = pinchStartDistance > 0f;
-             zoomProgress = 0f;
-+            inu_pinchStartT = stateInfo != null ? stateInfo.getZoomProgress() : 0f;
+-            zoomProgress = 0f;
++            inu_pinchStartT = RoundRecorderHelper.zoomProgressToT(zoomProgress, inu_getMaximumZoomRatio());
              return true;
          }
          if (event.getActionMasked() == MotionEvent.ACTION_MOVE && pinchZoomActive) {
-@@ -1012,19 +1031,10 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -1012,19 +1022,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
                  return true;
              }
              float scale = pointerDistance(event, index1, index2) / pinchStartDistance;
@@ -362,18 +330,83 @@ index 0000000..0000000 100644
 -                            0f,
 -                            1f
 -                    );
-+            float t = inu_pinchStartT + RoundRecorderHelper.pinchDeltaT(scale);
-+            zoomProgress = Math.max(0f, Math.min(1f, t));
-             session.setZoom(zoomProgress);
-+            if (inu_zoomSlider != null) inu_zoomSlider.setZoom(zoomProgress, false);
+-            session.setZoom(zoomProgress);
++            inu_setZoomT(inu_pinchStartT + RoundRecorderHelper.pinchDeltaT(scale));
              return true;
          }
          if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP && pinchZoomActive) {
-@@ -1058,6 +1068,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+@@ -1054,9 +1052,26 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+         pinchZoomActive = false;
+         zoomPointerId1 = -1;
+         zoomPointerId2 = -1;
++        if (desu.inugram.InuConfig.ROUND_RECORDER_KEEP_ZOOM.getValue()) return;
+         animateZoomReset();
      }
  
++    private float inu_getMaximumZoomRatio() {
++        return capabilities == null ? 1f : capabilities.getMaximumZoomRatio();
++    }
++
++    private void inu_setZoomT(float t) {
++        if (session == null) return;
++        float progress = RoundRecorderHelper.zoomTToProgress(t, inu_getMaximumZoomRatio());
++        if (session.setZoom(progress)) zoomProgress = progress;
++        inu_syncZoomSlider();
++    }
++
++    private void inu_syncZoomSlider() {
++        if (inu_zoomSlider == null) return;
++        inu_zoomSlider.setZoom(RoundRecorderHelper.zoomProgressToT(zoomProgress, inu_getMaximumZoomRatio()), false);
++    }
++
      private void animateZoomReset() {
-+        if (desu.inugram.InuConfig.ROUND_RECORDER_KEEP_ZOOM.getValue()) return;
          if (session == null) return;
          if (zoomResetAnimator != null) zoomResetAnimator.cancel();
-         zoomResetAnimator = ValueAnimator.ofFloat(zoomProgress, 0f);
+@@ -1065,6 +1080,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
+         zoomResetAnimator.addUpdateListener(animation -> {
+             zoomProgress = (float) animation.getAnimatedValue();
+             if (session != null) session.setZoom(zoomProgress);
++            inu_syncZoomSlider();
+         });
+         zoomResetAnimator.start();
+     }
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraViewBase.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraViewBase.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraViewBase.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraViewBase.java
+@@ -50,9 +50,7 @@ public abstract class InstantCameraViewBase extends FrameLayout {
+             Theme.ResourcesProvider resourcesProvider,
+             boolean isNewDesign
+     ) {
+-        final boolean useCamera2Impl = SharedSettings.roundVideoCamera2Enabled.isSet() ?
+-            SharedSettings.roundVideoCamera2Enabled.get() :
+-            AppGlobalConfig.getInstance(UserConfig.selectedAccount).roundVideoRecorder2Allowed.get();
++        final boolean useCamera2Impl = SharedSettings.roundVideoCamera2Enabled.get();
+ 
+         return useCamera2Impl
+                 ? new InstantCameraView2(context, delegate, resourcesProvider, isNewDesign)
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
+@@ -2100,6 +2100,7 @@ final class RoundVideoCameraController {
+     }
+ 
+     private void prepareWarmSwitchSupport() {
++        if (!desu.inugram.InuConfig.ROUND_RECORDER_DUAL_CAMERA.getValue()) warmSwitchDisabled = true;
+         if (warmSwitchDisabled) {
+             return;
+         }
+diff --git a/TMessagesProj/src/main/java/org/telegram/utils/settings/SharedSettings.java b/TMessagesProj/src/main/java/org/telegram/utils/settings/SharedSettings.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/utils/settings/SharedSettings.java
++++ b/TMessagesProj/src/main/java/org/telegram/utils/settings/SharedSettings.java
+@@ -16,7 +16,7 @@ public final class SharedSettings {
+         EnumSetting.of("audio_recorder_noise_suppression", AudioRecordingSession.NoiseSuppression.DISABLED);
+ 
+     public static final BooleanSetting roundVideoCamera2Enabled =
+-        BooleanSetting.of("round_video_camera2_enabled", BuildConfig.DEBUG_VERSION);
++        BooleanSetting.of("round_video_camera2_enabled", true);
+ 
+     public static final EnumSetting<RoundVideoSession.OutputResolution> roundVideoOutputResolution =
+         EnumSetting.of("round_video_output_resolution", RoundVideoSession.OutputResolution.P480);
