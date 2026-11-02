@@ -68,7 +68,7 @@ index 0000000..0000000 100644
                          playSoundEffect(SoundEffectConstants.CLICK);
                          didClickedImage();
                      } else if (buttonState == 0) {
-@@ -29726,4 +29729,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -29723,4 +29726,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
          }
          return text;
      }
