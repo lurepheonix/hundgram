@@ -104,7 +104,6 @@ its own update channel, pointing at Hundgram releases.)
 ## chats
 
 - customizable sticker size - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
-- 🐶 remove extra bottom padding under stickers
 - 🐶 full-quality sticker previews in sticker sheets & emoji panel (instead of blurry 90px thumbs; only on unmetered network or when already downloaded)
 - show all recent stickers
 - minimize sticker creator button in recent stickers
@@ -177,6 +176,7 @@ its own update channel, pointing at Hundgram releases.)
 - long-tap a mention in a message to insert a name-mention into the input with custom text
 - 🐶 restrict/ban menu items the avatar long-tap menu
 - hide messages from blocked users: with a spoiler or completely - *partially ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
+  - "show hidden messages" in the chat menu, to see a chat as sent until it is closed
   - also hide messages from a custom list of users/channels without blocking them (via settings picker or profile menu)
   - optionally also hide replies to those users
 
@@ -263,12 +263,14 @@ its own update channel, pointing at Hundgram releases.)
 - auto-disable the configured proxy while a VPN is active
 - batch import proxy links from clipboard (one per line)
 - send MP4 files attached through Files as playable videos without conversion
+- enable muting, quality changes, and cropping for AV1 and other video formats when Android provides a compatible decoder; conversion selects a decoder matching the video format, including software decoders
 - sort attach panel albums by photo count instead of recency
 - 🐶 optimized attachment menu setting: [smoother animations](https://github.com/teidesu/inugram/pull/56) when opening photos and videos, large photos open at up to 1920px, with full quality loaded when zooming or editing; disables background blur in the media viewer
 - 🐶 "Minimize" option in the attach panel discard prompt to keep the selection (e.g. to choose a message to reply to)
 - choose the media save folder (Hundgram/Telegram) used for saved photos, videos, music and downloads
-- original video quality option in quality picker, including audio removal without re-encoding video
+- original video quality option in quality picker: send unedited videos unchanged regardless of codec or container; remove audio from H.264/HEVC videos without re-encoding
 - remember last used settings in polls + reasonable defaults
+- 🐶 "Web search" (stock in-app browser search engine) and actions from other apps (e.g. "Ask Claude") in the message text selection overflow menu (reorderable, toggleable)
 
 ## annoyances
 
@@ -295,6 +297,7 @@ its own update channel, pointing at Hundgram releases.)
 
 ## 🐶 bugfixes (vs stock)
 
+- no extra bottom padding under stickers
 - android 16 "expanded" dark theme no longer force-inverts the app
 - channel update queue no longer replays the same update indefinitely after an earlier queued update advances PTS
 - flaky networks: server time offset no longer reset to the epoch by a `bad_msg_notification` inside a container (messages sent meanwhile were dated 1 Jan 1970); session resets on old retransmitted server messages re-send pending requests with fresh msg_id/seqno instead of stale ones (which made the server reject them and cascaded into more resets)
@@ -333,6 +336,7 @@ its own update channel, pointing at Hundgram releases.)
 - big emoji jumping around in emoji-only messages when a visible reply preview shared its spans (stock bug: per-span draw-position cache fought over by both layouts), plus oversized animated emoji in reply previews (stock bug: `cloneSpan` overwrote the resized value with the old size)
 - pinned dialog reorder scrolling/glitching mid-drag in the archive (stock bug: async list diffing dispatched the move after the drag swap)
 - forwards from users with hidden forward privacy: the optimistic message shows the anonymized name right away (when their profile is cached), and the server-confirmed hidden header is applied in place instead of showing the linked author until chat reopen
+- own channel posts with author profiles enabled no longer show the text signature (the optimistic message lacked the `from_id` flag the cell checks, and the server's `post_author` was copied onto it)
 - shared media player visual glitches
 - profile pinned-music sheet bugfixes
 - shared media pager: fling mid-animation to chain tabs or reverse (was ignored until settled); at the edge tab the fling falls through to swipe-to-close
@@ -346,6 +350,7 @@ its own update channel, pointing at Hundgram releases.)
 - dialogs shown over a story (or another attached sheet) no longer lose their dismiss callback (stock bug: the fragment handed the dialog to the sheet and dropped the listener)
 - custom emoji reaction burst respects litemode (stock only gated the "around" animation of regular emoji)
 - reaction counter shift during long-tap menu
+- reactions with equal counts swapping places after sending one or reopening the chat; ties are now ordered by the reaction list position, like other clients
 - media caption hiding and then revealing top-down when reactions first appear on the message
 - reactions silently disappearing right after being sent (stale server read race); for a few seconds after a send, server answers that lose or undercount your own reaction are corrected from the local state
 - seen reactions coming back to the unread reactions counter (stock only told the server once the local counter hit 0, so every server count reload resurrected them); each read is now reported via `readMessageContents`

@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import desu.inugram.InuConfig
 import desu.inugram.helpers.chat.ChatActionsHelper
 import desu.inugram.helpers.chat.ChatHelper
+import desu.inugram.helpers.dialogs.DialogsFabHelper
 import org.json.JSONArray
 import org.json.JSONObject
 import org.telegram.messenger.R
@@ -170,6 +171,12 @@ class ChatMenuConfig(key: String) : MenuOrderConfig<ChatMenuConfig.Item>(key, It
         OPEN_FORUM("open_forum", listOf(ChatActivity.open_forum), R.string.OpenAllTopics, R.drawable.msg_discussion),
         CLOSE_TOPIC("close_topic", listOf(ChatActivity.topic_close), R.string.CloseTopic, R.drawable.msg_topic_close),
         SHOW_PINNED_PANEL("show_pinned_panel", listOf(ChatActionsHelper.ACTION_SHOW_PINNED_PANEL), R.string.InuShowPinnedPanel, R.drawable.msg_pin),
+        SHOW_HIDDEN_MESSAGES(
+            "show_hidden_messages",
+            listOf(ChatActionsHelper.ACTION_SHOW_HIDDEN_MESSAGES),
+            R.string.InuShowFilteredMessages,
+            R.drawable.msg_message
+        ),
         RECENT_ACTIONS("recent_actions", listOf(ChatActionsHelper.ACTION_RECENT_ACTIONS), R.string.EventLog, R.drawable.msg_log),
         GO_TO_BEGINNING("go_to_beginning", listOf(ChatActionsHelper.ACTION_GO_TO_BEGINNING), R.string.InuJumpToBeginning, R.drawable.msg_go_up),
         GO_TO_MESSAGE("go_to_message", listOf(ChatActionsHelper.ACTION_GO_TO_MESSAGE), R.string.InuGoToMessage, R.drawable.msg_message),
@@ -286,13 +293,17 @@ class MessageMenuConfig(key: String) : MenuOrderConfig<MessageMenuConfig.Item>(k
 class DrawerMenuConfig(key: String) : MenuOrderConfig<DrawerMenuConfig.Item>(key, Item.entries, OFF_BY_DEFAULT) {
     enum class Item(
         override val key: String,
-        override val labelRes: Int,
-        override val iconRes: Int,
+        override open val labelRes: Int,
+        override open val iconRes: Int,
     ) : MenuOrderItem {
         MY_PROFILE("my_profile", R.string.MyProfile, R.drawable.left_status_profile),
         MINI_APPS("mini_apps", R.string.InuDrawerMenuMiniApps, R.drawable.msg_bots),
         DIVIDER("divider", R.string.InuDrawerMenuDivider, R.drawable.iv_divider),
-        NEW_GROUP("new_group", R.string.NewGroup, R.drawable.msg_groups),
+        NEW_GROUP("new_group", R.string.NewGroup, R.drawable.msg_groups) {
+            override val labelRes get() = if (!DialogsFabHelper.hasNewMessage()) R.string.NewMessageTitle else R.string.NewGroup
+            override val iconRes get() = if (!DialogsFabHelper.hasNewMessage()) R.drawable.menu_topic_add else R.drawable.msg_groups
+        },
+        NEW_CHANNEL("new_channel", R.string.NewChannel, R.drawable.msg_channel),
         CONTACTS("contacts", R.string.Contacts, R.drawable.msg_contacts),
         CALLS("calls", R.string.Calls, R.drawable.msg_calls),
         SAVED_MESSAGES("saved_messages", R.string.SavedMessages, R.drawable.msg_saved),
@@ -313,7 +324,8 @@ class DrawerMenuConfig(key: String) : MenuOrderConfig<DrawerMenuConfig.Item>(key
     override fun itemByKey(key: String): Item? = Item.forKey(key)
 
     companion object {
-        private val OFF_BY_DEFAULT = setOf<Item>(
+        private val OFF_BY_DEFAULT = setOf(
+            Item.NEW_CHANNEL,
             // #if PLUGINS
             Item.PLUGINS,
             // #endif

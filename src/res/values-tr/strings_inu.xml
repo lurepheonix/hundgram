@@ -109,7 +109,6 @@
     <string name="InuRoundRecorderCamera2Settings">Camera2 ayarları</string>
     <string name="InuRoundRecorderCameraApi">Yuvarlak kaydedici %1$s API\'sini kullanıyor. **%2$s API\'sine geç >**</string>
     <string name="InuShowAllRecentStickers">Tüm son çıkartmaları göster</string>
-    <string name="InuNoStickerExtraPadding">Alt boşluğu kaldır</string>
     <string name="InuHideKeyboardOnScroll">Kaydırırken klavyeyi gizle</string>
     <string name="InuDisablePullToNext">Sonraki kanala geçmek için çekmeyi devre dışı bırak</string>
     <string name="InuDisableSensitive">Hassas içerik filtresini devre dışı bırak</string>
@@ -578,6 +577,12 @@
     <string name="InuTextClassifierModeOff">Kapalı</string>
     <string name="InuTextClassifierModeOffInfo">Metin sınıflandırıcıyı kapatmak metin seçme tepkiselliğini artırır</string>
 
+    <string name="InuSelectionProcessText">Ek metin eylemleri</string>
+    <string name="InuWebSearch">Web\'de ara</string>
+    <string name="InuSelectionProcessTextInfo">Mesaj metni seçim menüsünde diğer uygulamaların sağladığı eylemleri göster</string>
+    <string name="InuSelectionProcessTextItems">Eylemler</string>
+    <string name="InuSelectionProcessTextReset">Varsayılanlara sıfırla</string>
+
     <string name="InuSuggestCustomEmojiAfter">Özel emojileri normal emojilerden sonra öner</string>
     <string name="InuSuggestCustomEmojiAfterInfo">\":kısakod\" öneri penceresinde hareketli/özel emojileri normal olanlardan önce değil sonra gösterir</string>
 
@@ -617,6 +622,8 @@
     <string name="InuEventLogBanConfirm">**%1$s** yasaklansın mı?</string>
     <string name="InuEventLogShowDiff">Farkları göster</string>
     <string name="InuShowPinnedPanel">Sabitlenmiş mesajları göster</string>
+    <string name="InuShowFilteredMessages">Gizli mesajları göster</string>
+    <string name="InuHideFilteredMessages">Gizli mesajları gizle</string>
     <string name="InuAppIconStock">Varsayılan</string>
     <string name="InuAppIconLicenseInugram">Yer tutucu simge, daha iyisini katkıda bulunmaktan çekinmeyin</string>
     <string name="InuAppIconLicenseTelegram">Simge **Telegram** tarafından yapılmıştır. Tüm hakları saklıdır.</string>
@@ -834,8 +841,11 @@
     <string name="InuLogsCopySystemInfo">Sistem bilgisini kopyala</string>
     <string name="InuLogsSystemInfoCopied">Sistem bilgisi panoya kopyalandı</string>
     <string name="InuLogsHeapUsage">Bellek Yığını (Heap): %1$s / %2$s</string>
+    <string name="InuLogsRunGc">Çöp toplamayı çalıştır</string>
     <string name="InuLogsMakeHeapDump">Bellek dökümü (heap dump) oluştur</string>
     <string name="InuLogsMakingHeapDump">Bellek dökümü oluşturuluyor…</string>
+    <string name="InuLogsHeapDumpSaved">Bellek dökümü kaydedildi</string>
+    <string name="InuLogsHeapDumpSaveError">Bellek dökümü kaydedilemedi</string>
     <string name="InuLogsHeapDumpWarning">Oluşturulan .hprof dosyasını **ASLA** hiç kimseyle paylaşmayın — bu dosya uygulamanın bellek anlık görüntüsüdür ve **hassas bilgiler** (mesajlar, jetonlar vb.) içerir.\n\nYalnızca **KENDİNİZ** inceleyin.\n\nUygulama bir süreliğine donacaktır.</string>
 
     <string name="InuDeleteOwnMessages">Mesajlarımı sil</string>
@@ -897,6 +907,7 @@
     <string name="InuPluginReposUpToDate">Güncelleme yok</string>
     <string name="InuPluginReposErrorLink">Bir kanal kullanıcı adı veya bağlantısı girin</string>
     <string name="InuPluginReposErrorNotChannel">Bu herkese açık bir kanal değil</string>
+    <string name="InuPluginReposAddConfirm">**%1$s** eklenti deposu olarak eklensin mi?</string>
     <string name="InuPluginReposErrorExists">Bu depo zaten eklendi</string>
     <string name="InuPluginRepoEmpty">Bu depoda eklenti yok</string>
     <string name="InuPluginRepoErrorLoad">Depo yüklenemedi</string>
@@ -934,6 +945,9 @@
     <string name="InuPluginGrantOnUpdate">Güncellemeleri izleme</string>
     <string name="InuPluginGrantInterceptUpdate">Güncellemeleri yakalama</string>
     <string name="InuPluginGrantInterceptSend">Giden mesajları yakalama</string>
+    <string name="InuPluginRewrittenBy">%1$s tarafından yeniden yazıldı.</string>
+    <string name="InuPluginRewriteRevert">Geri al ></string>
+    <string name="InuPluginGrantFilterMessages">Sohbetlerdeki mesajları gizleme veya değiştirme</string>
     <string name="InuPluginGrantInterceptRpc">API isteklerini yakalama</string>
     <string name="InuPluginGrantInvokeRpc">Ham API erişimi</string>
     <string name="InuPluginGrantTakeout">Veri dışa aktarma oturumları</string>
