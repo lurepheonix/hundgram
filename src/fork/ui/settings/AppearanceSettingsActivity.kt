@@ -124,13 +124,6 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                     InuConfig.BOTTOM_TABS_COMPACT_MODE.value,
                 )
             )
-        }
-        items.add(UItem.asShadow(null))
-
-        items.add(UItem.asHeader(LocaleController.getString(R.string.InuInterfaceStyle)))
-        material3Group.addTo(items, ::applyStyleChanges)
-        classicUiGroup.addTo(items, ::applyStyleChanges)
-        if (material3Group.expanded && InuConfig.M3_BOTTOM_TABS.value) {
             items.add(
                 mkTwoLineCheckItem(
                     TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR,
@@ -140,6 +133,11 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 )
             )
         }
+        items.add(UItem.asShadow(null))
+
+        items.add(UItem.asHeader(LocaleController.getString(R.string.InuInterfaceStyle)))
+        material3Group.addTo(items, ::applyStyleChanges)
+        classicUiGroup.addTo(items, ::applyStyleChanges)
         items.add(
             mkTwoLineCheckItem(
                 TOGGLE_DISABLE_SCRIM_BLUR,
@@ -210,7 +208,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         if (InuConfig.MATERIAL3_SWITCHES in configs || InuConfig.MATERIAL3_SLIDERS in configs) invalidateVisibleRows()
         if (configs.any { it in SOFT_REBUILD_CONFIGS }) softRebuild()
         if (InuConfig.M3_SECTIONS_STYLE in configs) inu_rebuildSelf()
-        if (InuConfig.M3_BOTTOM_TABS in configs && !InuConfig.M3_BOTTOM_TABS.value) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
+        if (InuConfig.M3_BOTTOM_TABS in configs && InuConfig.M3_BOTTOM_TABS.value) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
         if (InuConfig.NON_ISLAND_CHAT_ELEMENTS in configs) InuHooks.syncChatInputRowHeight()
         listView.adapter.update(true)
     }
@@ -253,7 +251,9 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
 
             TOGGLE_M3_BOTTOM_TABS_NO_INDICATOR -> {
                 val new = InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.toggle()
+                if (new) InuConfig.M3_BOTTOM_TABS.value = false
                 (view as? NotificationsCheckCell)?.isChecked = new
+                listView.adapter.update(true)
                 softRebuild()
             }
 

@@ -158,7 +158,7 @@ object InuConfig {
     val M3_NAVIGATION_ANIMATION = BoolItem("m3_navigation_animation", false)
 
     @JvmField
-    val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", true)
+    val M3_BOTTOM_TABS = BoolItem("m3_bottom_tabs", false)
 
     @JvmField
     val M3_BOTTOM_TABS_NO_INDICATOR = BoolItem("m3_bottom_tabs_no_indicator", true)

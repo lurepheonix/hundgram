@@ -41,7 +41,7 @@ object MainTabsHelper {
 
     @JvmStatic
     val isMaterial: Boolean
-        get() = InuConfig.M3_BOTTOM_TABS.value
+        get() = !isHidden && (InuConfig.M3_BOTTOM_TABS.value || InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value)
 
     @JvmStatic
     fun createTabScrimBackground(anchor: View, color: Int): Drawable {
@@ -63,6 +63,15 @@ object MainTabsHelper {
     @JvmStatic
     val isHidden: Boolean
         get() = InuConfig.BOTTOM_TABS_HIDE.value
+
+    // sleek and material tabs are mutually exclusive; both-on is the old default,
+    // so normalize it to sleek (the look those users already had).
+    @JvmStatic
+    fun migrateTabStyle() {
+        if (InuConfig.M3_BOTTOM_TABS.value && InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value) {
+            InuConfig.M3_BOTTOM_TABS.value = false
+        }
+    }
 
     @JvmStatic
     val isContactsTabHidden: Boolean

@@ -11,6 +11,7 @@ import desu.inugram.helpers.SplashScreenHelper
 import desu.inugram.helpers.UrlCleanerHelper
 import desu.inugram.helpers.cloud.CloudSettingsHelper
 import desu.inugram.helpers.dialogs.DrawerHelper
+import desu.inugram.helpers.dialogs.MainTabsHelper
 import desu.inugram.helpers.font.FontHelper
 import desu.inugram.helpers.maps.MapsHelper
 import desu.inugram.helpers.media.MediaSendDebugHelper
@@ -60,6 +61,7 @@ object InuHooks {
         syncDoubleTapDelay()
         syncAnimationSpeed()
         syncChatInputRowHeight()
+        MainTabsHelper.migrateTabStyle()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MonetHelper.registerOverlayChangeReceiver(context)
             MonetHelper.registerThemeReloadReceiver(context)

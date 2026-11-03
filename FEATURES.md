@@ -15,7 +15,7 @@ the rest of this list is inherited Inugram behavior. (Separate app id and
 its own update channel, pointing at Hundgram releases.)
 
 - 🐶 optional shorter swipe gestures for message replies, chat-list actions, navigation, folder tabs and shared-media tabs; does not change scrolling, touch sensitivity or animation speed
-- 🐶 sleek old-iphone-like style option for material 3 bottom tabs
+- 🐶 sleek old-iphone-like bottom tabs style, mutually exclusive with the material 3 style
 - 🐶 disable stories opening on dialog-list overscroll
 - 🐶 hide stories is granular: main list, archive and avatar rings, with optional show-in-archive, show-own and show-rings sub-toggles
 - map theme switch (Auto/light/dark) in settings and on the map itself, for Google and OpenStreetMap views
@@ -85,7 +85,7 @@ its own update channel, pointing at Hundgram releases.)
 ## dialogs list / main page
 
 - bottom tabs: 🐶 compact mode, hide contacts tab, hide bar entirely
-- bottom tabs: material design 3 style with a pill indicator behind the selected icon
+- bottom tabs: material design 3 style with a pill indicator behind the selected icon, or 🐶 sleek style (mutually exclusive)
 - double-tap account tab to switch to next account
 - long-tap "chats" tab to pick folder from menu
 - folder display modes: titles / titles+icons / icons-only
