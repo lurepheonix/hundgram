@@ -91,7 +91,7 @@ its own update channel, pointing at Hundgram releases.)
 - folder display modes: titles / titles+icons / icons-only
 - folder unread counter modes: hide / regular / exclude muted / 🐶 exclude muted non-dms
 - hide "all chats" folder tab
-- custom title text: Inugram / @username / first name / "Chats"
+- custom title text: Inugram / @username / first name / "Chats" / active folder name
 - 🐶 dialogs fab customization: main + secondary actions, hide-on-scroll, left-side
 - 🐶 "create as supergroup" toggle in group creation
 - 🐶 deeplink / username / cached peer ID quick-open from global search
@@ -133,6 +133,7 @@ its own update channel, pointing at Hundgram releases.)
 - web preview replacements (e.g. twitter→fixupx), optionally applied when pasting links
 - 🐶 strip tracking params (utm_*, fbclid, si, erid, …) from links before opening and/or when pasting — *rules from AdGuard URL Tracking filter*
 - 🐶 resolve trackable share redirects (TikTok, SoundCloud and more) when pasting/opening
+- 🐶 unwrap redirect links (Google, YouTube, Facebook, Instagram, VK, Steam) along with tracking param stripping
 - 🐶 web preview refetch from menu
 - 🐶 disable web preview limit on twitter-like websites
 - 🐶 spoiler web previews: when the preview-generating link is under a spoiler, cover the whole preview card too
@@ -235,6 +236,8 @@ its own update channel, pointing at Hundgram releases.)
   - optionally hide the Money wallet and show Gram Earnings as 0 with no transactions or stats while enabled
   - optional launcher long-press shortcut to enter it quickly (hidden while active)
 - biometric confirmation before deleting/clearing a chat or logging out - *inspired by [Cherrygram](https://github.com/arsLan4k1390/Cherrygram)*
+- import the Money wallet from raw ed25519 private key (+ support for 12 words rotation) - *engine patch from [gettele/money](https://github.com/gettele/money)*
+  - replace an imported key with 12 new words via an on-chain key rotation, offered once right after import - *inspired by [tele](https://github.com/nitreojs/tele)*
 
 ## behavior
 
@@ -298,6 +301,7 @@ its own update channel, pointing at Hundgram releases.)
 ## 🐶 bugfixes (vs stock)
 
 - no extra bottom padding under stickers
+- 12/24-hour time follows the system locale again when the system clock format is automatic (stock switched to the Telegram language's format after any configuration change)
 - android 16 "expanded" dark theme no longer force-inverts the app
 - channel update queue no longer replays the same update indefinitely after an earlier queued update advances PTS
 - flaky networks: server time offset no longer reset to the epoch by a `bad_msg_notification` inside a container (messages sent meanwhile were dated 1 Jan 1970); session resets on old retransmitted server messages re-send pending requests with fresh msg_id/seqno instead of stale ones (which made the server reject them and cascaded into more resets)
@@ -331,6 +335,7 @@ its own update channel, pointing at Hundgram releases.)
 - share sheet search results unclickable near the top (the touch dead zone under the search field double-counted the status bar inset, swallowing taps on the first row of results)
 - chat list crash while flinging when RecyclerView exposes a stale child without a ViewHolder
 - dialogs list pull-to-reveal-archive glitches
+- dialogs list jumping when opening/closing forum topics (the collapsed avatar column was laid out with the filter tabs' padding, then snapped after the next dialog update; closing re-anchored against the wrong padding and left the top chats under the tabs)
 - inline code in dialog previews no longer inherits chat-bubble colors
 - chat previews no longer persist the scroll position, so opening the chat normally afterwards still starts where you left off
 - big emoji jumping around in emoji-only messages when a visible reply preview shared its spans (stock bug: per-span draw-position cache fought over by both layouts), plus oversized animated emoji in reply previews (stock bug: `cloneSpan` overwrote the resized value with the old size)
