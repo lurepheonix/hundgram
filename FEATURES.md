@@ -33,6 +33,7 @@ its own update channel, pointing at Hundgram releases.)
 - 🐶 bugfix: GIFs stuck on the first frame after opening a chat now recover and play (bounded decoder retries over a live stream; fully-downloaded files decode straight from disk)
 - 🐶 play videos in original quality (fullscreen player; optional inline autoplay in chats), off by default
 - 🐶 decode internationalized URLs (punycode/percent-escaped) when pasting: readable preview keeps the original link, optional experimental in-place replacement
+- 🐶 chat search: location, pinned and my-mentions filters, combinable with the sender filter and listed with an empty query; filter menu rows show icons
 
 ## appearance & general
 
@@ -123,7 +124,7 @@ its own update channel, pointing at Hundgram releases.)
 - hide channel, group preview (🐶) and replies (🐶) bottom bar (mute/join/etc)
 - send message to discussion group without joining
 - 🐶 member count on private invite sheets (instead of "private group/channel"; like tdesktop)
-- 🐶 search: media-type, location, pinned and my-mentions filters, combined sender + filter searching, and "show only matches"
+- 🐶 search: media-type filters, combined sender + media filtering, and "show only matches"; filter menu rows have icons
 - tapping a hashtag in a public channel defaults to the "This Chat" tab
 - 🐶 "from user" picker in search also finds users not in chat by name, username, or cached user ID (like tdesktop)
 - static pinned reactions in the reaction bar

@@ -3,6 +3,7 @@ package desu.inugram.helpers.search
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.GradientDrawable
+import android.text.TextPaint
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -41,18 +42,18 @@ class SearchFilterHelper(
         private set
 
 
-    enum class FilterItem(val labelRes: Int) {
-        GIFS(R.string.InuSearchFilterGifs),
-        MUSIC(R.string.InuSearchFilterMusic),
-        PHOTOS(R.string.InuSearchFilterPhotos),
-        FILES(R.string.InuSearchFilterFiles),
-        VIDEOS(R.string.InuSearchFilterVideos),
-        VOICE(R.string.InuSearchFilterVoice),
-        ROUND(R.string.InuSearchFilterRound),
-        POLL(R.string.InuSearchFilterPoll),
-        GEO(R.string.InuSearchFilterGeo),
-        PINNED(R.string.InuSearchFilterPinned),
-        MENTIONS(R.string.InuSearchFilterMentions),
+    enum class FilterItem(val labelRes: Int, val iconRes: Int) {
+        GIFS(R.string.InuSearchFilterGifs, R.drawable.inu_tabler_gif),
+        MUSIC(R.string.InuSearchFilterMusic, R.drawable.inu_tabler_music),
+        PHOTOS(R.string.InuSearchFilterPhotos, R.drawable.inu_tabler_photo),
+        FILES(R.string.InuSearchFilterFiles, R.drawable.inu_tabler_file),
+        VIDEOS(R.string.InuSearchFilterVideos, R.drawable.inu_tabler_movie),
+        VOICE(R.string.InuSearchFilterVoice, R.drawable.input_mic),
+        ROUND(R.string.InuSearchFilterRound, R.drawable.input_video),
+        POLL(R.string.InuSearchFilterPoll, R.drawable.inu_tabler_chart_bar),
+        GEO(R.string.InuSearchFilterGeo, R.drawable.inu_tabler_map_pin),
+        PINNED(R.string.InuSearchFilterPinned, R.drawable.inu_tabler_pin),
+        MENTIONS(R.string.InuSearchFilterMentions, R.drawable.inu_tabler_at),
     }
 
     private val selection: MutableSet<FilterItem> = mutableSetOf()
@@ -243,6 +244,14 @@ class SearchFilterHelper(
     }
 
     private fun showMenu(anchor: View) {
+        // Rows are laid out at a fixed minWidth, so size it to the longest label
+        // plus icon, check and padding instead of clipping translations.
+        val textPaint = TextPaint().apply { textSize = AndroidUtilities.dp(16f).toFloat() }
+        val longest = (MENU_ORDER.map { LocaleController.getString(it.labelRes) } +
+            LocaleController.getString(R.string.InuSearchFilterOnlyMatches))
+            .maxOf { textPaint.measureText(it) }
+        val minWidth = (longest / AndroidUtilities.density + 43 + 43 + 18 + 18 + 12)
+            .toInt().coerceAtLeast(180)
         val options = ItemOptions
             .makeOptions(fragment, anchor)
             .setLongPressSelectionEnabled(false)
@@ -251,14 +260,15 @@ class SearchFilterHelper(
                 setColor(fragment.getThemedColor(Theme.key_chat_messagePanelBackground))
             })
             .setDismissWithButtons(false)
-            .setMinWidth(180)
+            .setMinWidth(minWidth)
             .setGravity(Gravity.LEFT)
             .forceTop(true)
 
         val subItems = MENU_ORDER.map { item ->
             val sub = options.addChecked()
             moveCheckRight(sub)
-            sub.setText(LocaleController.getString(item.labelRes))
+            val text = LocaleController.getString(item.labelRes)
+            if (item.iconRes != 0) sub.setTextAndIcon(text, item.iconRes) else sub.setText(text)
             item to sub
         }
         options.addGap()
