@@ -14,7 +14,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/MediaController.java
-@@ -2632,6 +2632,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
+@@ -2703,6 +2703,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                          voiceMessagesPlaylistMap = null;
                      }
                  }
@@ -29,7 +29,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.j
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Cells/ChatMessageCell.java
-@@ -9352,7 +9352,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -8643,7 +8643,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                      photoImage.setAllowStartAnimation(true);
                  } else if (messageObject.isRoundVideo()) {
                      MessageObject playingMessage = MediaController.getInstance().getPlayingMessageObject();
@@ -38,7 +38,7 @@ index 0000000..0000000 100644
                  } else {
                      photoImage.setAllowStartAnimation(messageObject.gifState == 0);
                  }
-@@ -12120,7 +12120,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -10577,7 +10577,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
          } else {
              if (allowStart) {
                  MessageObject playingMessage = MediaController.getInstance().getPlayingMessageObject();
@@ -47,7 +47,7 @@ index 0000000..0000000 100644
              }
              photoImage.setAllowStartAnimation(allowStart);
              if (thumb != null) {
-@@ -18185,9 +18185,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
+@@ -15274,9 +15274,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
              if (!currentMessageObject.needDrawBluredPreview() && !autoPlayingMedia && documentAttach != null && !desu.inugram.helpers.chat.LinkPreviewSpoilerHelper.isMediaCovered(currentMessageObject)) {
                  if (documentAttachType == DOCUMENT_ATTACH_TYPE_ROUND) {
                      photoImage.setImage(ImageLocation.getForDocument(documentAttach), ImageLoader.AUTOPLAY_FILTER, ImageLocation.getForObject(currentPhotoObject, photoParentObject), currentPhotoObject instanceof TLRPC.TL_photoStrippedSize || currentPhotoObject != null && "s".equals(currentPhotoObject.type) ? currentPhotoFilterThumb : currentPhotoFilter, ImageLocation.getForObject(currentPhotoObjectThumb, photoParentObject), currentPhotoFilterThumb, currentPhotoObjectThumbStripped, documentAttach.size, null, currentMessageObject, 0);
@@ -69,7 +69,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivit
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
-@@ -38,6 +38,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
+@@ -39,6 +39,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
  import androidx.recyclerview.widget.LinearLayoutManager;
  import androidx.recyclerview.widget.RecyclerView;
  
@@ -78,7 +78,7 @@ index 0000000..0000000 100644
  import org.telegram.messenger.AndroidUtilities;
  import org.telegram.messenger.BuildVars;
  import org.telegram.messenger.LiteMode;
-@@ -122,6 +124,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -131,6 +133,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
              final Item item = items.get(position);
  
              if (item.viewType == VIEW_TYPE_SWITCH || item.viewType == VIEW_TYPE_CHECKBOX) {
@@ -90,7 +90,7 @@ index 0000000..0000000 100644
                  if (LiteMode.isPowerSaverApplied()) {
                      restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(.1f, Color.WHITE, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString(R.string.LiteBatteryRestricted)).show();
                      return;
-@@ -275,6 +282,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -290,6 +297,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
          items.add(Item.asSwitch(R.drawable.msg2_call_earpiece, LocaleController.getString(R.string.LiteOptionsCalls), LiteMode.FLAG_CALLS_ANIMATIONS));
          items.add(Item.asSwitch(R.drawable.msg2_videocall, LocaleController.getString(R.string.LiteOptionsAutoplayVideo), LiteMode.FLAG_AUTOPLAY_VIDEOS));
          items.add(Item.asSwitch(R.drawable.msg2_gif, LocaleController.getString(R.string.LiteOptionsAutoplayGifs), LiteMode.FLAG_AUTOPLAY_GIFS));
@@ -98,7 +98,7 @@ index 0000000..0000000 100644
          items.add(Item.asSwitch(R.drawable.photo_star, LocaleController.getString(R.string.LiteOptionsParticles), LiteMode.FLAG_PARTICLES));
          items.add(Item.asInfo(""));
  
-@@ -338,6 +346,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -353,6 +361,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
      private static final int VIEW_TYPE_SWITCH2 = 5;
  
      public static final int SWITCH_TYPE_SMOOTH_TRANSITIONS = 1;
@@ -106,7 +106,7 @@ index 0000000..0000000 100644
  
      private class Adapter extends AdapterWithDiffUtils {
  
-@@ -567,7 +576,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -582,7 +591,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                  }
                  textView.setTranslationX(0);
                  switchView.setVisibility(VISIBLE);
@@ -115,7 +115,7 @@ index 0000000..0000000 100644
                  needLine = item.getFlagsCount() > 1;
              } else {
                  checkBoxView.setVisibility(VISIBLE);
-@@ -585,7 +594,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -600,7 +609,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
              ((MarginLayoutParams) textViewLayout.getLayoutParams()).rightMargin = AndroidUtilities.dp(item.viewType == VIEW_TYPE_SWITCH ? (LocaleController.isRTL ? 64 : 75) + 4 : 8);
  
              setWillNotDraw(!((needDivider = divider) || needLine));
@@ -124,7 +124,7 @@ index 0000000..0000000 100644
          }
  
          public void update(Item item) {
-@@ -596,12 +605,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -611,12 +620,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
                      arrowView.clearAnimation();
                      arrowView.animate().rotation(index >= 0 && expanded[index] ? 180 : 0).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(240).start();
                  }
@@ -139,7 +139,7 @@ index 0000000..0000000 100644
          }
  
          private boolean containing;
-@@ -994,6 +1003,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -1045,6 +1054,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
          public int iconResId;
          public int flags;
          public int type;
@@ -147,7 +147,7 @@ index 0000000..0000000 100644
  
          private Item(int viewType, CharSequence text, int iconResId, int flags, int type) {
              super(viewType, false);
-@@ -1015,6 +1025,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -1066,6 +1076,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
          public static Item asSwitch(int iconResId, CharSequence text, int flags) {
              return new Item(VIEW_TYPE_SWITCH, text, iconResId, flags, 0);
          }
@@ -159,7 +159,7 @@ index 0000000..0000000 100644
          public static Item asCheckbox(CharSequence text, int flags) {
              return new Item(VIEW_TYPE_CHECKBOX, text, 0, flags, 0);
          }
-@@ -1042,6 +1057,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -1093,6 +1108,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
                  if (item.iconResId != iconResId) {
                      return false;
                  }
@@ -173,7 +173,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
-@@ -14991,6 +14991,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -15011,6 +15011,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                          f.presentFragment(set);
                          set.scrollToFlags(LiteMode.FLAG_AUTOPLAY_GIFS);
                      }).withLink("tg://settings/power-saving/gifs"),

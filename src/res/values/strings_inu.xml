@@ -146,6 +146,7 @@
     <string name="InuBottomTabs">Bottom tabs</string>
     <string name="InuNavigation">Navigation</string>
     <string name="InuHideContactsTab">Hide contacts tab</string>
+    <string name="InuBottomTabsHideOnScroll">Hide on scroll</string>
     <string name="InuCompactMode">Compact mode</string>
     <string name="InuCompactModeInfo">Hides titles and make the tabs smaller</string>
     <string name="InuMaterial3BottomTabs">Bottom tabs</string>
@@ -155,8 +156,6 @@
     <string name="InuDialogsFabMainAction">Primary action</string>
     <string name="InuDialogsFabSecondaryAction">Secondary action</string>
     <string name="InuDialogsFabHideOnScroll">Hide when scrolling</string>
-    <string name="InuDialogsFabOffsetForBottomBar">Offset for bottom bar</string>
-    <string name="InuDialogsFabOffsetForBottomBarInfo">Disabling this might not work well for all screen sizes</string>
     <string name="InuDialogsFabLeftSide">Move to the left</string>
     <string name="InuDialogsFabActionNewMessage">New message</string>
     <string name="InuDialogsFabActionNewStory">New story</string>
@@ -253,6 +252,8 @@
     <string name="InuFoldersUnreadCounterExcludeMuted">Exclude muted</string>
     <string name="InuFoldersUnreadCounterExcludeMutedNonDms">Exclude muted non-DMs</string>
     <string name="InuHideAllChatsTab">Hide \"All Chats\" tab</string>
+    <string name="InuFolderTabsAtBottom">Show tabs at the bottom</string>
+    <string name="InuFolderTabsAtBottomInfo">The classic folders bar can only be moved to the bottom with Material 3 bottom tabs or with bottom tabs disabled.</string>
     <string name="InuCommunityDisplayMode">Communities</string>
     <string name="InuCommunityDisplayModeRegular">Regular</string>
     <string name="InuCommunityDisplayModeLongTap">Open on long tap</string>
@@ -265,6 +266,15 @@
     <string name="InuFrameCopied">Frame copied to clipboard</string>
     <string name="InuDisableDraftUpload">Disable uploading drafts</string>
     <string name="InuDisableDraftUploadInfo">Drafts will only be saved locally and not synced across devices</string>
+    <string name="InuCompactModeChannels">Channels</string>
+    <string name="InuCompactModeGroups">Groups</string>
+    <string name="InuCompactModeDms">Private chats</string>
+    <string name="InuDontAutoplayWidgets">Don\'t autoplay widgets</string>
+    <string name="InuDontAutoplayWidgetsInfo">Interactive widgets in messages only start after you tap them</string>
+    <string name="InuWidgetPlaceholderTitle">Interactive widget</string>
+    <string name="InuWidgetPlaceholderTap">Tap to load</string>
+    <string name="InuWidgetPlaceholderLoading">Loading…</string>
+    <string name="InuWidgetPlaceholderPreview">Preview disabled</string>
     <string name="InuHideCallActionButton">Hide call button in title</string>
     <string name="InuCallConfirmation">Ask before calling</string>
     <string name="InuCallConfirmationTitle">Confirm calling</string>
@@ -462,7 +472,7 @@
     <string name="InuDisableGlassGlare">Disable glass glare</string>
 
     <string name="InuReduceMenuMotion">Reduce menu motion</string>
-    <string name="InuReduceMenuMotionInfo">Skip context menu stagger and simplify message menu animations</string>
+    <string name="InuReduceMenuMotionInfo">Skip context menu stagger, simplify message menu animations and use plain popups for header menus</string>
 
     <string name="InuProfilePhotoGradientFade">Disable profile photo blur</string>
     <string name="InuNonIslandUI">Classic UI</string>
@@ -486,6 +496,7 @@
     <string name="InuNonIslandSharedMediaTabs">Shared media tabs</string>
     <string name="InuNonIslandGlobalSearch">Global search</string>
     <string name="InuNonIslandChatElements">Chat elements</string>
+    <string name="InuNonIslandHeaders">Headers</string>
     <string name="InuNonIslandHint">Classic UI reverts some of the new (>12.6) "Liquid Glass" UI changes back towards the older flat design (best-effort).\nThere are probably a bunch of visual bugs, so be advised.</string>
 
     <string name="InuHideFadeView">Hide fade views</string>
@@ -725,6 +736,12 @@
     <string name="InuDownloadDirectory">Download folder</string>
     <string name="InuDownloadDirectoryApplied">Applies to newly downloaded files only</string>
     <string name="InuMentionInsertTitle">Insert mention</string>
+    <string name="InuSendWithoutVia">Send without via</string>
+    <string name="InuSendWithoutViaConfirm">Send this result as a regular message (without \"via\")?</string>
+    <string name="InuSendWithoutViaRestrictedConfirm">Inline bots are restricted in this chat. Send this result as a regular message instead?</string>
+    <string name="InuSendWithoutViaButtonsWarning">This result has inline buttons that won\'t be sent. Some bots rely on them for interactivity.</string>
+    <string name="InuSendWithoutViaButtonsLost">Inline buttons won\'t be sent</string>
+    <string name="InuSendWithoutPack">Send without pack</string>
     <string name="InuPasscode">Passcode</string>
     <string name="InuPasscodeNeeded">Set up a Telegram passcode first.</string>
     <string name="InuPasscodeShowInSettings">Show in Hundgram settings</string>
@@ -1069,7 +1086,6 @@
     <string name="InuWalletKeyReplaced">Key replaced</string>
     <string name="InuWalletKeyReplacedInfo">Your address and the 12 new words now restore this wallet.</string>
     <string name="InuWalletPrivateKeyBackupUnavailable">Wallets imported from a private key can\'t be backed up to Telegram, since other apps can\'t restore them. Keep the key safe yourself.</string>
-
     <string name="InuSleepTimer">Sleep timer</string>
     <string name="InuSleepTimerOff">Off</string>
     <string name="InuSleepTimerEndOfTrack">Play current song to end</string>
@@ -1077,4 +1093,5 @@
     <string name="InuSleepTimerStatusOn">Timer on · %1$s left</string>
     <string name="InuSleepTimerStatusOff">Timer off</string>
 
+    <string name="InuSendServerError">Telegram is having trouble delivering your message. Still retrying…</string>
 </resources>

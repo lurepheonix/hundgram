@@ -345,6 +345,9 @@ object InuConfig {
     val BOTTOM_TABS_COMPACT_MODE = BoolItem("bottom_tabs_hide_compact_mode", false)
 
     @JvmField
+    val BOTTOM_TABS_HIDE_ON_SCROLL = BoolItem("bottom_tabs_hide_on_scroll", false)
+
+    @JvmField
     val DIALOGS_FAB_MAIN_ACTION = IntItem("dialogs_fab_main_action", 1)
 
     @JvmField
@@ -352,9 +355,6 @@ object InuConfig {
 
     @JvmField
     val DIALOGS_FAB_HIDE_ON_SCROLL = BoolItem("dialogs_fab_hide_on_scroll", true)
-
-    @JvmField
-    val DIALOGS_FAB_OFFSET_FOR_BOTTOM_BAR = BoolItem("dialogs_fab_offset_for_bottom_bar", true)
 
     @JvmField
     val DIALOGS_FAB_LEFT_SIDE = BoolItem("dialogs_fab_left_side", false)
@@ -587,6 +587,9 @@ object InuConfig {
     @JvmField
     val HIDE_ALL_CHATS_TAB = BoolItem("hide_all_chats_tab", false)
 
+    @JvmField
+    val FOLDER_TABS_AT_BOTTOM = BoolItem("folder_tabs_at_bottom", false)
+
     class CommunityDisplayModeItem : IntItem("community_display_mode", REGULAR) {
         companion object {
             const val REGULAR = 1
@@ -693,6 +696,18 @@ object InuConfig {
     val DISABLE_DRAFT_UPLOAD = BoolItem("disable_draft_upload", false)
 
     @JvmField
+    val COMPACT_MODE_CHANNELS = BoolItem("compact_mode_channels", false)
+
+    @JvmField
+    val COMPACT_MODE_GROUPS = BoolItem("compact_mode_groups", false)
+
+    @JvmField
+    val COMPACT_MODE_DMS = BoolItem("compact_mode_dms", false)
+
+    @JvmField
+    val DONT_AUTOPLAY_WIDGETS = BoolItem("dont_autoplay_widgets", true)
+
+    @JvmField
     val ROUND_DEFAULT_CAMERA = IntItem("round_default_camera", 1) // 1=Front, 2=Rear, 3=Ask
 
     @JvmField
@@ -735,6 +750,9 @@ object InuConfig {
 
     @JvmField
     val NON_ISLAND_CHAT_ELEMENTS = BoolItem("non_island_chat_elements", true)
+
+    @JvmField
+    val NON_ISLAND_HEADERS = BoolItem("non_island_headers", false)
 
     @JvmField
     val HIDE_FADE_VIEW = BoolItem("hide_fade_view", true)

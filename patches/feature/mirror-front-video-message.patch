@@ -53,7 +53,7 @@ index 0000000..0000000 100644
  import java.io.IOException;
  import java.util.ArrayList;
  import java.util.Arrays;
-@@ -587,6 +589,7 @@ final class RoundVideoCameraController {
+@@ -595,6 +597,7 @@ final class RoundVideoCameraController {
              Handler handler = cameraHandler;
              if (handler != null) handler.post(this::startRecordingAfterFirstFrame);
          });
@@ -61,7 +61,7 @@ index 0000000..0000000 100644
          recordingSurface = glProcessor.start();
          if (dualActiveMode) {
              CameraSelection secondarySelection = selectionForFacing(
-@@ -1407,7 +1410,10 @@ final class RoundVideoCameraController {
+@@ -1415,7 +1418,10 @@ final class RoundVideoCameraController {
                      try {
                          activeFacing = selectedFacing;
                          repeatingBuilder = createRepeatingRequestBuilder(true);
@@ -73,7 +73,7 @@ index 0000000..0000000 100644
                          boolean pendingDualSwitch = dualActiveMode
                                  && pendingWarmSwitchFacing != null;
                          boolean wasSwitch = notifySwitchCompletion && !pendingDualSwitch;
-@@ -2518,7 +2524,12 @@ final class RoundVideoCameraController {
+@@ -2543,7 +2549,12 @@ final class RoundVideoCameraController {
          float centerX = previewView.getWidth() * 0.5f;
          float centerY = previewView.getHeight() * 0.5f;
          Matrix matrix = new Matrix();

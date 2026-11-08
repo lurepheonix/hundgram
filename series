@@ -137,7 +137,6 @@ feature/strip-tracking.patch
 feature/two-finger-select.patch
 debloat/reduce-menu-motion.patch
 feature/md3-components.patch
-bugfix/universal-fragment-theme-change.patch
 feature/clickable-web-preview-photos.patch
 debloat/volume-keys-videos.patch
 bugfix/chat-preview-reactions-read.patch
@@ -195,7 +194,6 @@ bugfix/spoiler-tile-blink.patch
 bugfix/deeplink-album-member-anchor.patch
 feature/biometric-confirmation.patch
 feature/painter-text.patch
-bugfix/chat-background-leak.patch
 bugfix/reaction-overlay-fragment-leak.patch
 bugfix/photo-viewer-leaks.patch
 bugfix/notification-center-leaks.patch
@@ -301,6 +299,7 @@ feature/shorter-swipe-gestures.patch
 feature/sort-albums-by-size.patch
 misc/debug-stale-reactions.patch
 misc/debug-notifications.patch
+misc/debug-mentions.patch
 bugfix/share-alert-search-dead-zone.patch
 misc/debug-media-upload.patch
 bugfix/sections-scroll-view-alpha.patch
@@ -371,7 +370,6 @@ feature/mirror-front-attach-camera.patch
 feature/audio_sleep_timer.patch
 feature/play_original_video.patch
 bugfix/forum-title-overlay.patch
-bugfix/animated-drawable-recycle-interrupt.patch
 bugfix/story-reactions-window-keyboard.patch
 bugfix/folder-slot-stolen-by-picker.patch
 bugfix/transcription-on-message-replace.patch
@@ -380,7 +378,6 @@ bugfix/item-options-touch-through.patch
 feature/join-request-open-profile.patch
 feature/join-request-open-page.patch
 feature/chat-search-filters.patch
-bugfix/scrim-menu-theme.patch
 bugfix/adaptive-shortcut-icons.patch
 bugfix/photo-viewer-reparent.patch
 bugfix/pin-unloaded-dialog.patch
@@ -398,7 +395,6 @@ feature/animated-avatars.patch
 misc/experimental-settings-in-release.patch
 bugfix/suggest-photo-notification.patch
 bugfix/rich-message-auto-entities.patch
-bugfix/rich-message-hashtag-tap.patch
 bugfix/slowmode-blocks-media-edit.patch
 bugfix/slowmode-edit-record-button.patch
 bugfix/chat-hint-runnable-leak.patch
@@ -438,5 +434,20 @@ bugfix/preview-status-bar-color.patch
 feature/dialogs-title-folder-name.patch
 bugfix/time-format-system-locale.patch
 bugfix/forum-topics-transition.patch
+bugfix/paint-density-scale.patch
+bugfix/file-ref-stale-cache-stall.patch
+bugfix/inline-restriction-check.patch
+feature/inline-send-without-via.patch
+feature/send-sticker-without-pack.patch
+feature/send-server-error-bulletin.patch
+feature/folder-tabs-bottom.patch
+feature/bottom-tabs-hide-on-scroll.patch
+bugfix/video-auto-quality.patch
+bugfix/video-auto-quality-label.patch
+bugfix/video-quality-menu-check-color.patch
+bugfix/glass-lite-mode-blur.patch
+feature/dont-autoplay-widgets.patch
+feature/compact-mode-per-chat-type.patch
+bugfix/ipv6-proxy.patch
 bugfix/gif-decoder-retry.patch
 bugfix/video-near-end-freeze.patch

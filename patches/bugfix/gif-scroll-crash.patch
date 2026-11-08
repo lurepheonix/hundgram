@@ -4,23 +4,15 @@ Date: Fri, 2 Oct 2026 22:34:14 +0400
 Subject: Fix crash when scrolling GIFs fast
 
 ---
- .../src/main/java/org/telegram/messenger/ImageLoader.java      | 2 ++
+ .../src/main/java/org/telegram/messenger/ImageLoader.java      | 1 +
  .../java/org/telegram/ui/Components/AnimatedFileDrawable.java  | 3 +++
- 2 files changed, 5 insertions(+)
+ 2 files changed, 4 insertions(+)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java b/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java
 +++ b/TMessagesProj/src/main/java/org/telegram/messenger/ImageLoader.java
-@@ -1171,6 +1171,7 @@ public class ImageLoader {
-                 if (fistFrame) {
-                     Bitmap bitmap = fileDrawable.getFrameAtTime(0, false);
- 
-+                    Thread.interrupted();
-                     fileDrawable.recycle();
-                     Thread.interrupted();
-                     if (bitmap == null) {
-@@ -1671,6 +1672,7 @@ public class ImageLoader {
+@@ -1683,6 +1683,7 @@ public class ImageLoader {
              try {
                  return fileDrawable.getFrameAtTime(0, true);
              } finally {

@@ -43,6 +43,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
             ExpandableBoolGroup.Option(R.string.InuNonIslandSharedMediaTabs, InuConfig.NON_ISLAND_SHARED_MEDIA_TABS, TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS),
             ExpandableBoolGroup.Option(R.string.InuNonIslandGlobalSearch, InuConfig.NON_ISLAND_GLOBAL_SEARCH, TOGGLE_NON_ISLAND_GLOBAL_SEARCH),
             ExpandableBoolGroup.Option(R.string.InuNonIslandChatElements, InuConfig.NON_ISLAND_CHAT_ELEMENTS, TOGGLE_NON_ISLAND_CHAT_ELEMENTS),
+            ExpandableBoolGroup.Option(R.string.InuNonIslandHeaders, InuConfig.NON_ISLAND_HEADERS, TOGGLE_NON_ISLAND_HEADERS),
             ExpandableBoolGroup.Option(R.string.InuHideFadeView, InuConfig.HIDE_FADE_VIEW, TOGGLE_HIDE_FADE_VIEW),
             ExpandableBoolGroup.Option(R.string.InuDisableGlassGlare, InuConfig.DISABLE_GLASS_GLARE, TOGGLE_DISABLE_GLASS_GLARE),
         ),
@@ -132,6 +133,12 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                     InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value,
                 )
             )
+            items.add(
+                UItem.asCheck(
+                    TOGGLE_BOTTOM_TABS_HIDE_ON_SCROLL,
+                    LocaleController.getString(R.string.InuBottomTabsHideOnScroll),
+                ).setChecked(InuConfig.BOTTOM_TABS_HIDE_ON_SCROLL.value)
+            )
         }
         items.add(UItem.asShadow(null))
 
@@ -206,7 +213,8 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
     private fun applyStyleChanges(changed: List<ExpandableBoolGroup.Option>) {
         val configs = changed.map { it.config }
         if (InuConfig.MATERIAL3_SWITCHES in configs || InuConfig.MATERIAL3_SLIDERS in configs) invalidateVisibleRows()
-        if (configs.any { it in SOFT_REBUILD_CONFIGS }) softRebuild()
+        if (InuConfig.NON_ISLAND_HEADERS in configs) rebuildAll()
+        else if (configs.any { it in SOFT_REBUILD_CONFIGS }) softRebuild()
         if (InuConfig.M3_SECTIONS_STYLE in configs) inu_rebuildSelf()
         if (InuConfig.M3_BOTTOM_TABS in configs && InuConfig.M3_BOTTOM_TABS.value) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
         if (InuConfig.NON_ISLAND_CHAT_ELEMENTS in configs) InuHooks.syncChatInputRowHeight()
@@ -287,6 +295,12 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 showRestartBulletin()
             }
 
+            TOGGLE_BOTTOM_TABS_HIDE_ON_SCROLL -> {
+                val new = InuConfig.BOTTOM_TABS_HIDE_ON_SCROLL.toggle()
+                (view as? TextCheckCell)?.isChecked = new
+                softRebuild()
+            }
+
             TOGGLE_COMPACT_MODE -> {
                 val new = InuConfig.BOTTOM_TABS_COMPACT_MODE.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
@@ -332,10 +346,12 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         private val TOGGLE_BOTTOM_TABS = InuUtils.generateId()
         private val TOGGLE_HIDE_CONTACTS_TAB = InuUtils.generateId()
         private val TOGGLE_COMPACT_MODE = InuUtils.generateId()
+        private val TOGGLE_BOTTOM_TABS_HIDE_ON_SCROLL = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_FOLDERS_BAR = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_GLOBAL_SEARCH = InuUtils.generateId()
         private val TOGGLE_NON_ISLAND_CHAT_ELEMENTS = InuUtils.generateId()
+        private val TOGGLE_NON_ISLAND_HEADERS = InuUtils.generateId()
         private val BUTTON_FONTS = InuUtils.generateId()
         private val TOGGLE_DISABLE_SCRIM_BLUR = InuUtils.generateId()
         private val TOGGLE_DISABLE_GLASS_GLARE = InuUtils.generateId()
@@ -413,6 +429,7 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("bottom-tabs-hide", R.string.InuBottomTabs, TOGGLE_BOTTOM_TABS),
                 SearchRegistry.Entry("hide-contacts-tab", R.string.InuHideContactsTab, TOGGLE_HIDE_CONTACTS_TAB),
                 SearchRegistry.Entry("compact-mode", R.string.InuCompactMode, TOGGLE_COMPACT_MODE),
+                SearchRegistry.Entry("bottom-tabs-hide-on-scroll", R.string.InuBottomTabsHideOnScroll, TOGGLE_BOTTOM_TABS_HIDE_ON_SCROLL),
                 SearchRegistry.Entry("non-island-folders-bar", R.string.InuNonIslandFoldersBar, TOGGLE_NON_ISLAND_FOLDERS_BAR),
                 SearchRegistry.Entry("non-island-shared-media-tabs", R.string.InuNonIslandSharedMediaTabs, TOGGLE_NON_ISLAND_SHARED_MEDIA_TABS),
                 SearchRegistry.Entry("non-island-global-search", R.string.InuNonIslandGlobalSearch, TOGGLE_NON_ISLAND_GLOBAL_SEARCH),

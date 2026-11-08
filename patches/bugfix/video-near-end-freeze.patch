@@ -11,7 +11,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/VideoPlayer.java
-@@ -204,9 +204,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -205,9 +205,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
  
      /**
       * The platform never starts a MODE_STREAM AudioTrack whose buffer has not filled, so a buffer
@@ -27,7 +27,7 @@ index 0000000..0000000 100644
       */
      private final DefaultAudioSink.AudioTrackBufferSizeProvider inu_bufferSizeProvider =
              (minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, maxAudioTrackPlaybackSpeed) -> {
-@@ -216,8 +219,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
+@@ -217,8 +220,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                      return size;
                  }
                  final int unscaled = provider.getBufferSizeInBytes(minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, 1.0);

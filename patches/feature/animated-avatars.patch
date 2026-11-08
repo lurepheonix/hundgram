@@ -35,7 +35,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivit
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LiteModeSettingsActivity.java
-@@ -133,6 +133,14 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -142,6 +142,14 @@ public class LiteModeSettingsActivity extends BaseFragment {
                      restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(.1f, Color.WHITE, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString(R.string.LiteBatteryRestricted)).show();
                      return;
                  }
@@ -50,7 +50,7 @@ index 0000000..0000000 100644
                  if (item.viewType == VIEW_TYPE_SWITCH && item.getFlagsCount() > 1 && (LocaleController.isRTL ? x > dp(19 + 37 + 19) : x < view.getMeasuredWidth() - dp(19 + 37 + 19))) {
                      int index = getExpandedIndex(item.flags);
                      if (index != -1) {
-@@ -143,6 +151,10 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -152,6 +160,10 @@ public class LiteModeSettingsActivity extends BaseFragment {
                      }
                  }
                  boolean value = LiteMode.isEnabledSetting(item.flags);
@@ -61,7 +61,7 @@ index 0000000..0000000 100644
                  LiteMode.toggleFlag(item.flags, !value);
                  updateValues();
              } else if (item.viewType == VIEW_TYPE_SWITCH2) {
-@@ -261,8 +273,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -276,8 +288,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
              items.add(Item.asCheckbox(LocaleController.getString(R.string.LiteOptionsAutoplayReactions), LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS));
              items.add(Item.asCheckbox(LocaleController.getString(R.string.LiteOptionsAutoplayChat), LiteMode.FLAG_ANIMATED_EMOJI_CHAT));
          }
@@ -72,7 +72,7 @@ index 0000000..0000000 100644
              items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBackground"), LiteMode.FLAG_CHAT_BACKGROUND));
              if (!AndroidUtilities.isTablet()) {
                  items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsTopics"), LiteMode.FLAG_CHAT_FORUM_TWOCOLUMN));
-@@ -347,6 +360,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -362,6 +375,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
  
      public static final int SWITCH_TYPE_SMOOTH_TRANSITIONS = 1;
      public static final int SWITCH_TYPE_VIDEO_MESSAGE_AUTOPLAY = 2;
@@ -81,7 +81,7 @@ index 0000000..0000000 100644
  
      private class Adapter extends AdapterWithDiffUtils {
  
-@@ -446,6 +461,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -461,6 +476,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
  
          @Override
          public boolean isEnabled(RecyclerView.ViewHolder holder) {
@@ -94,7 +94,7 @@ index 0000000..0000000 100644
              return holder.getItemViewType() == VIEW_TYPE_CHECKBOX || holder.getItemViewType() == VIEW_TYPE_SWITCH || holder.getItemViewType() == VIEW_TYPE_SWITCH2;
          }
      }
-@@ -461,6 +482,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -476,6 +497,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
          private CheckBox2 checkBoxView;
  
          private boolean needDivider, needLine;
@@ -102,7 +102,7 @@ index 0000000..0000000 100644
  
          public SwitchCell(Context context) {
              super(context);
-@@ -561,6 +583,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -576,6 +598,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
          }
  
          public void set(Item item, boolean divider) {
@@ -110,7 +110,7 @@ index 0000000..0000000 100644
              if (item.viewType == VIEW_TYPE_SWITCH) {
                  checkBoxView.setVisibility(GONE);
                  imageView.setVisibility(VISIBLE);
-@@ -576,11 +599,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -591,11 +614,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
                  }
                  textView.setTranslationX(0);
                  switchView.setVisibility(VISIBLE);
@@ -124,7 +124,7 @@ index 0000000..0000000 100644
                  imageView.setVisibility(GONE);
                  switchView.setVisibility(GONE);
                  countTextView.setVisibility(GONE);
-@@ -594,7 +617,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -609,7 +632,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
              ((MarginLayoutParams) textViewLayout.getLayoutParams()).rightMargin = AndroidUtilities.dp(item.viewType == VIEW_TYPE_SWITCH ? (LocaleController.isRTL ? 64 : 75) + 4 : 8);
  
              setWillNotDraw(!((needDivider = divider) || needLine));
@@ -133,7 +133,7 @@ index 0000000..0000000 100644
          }
  
          public void update(Item item) {
-@@ -605,12 +628,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -620,12 +643,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
                      arrowView.clearAnimation();
                      arrowView.animate().rotation(index >= 0 && expanded[index] ? 180 : 0).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(240).start();
                  }
@@ -149,7 +149,7 @@ index 0000000..0000000 100644
          }
  
          private boolean containing;
-@@ -619,6 +642,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -634,6 +657,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
          private void updateCount(Item item, boolean animated) {
              enabled = preprocessFlagsCount(LiteMode.getValue(true) & item.flags);
              all = preprocessFlagsCount(item.flags);
@@ -162,7 +162,7 @@ index 0000000..0000000 100644
              countTextView.setText(String.format("%d/%d", enabled, all), animated && !LocaleController.isRTL);
          }
  
-@@ -679,7 +708,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -694,7 +723,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
              super.onInitializeAccessibilityNodeInfo(info);
              info.setClassName(checkBoxView.getVisibility() == View.VISIBLE ? "android.widget.CheckBox" : "android.widget.Switch");
              info.setCheckable(true);
@@ -171,7 +171,7 @@ index 0000000..0000000 100644
              if (checkBoxView.getVisibility() == View.VISIBLE) {
                  info.setChecked(checkBoxView.isChecked());
              } else {
-@@ -1041,6 +1070,21 @@ public class LiteModeSettingsActivity extends BaseFragment {
+@@ -1092,6 +1121,21 @@ public class LiteModeSettingsActivity extends BaseFragment {
              return Integer.bitCount(flags);
          }
  

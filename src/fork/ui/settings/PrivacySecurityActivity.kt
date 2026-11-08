@@ -20,6 +20,7 @@ import org.telegram.ui.Components.BulletinFactory
 import org.telegram.ui.Components.ItemOptions
 import org.telegram.ui.Components.UItem
 import org.telegram.ui.Components.UniversalAdapter
+import org.telegram.utils.twidget.WidgetMedia
 
 class PrivacySecurityActivity : SettingsPageActivity() {
     override fun getTitle(): CharSequence = LocaleController.getString(R.string.InuPrivacySecurity)
@@ -81,6 +82,14 @@ class PrivacySecurityActivity : SettingsPageActivity() {
                 R.string.InuDisableDraftUpload,
                 R.string.InuDisableDraftUploadInfo,
                 InuConfig.DISABLE_DRAFT_UPLOAD.value
+            )
+        )
+        items.add(
+            mkTwoLineCheckItem(
+                TOGGLE_DONT_AUTOPLAY_WIDGETS,
+                R.string.InuDontAutoplayWidgets,
+                R.string.InuDontAutoplayWidgetsInfo,
+                InuConfig.DONT_AUTOPLAY_WIDGETS.value
             )
         )
         items.add(UItem.asShadow(null))
@@ -179,6 +188,12 @@ class PrivacySecurityActivity : SettingsPageActivity() {
                 (view as? NotificationsCheckCell)?.isChecked = new
             }
 
+            TOGGLE_DONT_AUTOPLAY_WIDGETS -> {
+                val new = InuConfig.DONT_AUTOPLAY_WIDGETS.toggle()
+                (view as? NotificationsCheckCell)?.isChecked = new
+                if (new) WidgetMedia.inu_onAutoplayDisabled()
+            }
+
             TOGGLE_BIOMETRIC_DELETE_CHAT -> {
                 val new = InuConfig.BIOMETRIC_CONFIRM_DELETE_CHAT.toggle()
                 (view as? NotificationsCheckCell)?.isChecked = new
@@ -273,6 +288,7 @@ class PrivacySecurityActivity : SettingsPageActivity() {
         private val TOGGLE_RESOLVE_TRACKABLE_REDIRECTS = InuUtils.generateId()
         private val BUTTON_STRIP_TRACKING_PARAMS_SOURCE = InuUtils.generateId()
         private val TOGGLE_DISABLE_DRAFT_UPLOAD = InuUtils.generateId()
+        private val TOGGLE_DONT_AUTOPLAY_WIDGETS = InuUtils.generateId()
         private val TOGGLE_BIOMETRIC_DELETE_CHAT = InuUtils.generateId()
         private val TOGGLE_BIOMETRIC_LOGOUT = InuUtils.generateId()
         private val TOGGLE_BIOMETRIC_DEVICE_CREDENTIAL = InuUtils.generateId()
@@ -289,6 +305,7 @@ class PrivacySecurityActivity : SettingsPageActivity() {
                 SearchRegistry.Entry("strip-tracking-params-paste", R.string.InuStripTrackingParamsOnPaste, TOGGLE_STRIP_TRACKING_PARAMS_ON_PASTE),
                 SearchRegistry.Entry("resolve-trackable-redirects", R.string.InuResolveTrackableRedirects, TOGGLE_RESOLVE_TRACKABLE_REDIRECTS),
                 SearchRegistry.Entry("disable-draft-upload", R.string.InuDisableDraftUpload, TOGGLE_DISABLE_DRAFT_UPLOAD),
+                SearchRegistry.Entry("dont-autoplay-widgets", R.string.InuDontAutoplayWidgets, TOGGLE_DONT_AUTOPLAY_WIDGETS),
                 SearchRegistry.Entry("biometric-confirm-delete-chat", R.string.InuBiometricConfirmDeleteChat, TOGGLE_BIOMETRIC_DELETE_CHAT),
                 SearchRegistry.Entry("biometric-confirm-logout", R.string.InuBiometricConfirmLogout, TOGGLE_BIOMETRIC_LOGOUT),
                 SearchRegistry.Entry("biometric-allow-device-credential", R.string.InuBiometricAllowDeviceCredential, TOGGLE_BIOMETRIC_DEVICE_CREDENTIAL),

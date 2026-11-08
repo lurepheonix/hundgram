@@ -40,7 +40,7 @@ its own update channel, pointing at Hundgram releases.)
   - 🐶 an option to (ab)use predictive back to open the drawer
   - customizable drawer items
 - monet (material you) theme support - *based on [NagramX](https://github.com/risin42/NagramX)*, 🐶 improved. plus a quick switcher in appearance settings (light/dark/amoled/auto)
-- 🐶 classic ui mode for folders bar, shared media tabs, global search and chat elements (reverts the >12.6 "liquid glass" look)
+- 🐶 classic ui mode for folders bar, shared media tabs, global search, chat elements and screen headers (reverts the >12.6 "liquid glass" look)
 - icon packs: stackable `.icons` packs (svg/png/webp icons and `lottie:` animations + metadata.json), installed from a file or by opening them in a chat; bundled solar pack by [@r4in80w](https://t.me/r4in80w) - *ported from [NagramX](https://github.com/risin42/NagramX)*
 - notification icon: Telegram (default) or Inugram
 - 🐶 animated splash screen follows the selected app icon and Monet theme (Android 12+)
@@ -60,7 +60,7 @@ its own update channel, pointing at Hundgram releases.)
 - 🐶 old (pre-12.6) mention/reaction indicator
 - 🐶 toggleable scrim blur
 - toggle to disable glass glare
-- 🐶 reduce menu motion: skip context menu stagger and reaction bar slide-in/scale animations
+- 🐶 reduce menu motion: skip context menu stagger and reaction bar slide-in/scale animations, plain popups instead of glass header menus
 - material 3:
   - switches
   - sliders
@@ -84,13 +84,14 @@ its own update channel, pointing at Hundgram releases.)
 
 ## dialogs list / main page
 
-- bottom tabs: 🐶 compact mode, hide contacts tab, hide bar entirely
+- bottom tabs: 🐶 compact mode, hide contacts tab, hide bar entirely, hide on scroll
 - bottom tabs: material design 3 style with a pill indicator behind the selected icon, or 🐶 sleek style (mutually exclusive)
 - double-tap account tab to switch to next account
 - long-tap "chats" tab to pick folder from menu
 - folder display modes: titles / titles+icons / icons-only
 - folder unread counter modes: hide / regular / exclude muted / 🐶 exclude muted non-dms
 - hide "all chats" folder tab
+- move folder tabs to the bottom of the chat list and forward picker
 - custom title text: Inugram / @username / first name / "Chats" / active folder name
 - 🐶 dialogs fab customization: main + secondary actions, hide-on-scroll, left-side
 - 🐶 "create as supergroup" toggle in group creation
@@ -111,6 +112,7 @@ its own update channel, pointing at Hundgram releases.)
 - "Refresh" in the sticker/emoji pack menu
 - edited-message display: compact pencil indicator and configurable primary timestamp
 - toggleable message bubble tails
+- 🐶 compact mode per chat type (channels, groups, private chats)
 - 🐶 jump-to-discussion button from comments
 - jump-to-beginning button in calendar popup - *ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
 - remember all clicked replies when jumping back via the down-button
@@ -145,6 +147,7 @@ its own update channel, pointing at Hundgram releases.)
 - remove single message's file from cache from the message menu
 - "Repeat" in message menu - re-send the same message to the same chat
 - "Save to Downloads" for stickers & custom emoji (both in chat and in egs/sheets)
+- "Send without pack" in the sticker preview menu: re-uploads the sticker (once, later sends reuse the upload) so it arrives without a link to its pack
 - customizable message context menu - reorder and hide items + long-tap forward/reply items + quick actions row (*ported from [NagramX](https://github.com/risin42/NagramX)*)
 - customizable chat menu + extra actions:
   - Recent actions
@@ -175,6 +178,7 @@ its own update channel, pointing at Hundgram releases.)
 - show forward count next to the view count on channel posts
 - long-tap forward bar (above input) to cycle between regular / without sender / without caption
 - long-tap a mention in a message to insert a name-mention into the input with custom text
+- send inline bot results as regular messages (without "via @bot"): long-tap a result, or toggle it in the send menu of the media preview; in chats where inline bots are restricted, results are still shown and sent this way
 - 🐶 restrict/ban menu items the avatar long-tap menu
 - hide messages from blocked users: with a spoiler or completely - *partially ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
   - "show hidden messages" in the chat menu, to see a chat as sent until it is closed
@@ -241,6 +245,7 @@ its own update channel, pointing at Hundgram releases.)
 
 ## behavior
 
+- 🐶 bulletin with the error code when the server keeps failing to deliver a message, so it doesn't just look stuck
 - call confirmation
 - HD call audio on Bluetooth
 - 🐶 reaction confirmation in non-joined chats
@@ -255,9 +260,10 @@ its own update channel, pointing at Hundgram releases.)
 - disable notification chat bubbles
 - 🐶 keep previous chats in the back stack when opening another chat
 - 🐶 disable cloud drafts upload
+- 🐶 don't autoplay widgets: widget messages show a placeholder and only start their engine after a tap
 - 🐶 disable wallpaper parallax
-- 🐶 disable scroll-snap in profile
-- 🐶 reduce profile motion (skip various enter animations, disable avatar scale-on-scroll effect)
+- 🐶 disable scroll-snap in profile and settings
+- 🐶 reduce profile motion (skip various enter animations, disable avatar scale-on-scroll effect, also in settings)
 - 🐶 prefer "Media" tab in profile over Gifts/Posts
 - "Send a gift" in profile menu (stock hides it without billing), optional "Gift" header action button
 - 🐶 recyclerlistview instant-tap
@@ -312,7 +318,11 @@ its own update channel, pointing at Hundgram releases.)
 - accelerated video playback no longer applies an unnecessary pitch shift; live speed-slider changes use Android's low-latency audio mixer path
 - looping videos no longer freeze on a frame (then "can't play this file") when seeking close to the end: the playback-params audio buffer is capped at ~1s so the track still fills from the short remainder before the loop point
 - "Save to Downloads" copies uncached documents after downloading instead of requiring a second attempt
+- auto video quality no longer sticks to the lowest track: bandwidth is measured from total download throughput instead of per-request timing (which read far too low with parallel requests and collapsed after a suspended connection), stream transfers are counted correctly, and an already cached low quality no longer overrides a better fit
+- "Auto" in the video quality menu now always shows the quality being played (stock only compared against the first of the variants at each resolution, and never refreshed when the player switched quality)
+- video quality menu checkmark is no longer black and barely visible on light themes
 - cancelling a video download kept restarting it after streaming the video in PhotoViewer (the player's loader thread swallowed its shutdown interrupt, survived the viewer close, and re-requested the file on every cancel; also a file-reference refresh landing mid-cancel resurrected the operation into an uncancellable zombie)
+- downloads no longer stall forever after a second `FILE_REFERENCE_EXPIRED` in a row (the cached refresh response held the same stale ref, which consumed the waiting download before the fresh server request went out, so its answer had nobody to resume)
 - "Save to Downloads" preserves the original filename on Android 10+
 - downloaded photos/videos no longer show up in the system gallery on devices whose scanner indexes app-private dirs (stock never wrote `.nomedia` into the media cache dirs; only on Android 11+, where the gallery-visible copies live elsewhere)
 - gboard image paste no longer skips PhotoViewer
@@ -320,6 +330,7 @@ its own update channel, pointing at Hundgram releases.)
 - reordering an attach-panel album preserves per-photo captions and no longer duplicates its album caption
 - photo crop silently not applied to the sent image
 - high-quality photo cropping in PhotoViewer (crop *before* downscaling)
+- drawings on HD photos no longer shrink the photo into a corner on low-end devices (the low-memory downscale path leaves a bogus bitmap density that the canvas then scaled by)
 - sticker creator output sent as photo when high-quality default is on
 - sticker-pack Edit button no longer ignores slower taps or inherits the recent-stickers Create button's long-press action
 - sticker editor send/favorites menu uses the editor's dark background instead of the app's light theme; other scrim menus also respect their local theme
@@ -430,6 +441,7 @@ its own update channel, pointing at Hundgram releases.)
 - fix deeplinking to a non-primary album member sometimes mis-anchoring
 - a bunch of stock memory/resource leaks (incl. `NativeByteBuffer` wrapper pool growing unbounded on write-heavy threads, reply-line sticker emoji never detaching and pinning closed chats via the global emoji cache, story viewer input/mention observers, `BotLocation` caching an activity context, saved messages tag hint timers re-posting forever after the chat is closed, detached/measuring message cells registering animated emoji in the global cache, instant view sheets never unregistering their observers)
 - correctly handle "Open in..." in ChatAttachAlert: open editor before sending + support multi-attach
+- connecting to proxies with an IPv6 address or a hostname resolving to IPv6
 - avatar of a bubble right below a topic separator (forum "All" tab) only clickable in its lower part
 - opt out of android media resumption, so a phantom telegram player chip no longer reappears in quick settings after a reboot or once the app process is gone
 - fix profile crash when a contact's note is removed server-side while the open animation is running (note row built from stale user info, bound against fresh)
@@ -463,3 +475,4 @@ its own update channel, pointing at Hundgram releases.)
 - a sent message moves into its server order once confirmed (e.g. a photo that finished uploading after a later text moves below that text), so the local order matches what the recipient sees
 - hashtag search in another channel (`#tag@channel`): no more huge empty gap above the results, last message in "show as chat" no longer hidden under the bottom bar, long-tapping a reaction on a channel post shows the reaction instead of failing to load reactors
 - search result previews with a media thumbnail no longer drift to the right while scrolling
+- inline bot restriction checked against the stickers permission instead of the inline one: inline results were blocked in chats that only banned stickers, and offered (then failed with `CHAT_SEND_INLINE_FORBIDDEN`) in chats that only banned inline bots

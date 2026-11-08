@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -1578,6 +1578,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -1577,6 +1577,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                      viewPages[1] = tempPage;
                                      filterTabsView.selectTabWithId(viewPages[0].selectedType, 1.0f);
                                      updateCounters(false);
@@ -20,7 +20,7 @@ index 0000000..0000000 100644
                                      viewPages[0].dialogsAdapter.resume();
                                      viewPages[1].dialogsAdapter.pause();
                                  }
-@@ -3590,7 +3591,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -3519,7 +3520,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                  ssb.setSpan(new ImageSpan(logoDrawable), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                  actionBar.setTitle(ssb, statusDrawable);
                  } else {
@@ -29,7 +29,7 @@ index 0000000..0000000 100644
                  }
                  updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
              }
-@@ -3732,6 +3733,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -3661,6 +3662,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                          viewPages[1].setVisibility(View.GONE);
                          showScrollbars(true);
                          updateCounters(false);
@@ -37,7 +37,7 @@ index 0000000..0000000 100644
                          filterTabsView.stopAnimatingIndicator();
                          checkListLoad(viewPages[0]);
                          viewPages[0].dialogsAdapter.resume();
-@@ -6941,6 +6943,30 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6869,6 +6871,30 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          }
      }
  
@@ -50,7 +50,7 @@ index 0000000..0000000 100644
 +
 +    private void inu_updateFolderTitle() {
 +        if (desu.inugram.InuConfig.DIALOGS_TITLE_TEXT.getValue() != desu.inugram.InuConfig.DialogsTitleTextItem.FOLDER_NAME) return;
-+        if (!onlySelect && folderId == 0 && communityId == 0 && !desu.inugram.helpers.security.ParanoiaHelper.isDisguised()) {
++        if (actionBar != null && !onlySelect && folderId == 0 && communityId == 0 && !desu.inugram.helpers.security.ParanoiaHelper.isDisguised()) {
 +            String title = desu.inugram.helpers.chat.ChatHelper.getDialogsTitle(this, currentAccount);
 +            SimpleTextView titleView = actionBar.getTitleTextView();
 +            if (titleView == null || !TextUtils.equals(titleView.getText(), title)) {
@@ -68,7 +68,7 @@ index 0000000..0000000 100644
      public void inu_setActiveFilter(int filterIndex) {
          if (filterTabsView == null || viewPages == null) return;
          if (filterIndex < 0 || filterIndex >= getMessagesController().getDialogFilters().size()) return;
-@@ -6977,6 +7003,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -6905,6 +6931,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          }
  
          viewPages[a].dialogsAdapter.setDialogsType(viewPages[a].dialogsType);
@@ -78,7 +78,7 @@ index 0000000..0000000 100644
          viewPages[a].layoutManager.scrollToPositionWithOffset(viewPages[a].dialogsType == DIALOGS_TYPE_DEFAULT && hasHiddenArchive() && viewPages[a].archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN ? 1 : 0, (int) scrollYOffset);
          checkListLoad(viewPages[a]);
      }
-@@ -7112,6 +7141,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -7040,6 +7069,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
              }
          }
          updateCounters(false);
@@ -90,7 +90,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Stories/DialogStoriesCe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Stories/DialogStoriesCell.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Stories/DialogStoriesCell.java
-@@ -628,11 +628,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
+@@ -629,11 +629,11 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                      currentTitle = str;
                  }
              } else {

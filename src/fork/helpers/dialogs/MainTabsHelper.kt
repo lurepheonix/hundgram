@@ -74,6 +74,10 @@ object MainTabsHelper {
     }
 
     @JvmStatic
+    val isHideOnScroll: Boolean
+        get() = InuConfig.BOTTOM_TABS_HIDE_ON_SCROLL.value && !isHidden
+
+    @JvmStatic
     val isContactsTabHidden: Boolean
         get() = InuConfig.BOTTOM_TABS_HIDE_CONTACTS.value
 
