@@ -123,7 +123,7 @@ its own update channel, pointing at Hundgram releases.)
 - hide channel, group preview (🐶) and replies (🐶) bottom bar (mute/join/etc)
 - send message to discussion group without joining
 - 🐶 member count on private invite sheets (instead of "private group/channel"; like tdesktop)
-- 🐶 search: media-type filters, combined sender + media filtering, and "show only matches"
+- 🐶 search: media-type, location, pinned and my-mentions filters, combined sender + filter searching, and "show only matches"
 - tapping a hashtag in a public channel defaults to the "This Chat" tab
 - 🐶 "from user" picker in search also finds users not in chat by name, username, or cached user ID (like tdesktop)
 - static pinned reactions in the reaction bar

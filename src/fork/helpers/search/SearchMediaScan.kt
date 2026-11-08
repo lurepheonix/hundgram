@@ -221,11 +221,15 @@ class SearchMediaScan internal constructor(
             if (message is TLRPC.TL_messageService) continue
             if (MessageObject.getFromChatId(message) != senderId) continue
             val media = MessageObject.getMedia(message)
-            if (media is TLRPC.TL_messageMediaWebPage) continue
+            val allowNonMedia = SearchFilterHelper.FilterItem.PINNED in types || SearchFilterHelper.FilterItem.MENTIONS in types
+            if (media is TLRPC.TL_messageMediaWebPage && !allowNonMedia) continue
             // Rich messages can contain photos or videos without ordinary media.
-            if (message.rich_message == null && (media == null || media is TLRPC.TL_messageMediaEmpty)) continue
+            if (message.rich_message == null && (media == null || media is TLRPC.TL_messageMediaEmpty) && !allowNonMedia) continue
             val obj = MessageObject(account, message, false, true)
             val type = when {
+                message.pinned && SearchFilterHelper.FilterItem.PINNED in types -> SearchFilterHelper.FilterItem.PINNED
+                message.mentioned && SearchFilterHelper.FilterItem.MENTIONS in types -> SearchFilterHelper.FilterItem.MENTIONS
+                obj.isLocation && SearchFilterHelper.FilterItem.GEO in types -> SearchFilterHelper.FilterItem.GEO
                 obj.isGif -> SearchFilterHelper.FilterItem.GIFS
                 obj.isRoundVideo -> SearchFilterHelper.FilterItem.ROUND
                 obj.isVoice -> SearchFilterHelper.FilterItem.VOICE

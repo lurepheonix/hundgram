@@ -503,6 +503,9 @@
     <string name="InuSearchFilterMusic">音乐</string>
     <string name="InuSearchFilterGifs">GIF</string>
     <string name="InuSearchFilterPoll">投票</string>
+    <string name="InuSearchFilterGeo">位置</string>
+    <string name="InuSearchFilterPinned">置顶</string>
+    <string name="InuSearchFilterMentions">提及</string>
     <string name="InuSearchFilterOnlyMatches">仅匹配项</string>
     <string name="InuShowInChat">在聊天中显示</string>
     <string name="InuSelectRange">范围选择</string>

@@ -621,6 +621,9 @@
     <string name="InuSearchFilterMusic">Music</string>
     <string name="InuSearchFilterGifs">GIFs</string>
     <string name="InuSearchFilterPoll">Polls</string>
+    <string name="InuSearchFilterGeo">Locations</string>
+    <string name="InuSearchFilterPinned">Pinned</string>
+    <string name="InuSearchFilterMentions">Mentions</string>
     <string name="InuSearchFilterOnlyMatches">Only matches</string>
     <string name="InuShowInChat">Show in chat</string>
     <string name="InuRemoveFromCache">Remove from cache</string>

@@ -596,6 +596,9 @@
     <string name="InuSearchFilterMusic">Музика</string>
     <string name="InuSearchFilterGifs">GIF</string>
     <string name="InuSearchFilterPoll">Опитування</string>
+    <string name="InuSearchFilterGeo">Геопозиції</string>
+    <string name="InuSearchFilterPinned">Закріплені</string>
+    <string name="InuSearchFilterMentions">Згадки</string>
     <string name="InuSearchFilterOnlyMatches">Лише збіги</string>
     <string name="InuShowInChat">Показати в чаті</string>
     <string name="InuRemoveFromCache">Видалити з кешу</string>

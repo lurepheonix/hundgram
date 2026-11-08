@@ -504,6 +504,9 @@
     <string name="InuSearchFilterMusic">音楽</string>
     <string name="InuSearchFilterGifs">GIF</string>
     <string name="InuSearchFilterPoll">投票</string>
+    <string name="InuSearchFilterGeo">位置情報</string>
+    <string name="InuSearchFilterPinned">ピン留め</string>
+    <string name="InuSearchFilterMentions">メンション</string>
     <string name="InuSearchFilterOnlyMatches">一致のみ</string>
     <string name="InuShowInChat">チャットで表示</string>
     <string name="InuSelectRange">範囲選択</string>

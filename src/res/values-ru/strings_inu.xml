@@ -506,6 +506,9 @@
     <string name="InuSearchFilterMusic">Музыка</string>
     <string name="InuSearchFilterGifs">GIF</string>
     <string name="InuSearchFilterPoll">Опросы</string>
+    <string name="InuSearchFilterGeo">Геопозиции</string>
+    <string name="InuSearchFilterPinned">Закреплённые</string>
+    <string name="InuSearchFilterMentions">Упоминания</string>
     <string name="InuSearchFilterOnlyMatches">Только совпадения</string>
     <string name="InuShowInChat">Показать в чате</string>
     <string name="InuSelectRange">Выделить диапазон</string>

@@ -622,6 +622,9 @@
     <string name="InuSearchFilterMusic">Müzik</string>
     <string name="InuSearchFilterGifs">GIF\'ler</string>
     <string name="InuSearchFilterPoll">Anketler</string>
+    <string name="InuSearchFilterGeo">Konumlar</string>
+    <string name="InuSearchFilterPinned">Sabitlenenler</string>
+    <string name="InuSearchFilterMentions">Bahsetmeler</string>
     <string name="InuSearchFilterOnlyMatches">Yalnızca eşleşmeler</string>
     <string name="InuShowInChat">Sohbette göster</string>
     <string name="InuRemoveFromCache">Önbellekten kaldır</string>

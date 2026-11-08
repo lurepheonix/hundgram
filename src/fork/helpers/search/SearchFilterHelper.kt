@@ -50,6 +50,9 @@ class SearchFilterHelper(
         VOICE(R.string.InuSearchFilterVoice),
         ROUND(R.string.InuSearchFilterRound),
         POLL(R.string.InuSearchFilterPoll),
+        GEO(R.string.InuSearchFilterGeo),
+        PINNED(R.string.InuSearchFilterPinned),
+        MENTIONS(R.string.InuSearchFilterMentions),
     }
 
     private val selection: MutableSet<FilterItem> = mutableSetOf()
@@ -160,6 +163,9 @@ class SearchFilterHelper(
         setOf(FilterItem.VOICE) -> TLRPC.TL_inputMessagesFilterVoice()
         setOf(FilterItem.ROUND) -> TLRPC.TL_inputMessagesFilterRoundVideo()
         setOf(FilterItem.POLL) -> TLRPC.TL_inputMessagesFilterPoll()
+        setOf(FilterItem.GEO) -> TLRPC.TL_inputMessagesFilterGeo()
+        setOf(FilterItem.PINNED) -> TLRPC.TL_inputMessagesFilterPinned()
+        setOf(FilterItem.MENTIONS) -> TLRPC.TL_inputMessagesFilterMyMentions()
         setOf(FilterItem.PHOTOS, FilterItem.VIDEOS) -> TLRPC.TL_inputMessagesFilterPhotoVideo()
         setOf(FilterItem.VOICE, FilterItem.ROUND) -> TLRPC.TL_inputMessagesFilterRoundVoice()
         else -> TLRPC.TL_inputMessagesFilterEmpty()
@@ -383,6 +389,9 @@ class SearchFilterHelper(
             FilterItem.GIFS,
             FilterItem.MUSIC,
             FilterItem.POLL,
+            FilterItem.GEO,
+            FilterItem.PINNED,
+            FilterItem.MENTIONS,
         )
 
         // every subset representable as a single MessagesFilter
@@ -396,6 +405,9 @@ class SearchFilterHelper(
             setOf(FilterItem.VOICE),
             setOf(FilterItem.ROUND),
             setOf(FilterItem.POLL),
+            setOf(FilterItem.GEO),
+            setOf(FilterItem.PINNED),
+            setOf(FilterItem.MENTIONS),
             setOf(FilterItem.PHOTOS, FilterItem.VIDEOS),
             setOf(FilterItem.VOICE, FilterItem.ROUND),
         )
