@@ -215,7 +215,6 @@ class AppearanceSettingsActivity : SettingsPageActivity() {
         if (InuConfig.MATERIAL3_SWITCHES in configs || InuConfig.MATERIAL3_SLIDERS in configs) invalidateVisibleRows()
         if (InuConfig.NON_ISLAND_HEADERS in configs) rebuildAll()
         else if (configs.any { it in SOFT_REBUILD_CONFIGS }) softRebuild()
-        if (InuConfig.M3_SECTIONS_STYLE in configs) inu_rebuildSelf()
         if (InuConfig.M3_BOTTOM_TABS in configs && InuConfig.M3_BOTTOM_TABS.value) InuConfig.M3_BOTTOM_TABS_NO_INDICATOR.value = false
         if (InuConfig.NON_ISLAND_CHAT_ELEMENTS in configs) InuHooks.syncChatInputRowHeight()
         listView.adapter.update(true)
