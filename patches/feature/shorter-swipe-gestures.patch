@@ -103,7 +103,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaL
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/SharedMediaLayout.java
-@@ -5743,13 +5743,20 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
+@@ -5728,13 +5728,20 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
              if (inu_additionalOffset != 0) {
                  if (Math.abs(velX) > 1500) {
                      backAnimation = animatingForward ? velX > 0 : velX < 0;
@@ -129,7 +129,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -1505,14 +1505,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -1512,14 +1512,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                  if (Math.abs(velX) > 1500) {
                                      backAnimation = animatingForward ? velX > 0 : velX < 0;
                                  } else {
@@ -153,7 +153,7 @@ index 0000000..0000000 100644
                              }
                          }
                          float dx;
-@@ -2727,7 +2734,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -2734,7 +2741,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
  
          @Override
          public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {

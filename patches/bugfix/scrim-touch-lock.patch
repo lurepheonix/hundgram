@@ -31,7 +31,7 @@ index 0000000..0000000 100644
                  textSelectionHelper.checkSelectionCancel(e);
                  if (e.getAction() == MotionEvent.ACTION_DOWN) {
                      scrollByTouch = true;
-@@ -38033,7 +38039,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -38039,7 +38045,7 @@ public class ChatActivity extends BaseFragment implements
          if (animatorSearchResultAsListVisibility.getValue()) {
              return false;
          }
@@ -40,7 +40,7 @@ index 0000000..0000000 100644
              && (quickShareSelectorOverlay == null || !quickShareSelectorOverlay.isActive());
      }
  
-@@ -38048,7 +38054,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -38054,7 +38060,7 @@ public class ChatActivity extends BaseFragment implements
          if (animatorSearchResultAsListVisibility.getValue()) {
              return false;
          }
@@ -49,7 +49,7 @@ index 0000000..0000000 100644
              && (quickShareSelectorOverlay == null || !quickShareSelectorOverlay.isActive());
      }
  
-@@ -45433,6 +45439,23 @@ public class ChatActivity extends BaseFragment implements
+@@ -45439,6 +45445,23 @@ public class ChatActivity extends BaseFragment implements
          ).setDuration(8000).show(true);
      }
  
@@ -73,7 +73,7 @@ index 0000000..0000000 100644
      public void didLongPressLink(ChatMessageCell cell, MessageObject messageObject, CharacterStyle span, String str) {
          final ItemOptions options = ItemOptions.makeOptions(ChatActivity.this, cell, true);
          final ScrimOptions dialog = new ScrimOptions(getContext(), themeDelegate);
-@@ -45584,7 +45607,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45590,7 +45613,7 @@ public class ChatActivity extends BaseFragment implements
          } else {
              dialog.setScrim(cell, span, null);
          }
@@ -82,7 +82,7 @@ index 0000000..0000000 100644
      }
  
      public void didLongPressFormattedDate(ChatMessageCell cell, CharacterStyle span, String originalText, TLRPC.TL_messageEntityFormattedDate entity) {
-@@ -45664,7 +45687,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45670,7 +45693,7 @@ public class ChatActivity extends BaseFragment implements
  
          dialog.setItemOptions(options);
          dialog.setScrim(cell, span, s);
@@ -91,7 +91,7 @@ index 0000000..0000000 100644
      }
  
  
-@@ -45761,7 +45784,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45767,7 +45790,7 @@ public class ChatActivity extends BaseFragment implements
  
              dialog.setItemOptions(options);
              dialog.setScrim(cell, link, null);
@@ -100,7 +100,7 @@ index 0000000..0000000 100644
          }), null, null, 0, getMessagesController().webFileDatacenterId, ConnectionsManager.ConnectionTypeGeneric, true);
          progress.onCancel(() -> getConnectionsManager().cancelRequest(reqId, true));
          progress.init();
-@@ -45814,7 +45837,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -45820,7 +45843,7 @@ public class ChatActivity extends BaseFragment implements
  
              dialog.setItemOptions(options);
              dialog.setScrim(cell, link, null);
@@ -109,7 +109,7 @@ index 0000000..0000000 100644
          };
          if (true || BuildVars.DEBUG_PRIVATE_VERSION) {
              TL_account.checkUsername req2 = new TL_account.checkUsername();
-@@ -46047,7 +46070,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -46053,7 +46076,7 @@ public class ChatActivity extends BaseFragment implements
              } else {
                  dialog.setScrim(cell, link, null);
              }

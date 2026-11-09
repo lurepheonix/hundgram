@@ -34,7 +34,7 @@ the worktree.
 Mappings live in `scripts/config.ts` → `forkSyncFiles`. Update `FEATURES.md` when
 adding, removing, or meaningfully changing a feature or patch (except for plugin-related stuff).
 
-Release notes live in `changelogs/<build>.md`, drafted with the `inugram-changelog` skill.
+Release notes live in `changelogs/<build>.md`, drafted with the `inugram-prerelease` skill.
 
 ## Rules
 
@@ -165,7 +165,8 @@ and references to it gated using `#if PLUGINS` / `#endif`, for the pluginless bu
 
 ## Checks
 
-Run checks relevant to the change; no build for documentation-only edits.
+Run checks relevant to the change; no build for documentation-only edits. Invoke Gradle
+only through `pnpm run gradle [--pluginless] <tasks>`: it serializes builds so they reuse the warm daemon.
 
 | Change | Command |
 | --- | --- |
@@ -173,8 +174,8 @@ Run checks relevant to the change; no build for documentation-only edits.
 | Pluginless Android code | `pnpm run build-debug-pluginless` |
 | Plugin contract/bridge | `pnpm run typecheck-plugins` |
 | Rust engine | `cd src/native && cargo check` / `cargo test` |
-| JVM core | `cd worktree && ./gradlew :InuCore:test` |
-| Device tests, user-run | `cd worktree && ./gradlew :TMessagesProj:connectedDebugAndroidTest` |
+| JVM core | `pnpm run gradle :InuCore:test` |
+| Device tests, user-run | `pnpm run gradle :TMessagesProj:connectedDebugAndroidTest` |
 | Plugin SDK | `pnpm run typecheck-sdk` / `pnpm run build-sdk` |
 | Routine compiler | `pnpm run test-sdk` |
 
@@ -230,4 +231,4 @@ when those change; keep implementation walkthroughs and benchmark history out.
   only), Hundgram notes in `changelogs/hundgram/<INU_BUILD>.md` (what CI posts).
   After every upstream merge, `git mv` any new loose `changelogs/<N>.md` into
   `changelogs/inugram/` before committing; draft Hundgram notes with the
-  `inugram-changelog` skill.
+  `inugram-prerelease` skill.

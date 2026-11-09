@@ -743,7 +743,7 @@ index 0000000..0000000 100644
                      if (finishRunnable != null) {
                          AndroidUtilities.cancelRunOnUIThread(finishRunnable);
                          finishRunnable = null;
-@@ -11290,6 +11292,43 @@ public class ChatActivity extends BaseFragment implements
+@@ -11293,6 +11295,43 @@ public class ChatActivity extends BaseFragment implements
          return headerItem;
      }
  
@@ -787,7 +787,7 @@ index 0000000..0000000 100644
      private void playReactionAnimation(Integer messageId) {
          if (fragmentView == null) {
              return;
-@@ -17013,25 +17052,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17016,25 +17055,7 @@ public class ChatActivity extends BaseFragment implements
                      updatePollVotesMentionButton(true);
                  }
                  if (messageObject != null && fragmentOpened && openAnimationEnded && !inPreviewMode && (chatListItemAnimator == null || !chatListItemAnimator.isRunning()) && messageCell.checkUnreadReactions(clipTop, chatListView.getMeasuredHeight() - blurredViewBottomOffset)) {
@@ -814,7 +814,7 @@ index 0000000..0000000 100644
                  }
                  desu.inugram.helpers.chat.ReactionDebugHelper.checkStaleUnread(messageCell, reactionsMentionCount);
                  getDownloadController().checkUnviewedDownloads(messageCell.getId(), dialog_id);
-@@ -17049,24 +17070,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -17052,24 +17073,7 @@ public class ChatActivity extends BaseFragment implements
                  }
                  hasTopicSeparator = cell.topicSeparator != null;
                  if (messageObject != null && fragmentOpened && openAnimationEnded && !inPreviewMode && (chatListItemAnimator == null || !chatListItemAnimator.isRunning()) && cell.checkUnreadReactions(clipTop, chatListView.getMeasuredHeight() - blurredViewBottomOffset)) {
@@ -840,7 +840,7 @@ index 0000000..0000000 100644
                  }
                  cell.setVisiblePart(visibleTop, visibleBackgroundHeight);
                  if (fragmentOpened && openAnimationEnded && !paused
-@@ -24295,6 +24299,7 @@ public class ChatActivity extends BaseFragment implements
+@@ -24301,6 +24305,7 @@ public class ChatActivity extends BaseFragment implements
              long did = (Long) args[0];
              doOnIdle(() -> {
                  int msgId = (Integer) args[1];
@@ -848,7 +848,7 @@ index 0000000..0000000 100644
                  if (filteredMessagesDict != null) {
                      MessageObject messageObject = filteredMessagesDict.get(msgId);
                      if (messageObject != null) {
-@@ -24312,6 +24317,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -24318,6 +24323,10 @@ public class ChatActivity extends BaseFragment implements
                      messageObject.forceUpdate = true;
                      messageObject.reactionsChanged = true;
                      updateMessageAnimated(messageObject, true);
@@ -859,7 +859,7 @@ index 0000000..0000000 100644
                  }
              });
          } else if (id == NotificationCenter.savedReactionTagsUpdate) {
-@@ -25373,32 +25382,34 @@ public class ChatActivity extends BaseFragment implements
+@@ -25379,32 +25388,34 @@ public class ChatActivity extends BaseFragment implements
              long topicId = (long) args[1];
              if (dialogId == dialog_id && ((!isTopic && (!ChatObject.isMonoForum(currentChat) || getTopicId() == 0)) || topicId == getTopicId())) {
                  reactionsMentionCount = (int) args[2];
@@ -915,7 +915,7 @@ index 0000000..0000000 100644
                  }
                  updateReactionsMentionButton(true);
              }
-@@ -47931,18 +47942,33 @@ public class ChatActivity extends BaseFragment implements
+@@ -47937,18 +47948,33 @@ public class ChatActivity extends BaseFragment implements
              loadLastUnreadMention();
          } else if (buttonId == ChatActivitySideControlsButtonsLayout.BUTTON_REACTIONS) {
              if (desu.inugram.helpers.chat.ReactionDebugHelper.isEnabled()) {

@@ -25,6 +25,7 @@ import desu.inugram.helpers.theme.NonIslandHelper
 import desu.inugram.helpers.update.ApkInstaller
 import desu.inugram.helpers.update.UpdateHelper
 import org.telegram.messenger.AndroidUtilities
+import org.telegram.messenger.BuildConfig
 import org.telegram.messenger.LocaleController.getString
 import org.telegram.messenger.MessageObject
 import org.telegram.messenger.MessagesController
@@ -76,6 +77,7 @@ object InuHooks {
         PluginManager.init(context)
         // #endif
         Utilities.globalQueue.postRunnable { UrlCleanerHelper.preload() }
+        if (BuildConfig.INU_BUILD_TYPE == "debug") SearchRegistry.verifySlugs()
     }
 
     @JvmStatic
