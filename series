@@ -454,3 +454,4 @@ bugfix/profile-media-undock-rows-hidden.patch
 bugfix/widget-resize-at-chat-bottom.patch
 bugfix/gif-decoder-retry.patch
 bugfix/video-near-end-freeze.patch
+bugfix/reset-dialogs-clears-topics.patch

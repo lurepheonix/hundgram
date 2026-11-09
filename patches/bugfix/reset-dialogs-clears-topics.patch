@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: The Ghost <lurepheonix@gmail.com>
+Date: Mon, 9 Nov 2026 15:51:13 +0400
+Subject: Clear cached forum topics when dialogs are reset
+
+---
+ .../main/java/org/telegram/messenger/MessagesStorage.java | 8 ++++++++
+ .../java/org/telegram/messenger/TopicsController.java     | 1 +
+ 2 files changed, 9 insertions(+)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/MessagesStorage.java
+@@ -4790,8 +4790,16 @@ public class MessagesStorage extends BaseController {
+                 database.executeFast("DELETE FROM media_v4 WHERE uid IN " + ids).stepThis().dispose();
+                 database.executeFast("DELETE FROM messages_holes WHERE uid IN " + ids).stepThis().dispose();
+                 database.executeFast("DELETE FROM media_holes_v2 WHERE uid IN " + ids).stepThis().dispose();
++                database.executeFast("DELETE FROM topics WHERE did IN " + ids).stepThis().dispose();
++                database.executeFast("DELETE FROM messages_topics WHERE uid IN " + ids).stepThis().dispose();
++                database.executeFast("DELETE FROM messages_holes_topics WHERE uid IN " + ids).stepThis().dispose();
++                database.executeFast("DELETE FROM media_topics WHERE uid IN " + ids).stepThis().dispose();
++                database.executeFast("DELETE FROM media_holes_topics WHERE uid IN " + ids).stepThis().dispose();
++                database.executeFast("DELETE FROM media_counts_topics WHERE uid IN " + ids).stepThis().dispose();
+                 database.commitTransaction();
+ 
++                getMessagesController().getTopicsController().databaseCleared();
++
+                 for (int a = 0; a < totalPinnedCount; a++) {
+                     TLRPC.Dialog dialog = dialogsRes.dialogs.get(dialogsCount + a);
+                     if (dialog instanceof TLRPC.TL_dialog && !dialog.pinned) {
+diff --git a/TMessagesProj/src/main/java/org/telegram/messenger/TopicsController.java b/TMessagesProj/src/main/java/org/telegram/messenger/TopicsController.java
+index 0000000..0000000 100644
+--- a/TMessagesProj/src/main/java/org/telegram/messenger/TopicsController.java
++++ b/TMessagesProj/src/main/java/org/telegram/messenger/TopicsController.java
+@@ -1253,6 +1253,7 @@ public class TopicsController extends BaseController {
+         AndroidUtilities.runOnUIThread(() -> {
+             topicsByChatId.clear();
+             topicsMapByChatId.clear();
++            topicsByTopMsgId.clear();
+             endIsReached.clear();
+ 
+             SharedPreferences.Editor editor = getUserConfig().getPreferences().edit();
