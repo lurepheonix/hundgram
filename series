@@ -452,6 +452,12 @@ bugfix/ipv6-proxy.patch
 bugfix/bitmaps-cache-recycled-shared-bitmaps.patch
 bugfix/profile-media-undock-rows-hidden.patch
 bugfix/widget-resize-at-chat-bottom.patch
+bugfix/stale-wallpaper-load.patch
+feature/wallet_explorer_links.patch
+bugfix/non-selected-account-media.patch
+hooks/fragment-lifecycle.patch
+feature/cross-account-chats.patch
+bugfix/bottom-bar-ripple-origin.patch
 bugfix/gif-decoder-retry.patch
 bugfix/video-near-end-freeze.patch
 bugfix/reset-dialogs-clears-topics.patch

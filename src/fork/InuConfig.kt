@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import desu.inugram.helpers.ProcessTextConfig
 import desu.inugram.helpers.chat.DoubleTapActionHelper
 import desu.inugram.helpers.chat.PinnedReactionsHelper
+import desu.inugram.helpers.dialogs.LinkedChatsHelper
 import desu.inugram.helpers.font.FontConfig
 import desu.inugram.helpers.menu.ChatMenuConfig
 import desu.inugram.helpers.menu.DrawerMenuConfig
@@ -1018,6 +1019,9 @@ object InuConfig {
     val UPDATES_ENABLED = UpdatesEnabledItem()
 
     @JvmField
+    val WHATS_NEW_ON_UPDATE = BoolItem("whats_new_on_update", true)
+
+    @JvmField
     val EXTRA_DEBUG_LOGS = BoolItem("extra_debug_logs", false, exportable = false)
 
     // internal state
@@ -1029,6 +1033,12 @@ object InuConfig {
 
     @JvmField
     val UPDATE_LAST_CHECK_MS = LongItem("update_last_check_ms", 0L, exportable = false)
+
+    @JvmField
+    val WHATS_NEW_STASH = StringItem("whats_new_stash", "", exportable = false)
+
+    @JvmField
+    val WHATS_NEW_SEEN_BUILD = IntItem("whats_new_seen_build", 0, exportable = false)
 
     @JvmField
     val CLOUD_SYNC_ACCOUNT_ID = LongItem("cloud_sync_account_id", 0L, exportable = false)
@@ -1059,6 +1069,12 @@ object InuConfig {
 
     @JvmField
     val ACCOUNT_ORDER = StringItem("account_order", "", exportable = false)
+
+    @JvmField
+    val LINKED_CHATS = BoolItem("linked_chats", false)
+
+    @JvmField
+    val LINKED_CHATS_LIST = LinkedChatsHelper.LinksItem()
 
     @JvmField
     val ACCOUNT_SWITCH_SHORTCUT = BoolItem("account_switch_shortcut", false)

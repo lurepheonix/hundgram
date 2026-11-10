@@ -11,12 +11,14 @@ import desu.inugram.helpers.SplashScreenHelper
 import desu.inugram.helpers.UrlCleanerHelper
 import desu.inugram.helpers.cloud.CloudSettingsHelper
 import desu.inugram.helpers.dialogs.DrawerHelper
+import desu.inugram.helpers.dialogs.LinkedChatsHelper
 import desu.inugram.helpers.dialogs.MainTabsHelper
 import desu.inugram.helpers.font.FontHelper
 import desu.inugram.helpers.maps.MapsHelper
 import desu.inugram.helpers.media.MediaSendDebugHelper
 // #if PLUGINS
 import desu.inugram.helpers.plugins.PluginManager
+import desu.inugram.helpers.plugins.platform.PluginNotifications
 import desu.inugram.ui.settings.PluginReposActivity
 // #endif
 import desu.inugram.helpers.security.PasscodeHelper
@@ -34,6 +36,7 @@ import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
 import org.telegram.messenger.Utilities
 import org.telegram.tgnet.TLObject
+import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.Components.AnimatedEmojiDrawable
 import org.telegram.ui.Components.AnimatedFloat
 import org.telegram.ui.Components.BulletinFactory
@@ -124,11 +127,12 @@ object InuHooks {
     }
 
     @JvmStatic
-    fun handleIntent(activity: LaunchActivity, intent: Intent?): Boolean {
+    fun handleIntent(activity: LaunchActivity, intent: Intent?, restore: Boolean): Boolean {
         return PasscodeHelper.tryHandleDeepLink(activity, intent)
             || SearchRegistry.tryHandleDeepLink(activity, intent)
             // #if PLUGINS
             || PluginReposActivity.tryHandleDeepLink(activity, intent)
+            || PluginNotifications.tryHandleClick(intent, restore)
             // #endif
             || tryHandleFunDeepLink(activity, intent)
             || ShortcutHelper.handleAction(activity, intent)
@@ -164,12 +168,23 @@ object InuHooks {
             MonetHelper.refreshMonetThemeIfChanged()
         }
         CrashReporter.maybeShowReportSheet(launchActivity)
+        UpdateHelper.maybeShowWhatsNew(launchActivity)
         ProxyVpnHelper.reconcile()
         DrawerHelper.refreshUpdateState()
         MediaSendDebugHelper.startWatchingCache()
         // #if PLUGINS
         PluginManager.onAppInteractive()
         // #endif
+    }
+
+    @JvmStatic
+    fun onFragmentResume(fragment: BaseFragment) {
+        LinkedChatsHelper.onFragmentResume(fragment)
+    }
+
+    @JvmStatic
+    fun onFragmentPause(fragment: BaseFragment) {
+        LinkedChatsHelper.onFragmentPause(fragment)
     }
 
     @JvmStatic
