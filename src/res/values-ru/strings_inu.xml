@@ -564,7 +564,7 @@
     <string name="InuWhatsNewBadge">Новое</string>
     <string name="InuWhatsNewDontShowAgain">Больше не показывать</string>
     <string name="InuWhatsNewDisabled">Список изменений больше не будет показываться</string>
-    <string name="InuWhatsNewDisabledInfo">Его всегда можно открыть в **Настройках Inugram › Что нового**</string>
+    <string name="InuWhatsNewDisabledInfo">Его всегда можно открыть в **Настройках Hundgram › Что нового**</string>
     <string name="InuRefetchWebPreview">Обновить превью ссылки</string>
     <string name="InuSendStickers">Отправлять стикеры</string>
     <string name="InuSendGifs">Отправлять GIF</string>

@@ -562,7 +562,7 @@
     <string name="InuWhatsNewBadge">NEW</string>
     <string name="InuWhatsNewDontShowAgain">今後表示しない</string>
     <string name="InuWhatsNewDisabled">変更履歴は今後表示されません</string>
-    <string name="InuWhatsNewDisabledInfo">**Inugram 設定 › 新機能** からいつでも確認できます</string>
+    <string name="InuWhatsNewDisabledInfo">**Hundgram 設定 › 新機能** からいつでも確認できます</string>
     <string name="InuRefetchWebPreview">ウェブプレビューを再取得</string>
     <string name="InuSendStickers">スタンプを送信</string>
     <string name="InuSendGifs">GIF を送信</string>

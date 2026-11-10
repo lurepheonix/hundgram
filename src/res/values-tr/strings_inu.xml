@@ -682,7 +682,7 @@
     <string name="InuWhatsNewBadge">Yeni</string>
     <string name="InuWhatsNewDontShowAgain">Bir daha gösterme</string>
     <string name="InuWhatsNewDisabled">Değişiklik günlükleri artık gösterilmeyecek</string>
-    <string name="InuWhatsNewDisabledInfo">Onları her zaman **Inugram Ayarları › Yenilikler** bölümünden okuyabilirsiniz</string>
+    <string name="InuWhatsNewDisabledInfo">Onları her zaman **Hundgram Ayarları › Yenilikler** bölümünden okuyabilirsiniz</string>
     <string name="InuRefetchWebPreview">Web önizlemesini yeniden çek</string>
     <string name="InuSendStickers">Çıkartma gönder</string>
     <string name="InuSendGifs">GIF gönder</string>

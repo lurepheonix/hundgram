@@ -232,3 +232,7 @@ when those change; keep implementation walkthroughs and benchmark history out.
   After every upstream merge, `git mv` any new loose `changelogs/<N>.md` into
   `changelogs/inugram/` before committing; draft Hundgram notes with the
   `inugram-prerelease` skill.
+- `INUGRAM_VERSION` in `src/fork/helpers/update/UpdateHelper.kt` and the 5-arg
+  `InuVersion` string (`Hundgram v%1$s ... Inugram v%4$s, %5$s`) are Hundgram-only:
+  we track the Inugram base version, upstream doesn't need to. Preserve both
+  across merges even if upstream drops them (as v55 did).

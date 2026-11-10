@@ -561,7 +561,7 @@
     <string name="InuWhatsNewBadge">新</string>
     <string name="InuWhatsNewDontShowAgain">不再显示</string>
     <string name="InuWhatsNewDisabled">将不再显示更新日志</string>
-    <string name="InuWhatsNewDisabledInfo">你可以随时在 **Inugram 设置 › 新功能** 中查看</string>
+    <string name="InuWhatsNewDisabledInfo">你可以随时在 **Hundgram 设置 › 新功能** 中查看</string>
     <string name="InuRefetchWebPreview">重新获取网页预览</string>
     <string name="InuSendStickers">发送贴纸</string>
     <string name="InuSendGifs">发送 GIF</string>
