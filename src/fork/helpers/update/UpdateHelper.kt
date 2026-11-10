@@ -263,7 +263,6 @@ object UpdateHelper {
                 val info = msg?.let {
                     parseApkInfo(it, if (BuildConfig.INU_PLUGINLESS) "plugins" else "pluginless")
                 }
-                }
                 finishVariantSwitch(
                     callback,
                     if (msg == null || info == null || info.verCode < currentBuild().versionCode) VariantSwitchResult.Unavailable
