@@ -532,12 +532,6 @@
     <string name="InuUpdateBeta">更新 Hundgram Beta</string>
     <string name="InuUpdatesEnabled">自动检查更新</string>
     <string name="InuUpdateCheckNow">立即检查</string>
-    <string name="InuChangelog">更新日志</string>
-    <string name="InuChangelogShow">查看更新日志</string>
-    <string name="InuChangelogVersion">Hundgram v%1$d</string>
-    <string name="InuChangelogEmpty">此版本没有更新日志</string>
-    <string name="InuChangelogNewer">较新</string>
-    <string name="InuChangelogOlder">较旧</string>
     <string name="InuUpdateBuildFullInfo">当前使用完整版本。**切换到无插件版本 >**</string>
     <string name="InuUpdateBuildPluginlessInfo">当前使用无插件版本。**切换到完整版本 >**</string>
     <string name="InuSwitchConfirmFull">切换到完整版本？</string>

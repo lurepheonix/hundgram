@@ -626,12 +626,6 @@
     <string name="InuUpdateBeta">Оновити Hundgram Beta</string>
     <string name="InuUpdatesEnabled">Автоматично перевіряти оновлення</string>
     <string name="InuUpdateCheckNow">Перевірити зараз</string>
-    <string name="InuChangelog">Журнал змін</string>
-    <string name="InuChangelogShow">Показати журнал змін</string>
-    <string name="InuChangelogVersion">Hundgram v%1$d</string>
-    <string name="InuChangelogEmpty">Немає журналу змін для цієї версії</string>
-    <string name="InuChangelogNewer">Новіше</string>
-    <string name="InuChangelogOlder">Старіше</string>
     <string name="InuUpdateBuildFullInfo">Ви використовуєте повну збірку. **Перейти на збірку без плагінів >**</string>
     <string name="InuUpdateBuildPluginlessInfo">Ви використовуєте збірку без плагінів. **Перейти на повну >**</string>
     <string name="InuSwitchConfirmFull">Перейти на повну збірку?</string>

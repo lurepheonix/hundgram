@@ -519,7 +519,7 @@ object UpdateHelper {
     }
 
     // search results may hold a truncated rich message without all of its documents
-    fun loadRichMessage(account: Int, messageId: Int, callback: (TLRPC.Message?) -> Unit) {
+    private fun loadRichMessage(account: Int, messageId: Int, callback: (TLRPC.Message?) -> Unit) {
         val req = TL_iv.getRichMessage().apply {
             peer = MessagesController.getInstance(account).getInputPeer(-CHANNEL_ID)
             id = messageId
@@ -596,9 +596,6 @@ object UpdateHelper {
 
     @Suppress("DEPRECATION")
     private fun currentBuild(): CurrentBuild = CurrentBuild(packageInfo.versionCode)
-
-    @Suppress("DEPRECATION")
-    fun installedVersionCode(): Int = packageInfo.versionCode
 
     // changelog body of a channel post, with the variant-specific sections (e.g. Plugins
     // on pluginless) stripped — the same body the update dialog shows for new versions.
