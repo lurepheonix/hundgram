@@ -246,7 +246,13 @@ git; never stg rebase.
   the merged body: old-start from upstream (new-stock anchor), exact old/new
   counts. Every body line counts, including ` ` (space-only) context blanks;
   a truly-empty line inside a hunk body is corruption, and `git apply` ignores
-  new-start but rejects wrong counts ("corrupt patch").
+  new-start but rejects wrong counts ("corrupt patch"). Do not trim a hunk
+  down to "minimal" context: if change lines (`+`/`-`) come right after
+  a lone-space empty context line, the hunk must keep non-empty trailing
+  context after the change — otherwise `git apply` fails with
+  "patch does not apply" despite correct position and counts
+  (saved-music-play-order v56: the trimmed 7/10 hunk failed, restoring
+  the `+`-blank + traversePlaylist anchor to 10/14 fixed it).
 - After merging: `git mv` new loose changelogs into `changelogs/inugram/`, bump
   `INUGRAM_VERSION`, rerun `pnpm run generate-tl`, resync both worktrees
   (`setup --force`, `setup --pluginless --force`), and run the relevant checks
