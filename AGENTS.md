@@ -218,6 +218,32 @@ only through `pnpm run gradle [--pluginless] <tasks>`: it serializes builds so t
 Keep this guide to durable rules, ownership boundaries, and commands. Update it
 when those change; keep implementation walkthroughs and benchmark history out.
 
+## Merging upstream
+
+`main` is upstream plus Hundgram deltas. Merge `upstream/main` into `main` with
+git; never stg rebase.
+
+- Provenance check: a patch, `series` entry, `src/fork` file, config key, or
+  string present in `main` but absent from `upstream/main`
+  (`git cat-file -e upstream/main:<path>`) is Hundgram-only — added here, never
+  upstream. `git diff main..upstream/main` shows such files as deletions; that is
+  endpoint-diff noise, not upstream removing them. The merge keeps main-side
+  additions automatically.
+- Real delete/modify conflicts are only paths present at the merge-base
+  (`git cat-file -e <merge-base>:<path>`) that upstream changed or removed.
+  Resolve each consciously and record the decision in TODO.md.
+- `series`: keep `main`'s order (Hundgram entries stay where they are, including
+  interleaved ones); insert upstream's new patches in upstream order ahead of
+  Hundgram's tail block (`gif-decoder-retry`, `video-near-end-freeze`,
+  `reset-dialogs-clears-topics`).
+- Most patch conflicts are hunk-header drift from upstream's stock rebase — take
+  upstream's headers. Re-apply the Hundgram deltas below on top of merged
+  upstream files.
+- After merging: `git mv` new loose changelogs into `changelogs/inugram/`, bump
+  `INUGRAM_VERSION`, rerun `pnpm run generate-tl`, resync both worktrees
+  (`setup --force`, `setup --pluginless --force`), and run the relevant checks
+  with dummy `TG_APP_ID`/`TG_APP_HASH`.
+
 ## Hundgram deltas (kept on top of upstream)
 
 - App id is `inu.hundgram.beta` (`debugAppId` in `scripts/config.ts`); the theme-reload
@@ -236,3 +262,8 @@ when those change; keep implementation walkthroughs and benchmark history out.
   `InuVersion` string (`Hundgram v%1$s ... Inugram v%4$s, %5$s`) are Hundgram-only:
   we track the Inugram base version, upstream doesn't need to. Preserve both
   across merges even if upstream drops them (as v55 did).
+- Build variant naming is `plugins`, not upstream's `full`: APK
+  `hundgram-…-plugins.apk` (`apk-plugins-name` in `scripts/ci/version.ts`),
+  `apkFiles.plugins` in `scripts/ci/upload.ts`, `"plugins"` in
+  `UpdateHelper.currentVariant()` and `APK_RE`. Adopt upstream function renames
+  around the kept strings.
