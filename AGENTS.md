@@ -256,7 +256,8 @@ git; never stg rebase.
 - After merging: `git mv` new loose changelogs into `changelogs/inugram/`, bump
   `INUGRAM_VERSION`, rerun `pnpm run generate-tl`, resync both worktrees
   (`setup --force`, `setup --pluginless --force`), and run the relevant checks
-  with dummy `TG_APP_ID`/`TG_APP_HASH`.
+  with numeric dummy credentials (`TG_APP_ID=12345`, `TG_APP_HASH=dummy` —
+  upstream build.gradle `parseInt`s the id).
 
 ## Hundgram deltas (kept on top of upstream)
 
