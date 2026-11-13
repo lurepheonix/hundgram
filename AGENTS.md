@@ -151,6 +151,9 @@ refresh `src/test/assets/routines.json` with `pnpm --filter @inugram/cli test --
 added only in `sdk/types/grants.json` (`pnpm run generate-grants`); TL tables and typings come
 from `pnpm run generate-tl`, rerun after every rebase and never hand-edited.
 
+`rquickjs-sys` is vendored from crates.io into `src/native/vendor` by `pnpm run setup` and patched with
+`patches-native/rquickjs-sys-security.patch` (`vendoredCrates` in `scripts/config.ts`); cargo needs it.
+
 Engine work runs on `EngineDispatch.scheduler`; caller-thread JVM/Xposed callbacks take the
 serialized engine lease, and no engine `Rc`/`Persistent` state may escape it (keep rquickjs
 `parallel`). Grant checks fail closed. Runtime work carries its `PluginSession`, never an
@@ -239,6 +242,11 @@ git; never stg rebase.
 - Most patch conflicts are hunk-header drift from upstream's stock rebase — take
   upstream's headers. Re-apply the Hundgram deltas below on top of merged
   upstream files.
+- When a merged hunk keeps Hundgram `+` lines, recount its `@@` numbers from
+  the merged body: old-start from upstream (new-stock anchor), exact old/new
+  counts. Every body line counts, including ` ` (space-only) context blanks;
+  a truly-empty line inside a hunk body is corruption, and `git apply` ignores
+  new-start but rejects wrong counts ("corrupt patch").
 - After merging: `git mv` new loose changelogs into `changelogs/inugram/`, bump
   `INUGRAM_VERSION`, rerun `pnpm run generate-tl`, resync both worktrees
   (`setup --force`, `setup --pluginless --force`), and run the relevant checks

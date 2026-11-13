@@ -19,6 +19,7 @@ import {
   hasStgitStack,
   linkForkSource,
   patchNameFromSeriesEntry,
+  prepareVendoredCrates,
   readPinnedUpstreamCommit,
   readSeries,
   step,
@@ -268,6 +269,7 @@ const taggedCache = await writeExcludedFile('CACHEDIR.TAG', [
 const syncedSubmodules = noSubmodules ? false : await syncSubmodules(worktreeDir, excludedSubmodules, ci)
 const patchedSubmodules = noSubmodules ? false : await applySubmodulePatches(worktreeDir, excludedSubmodules)
 const overlaidAny = noSubmodules ? false : await applySubmoduleOverlays(worktreeDir)
+const vendoredCrates = await prepareVendoredCrates()
 await ensureAdGuardFilter()
 await ensureGitExclude(worktreeDir, '.kotlin')
 await ensureGitExclude(worktreeDir, '.cxx')
@@ -277,4 +279,4 @@ const linkedAny = await linkForkSource(worktreeDir, pluginless)
 const generatedAny = await generateIconDrawables(worktreeDir)
 const generatedTl = pluginless ? false : await generateTl()
 const generatedGrants = pluginless ? false : await generateGrants()
-success(configuredBuild || taggedCache || linkedAny || generatedAny || generatedTl || generatedGrants || syncedSubmodules || patchedSubmodules || overlaidAny ? 'Setup complete' : 'Up to date')
+success(configuredBuild || taggedCache || linkedAny || generatedAny || generatedTl || generatedGrants || syncedSubmodules || patchedSubmodules || overlaidAny || vendoredCrates ? 'Setup complete' : 'Up to date')

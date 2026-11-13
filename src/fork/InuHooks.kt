@@ -52,6 +52,7 @@ object InuHooks {
     fun preInit(context: Context) {
         CrashReporter.install()
         InuConfig.load(context)
+        CrashReporter.collectNativeExit(context)
     }
 
     /**

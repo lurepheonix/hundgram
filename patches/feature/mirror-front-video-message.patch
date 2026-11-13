@@ -5,10 +5,10 @@ Subject: feature: mirror front video message preview and file behind toggle
 
 ---
  .../telegram/ui/Components/InstantCameraView.java | 12 ++++++++++--
- .../round/RoundVideoCameraController.java         | 15 +++++++++++++--
+ .../utils/recorder/round/RoundVideoCameraController.java         | 8 +++++++-
  .../recorder/round/RoundVideoGlProcessor.java     |  9 +++++++++
  .../recorder/round/RoundVideoOverlayRenderer.java | 14 ++++++++++++--
- 4 files changed, 44 insertions(+), 6 deletions(-)
+ 4 files changed, 38 insertions(+), 5 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java
 index 0000000..0000000 100644
@@ -53,10 +53,12 @@ index 0000000..0000000 100644
  import java.io.IOException;
  import java.util.ArrayList;
  import java.util.Arrays;
-@@ -595,6 +597,7 @@ final class RoundVideoCameraController {
+@@ -749,8 +751,9 @@ final class RoundVideoCameraController {
              Handler handler = cameraHandler;
              if (handler != null) handler.post(this::startRecordingAfterFirstFrame);
          });
+         appliedDisplayRotation = displayRotationDegrees();
+         glProcessor.setDisplayRotation(appliedDisplayRotation);
 +        glProcessor.setMirrorOutput(RoundRecorderHelper.shouldMirrorFront(selectedFacing == RoundVideoSession.CameraFacing.FRONT));
          recordingSurface = glProcessor.start();
          if (dualActiveMode) {
@@ -73,20 +75,6 @@ index 0000000..0000000 100644
                          boolean pendingDualSwitch = dualActiveMode
                                  && pendingWarmSwitchFacing != null;
                          boolean wasSwitch = notifySwitchCompletion && !pendingDualSwitch;
-@@ -2543,7 +2549,12 @@ final class RoundVideoCameraController {
-         float centerX = previewView.getWidth() * 0.5f;
-         float centerY = previewView.getHeight() * 0.5f;
-         Matrix matrix = new Matrix();
--        matrix.setScale(scaleX, scaleY, centerX, centerY);
-+        RoundVideoSession.CameraFacing facing = activeFacing != null ? activeFacing : requestedFacing;
-+        float previewScaleX = scaleX;
-+        if (facing == RoundVideoSession.CameraFacing.FRONT && RoundRecorderHelper.shouldMirrorFront(true)) {
-+            previewScaleX = -previewScaleX;
-+        }
-+        matrix.setScale(previewScaleX, scaleY, centerX, centerY);
-         previewView.setTransform(matrix);
-         diagnostics.log("preview transform: view=" + previewView.getWidth() + "x"
-                 + previewView.getHeight()
 diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoGlProcessor.java
@@ -100,9 +88,11 @@ index 0000000..0000000 100644
  import java.util.concurrent.CountDownLatch;
  
  final class RoundVideoGlProcessor {
-@@ -122,6 +124,7 @@ final class RoundVideoGlProcessor {
+@@ -122,8 +122,9 @@ final class RoundVideoGlProcessor {
  
      private volatile boolean started;
+     /** Display rotation applied to the camera quad; see RoundVideoOverlayRenderer. */
+     private volatile int displayRotation;
      private volatile boolean recordingStarted;
 +    private volatile boolean mirrorOutput;
      private volatile Runnable firstFrameListener;
@@ -139,7 +129,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/Round
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
-@@ -255,6 +255,8 @@ final class RoundVideoOverlayRenderer {
+@@ -255,12 +255,14 @@ final class RoundVideoOverlayRenderer {
      private final Program watermarkProgram;
      private final FloatBuffer vertexBuffer;
      private final FloatBuffer textureBuffer;
@@ -147,16 +137,21 @@ index 0000000..0000000 100644
 +    private boolean mirrorOutput;
      private FloatBuffer cameraTextureBuffer;
      private FloatBuffer rotatedCameraTextureBuffer;
+     /**
+      * Display rotation in degrees (0, 90, 180, 270). The SurfaceTexture matrix only makes the
+      * frame upright for the device's natural orientation, so the camera quad is rotated by the
+      * display rotation on top of it, exactly like a TextureView preview transform would be.
+      */
+     private int displayRotation;
      private final int[] frameBuffers = new int[8];
-@@ -306,6 +308,9 @@ final class RoundVideoOverlayRenderer {
+@@ -312,5 +312,8 @@ final class RoundVideoOverlayRenderer {
  
          float[] vertexData = new float[48];
          setVertexCoordinates(vertexData, VERTEX_NORMAL, -1f, 1f, 1f, -1f);
 +        float[] mirroredVertexData = new float[12];
 +        setVertexCoordinates(mirroredVertexData, 0, 1f, 1f, -1f, -1f);
 +        mirroredVertexBuffer = createBuffer(mirroredVertexData);
-         cameraTextureBuffer = createCameraTextureBuffer(inputSize, sourceCropSize, false);
-         rotatedCameraTextureBuffer = createCameraTextureBuffer(inputSize, sourceCropSize, true);
+         updateCameraTextureBuffers();
  
 @@ -412,6 +417,10 @@ final class RoundVideoOverlayRenderer {
          lastHistoryFrameNs = 0;

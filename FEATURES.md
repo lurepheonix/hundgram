@@ -52,7 +52,7 @@ its own update channel, pointing at Hundgram releases.)
 - join/creation date in group & channel profiles
 - show linked channel in discussion group profile similar to personal channel
 - hide own phone number from ui
-- fonts: manage a list of fonts used in the media editor text tool; device system fonts can be toggled on/off. install fonts from .ttf/.otf/.ttc files right from the chats.
+- fonts: manage a list of fonts used in the media editor text tool; device system fonts can be toggled on/off. install fonts from .ttf/.otf/.ttc files right from the chats (whole family at once when sent as an album).
 - extra meme-style outlined text style in the media editor text tool
 - 🐶 app-font *stack*: pick a user-provided TTF/OTF/TTC family as the whole-app font, optionally with fallbacks (e.g. for other scripts)
 - 🐶 separate monospace font: pick any roster font for code blocks (inline + pre), previewed live alongside the stack
@@ -157,7 +157,7 @@ its own update channel, pointing at Hundgram releases.)
   - Delete my messages
   - Statistics / Administrators / Permissions / Invite links (admin shortcuts)
 - 🐶 disable custom wallpaper and theme per chat
-- per-forum client-side topics layout override (tabs/list) from the profile menu
+- per-forum client-side topics layout override (tabs/list/sidebar) from the profile menu
 - read-only chat "admin" page for non-admins
 - split media restriction toggles for stickers / gifs / games / inline
 - show id in profile, show user json
@@ -308,6 +308,7 @@ its own update channel, pointing at Hundgram releases.)
 
 ## 🐶 bugfixes (vs stock)
 
+- bot widgets: engine and renderer updated ahead of stock to close memory-safety holes reachable from widget scripts and hostile markup
 - no extra bottom padding under stickers
 - 12/24-hour time follows the system locale again when the system clock format is automatic (stock switched to the Telegram language's format after any configuration change)
 - android 16 "expanded" dark theme no longer force-inverts the app
@@ -368,7 +369,6 @@ its own update channel, pointing at Hundgram releases.)
 - context menus no longer let the list behind them scroll when a drag starts just before the menu window takes input
 - dialogs shown over a story (or another attached sheet) no longer lose their dismiss callback (stock bug: the fragment handed the dialog to the sheet and dropped the listener)
 - custom emoji reaction burst respects litemode (stock only gated the "around" animation of regular emoji)
-- reaction counter shift during long-tap menu
 - reactions with equal counts swapping places after sending one or reopening the chat; ties are now ordered by the reaction list position, like other clients
 - media caption hiding and then revealing top-down when reactions first appear on the message
 - reactions silently disappearing right after being sent (stale server read race); for a few seconds after a send, server answers that lose or undercount your own reaction are corrected from the local state

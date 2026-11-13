@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.LocaleController
 import org.telegram.messenger.MessageObject
 import org.telegram.messenger.MediaDataController
@@ -31,7 +30,6 @@ import kotlin.math.abs
 class SearchFilterHelper(
     private val fragment: ChatActivity,
     searchContainer: FrameLayout,
-    private val leftDp: Float,
 ) {
     init {
         registry.values.removeAll { it.get() == null }
@@ -88,7 +86,7 @@ class SearchFilterHelper(
         }
         searchContainer.addView(
             b,
-            LayoutHelper.createFrame(44, 44f, Gravity.LEFT or Gravity.TOP, leftDp, 0f, 0f, 0f),
+            LayoutHelper.createFrame(44, 44f, Gravity.LEFT or Gravity.TOP, 0f, 0f, 0f, 0f),
         )
     }
 
@@ -140,12 +138,6 @@ class SearchFilterHelper(
             fragment.searchingChatMessages,
             fragment.searchingReaction
         )
-    }
-
-    fun setCompact(compact: Boolean) {
-        val lp = button.layoutParams as FrameLayout.LayoutParams
-        lp.leftMargin = AndroidUtilities.dp(if (compact) 2f else leftDp)
-        button.layoutParams = lp
     }
 
     private fun isSearchingByUser(): Boolean =
