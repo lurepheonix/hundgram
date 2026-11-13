@@ -12,7 +12,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMe
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
-@@ -34621,6 +34621,10 @@ public class ChatActivity extends BaseFragment implements
+@@ -34625,6 +34625,10 @@ public class ChatActivity extends BaseFragment implements
      }
  
      public void saveMessageToGallery(MessageObject messageObject) {
@@ -23,7 +23,7 @@ index 0000000..0000000 100644
          String path = messageObject.messageOwner.attachPath;
          if (!TextUtils.isEmpty(path)) {
              File temp = new File(path);
-@@ -34664,11 +34668,11 @@ public class ChatActivity extends BaseFragment implements
+@@ -34668,11 +34672,11 @@ public class ChatActivity extends BaseFragment implements
                  }
              }
              if (!TextUtils.isEmpty(videoPath)) {
@@ -76,7 +76,7 @@ index 0000000..0000000 100644
                      fragment1.finishFragment();
                      UndoView undoView = null;
                      if (profileActivity instanceof ProfileActivity) {
-@@ -5987,6 +5991,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
+@@ -5994,6 +5998,7 @@ public class SharedMediaLayout extends FrameLayout implements Theme.Colorable, N
      }
  
      private void updateStoriesPinButton() {

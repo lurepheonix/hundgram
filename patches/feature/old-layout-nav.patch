@@ -384,7 +384,7 @@ index 0000000..0000000 100644
                  }
              });
          }
-@@ -5683,7 +5689,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -5687,7 +5693,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                      actionsView.beginApplyingActions();
                      actionsView.addCameraAction();
                      actionsView.addEditInfo();

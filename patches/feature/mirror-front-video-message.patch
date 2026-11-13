@@ -4,10 +4,10 @@ Date: Sat, 10 Oct 2026 05:23:09 +0400
 Subject: feature: mirror front video message preview and file behind toggle
 
 ---
- .../telegram/ui/Components/InstantCameraView.java | 12 ++++++++++--
- .../utils/recorder/round/RoundVideoCameraController.java         | 8 +++++++-
- .../recorder/round/RoundVideoGlProcessor.java     |  9 +++++++++
- .../recorder/round/RoundVideoOverlayRenderer.java | 14 ++++++++++++--
+ .../telegram/ui/Components/InstantCameraView.java  | 12 ++++++++++--
+ .../recorder/round/RoundVideoCameraController.java |  8 +++++++-
+ .../recorder/round/RoundVideoGlProcessor.java      |  9 +++++++++
+ .../recorder/round/RoundVideoOverlayRenderer.java  | 14 ++++++++++++--
  4 files changed, 38 insertions(+), 5 deletions(-)
 
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/InstantCameraView.java
@@ -44,7 +44,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/Round
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
 +++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoCameraController.java
-@@ -30,6 +30,8 @@ import androidx.annotation.NonNull;
+@@ -31,6 +31,8 @@ import androidx.annotation.NonNull;
  import androidx.annotation.Nullable;
  import androidx.core.content.ContextCompat;
  
@@ -53,9 +53,7 @@ index 0000000..0000000 100644
  import java.io.IOException;
  import java.util.ArrayList;
  import java.util.Arrays;
-@@ -749,8 +751,9 @@ final class RoundVideoCameraController {
-             Handler handler = cameraHandler;
-             if (handler != null) handler.post(this::startRecordingAfterFirstFrame);
+@@ -751,6 +753,7 @@ final class RoundVideoCameraController {
          });
          appliedDisplayRotation = displayRotationDegrees();
          glProcessor.setDisplayRotation(appliedDisplayRotation);
@@ -63,7 +61,7 @@ index 0000000..0000000 100644
          recordingSurface = glProcessor.start();
          if (dualActiveMode) {
              CameraSelection secondarySelection = selectionForFacing(
-@@ -1415,7 +1418,10 @@ final class RoundVideoCameraController {
+@@ -1411,7 +1414,10 @@ final class RoundVideoCameraController {
                      try {
                          activeFacing = selectedFacing;
                          repeatingBuilder = createRepeatingRequestBuilder(true);
@@ -88,9 +86,7 @@ index 0000000..0000000 100644
  import java.util.concurrent.CountDownLatch;
  
  final class RoundVideoGlProcessor {
-@@ -122,8 +122,9 @@ final class RoundVideoGlProcessor {
- 
-     private volatile boolean started;
+@@ -124,6 +126,7 @@ final class RoundVideoGlProcessor {
      /** Display rotation applied to the camera quad; see RoundVideoOverlayRenderer. */
      private volatile int displayRotation;
      private volatile boolean recordingStarted;
@@ -98,7 +94,7 @@ index 0000000..0000000 100644
      private volatile Runnable firstFrameListener;
      private Runnable dualSwitchFrameListener;
      private boolean firstFrameReported;
-@@ -278,6 +281,10 @@ final class RoundVideoGlProcessor {
+@@ -280,6 +283,10 @@ final class RoundVideoGlProcessor {
          return cameraSurface;
      }
  
@@ -109,7 +105,7 @@ index 0000000..0000000 100644
      @NonNull
      public Surface getSecondaryCameraSurface() {
          if (!dualInputEnabled || secondaryCameraSurface == null) {
-@@ -335,6 +342,7 @@ final class RoundVideoGlProcessor {
+@@ -337,6 +344,7 @@ final class RoundVideoGlProcessor {
              cameraSwitchStartNs = switchStageStartNs = SystemClock.elapsedRealtimeNanos();
              switchFromFacing = from;
              switchToFacing = to;
@@ -117,7 +113,7 @@ index 0000000..0000000 100644
              configureSwitchTiming(RoundVideoSwitchTimingStore.getAverageMs(from, to));
              diagnostics.log("synthetic camera switch started: from=" + from
                      + ", to=" + to
-@@ -647,6 +655,7 @@ final class RoundVideoGlProcessor {
+@@ -663,6 +671,7 @@ final class RoundVideoGlProcessor {
              int cameraTexture = secondary ? secondaryTextureId : textureId;
              surfaceTexture.updateTexImage();
              surfaceTexture.getTransformMatrix(matrix);
@@ -129,7 +125,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/Round
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
 +++ b/TMessagesProj/src/main/java/org/telegram/utils/recorder/round/RoundVideoOverlayRenderer.java
-@@ -255,12 +255,14 @@ final class RoundVideoOverlayRenderer {
+@@ -255,6 +255,8 @@ final class RoundVideoOverlayRenderer {
      private final Program watermarkProgram;
      private final FloatBuffer vertexBuffer;
      private final FloatBuffer textureBuffer;
@@ -138,13 +134,7 @@ index 0000000..0000000 100644
      private FloatBuffer cameraTextureBuffer;
      private FloatBuffer rotatedCameraTextureBuffer;
      /**
-      * Display rotation in degrees (0, 90, 180, 270). The SurfaceTexture matrix only makes the
-      * frame upright for the device's natural orientation, so the camera quad is rotated by the
-      * display rotation on top of it, exactly like a TextureView preview transform would be.
-      */
-     private int displayRotation;
-     private final int[] frameBuffers = new int[8];
-@@ -312,5 +312,8 @@ final class RoundVideoOverlayRenderer {
+@@ -312,6 +314,9 @@ final class RoundVideoOverlayRenderer {
  
          float[] vertexData = new float[48];
          setVertexCoordinates(vertexData, VERTEX_NORMAL, -1f, 1f, 1f, -1f);
@@ -153,7 +143,8 @@ index 0000000..0000000 100644
 +        mirroredVertexBuffer = createBuffer(mirroredVertexData);
          updateCameraTextureBuffers();
  
-@@ -412,6 +417,10 @@ final class RoundVideoOverlayRenderer {
+         GLES20.glGenTextures(textures.length, textures, 0);
+@@ -416,6 +421,10 @@ final class RoundVideoOverlayRenderer {
          lastHistoryFrameNs = 0;
      }
  
@@ -164,7 +155,7 @@ index 0000000..0000000 100644
      void captureSwitchFrame(
              int cameraTexture,
              @NonNull float[] textureMatrix,
-@@ -793,14 +802,15 @@ final class RoundVideoOverlayRenderer {
+@@ -788,14 +797,15 @@ final class RoundVideoOverlayRenderer {
  
      private void bindCameraProgram(CameraProgram program, float[] textureMatrix) {
          GLES20.glUseProgram(program.program);

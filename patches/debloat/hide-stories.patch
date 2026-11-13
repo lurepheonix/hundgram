@@ -18,7 +18,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Adapters/DialogsAdapter.java
-@@ -1326,6 +1326,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
+@@ -1329,6 +1329,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
  
      @Override
      public void openHiddenStories() {
@@ -45,7 +45,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
-@@ -12437,15 +12437,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+@@ -12439,15 +12439,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
          if (StoryRecorder.isVisible() || (getLastStoryViewer() != null && getLastStoryViewer().isFullyVisible())) {
              animated = false;
          }
@@ -77,7 +77,7 @@ index 0000000..0000000 100644
      }
  
      @Override
-@@ -9350,7 +9350,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
+@@ -9368,7 +9368,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
              for (int i = 0; i < stories.size(); ++i) {
                  TL_stories.PeerStories userStories = stories.get(i);
                  long dialogId = DialogObject.getPeerDialogId(userStories.peer);
@@ -90,7 +90,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java b/
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/ProfileActivity.java
-@@ -5592,6 +5592,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
+@@ -5598,6 +5598,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
              protected void onTap(StoryViewer.PlaceProvider provider) {
                  long did = getDialogId();
                  StoriesController storiesController = getMessagesController().getStoriesController();

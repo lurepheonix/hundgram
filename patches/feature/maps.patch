@@ -81,7 +81,7 @@ diff --git a/TMessagesProj/src/main/java/org/telegram/ui/LocationActivity.java b
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/LocationActivity.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/LocationActivity.java
-@@ -145,6 +145,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+@@ -146,6 +146,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
      private TextView showAllButton;
      private ImageView proximityButton;
      private ActionBarMenuItem mapTypeButton;
@@ -89,7 +89,7 @@ index 0000000..0000000 100644
      private LinearLayout emptyView;
      private ImageView emptyImageView;
      private TextView emptyTitleTextView;
-@@ -261,6 +262,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+@@ -262,6 +263,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
      private final static int map_list_menu_map = 2;
      private final static int map_list_menu_satellite = 3;
      private final static int map_list_menu_hybrid = 4;
@@ -99,7 +99,7 @@ index 0000000..0000000 100644
  
      public final static int LOCATION_TYPE_SEND = 0;
      public final static int LOCATION_TYPE_SEND_WITH_LIVE = 1;
-@@ -453,7 +453,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+@@ -453,7 +457,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
          mapTypeButton = menu.addItem(0, R.drawable.msg_map_type);
          mapTypeButton.addSubItem(map_list_menu_map, R.drawable.msg_map, getString(R.string.Map));
          mapTypeButton.addSubItem(map_list_menu_satellite, R.drawable.msg_satellite, getString(R.string.Satellite));
@@ -146,7 +146,7 @@ index 0000000..0000000 100644
          locationButton = new ImageView(context);
          setMapButtonGlass(locationButton);
          locationButton.setImageResource(R.drawable.msg_current_location);
-@@ -1631,7 +1666,27 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+@@ -1633,7 +1668,27 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
          return AndroidUtilities.computePerceivedBrightness(color) < 0.721f;
      }
  
@@ -174,7 +174,7 @@ index 0000000..0000000 100644
          int color = getThemedColor(Theme.key_windowBackgroundWhite);
          if (AndroidUtilities.computePerceivedBrightness(color) < 0.721f) {
  //            if (Color.blue(color) - 3 > Color.red(color) && Color.blue(color) - 3 > Color.green(color)) {
-@@ -3140,6 +3195,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
+@@ -3142,6 +3197,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
          if (sheetGlass != null) {
              sheetGlass.updateColors();
          }

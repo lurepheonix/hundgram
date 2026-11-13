@@ -4,7 +4,7 @@ Date: Sun, 25 Oct 2026 18:02:28 +0400
 Subject: play saved music top to bottom
 
 ---
- .../src/main/java/org/telegram/messenger/MediaController.java   | 6 +++++-
+ .../main/java/org/telegram/messenger/MediaController.java   | 6 +++++-
  .../java/org/telegram/ui/Components/AudioPlayerAlert.java   | 4 ++--
  2 files changed, 7 insertions(+), 3 deletions(-)
 
@@ -28,12 +28,11 @@ index 0000000..0000000 100644
      private boolean traversePlaylist(ArrayList<MessageObject> playlist, int direction) {
          boolean last = false;
          final int wasCurrentPlaylistNum = currentPlaylistNum;
-
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/AudioPlayerAlert.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/AudioPlayerAlert.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/AudioPlayerAlert.java
 +++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/AudioPlayerAlert.java
-@@ -1631,7 +1631,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
+@@ -1634,7 +1634,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                      idx++;
                  }
                  if (idx >= 0) {
@@ -42,7 +41,7 @@ index 0000000..0000000 100644
                          layoutManager.scrollToPosition(idx);
                      } else {
                          layoutManager.scrollToPosition(playlist.size() - idx);
-@@ -2601,7 +2601,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
+@@ -2602,7 +2602,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
              if (searchWas) {
                  messageObject = searchResult.get(position);
                  needDivider = position + 1 < searchResult.size();

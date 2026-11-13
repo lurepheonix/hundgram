@@ -176,7 +176,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -140,23 +219,34 @@ android {
+@@ -140,23 +225,34 @@ android {
      compileOptions {
          sourceCompatibility JavaVersion.VERSION_1_8
          targetCompatibility JavaVersion.VERSION_1_8
@@ -217,7 +217,7 @@ index 0000000..0000000 100644
              }
          }
      }
-@@ -167,64 +257,17 @@ android {
+@@ -167,64 +263,17 @@ android {
              shrinkResources false
              multiDexEnabled true
              ndk.debugSymbolLevel = 'FULL'
@@ -290,7 +290,7 @@ index 0000000..0000000 100644
          }
  
          release {
-@@ -232,12 +271,17 @@ android {
+@@ -232,12 +281,17 @@ android {
              shrinkResources false
              multiDexEnabled true
              ndk.debugSymbolLevel = 'FULL'
@@ -311,7 +311,7 @@ index 0000000..0000000 100644
          }
      }
  
-@@ -255,21 +295,21 @@ def getProps(String propName) {
+@@ -255,21 +309,21 @@ def getProps(String propName) {
          return "";
      }
  }
@@ -338,7 +338,7 @@ index 0000000..0000000 100644
              if (privateBuild.exists()) {
                  privateBuild.delete()
              }
-@@ -277,4 +317,16 @@ task checkVisibility {
+@@ -277,4 +331,16 @@ task checkVisibility {
      }
  }
  
