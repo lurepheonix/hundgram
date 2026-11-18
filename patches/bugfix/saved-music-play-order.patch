@@ -41,7 +41,7 @@ index 0000000..0000000 100644
                          layoutManager.scrollToPosition(idx);
                      } else {
                          layoutManager.scrollToPosition(playlist.size() - idx);
-@@ -2602,7 +2602,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
+@@ -2607,7 +2607,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
              if (searchWas) {
                  messageObject = searchResult.get(position);
                  needDivider = position + 1 < searchResult.size();

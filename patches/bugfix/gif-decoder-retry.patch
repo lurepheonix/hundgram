@@ -4,7 +4,7 @@ Date: Fri, 23 Oct 2026 02:17:32 +0400
 Subject: retry inline gif decoder creation instead of freezing on first failure
 
 ---
- .../messenger/AnimatedFileDrawableStream.java | 17 ++++++++++++---
+ .../messenger/AnimatedFileDrawableStream.java | 17 ++++++++++++-
  .../ui/Components/AnimatedFileDrawable.java   | 24 ++++++++++++++++---
  2 files changed, 37 insertions(+), 4 deletions(-)
 
@@ -21,9 +21,7 @@ index 0000000..0000000 100644
      private int debugCanceledCount;
      private boolean debugReportSend;
  
-@@ -65,8 +65,11 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
-                 while (availableLength == 0) {
-                     CountDownLatch latch = new CountDownLatch(1);
+@@ -67,6 +69,9 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
                      countDownLatch = latch;
                      long[] result = loadOperation.getDownloadedLengthFromOffset(offset, readLength);
                      availableLength = result[0];
@@ -33,9 +31,7 @@ index 0000000..0000000 100644
                      if (!finishedLoadingFile && result[1] != 0) {
                          finishedLoadingFile = true;
                          finishedFilePath = loadOperation.getCacheFileFinal().getAbsolutePath();
-@@ -96,10 +96,20 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
-                         if (!preview) {
-                             FileLoader.getInstance(currentAccount).setLoadingVideo(document, false, true);
+@@ -98,9 +103,19 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
                          }
                          waitingForLoad = true;
                          desu.inugram.helpers.media.WebmStickerDebugHelper.onReadWaitBegin(this, offset, readLength);
@@ -55,6 +51,7 @@ index 0000000..0000000 100644
 +                        }
                      }
                  }
+                 lastOffset = offset + availableLength;
 diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
 index 0000000..0000000 100644
 --- a/TMessagesProj/src/main/java/org/telegram/ui/Components/AnimatedFileDrawable.java
