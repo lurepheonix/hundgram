@@ -1,5 +1,7 @@
 package desu.inugram.helpers.chat
 
+import android.content.Context
+import android.view.View
 import androidx.core.content.edit
 import desu.inugram.InuConfig
 // #if PLUGINS
@@ -83,7 +85,7 @@ object BlockedMessagesHelper {
     fun onFilteringChanged(activity: ChatActivity, adapter: ChatActivity.ChatActivityAdapter?) {
         ChatActionsHelper.updateRevealItem(activity)
         if (adapter == null) return
-        var changed = adapter.inu_filtering || isHideMode()
+        var changed = adapter.inu_hiddenMessages.isNotEmpty() || isHideMode()
         for (msg in activity.messages) changed = rebuildIfStale(msg) || changed
         if (changed) adapter.notifyDataSetChanged(true)
     }
@@ -193,42 +195,40 @@ object BlockedMessagesHelper {
         return entities
     }
 
+    const val VIEW_TYPE_HIDDEN = 1000
+
     @JvmStatic
-    fun refreshVisible(adapter: ChatActivity.ChatActivityAdapter): ArrayList<MessageObject> {
-        val source = adapter.inu_getSourceMessages()
-        adapter.inu_filtering = isHideMode()
-        if (!adapter.inu_filtering) return source
-        val buffer = adapter.inu_visibleMessages
-        buffer.clear()
-        for (i in 0 until source.size) {
-            val msg = source[i]
-            if (msg != null && !shouldHide(msg)) buffer.add(msg)
+    fun refreshHidden(adapter: ChatActivity.ChatActivityAdapter, messages: ArrayList<MessageObject>) {
+        val hidden = adapter.inu_hiddenMessages
+        hidden.clear()
+        if (!isHideMode()) return
+        val visibleDays = HashSet<Int>()
+        for (msg in messages) {
+            if (shouldHide(msg)) hidden.add(msg)
+            else if (!msg.isDateObject && msg.contentType != 2) visibleDays.add(msg.dateKeyInt)
         }
-        for (i in buffer.indices.reversed()) {
-            val msg = buffer[i]
+        var hasVisibleBelow = false
+        for (msg in messages) {
+            if (msg in hidden) continue
             if (msg.isDateObject) {
-                var hasInDay = false
-                for (j in 0 until buffer.size) {
-                    val other = buffer[j]
-                    if (!other.isDateObject && other.dateKeyInt == msg.dateKeyInt) {
-                        hasInDay = true
-                        break
-                    }
-                }
-                if (!hasInDay) buffer.removeAt(i)
+                if (msg.dateKeyInt !in visibleDays) hidden.add(msg)
             } else if (msg.contentType == 2) {
-                var hasAfter = false
-                for (j in i - 1 downTo 0) {
-                    val other = buffer[j]
-                    if (!other.isDateObject && other.contentType != 2) {
-                        hasAfter = true
-                        break
-                    }
-                }
-                if (!hasAfter) buffer.removeAt(i)
+                if (!hasVisibleBelow) hidden.add(msg)
+            } else {
+                hasVisibleBelow = true
             }
         }
-        return buffer
+    }
+
+    @JvmStatic
+    fun getViewType(adapter: ChatActivity.ChatActivityAdapter, msg: MessageObject): Int =
+        if (msg in adapter.inu_hiddenMessages) VIEW_TYPE_HIDDEN else msg.contentType
+
+    @JvmStatic
+    fun createHiddenView(context: Context): View = object : View(context) {
+        override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+            setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), 0)
+        }
     }
 
     @JvmStatic
@@ -242,24 +242,26 @@ object BlockedMessagesHelper {
 
     private fun isBlockedMessage(messageObject: MessageObject?): Boolean {
         if (messageObject?.messageOwner == null || messageObject.storyItem != null) return false
-        if (isBlockedPeer(messageObject.currentAccount, messageObject.fromChatId)) return true
+        if (isBlockedPeer(messageObject, messageObject.fromChatId)) return true
         if (InuConfig.BLOCKED_MESSAGES_HIDE_REPLIES.value && !messageObject.isOutOwner() && isReplyToBlocked(messageObject)) return true
         val forwardedFrom = messageObject.messageOwner.fwd_from?.from_id ?: return false
-        return isBlockedPeer(messageObject.currentAccount, MessageObject.getPeerId(forwardedFrom))
+        return isBlockedPeer(messageObject, MessageObject.getPeerId(forwardedFrom))
     }
 
     private fun isReplyToBlocked(messageObject: MessageObject): Boolean {
         val reply = messageObject.replyMessageObject
         if (reply != null && reply.messageOwner != null && reply.messageOwner !is TLRPC.TL_messageEmpty &&
-            isBlockedPeer(messageObject.currentAccount, reply.fromChatId)
+            isBlockedPeer(messageObject, reply.fromChatId)
         ) {
             return true
         }
         val from = messageObject.messageOwner.reply_to?.reply_from?.from_id ?: return false
-        return isBlockedPeer(messageObject.currentAccount, MessageObject.getPeerId(from))
+        return isBlockedPeer(messageObject, MessageObject.getPeerId(from))
     }
 
-    private fun isBlockedPeer(currentAccount: Int, peerId: Long): Boolean {
+    private fun isBlockedPeer(messageObject: MessageObject, peerId: Long): Boolean {
+        if (peerId == messageObject.dialogId) return false
+        val currentAccount = messageObject.currentAccount
         if (isExtraHidden(currentAccount, peerId)) return true
         val controller = MessagesController.getInstance(currentAccount)
         if (peerId > 0 && controller.getUser(peerId)?.bot == true) return false

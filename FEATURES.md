@@ -38,7 +38,9 @@ its own update channel, pointing at Hundgram releases.)
 
 - navigation drawer, like in older Telegram versions; can be used alongside or instead of the bottom tabs
   - 🐶 an option to (ab)use predictive back to open the drawer
+  - 🐶 md3 predictive back closes an open drawer
   - customizable drawer items
+  - 🐶 material 3 styling: pill rows, rounded edge, inline account list, floating theme toggle
 - monet (material you) theme support - *based on [NagramX](https://github.com/risin42/NagramX)*, 🐶 improved. plus a quick switcher in appearance settings (light/dark/amoled/auto)
 - 🐶 classic ui mode for folders bar, shared media tabs, global search, chat elements and screen headers (reverts the >12.6 "liquid glass" look)
 - icon packs: stackable `.icons` packs (svg/png/webp icons and `lottie:` animations + metadata.json), installed from a file or by opening them in a chat; bundled solar pack by [@r4in80w](https://t.me/r4in80w) - *ported from [NagramX](https://github.com/risin42/NagramX)*
@@ -89,6 +91,7 @@ its own update channel, pointing at Hundgram releases.)
 - double-tap account tab to switch to next account
 - long-tap "chats" tab to pick folder from menu
 - cross-account chats (experimental, off by default): add a chat to another account's chat list, then open it and send messages from there without switching accounts
+- 🐶 cross-account forwards: switch account in the forward picker to forward messages from one account to a chat of another (relayed through the private chat between the two accounts, then cleaned up)
 - folder display modes: titles / titles+icons / icons-only
 - folder unread counter modes: hide / regular / exclude muted / 🐶 exclude muted non-dms
 - hide "all chats" folder tab
@@ -184,6 +187,7 @@ its own update channel, pointing at Hundgram releases.)
 - hide messages from blocked users: with a spoiler or completely - *partially ported from [Nekogram](https://github.com/Nekogram/Nekogram)*
   - "show hidden messages" in the chat menu, to see a chat as sent until it is closed
   - also hide messages from a custom list of users/channels without blocking them (via settings picker or profile menu)
+  - never applied inside the peer's own chat (their DM, or the hidden channel itself)
   - optionally also hide replies to those users
 
 ## message input / formatting
@@ -224,6 +228,7 @@ its own update channel, pointing at Hundgram releases.)
 
 - passkey login
 - qr login
+- scan qr codes from gallery (link desktop, web apps, contacts)
 - password autofill hints in login (for password managers)
 - account limit raised to 8 (premium gating disabled)
 - 🐶 customizable account order
@@ -255,6 +260,7 @@ its own update channel, pointing at Hundgram releases.)
 - support `tg://user?id=…` links (opens the profile; user must be known locally)
 - 🐶 disable swipe-down to minimize the in-app browser (only the minimize button collapses it)
 - predictive back mode selector
+  - 🐶 md3 predictive back for bottom sheets, the photo viewer and stories
 - disable pull-to-next-channel
 - disable swipe-to-unarchive
 - 🐶 disable swipe-to-hide the General topic in the forum topics list
@@ -312,6 +318,7 @@ its own update channel, pointing at Hundgram releases.)
 - no extra bottom padding under stickers
 - 12/24-hour time follows the system locale again when the system clock format is automatic (stock switched to the Telegram language's format after any configuration change)
 - android 16 "expanded" dark theme no longer force-inverts the app
+- launcher widget descriptions and the system Accounts settings entry show their text again (stock release builds discarded every stock string resource, including ones referenced from widget/account xml)
 - channel update queue no longer replays the same update indefinitely after an earlier queued update advances PTS
 - flaky networks: server time offset no longer reset to the epoch by a `bad_msg_notification` inside a container (messages sent meanwhile were dated 1 Jan 1970); session resets on old retransmitted server messages re-send pending requests with fresh msg_id/seqno instead of stale ones (which made the server reject them and cascaded into more resets)
 - network stays awake in background for up to 2 minutes while generic requests (sends, getDifference) are pending, instead of pausing after 10 seconds regardless
@@ -339,6 +346,7 @@ its own update channel, pointing at Hundgram releases.)
 - sticker editor send/favorites menu uses the editor's dark background instead of the app's light theme; other scrim menus also respect their local theme
 - non-square webm stickers rendered off-center in the emoji panel (precached frames were blitted top-left and scaled by width only)
 - webm sticker permanently stuck blank until the app is restarted (an image load cancelled mid-flight published a decoder-less drawable into the animation cache, whose stream stayed cancelled and which never retried decoding)
+- webm sticker stuck blank when its download finished between the stream's availability check and its wait (the finish notification was lost and the decoder thread blocked forever)
 - webm stickers played too fast (frame pacing was driven by the container's declared fps instead of frame timestamps, so variable-rate or mis-probed webm ran at up to 2x)
 - recyclerlistview double-tap requires same view
 - list ripple left behind when the pressed row moves because another row changed height (selector was only re-synced on scroll)
